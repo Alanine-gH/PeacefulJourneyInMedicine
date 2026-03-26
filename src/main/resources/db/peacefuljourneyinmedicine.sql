@@ -11,7 +11,7 @@
  Target Server Version : 80027 (8.0.27)
  File Encoding         : 65001
 
- Date: 25/03/2026 15:46:02
+ Date: 26/03/2026 21:07:57
 */
 
 CREATE DATABASE IF NOT EXISTS PeacefulJourneyInMedicine
@@ -19,119 +19,6 @@ CREATE DATABASE IF NOT EXISTS PeacefulJourneyInMedicine
     COLLATE utf8mb4_unicode_ci;
 
 USE PeacefulJourneyInMedicine;
-
-
--- ----------------------------
--- Table structure for file_bucket_config
--- ----------------------------
-DROP TABLE IF EXISTS `file_bucket_config`;
-CREATE TABLE `file_bucket_config`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，自增',
-  `bucket_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '存储桶名称，唯一索引',
-  `bucket_description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '存储桶描述',
-  `bucket_policy` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '存储桶策略（JSON格式）',
-  `is_public` tinyint NULL DEFAULT 2 COMMENT '是否公开（1：是；2：否）',
-  `max_file_size` bigint NULL DEFAULT NULL COMMENT '最大文件大小（字节）',
-  `allowed_extensions` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '允许的文件扩展名',
-  `is_enable` tinyint NULL DEFAULT 1 COMMENT '是否启用（1：是；2：否）',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '描述信息',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `bucket_name`(`bucket_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '存储桶配置表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of file_bucket_config
--- ----------------------------
-INSERT INTO `file_bucket_config` VALUES (1, 'medical-records', '病历资料存储桶', NULL, 2, 104857600, 'pdf,jpg,jpeg,png,doc,docx', 1, 'admin', '2026-03-18 11:59:29', NULL, '2026-03-18 11:59:29', '存储患者病历资料');
-INSERT INTO `file_bucket_config` VALUES (2, 'user-avatars', '用户头像存储桶', NULL, 1, 5242880, 'jpg,jpeg,png,gif', 1, 'admin', '2026-03-18 11:59:29', NULL, '2026-03-18 11:59:29', '存储用户头像');
-INSERT INTO `file_bucket_config` VALUES (3, 'certificates', '证书资质存储桶', NULL, 2, 52428800, 'pdf,jpg,jpeg,png', 1, 'admin', '2026-03-18 11:59:29', NULL, '2026-03-18 11:59:29', '存储陪诊师证书资质');
-INSERT INTO `file_bucket_config` VALUES (4, 'evaluation-images', '评价图片存储桶', NULL, 1, 10485760, 'jpg,jpeg,png,gif', 1, 'admin', '2026-03-18 11:59:29', NULL, '2026-03-18 11:59:29', '存储订单评价图片');
-INSERT INTO `file_bucket_config` VALUES (5, 'checkin-photos', '打卡照片存储桶', NULL, 2, 52428800, 'jpg,jpeg,png', 1, 'admin', '2026-03-18 11:59:29', NULL, '2026-03-18 11:59:29', '存储陪诊师打卡照片');
-INSERT INTO `file_bucket_config` VALUES (6, 'system-files', '系统文件存储桶', NULL, 2, 209715200, 'pdf,doc,docx,xls,xlsx,ppt,pptx', 1, 'admin', '2026-03-18 11:59:29', NULL, '2026-03-18 11:59:29', '存储系统文件');
-
--- ----------------------------
--- Table structure for file_upload_record
--- ----------------------------
-DROP TABLE IF EXISTS `file_upload_record`;
-CREATE TABLE `file_upload_record`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，自增',
-  `file_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件ID，唯一索引',
-  `file_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '原始文件名',
-  `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '文件类型（如pdf、jpg、png、docx）',
-  `file_size` bigint NULL DEFAULT NULL COMMENT '文件大小（字节）',
-  `mime_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'MIME类型',
-  `storage_path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'MinIO存储路径',
-  `bucket_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '存储桶名称',
-  `object_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'MinIO对象名称',
-  `file_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '文件访问URL',
-  `thumbnail_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '缩略图URL',
-  `file_category` tinyint NULL DEFAULT NULL COMMENT '文件分类（1：病历资料；2：证件照片；3：证书资质；4：评价图片；5：打卡照片；6：系统文件）',
-  `related_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '关联业务类型（如triage、order、user、accompanist）',
-  `related_id` bigint NULL DEFAULT NULL COMMENT '关联业务ID',
-  `upload_status` tinyint NULL DEFAULT 2 COMMENT '上传状态（1：上传中；2：上传成功；3：上传失败）',
-  `virus_scan_status` tinyint NULL DEFAULT 1 COMMENT '病毒扫描状态（1：待扫描；2：扫描中；3：安全；4：危险）',
-  `upload_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '上传人',
-  `upload_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '描述信息',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `file_id`(`file_id` ASC) USING BTREE,
-  INDEX `idx_related_type`(`related_type` ASC) USING BTREE,
-  INDEX `idx_related_id`(`related_id` ASC) USING BTREE,
-  INDEX `idx_file_category`(`file_category` ASC) USING BTREE,
-  INDEX `idx_upload_by`(`upload_by` ASC) USING BTREE,
-  INDEX `idx_upload_time`(`upload_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文件上传记录表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of file_upload_record
--- ----------------------------
-INSERT INTO `file_upload_record` VALUES (1, 'FILE001', 'idcard_front.jpg', 'jpg', 1024000, 'image/jpeg', 'identity/2026/03/zhangsan_front.jpg', 'medical-files', 'identity/2026/03/zhangsan_front.jpg', 'https://minio.example.com/medical-files/identity/2026/03/zhangsan_front.jpg', 'https://minio.example.com/medical-files/thumb/zhangsan_front_thumb.jpg', 2, 'identity', 1, 2, 3, 'system', '2026-01-15 10:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '身份证照片');
-INSERT INTO `file_upload_record` VALUES (2, 'FILE002', 'idcard_back.jpg', 'jpg', 985600, 'image/jpeg', 'identity/2026/03/zhangsan_back.jpg', 'medical-files', 'identity/2026/03/zhangsan_back.jpg', 'https://minio.example.com/medical-files/identity/2026/03/zhangsan_back.jpg', 'https://minio.example.com/medical-files/thumb/zhangsan_back_thumb.jpg', 2, 'identity', 1, 2, 3, 'system', '2026-01-15 10:05:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '身份证照片');
-INSERT INTO `file_upload_record` VALUES (3, 'FILE003', 'medical_report.pdf', 'pdf', 2048576, 'application/pdf', 'medical_record/2026/03/report001.pdf', 'medical-files', 'medical_record/2026/03/report001.pdf', 'https://minio.example.com/medical-files/medical_record/2026/03/report001.pdf', NULL, 1, 'triage', 1, 2, 3, 'system', '2026-03-01 14:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '病历资料');
-INSERT INTO `file_upload_record` VALUES (4, 'FILE004', 'certificate.jpg', 'jpg', 1536000, 'image/jpeg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'medical-files', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'https://minio.example.com/medical-files/certificates/2026/03/zhaomin.jpg', 'https://minio.example.com/medical-files/thumb/zhaomin_thumb.jpg', 3, 'accompanist', 7, 2, 3, 'system', '2026-01-10 09:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '资质证书');
-INSERT INTO `file_upload_record` VALUES (5, 'FILE005', 'evaluation_photo.jpg', 'jpg', 512000, 'image/jpeg', 'evaluation/2026/03/eval1.jpg', 'medical-files', 'evaluation/2026/03/eval1.jpg', 'https://minio.example.com/medical-files/evaluation/2026/03/eval1.jpg', 'https://minio.example.com/medical-files/thumb/eval1_thumb.jpg', 4, 'order', 1, 2, 3, 'system', '2026-03-11 09:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '评价图片');
-
--- ----------------------------
--- Table structure for medical_advice_book
--- ----------------------------
-DROP TABLE IF EXISTS `medical_advice_book`;
-CREATE TABLE `medical_advice_book`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID，自增',
-  `advice_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '建议书编号，唯一索引',
-  `triage_id` bigint NOT NULL COMMENT '分诊记录ID，关联medical_triage_record表',
-  `user_id` bigint NOT NULL COMMENT '患者ID，关联user_user表',
-  `advice_title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '建议书标题',
-  `advice_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '建议书内容',
-  `recommended_options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '推荐选项（JSON格式，包含3-5个推荐医院/专家）',
-  `ai_generated` tinyint NULL DEFAULT 1 COMMENT '是否AI生成（1：是；2：否）',
-  `human_reviewed` tinyint NULL DEFAULT 2 COMMENT '是否人工复审（1：是；2：否）',
-  `reviewer_id` bigint NULL DEFAULT NULL COMMENT '复审人ID',
-  `review_time` datetime NULL DEFAULT NULL COMMENT '复审时间',
-  `advice_status` tinyint NULL DEFAULT 1 COMMENT '状态（1：待生成；2：待复审；3：已发布；4：已过期）',
-  `expired_time` datetime NULL DEFAULT NULL COMMENT '过期时间',
-  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '描述信息',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `advice_no`(`advice_no` ASC) USING BTREE,
-  INDEX `idx_triage_id`(`triage_id` ASC) USING BTREE,
-  INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
-  INDEX `idx_advice_status`(`advice_status` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '就医建议书表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of medical_advice_book
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for medical_appointment
@@ -374,11 +261,12 @@ CREATE TABLE `medical_record_upload`  (
   INDEX `idx_triage_id`(`triage_id` ASC) USING BTREE,
   INDEX `idx_record_type`(`record_type` ASC) USING BTREE,
   INDEX `idx_translate_status`(`translate_status` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '病历资料表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '病历资料表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of medical_record_upload
 -- ----------------------------
+INSERT INTO `medical_record_upload` VALUES (1, 'REC20260325180411F1396E', 1, NULL, NULL, ' 阿迪斯', NULL, '北京协和医院', '大赛', NULL, 'http://tmp/m-x-K1yGFVgP6bed5f0ae4bc3c74ce0fdb8a862ae981.jpg', NULL, NULL, NULL, 1, NULL, 'zh-CN', NULL, '2026-03-25 18:04:11', NULL, '2026-03-25 18:04:11', '的阿萨');
 
 -- ----------------------------
 -- Table structure for medical_triage_record
@@ -529,7 +417,7 @@ CREATE TABLE `order_order`  (
   INDEX `idx_appointment_date`(`appointment_date` ASC) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE,
   INDEX `idx_user_status_time`(`user_id` ASC, `order_status` ASC, `create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '订单主表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '订单主表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of order_order
@@ -541,8 +429,8 @@ INSERT INTO `order_order` VALUES (4, 'ORD20260304004', 5, '田中花子', '+81 9
 INSERT INTO `order_order` VALUES (5, 'ORD20260305005', 3, '王五', '+86 13800138003', 9, '孙丽', '+86 13900139003', 2, 5, '2026-03-05 10:00:00', '2026-03-05 14:00:00', 0, 4, '王五', 1, 52, NULL, '膝关节检查', '北京大学第一医院', '骨科', '2026-03-05', 400.00, 150.00, 250.00, 400.00, 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '代办手续已完成');
 INSERT INTO `order_order` VALUES (6, 'ORD20260306006', 1, '张三', '+86 13800138001', 7, '赵敏', '+86 13900139001', 3, 5, '2026-03-01 14:00:00', '2026-03-01 16:00:00', 0, 2, '张三', 1, 35, NULL, '接机服务', NULL, NULL, NULL, 200.00, 100.00, 100.00, 200.00, 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '接机服务已完成');
 INSERT INTO `order_order` VALUES (10, 'ORD20260310010', 1, '张三', '+86 13800138001', NULL, NULL, NULL, 1, 2, NULL, NULL, NULL, NULL, '张三', 1, 35, NULL, '腰椎间盘突出复查', '北京协和医院', '骨科', '2026-04-01', 700.00, 250.00, 450.00, 700.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 10:00:00', NULL, '2026-03-25 10:00:00', '待接单-患者张三');
-INSERT INTO `order_order` VALUES (11, 'ORD20260311011', 2, '李四', '+86 13800138002', NULL, NULL, NULL, 1, 2, NULL, NULL, NULL, NULL, '李四', 1, 28, NULL, '肠胃镜检查', '中山大学附属第一医院', '消化内科', '2026-04-02', 500.00, 180.00, 320.00, 500.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 11:00:00', NULL, '2026-03-25 11:00:00', '待接单-患者李四');
-INSERT INTO `order_order` VALUES (12, 'ORD20260312012', 3, '王五', '+86 13800138003', NULL, NULL, NULL, 2, 2, NULL, NULL, NULL, NULL, '王五', 1, 52, NULL, '心脏支架术后复查', '北京大学第一医院', '心内科', '2026-04-03', 600.00, 200.00, 400.00, 600.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 12:00:00', NULL, '2026-03-25 12:00:00', '待接单-患者王五');
+INSERT INTO `order_order` VALUES (11, 'ORD20260311011', 2, '李四', '+86 13800138002', 7, NULL, NULL, 1, 3, NULL, NULL, NULL, NULL, '李四', 1, 28, NULL, '肠胃镜检查', '中山大学附属第一医院', '消化内科', '2026-04-02', 500.00, 180.00, 320.00, 500.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 11:00:00', NULL, '2026-03-26 19:58:00', '待接单-患者李四');
+INSERT INTO `order_order` VALUES (12, 'ORD20260312012', 3, '王五', '+86 13800138003', 7, NULL, NULL, 2, 3, NULL, NULL, NULL, NULL, '王五', 1, 52, NULL, '心脏支架术后复查', '北京大学第一医院', '心内科', '2026-04-03', 600.00, 200.00, 400.00, 600.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 12:00:00', NULL, '2026-03-25 19:45:57', '待接单-患者王五');
 INSERT INTO `order_order` VALUES (13, 'ORD20260313013', 1, '张三', '+86 13800138001', 7, '赵敏', '+86 13900139001', 1, 4, '2026-03-25 09:00:00', '2026-03-25 17:00:00', 0, 1, '张三', 1, 35, NULL, '全身体检', '北京协和医院', '体检中心', '2026-03-25', 800.00, 300.00, 500.00, 800.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 08:00:00', NULL, '2026-03-25 08:00:00', '赵敏服务中');
 INSERT INTO `order_order` VALUES (14, 'ORD20260314014', 2, '李四', '+86 13800138002', 8, '钱多多', '+86 13900139002', 1, 3, NULL, NULL, NULL, NULL, '李四', 2, 28, NULL, '儿科复诊', '上海儿童医学中心', '儿科', '2026-03-28', 500.00, 180.00, 320.00, 500.00, 'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 09:00:00', NULL, '2026-03-25 09:00:00', '钱多多已确认');
 
@@ -1033,7 +921,6 @@ CREATE TABLE `user_accompanist`  (
 -- ----------------------------
 -- Records of user_accompanist
 -- ----------------------------
-INSERT INTO `user_accompanist` VALUES (7, 7, '赵敏', '+86 13900139001', 2, 35, '护士', 1, 'NUR2020001', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,英文', '骨科,神经科,妇产科', 156, 4.90, 98.50, 0, 1, 2, '2026-01-10 10:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:06:05', '资深陪诊师');
 INSERT INTO `user_accompanist` VALUES (8, 8, '钱多多', '+86 13900139002', 2, 28, '健康管理师', 2, 'HEA2020002', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,沪语', '儿科,内科,体检', 203, 4.85, 99.20, 1, 1, 2, '2026-01-11 11:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '金牌陪诊师');
 INSERT INTO `user_accompanist` VALUES (9, 9, '孙丽', '+86 13900139003', 2, 32, '医学翻译', 1, 'TRA2020003', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,英文,日语', '肿瘤科,心内科,眼科', 89, 4.50, 97.80, 0, 1, 2, '2026-01-12 14:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:06:05', '英文陪诊师');
 INSERT INTO `user_accompanist` VALUES (10, 10, '李强', '+86 13900139004', 1, 40, '主治医师', 1, 'DOC2020004', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,日语,韩语', '消化内科,呼吸内科,老年科', 245, 4.95, 99.50, 0, 1, 2, '2026-01-13 09:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '日语陪诊师');
@@ -1385,26 +1272,26 @@ CREATE TABLE `user_user`  (
   INDEX `idx_user_type`(`user_type` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户主表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户主表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_user
 -- ----------------------------
-INSERT INTO `user_user` VALUES (1, 'zhangsan', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '张三', '小张', 'zhangsan@example.com', 1, 20, '+86 13800138001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'zh-CN', '2026-03-25 15:34:58', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-25 15:34:57', '测试患者1');
+INSERT INTO `user_user` VALUES (1, 'zhangsan', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '张三', '小张', 'zhangsan@example.com', 1, 20, '+86 13800138001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'zh-CN', '2026-03-26 20:03:34', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-26 20:03:34', '测试患者1');
 INSERT INTO `user_user` VALUES (2, 'lisi', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '李四', 'Lily', 'lisi@example.com', 2, 25, '+86 13800138002', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '测试患者2');
 INSERT INTO `user_user` VALUES (3, 'wangwu', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '王五', 'WangWu', 'wangwu@example.com', 3, 30, '+86 13800138003', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'en-US', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '测试患者3');
 INSERT INTO `user_user` VALUES (4, 'john_doe', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', 'John Doe', 'John', 'john.doe@example.com', 1, 20, '+1 5551234567', '+1', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'en-US', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '国际患者1');
 INSERT INTO `user_user` VALUES (5, 'tanaka_hanako', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '田中花子', 'Hanako', 'hanako.tanaka@example.com', 2, 25, '+81 90-1234-5678', '+81', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'ja-JP', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '日本患者1');
 INSERT INTO `user_user` VALUES (6, 'kim_minji', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '김민지', 'Minji', 'minji.kim@example.com', 2, 25, '+82 10-1234-5678', '+82', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1, 'ko-KR', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '韩国患者1');
-INSERT INTO `user_user` VALUES (7, 'accompanist001', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '赵敏', '小赵医生', 'zhaomin@example.com', 1, 20, '+86 13900139001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1, 'zh-CN', '2026-03-25 15:41:04', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-25 15:41:03', '资深陪诊师');
+INSERT INTO `user_user` VALUES (7, 'accompanist001', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '赵敏', '小赵医生', 'zhaomin@example.com', 1, 20, '+86 13900139001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1, 'zh-CN', '2026-03-26 19:58:47', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-26 19:58:47', '资深陪诊师');
 INSERT INTO `user_user` VALUES (8, 'accompanist002', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '钱多多', '钱姐', 'qianduoduo@example.com', 2, 25, '+86 13900139002', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '金牌陪诊师');
 INSERT INTO `user_user` VALUES (9, 'accompanist003', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '孙丽', 'Sunny', 'sunli@example.com', 2, 30, '+86 13900139003', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1, 'en-US', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-24 12:55:05', '英文陪诊师');
 INSERT INTO `user_user` VALUES (10, 'accompanist004', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '李强', '强子', 'liqiang@example.com', 2, 30, '+86 13900139004', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '日语陪诊师');
 INSERT INTO `user_user` VALUES (11, 'accompanist005', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', 'Sarah Chen', 'Sarah', 'sarah.chen@example.com', 2, 25, '+1 5559876543', '+1', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1, 'en-US', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '北美陪诊师');
 INSERT INTO `user_user` VALUES (12, 'service001', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '周客服', '小周', 'zhou@example.com', 2, 25, '+86 13700137001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 3, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '中文客服');
 INSERT INTO `user_user` VALUES (13, 'service002', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', 'Emily Wang', 'Emily', 'emily.wang@example.com', 2, 25, '+1 5551112222', '+1', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 3, 1, 'en-US', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '英文客服');
-INSERT INTO `user_user` VALUES (14, 'admin', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '系统管理员', 'Admin', 'admin@example.com', 2, 25, '+86 13600136001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 4, 1, 'zh-CN', '2026-03-25 15:12:21', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-25 15:12:21', 'Alanine');
-INSERT INTO `user_user` VALUES (15, 'expert001', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '张文宏', '张文宏', 'zhangwh@example.com', 2, 25, '+86 13500135001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '感染科专家');
+INSERT INTO `user_user` VALUES (14, 'admin', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '系统管理员', 'Admin', 'admin@example.com', 2, 25, '+86 13600136001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 4, 1, 'zh-CN', '2026-03-26 20:51:36', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-26 20:51:35', 'Alanine');
+INSERT INTO `user_user` VALUES (15, 'peizhen', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '张文宏', '张文宏', 'zhangwh@example.com', 2, 25, '+86 13500135001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-26 21:07:29', '感染科专家');
 INSERT INTO `user_user` VALUES (16, 'expert002', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '李兰娟', '李兰娟', 'lilanl@example.com', 2, 25, '+86 13500135002', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '肿瘤科专家');
 INSERT INTO `user_user` VALUES (17, 'expert003', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '王磊', '王磊', 'wangl2@example.com', 2, 25, '+86 13500135003', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '骨科专家');
 INSERT INTO `user_user` VALUES (18, 'expert004', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '陈静', '陈静', 'chenj2@example.com', 2, 25, '+86 13500135004', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '神经科专家');
@@ -1412,6 +1299,7 @@ INSERT INTO `user_user` VALUES (19, 'expert005', '$2a$10$E3tbc5fkZzK2HWinhhK3rec
 INSERT INTO `user_user` VALUES (20, 'expert006', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', 'Sarah Yamamoto', 'Sarah Yamamoto', 'sarah.y@example.com', 2, 25, '+81 90-1234-9999', '+81', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'ja-JP', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '眼科专家');
 INSERT INTO `user_user` VALUES (21, 'expert007', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '赵伟', '赵伟', 'zhaow2@example.com', 2, 25, '+86 13500135007', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-19 16:59:41', '消化内科专家');
 INSERT INTO `user_user` VALUES (22, 'expert008', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '刘芳', '刘芳', 'liufang@example.com', 2, 25, '13500135008', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1, 'zh-CN', NULL, NULL, 'system', '2026-03-19 16:53:48', NULL, '2026-03-19 16:53:48', '妇产科专家');
+INSERT INTO `user_user` VALUES (23, 'asdfg', '$2a$10$J7TfaDBkR19T19iasVDTX.FtXnRm/Ijc0Law7lgh2go7vzFjYwMDq', NULL, 'asdfg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'zh-CN', NULL, NULL, 'asdfg', '2026-03-25 19:34:02', NULL, '2026-03-25 19:34:02', NULL);
 
 -- ----------------------------
 -- Table structure for user_user_role
