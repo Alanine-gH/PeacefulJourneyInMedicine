@@ -5,10 +5,8 @@ import com.PJDM.dto.CompanionCheckinDTO;
 import com.PJDM.dto.CompanionScheduleDTO;
 import com.PJDM.pojo.OrderEvaluation;
 import com.PJDM.pojo.ServiceAccompanistSchedule;
-import com.PJDM.pojo.ServiceCheckin;
 import com.PJDM.service.IOrderEvaluationService;
 import com.PJDM.service.IServiceAccompanistScheduleService;
-import com.PJDM.service.IServiceCheckinService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,9 +31,10 @@ import java.util.Map;
 @Tag(name = "陪诊师端-日程打卡评价", description = "陪诊师日程管理、打卡签到、评价查询与回复")
 public class CompanionScheduleController {
 
-    @Autowired private IServiceAccompanistScheduleService scheduleService;
-    @Autowired private IServiceCheckinService checkinService;
-    @Autowired private IOrderEvaluationService evaluationService;
+    @Autowired
+    private IServiceAccompanistScheduleService scheduleService;
+    @Autowired
+    private IOrderEvaluationService evaluationService;
 
     // ==================== 日程管理 ====================
 
@@ -67,38 +67,6 @@ public class CompanionScheduleController {
         s.setUpdateTime(LocalDateTime.now());
         scheduleService.updateById(s);
         return R.success("更新成功");
-    }
-
-    // ==================== 打卡管理 ====================
-
-    @PostMapping("/checkin")
-    @Operation(summary = "打卡签到")
-    public R<String> checkin(@RequestParam Long accompanistId,
-                             @RequestBody CompanionCheckinDTO dto) {
-        if (dto.getOrderId() == null) return R.error("orderId 不能为空");
-        ServiceCheckin c = new ServiceCheckin();
-        c.setOrderId(dto.getOrderId());
-        c.setAccompanistId(accompanistId);
-        c.setLatitude(dto.getLatitude());
-        c.setLongitude(dto.getLongitude());
-        c.setCheckinLocation(dto.getAddress());
-        c.setCheckinPhotos(dto.getPhoto());
-        c.setCheckinType(dto.getCheckinType() != null ? dto.getCheckinType() : (byte) 7);
-        c.setCheckinDescription(dto.getDescription());
-        c.setCheckinTime(LocalDateTime.now());
-        c.setCreateTime(LocalDateTime.now());
-        checkinService.save(c);
-        log.info("[打卡] accompanistId={} orderId={} type={}", accompanistId, dto.getOrderId(), c.getCheckinType());
-        return R.success("打卡成功");
-    }
-
-    @GetMapping("/checkin/{orderId}")
-    @Operation(summary = "获取打卡记录")
-    public R<List<ServiceCheckin>> getCheckinRecords(@PathVariable Long orderId) {
-        LambdaQueryWrapper<ServiceCheckin> w = new LambdaQueryWrapper<ServiceCheckin>()
-                .eq(ServiceCheckin::getOrderId, orderId)
-                .orderByAsc(ServiceCheckin::getCheckinTime);
-        return R.success(checkinService.list(w));
     }
 
     // ==================== 评价管理 ====================
