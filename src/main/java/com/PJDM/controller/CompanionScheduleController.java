@@ -1,7 +1,6 @@
 package com.PJDM.controller;
 
 import com.PJDM.common.R;
-import com.PJDM.dto.CompanionCheckinDTO;
 import com.PJDM.dto.CompanionScheduleDTO;
 import com.PJDM.pojo.OrderEvaluation;
 import com.PJDM.pojo.ServiceAccompanistSchedule;

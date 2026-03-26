@@ -77,7 +77,7 @@
         </text>
       </view>
       <view class="training-list">
-        <view class="training-item" @click="navigateTo('training1')">
+        <view class="training-item" @click="navigateTo('norms')">
           <view class="training-info">
             <view class="training-name">陪护服务规范</view>
             <view class="training-desc">了解陪护服务的基本规范和流程</view>
@@ -194,6 +194,30 @@ export default {
           // 跳转到我的订单页面
           uni.navigateTo({
             url: '/pages/companion/orders'
+          })
+          break
+        case 'norms':
+          // 跳转到陪护服务规范页面
+          uni.navigateTo({
+            url: '/pages/companion/norms/norms'
+          })
+          break
+        case 'training2':
+          // 跳转到医疗知识基础页面
+          uni.navigateTo({
+            url: '/pages/companion/training/training2'
+          })
+          break
+        case 'training3':
+          // 跳转到应急处理页面
+          uni.navigateTo({
+            url: '/pages/companion/training/training3'
+          })
+          break
+        case 'training4':
+          // 跳转到服务礼仪页面
+          uni.navigateTo({
+            url: '/pages/companion/training/training4'
           })
           break
         default:

@@ -7,9 +7,9 @@
           <text class="logo-text">专业培训</text>
         </view>
         <view class="header-actions">
-<!--          <view class="back-button" @click="goBack">-->
-<!--            <text class="back-icon">←</text>-->
-<!--          </view>-->
+          <view class="back-button" @click="goBack">
+            <text class="back-icon">←</text>
+          </view>
         </view>
       </view>
     </view>
@@ -139,9 +139,9 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
+    goBack() {
+      uni.navigateBack()
+    },
     register() {
       uni.showToast({
         title: '报名成功',
@@ -196,7 +196,7 @@ export default {
   align-items: center;
   gap: 20rpx;
 }
-/*
+
 .back-button {
   width: 60rpx;
   height: 60rpx;
@@ -219,7 +219,7 @@ export default {
   color: #fff;
   font-weight: bold;
 }
-*/
+
 /* 主要内容 */
 .main-content {
   flex: 1;

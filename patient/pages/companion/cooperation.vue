@@ -7,13 +7,13 @@
           <text class="logo-text">长期合作</text>
         </view>
         <view class="header-actions">
-          <!--          <view class="back-button" @click="goBack">-->
-          <!--            <text class="back-icon">←</text>-->
-          <!--          </view>-->
+          <view class="back-button" @click="goBack">
+            <text class="back-icon">←</text>
+          </view>
         </view>
       </view>
     </view>
-
+    
     <!-- 主要内容 -->
     <view class="main-content">
       <!-- 主题区域 -->
@@ -31,7 +31,7 @@
           </view>
         </view>
       </view>
-
+      
       <!-- 内容卡片 -->
       <view class="content-section">
         <view class="card">
@@ -55,7 +55,7 @@
             </view>
           </view>
         </view>
-
+        
         <view class="card">
           <text class="card-title">合作模式</text>
           <view class="card-content">
@@ -73,7 +73,7 @@
             </view>
           </view>
         </view>
-
+        
         <view class="card">
           <text class="card-title">成功案例</text>
           <view class="card-content">
@@ -116,9 +116,9 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
+    goBack() {
+      uni.navigateBack()
+    },
     learnMore() {
       uni.showToast({
         title: '了解更多详情',
@@ -180,7 +180,6 @@ export default {
   gap: 20rpx;
 }
 
-/*
 .back-button {
   width: 60rpx;
   height: 60rpx;
@@ -203,7 +202,7 @@ export default {
   color: #fff;
   font-weight: bold;
 }
-*/
+
 /* 主要内容 */
 .main-content {
   flex: 1;
@@ -457,25 +456,25 @@ export default {
   .hero-section {
     padding: 40rpx;
   }
-
+  
   .hero-title {
     font-size: 40rpx;
   }
-
+  
   .card {
     padding: 24rpx;
   }
-
+  
   .feature-item,
   .mode-item,
   .case-item {
     padding: 16rpx;
   }
-
+  
   .feature-icon {
     font-size: 32rpx;
   }
-
+  
   .feature-text {
     font-size: 24rpx;
   }

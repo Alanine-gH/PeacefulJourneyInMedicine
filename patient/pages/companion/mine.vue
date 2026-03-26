@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <view class="container">
     <!-- 头部 -->
     <view class="header">
@@ -237,12 +237,24 @@ export default {
             url: '/pages/companion/orders'
           })
           break
-		  case 'orders':
-		    // 跳转到帮助页面
-		    uni.navigateTo({
-		      url: '/pages/customer/customer'
-		    })
-		    break
+        case 'schedule':
+          // 跳转到日程安排页面
+          uni.navigateTo({
+            url: '/pages/companion/schedule/schedule'
+          })
+          break
+        case 'training':
+          // 跳转到技能培训页面
+          uni.navigateTo({
+            url: '/pages/companion/training/training'
+          })
+          break
+        case 'help':
+          // 跳转到权限管理页面
+          uni.navigateTo({
+            url: '/pages/companion/permissions/permissions'
+          })
+          break
         default:
           uni.showToast({ title: `跳转到${page}页面`, icon: 'none' })
       }

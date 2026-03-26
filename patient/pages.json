@@ -287,6 +287,42 @@
 			"style": {
 				"navigationBarTitleText": "意见反馈"
 			}
+		},
+		{
+			"path": "pages/companion/schedule/schedule",
+			"style": {
+				"navigationBarTitleText": "日程安排"
+			}
+		},
+		{
+			"path": "pages/companion/norms/norms",
+			"style": {
+				"navigationBarTitleText": "陪护服务规范"
+			}
+		},
+		{
+			"path": "pages/companion/training/training2",
+			"style": {
+				"navigationBarTitleText": "医疗知识基础"
+			}
+		},
+		{
+			"path": "pages/companion/training/training3",
+			"style": {
+				"navigationBarTitleText": "应急处理"
+			}
+		},
+		{
+			"path": "pages/companion/training/training4",
+			"style": {
+				"navigationBarTitleText": "服务礼仪"
+			}
+		},
+		{
+			"path": "pages/companion/training/training",
+			"style": {
+				"navigationBarTitleText": "技能培训"
+			}
 		}
 	],
 	"globalStyle": {
