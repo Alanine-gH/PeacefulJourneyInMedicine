@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.UserAccompanistMapper">
+
+    <!-- 陪诊师列表 ResultMap -->
+    <resultMap id="AccompanistListVOMap" type="com.PJDM.vo.AccompanistListVO">
+        <id     column="id"                  property="id"/>
+        <result column="user_id"             property="userId"/>
+        <result column="real_name"           property="realName"/>
+        <result column="phone"               property="phone"/>
+        <result column="gender"              property="gender"/>
+        <result column="age"                 property="age"/>
+        <result column="professional_title"  property="professionalTitle"/>
+        <result column="medical_background"  property="medicalBackground"/>
+        <result column="language_ability"    property="languageAbility"/>
+        <result column="specialties"         property="specialties"/>
+        <result column="service_count"       property="serviceCount"/>
+        <result column="rating_score"        property="ratingScore"/>
+        <result column="on_time_rate"        property="onTimeRate"/>
+        <result column="complaint_count"     property="complaintCount"/>
+        <result column="accompany_status"    property="accompanyStatus"/>
+        <result column="audit_status"        property="auditStatus"/>
+        <result column="audit_time"          property="auditTime"/>
+        <result column="create_time"         property="createTime"/>
+        <!-- 来自 user_user -->
+        <result column="user_status"         property="userStatus"/>
+        <result column="username"            property="username"/>
+        <result column="avatar_url"          property="avatarUrl"/>
+    </resultMap>
+
+    <!--
+        分页查询陪诊师列表
+        LEFT JOIN user_user 获取账号状态和用户名
+    -->
+    <select id="selectAccompanistListPage" resultMap="AccompanistListVOMap">
+        SELECT
+            a.id,
+            a.user_id,
+            a.real_name,
+            a.phone,
+            a.gender,
+            a.age,
+            a.professional_title,
+            a.medical_background,
+            a.language_ability,
+            a.specialties,
+            a.service_count,
+            a.rating_score,
+            a.on_time_rate,
+            a.complaint_count,
+            a.accompany_status,
+            a.audit_status,
+            a.audit_time,
+            a.create_time,
+            u.status  AS user_status,
+            u.username,
+            u.avatar_url
+        FROM user_accompanist a
+        LEFT JOIN user_user u ON u.id = a.user_id
+        <where>
+            <if test="q.realName != null and q.realName != ''">
+                AND (a.real_name LIKE CONCAT('%', #{q.realName}, '%')
+                     OR a.phone LIKE CONCAT('%', #{q.realName}, '%'))
+            </if>
+            <if test="q.auditStatus != null">
+                AND a.audit_status = #{q.auditStatus}
+            </if>
+            <if test="q.accompanyStatus != null">
+                AND a.accompany_status = #{q.accompanyStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

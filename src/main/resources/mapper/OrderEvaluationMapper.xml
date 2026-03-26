@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.OrderEvaluationMapper">
+
+    <resultMap id="EvaluationListVOMap" type="com.PJDM.vo.EvaluationListVO">
+        <id     column="id"                   property="id"/>
+        <result column="order_id"             property="orderId"/>
+        <result column="order_no"             property="orderNo"/>
+        <result column="user_id"              property="userId"/>
+        <result column="accompanist_id"       property="accompanistId"/>
+        <result column="rating_score"         property="ratingScore"/>
+        <result column="rating_dimension"     property="ratingDimension"/>
+        <result column="rating_labels"        property="ratingLabels"/>
+        <result column="evaluation_content"   property="evaluationContent"/>
+        <result column="evaluation_images"    property="evaluationImages"/>
+        <result column="evaluation_reply"     property="evaluationReply"/>
+        <result column="reply_time"           property="replyTime"/>
+        <result column="create_time"          property="createTime"/>
+        <!-- 来自多表联查 -->
+        <result column="username"             property="username"/>
+        <result column="accompanist_name"     property="accompanistName"/>
+    </resultMap>
+
+    <!--
+        分页查询评价列表
+        LEFT JOIN user_user 获取用户名
+        LEFT JOIN user_accompanist 获取陪诊师姓名
+    -->
+    <select id="selectEvaluationListPage" resultMap="EvaluationListVOMap">
+        SELECT
+            e.id, e.order_id, e.order_no,
+            e.user_id, e.accompanist_id,
+            e.rating_score, e.rating_dimension, e.rating_labels,
+            e.evaluation_content, e.evaluation_images,
+            e.evaluation_reply, e.reply_time,
+            e.create_time,
+            u.username,
+            a.real_name AS accompanist_name
+        FROM order_evaluation e
+        LEFT JOIN user_user u ON u.id = e.user_id
+        LEFT JOIN user_accompanist a ON a.id = e.accompanist_id
+        <where>
+            <if test="q.orderNo != null and q.orderNo != ''">
+                AND e.order_no LIKE CONCAT('%', #{q.orderNo}, '%')
+            </if>
+            <if test="q.userId != null">
+                AND e.user_id = #{q.userId}
+            </if>
+            <if test="q.accompanistId != null">
+                AND e.accompanist_id = #{q.accompanistId}
+            </if>
+            <if test="q.minScore != null">
+                AND e.rating_score &gt;= #{q.minScore}
+            </if>
+            <if test="q.maxScore != null">
+                AND e.rating_score &lt;= #{q.maxScore}
+            </if>
+        </where>
+    </select>
+
+</mapper>

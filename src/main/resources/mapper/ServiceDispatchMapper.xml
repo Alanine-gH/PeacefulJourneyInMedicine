@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.ServiceDispatchMapper">
+
+    <resultMap id="DispatchListVOMap" type="com.PJDM.vo.DispatchListVO">
+        <id     column="id"                property="id"/>
+        <result column="dispatch_no"       property="dispatchNo"/>
+        <result column="order_id"          property="orderId"/>
+        <result column="order_no"          property="orderNo"/>
+        <result column="accompanist_id"    property="accompanistId"/>
+        <result column="accompanist_name"  property="accompanistName"/>
+        <result column="accompanist_phone" property="accompanistPhone"/>
+        <result column="accompanist_avatar" property="accompanistAvatar"/>
+        <result column="dispatch_type"     property="dispatchType"/>
+        <result column="dispatch_status"   property="dispatchStatus"/>
+        <result column="push_time"         property="pushTime"/>
+        <result column="receive_time"      property="receiveTime"/>
+        <result column="reject_time"       property="rejectTime"/>
+        <result column="reject_reason"     property="rejectReason"/>
+        <result column="create_time"       property="createTime"/>
+    </resultMap>
+
+    <select id="selectDispatchListPage" resultMap="DispatchListVOMap">
+        SELECT d.id, d.dispatch_no, d.order_id, d.order_no,
+               d.accompanist_id, d.accompanist_name, d.accompanist_phone,
+               a.avatar_url AS accompanist_avatar,
+               d.dispatch_type, d.dispatch_status,
+               d.push_time, d.receive_time, d.reject_time, d.reject_reason,
+               d.create_time
+        FROM service_dispatch d
+        LEFT JOIN user_user a ON a.id = d.accompanist_id
+        <where>
+            <if test="q.dispatchNo != null and q.dispatchNo != ''">
+                AND d.dispatch_no LIKE CONCAT('%', #{q.dispatchNo}, '%')
+            </if>
+            <if test="q.orderNo != null and q.orderNo != ''">
+                AND d.order_no LIKE CONCAT('%', #{q.orderNo}, '%')
+            </if>
+            <if test="q.accompanistName != null and q.accompanistName != ''">
+                AND d.accompanist_name LIKE CONCAT('%', #{q.accompanistName}, '%')
+            </if>
+            <if test="q.dispatchType != null">
+                AND d.dispatch_type = #{q.dispatchType}
+            </if>
+            <if test="q.dispatchStatus != null">
+                AND d.dispatch_status = #{q.dispatchStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

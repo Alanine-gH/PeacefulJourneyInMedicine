@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.SysMessageMapper">
+
+    <!-- 分页查询消息列表 -->
+    <select id="selectMessagePage" resultType="com.PJDM.vo.MessageListVO">
+        SELECT
+            m.id,
+            m.receiver_id  AS receiverId,
+            m.sender_id    AS senderId,
+            u.nick_name    AS senderName,
+            m.type,
+            m.title,
+            m.content,
+            m.related_id   AS relatedId,
+            m.related_type AS relatedType,
+            m.status,
+            m.read_time    AS readTime,
+            m.create_time  AS createTime
+        FROM sys_message m
+        LEFT JOIN user_user u ON u.id = m.sender_id AND m.sender_id != 0
+        <where>
+            <if test="q.receiverId != null">
+                AND m.receiver_id = #{q.receiverId}
+            </if>
+            <if test="q.type != null and q.type != ''">
+                AND m.type = #{q.type}
+            </if>
+            <if test="q.status != null">
+                AND m.status = #{q.status}
+            </if>
+        </where>
+        ORDER BY m.create_time DESC
+    </select>
+
+</mapper>

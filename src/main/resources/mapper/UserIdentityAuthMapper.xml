@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.UserIdentityAuthMapper">
+
+    <!-- 实名认证列表 ResultMap -->
+    <resultMap id="IdentityListVOMap" type="com.PJDM.vo.IdentityListVO">
+        <id     column="id"                   property="id"/>
+        <result column="user_id"              property="userId"/>
+        <result column="real_name"            property="realName"/>
+        <result column="auth_type"            property="authType"/>
+        <result column="id_card_number"       property="idCardNumber"/>
+        <result column="passport_number"      property="passportNumber"/>
+        <result column="id_card_photo_front"  property="idCardPhotoFront"/>
+        <result column="id_card_photo_back"   property="idCardPhotoBack"/>
+        <result column="passport_photo_front" property="passportPhotoFront"/>
+        <result column="passport_photo_back"  property="passportPhotoBack"/>
+        <result column="auth_status"          property="authStatus"/>
+        <result column="auth_fail_reason"     property="authFailReason"/>
+        <result column="auth_time"            property="authTime"/>
+        <result column="create_time"          property="createTime"/>
+        <!-- 来自 user_user -->
+        <result column="username"             property="username"/>
+        <result column="phone"                property="phone"/>
+    </resultMap>
+
+    <!--
+        分页查询实名认证列表
+        LEFT JOIN user_user 获取用户名和手机号
+    -->
+    <select id="selectIdentityListPage" resultMap="IdentityListVOMap">
+        SELECT
+            ia.id,
+            ia.user_id,
+            ia.real_name,
+            ia.auth_type,
+            ia.id_card_number,
+            ia.passport_number,
+            ia.id_card_photo_front,
+            ia.id_card_photo_back,
+            ia.passport_photo_front,
+            ia.passport_photo_back,
+            ia.auth_status,
+            ia.auth_fail_reason,
+            ia.auth_time,
+            ia.create_time,
+            u.username,
+            u.phone
+        FROM user_identity_auth ia
+        LEFT JOIN user_user u ON u.id = ia.user_id
+        <where>
+            <if test="q.realName != null and q.realName != ''">
+                AND ia.real_name LIKE CONCAT('%', #{q.realName}, '%')
+            </if>
+            <if test="q.authStatus != null">
+                AND ia.auth_status = #{q.authStatus}
+            </if>
+            <if test="q.authType != null">
+                AND ia.auth_type = #{q.authType}
+            </if>
+        </where>
+    </select>
+
+</mapper>

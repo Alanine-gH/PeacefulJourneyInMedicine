@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.MedicalAppointmentMapper">
+
+    <resultMap id="AppointmentListVOMap" type="com.PJDM.vo.AppointmentListVO">
+        <id     column="id"                   property="id"/>
+        <result column="appointment_no"       property="appointmentNo"/>
+        <result column="user_id"              property="userId"/>
+        <result column="user_name"            property="userName"/>
+        <result column="user_phone"           property="userPhone"/>
+        <result column="user_avatar"          property="userAvatar"/>
+        <result column="hospital_id"          property="hospitalId"/>
+        <result column="hospital_name"        property="hospitalName"/>
+        <result column="department_id"        property="departmentId"/>
+        <result column="department_name"      property="departmentName"/>
+        <result column="expert_id"            property="expertId"/>
+        <result column="expert_name"          property="expertName"/>
+        <result column="appointment_date"     property="appointmentDate"/>
+        <result column="appointment_time"     property="appointmentTime"/>
+        <result column="appointment_type"     property="appointmentType"/>
+        <result column="appointment_status"   property="appointmentStatus"/>
+        <result column="visit_card_no"        property="visitCardNo"/>
+        <result column="registration_no"      property="registrationNo"/>
+        <result column="check_in_time"        property="checkInTime"/>
+        <result column="follow_up_needed"     property="followUpNeeded"/>
+        <result column="disease_description"  property="diseaseDescription"/>
+        <result column="remark"               property="remark"/>
+        <result column="create_time"          property="createTime"/>
+    </resultMap>
+
+    <select id="selectAppointmentListPage" resultMap="AppointmentListVOMap">
+        SELECT
+            a.id, a.appointment_no, a.user_id, a.user_name, a.user_phone,
+            u.avatar_url AS user_avatar,
+            a.hospital_id, a.hospital_name, a.department_id, a.department_name,
+            a.expert_id, a.expert_name, a.appointment_date, a.appointment_time,
+            a.appointment_type, a.appointment_status,
+            a.visit_card_no, a.registration_no, a.check_in_time,
+            a.follow_up_needed, a.disease_description, a.remark, a.create_time
+        FROM medical_appointment a
+        LEFT JOIN user_user u ON u.id = a.user_id
+        <where>
+            <if test="q.appointmentNo != null and q.appointmentNo != ''">
+                AND appointment_no LIKE CONCAT('%', #{q.appointmentNo}, '%')
+            </if>
+            <if test="q.userName != null and q.userName != ''">
+                AND (user_name LIKE CONCAT('%', #{q.userName}, '%')
+                     OR user_phone LIKE CONCAT('%', #{q.userName}, '%'))
+            </if>
+            <if test="q.hospitalId != null">
+                AND hospital_id = #{q.hospitalId}
+            </if>
+            <if test="q.expertId != null">
+                AND expert_id = #{q.expertId}
+            </if>
+            <if test="q.appointmentStatus != null">
+                AND appointment_status = #{q.appointmentStatus}
+            </if>
+            <if test="q.appointmentDate != null">
+                AND appointment_date = #{q.appointmentDate}
+            </if>
+        </where>
+    </select>
+
+</mapper>

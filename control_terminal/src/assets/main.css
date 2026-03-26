@@ -1,0 +1,212 @@
+/* ============================================================
+   CSS 变量体系 — 暗色（默认）
+   ============================================================ */
+:root, [data-theme="dark"] {
+    /* 背景层 */
+    --bg-root: #050d1a;
+    --bg-sidebar: rgba(255, 255, 255, 0.03);
+    --bg-topbar: rgba(255, 255, 255, 0.02);
+    --bg-card: rgba(255, 255, 255, 0.02);
+    --bg-input: rgba(255, 255, 255, 0.05);
+    --bg-select: rgba(15, 23, 42, 0.95);
+    --bg-modal: #0f1e2e;
+    --bg-sub-menu: rgba(0, 0, 0, 0.15);
+    --bg-hover-row: rgba(255, 255, 255, 0.02);
+    --bg-hover-nav: rgba(110, 231, 183, 0.06);
+    --bg-active-nav: rgba(110, 231, 183, 0.1);
+    --bg-avatar: rgba(110, 231, 183, 0.2);
+    --bg-collapse: rgba(255, 255, 255, 0.04);
+    --bg-btn-search: rgba(16, 185, 129, 0.2);
+    --bg-btn-add: rgba(16, 185, 129, 0.25);
+    --bg-btn-reset: rgba(255, 255, 255, 0.05);
+    --bg-page-btn: rgba(255, 255, 255, 0.05);
+
+    /* 边框 */
+    --border-main: rgba(255, 255, 255, 0.07);
+    --border-input: rgba(255, 255, 255, 0.1);
+    --border-modal: rgba(110, 231, 183, 0.2);
+    --border-logo: rgba(255, 255, 255, 0.06);
+    --border-sidebar: rgba(255, 255, 255, 0.07);
+    --border-topbar: rgba(255, 255, 255, 0.06);
+    --border-nav: rgba(255, 255, 255, 0.08);
+    --border-table-h: rgba(255, 255, 255, 0.06);
+    --border-table-r: rgba(255, 255, 255, 0.04);
+    --border-page: rgba(255, 255, 255, 0.05);
+    --border-active-nav: #6ee7b7;
+
+    /* 文字 */
+    --text-primary: #ecfdf5;
+    --text-secondary: rgba(255, 255, 255, 0.75);
+    --text-muted: rgba(255, 255, 255, 0.4);
+    --text-dim: rgba(255, 255, 255, 0.3);
+    --text-label: rgba(167, 243, 208, 0.7);
+    --text-th: rgba(167, 243, 208, 0.6);
+    --text-nav: rgba(255, 255, 255, 0.7);
+    --text-sub: rgba(255, 255, 255, 0.5);
+    --text-input: #e2fef4;
+    --text-placeholder: rgba(255, 255, 255, 0.25);
+    --text-logo: #6ee7b7;
+    --text-breadcrumb: rgba(255, 255, 255, 0.4);
+    --text-bc-link: rgba(167, 243, 208, 0.6);
+    --text-user: rgba(255, 255, 255, 0.6);
+    --text-logout: rgba(110, 231, 183, 0.7);
+    --text-collapse: rgba(167, 243, 208, 0.6);
+    --text-empty: rgba(255, 255, 255, 0.2);
+    --text-page-cur: rgba(255, 255, 255, 0.5);
+    --text-accent: #6ee7b7;
+    --text-cyan: #a5f3fc;
+    --text-yellow: #fde047;
+    --text-blue: #93c5fd;
+    --text-red: #fca5a5;
+    --text-page-desc: rgba(167, 243, 208, 0.5);
+
+    /* 标签色 */
+    --tag-green-bg: rgba(16, 185, 129, 0.15);
+    --tag-green-text: #6ee7b7;
+    --tag-blue-bg: rgba(59, 130, 246, 0.15);
+    --tag-blue-text: #93c5fd;
+    --tag-yellow-bg: rgba(234, 179, 8, 0.15);
+    --tag-yellow-text: #fde047;
+    --tag-red-bg: rgba(239, 68, 68, 0.1);
+    --tag-red-text: #fca5a5;
+    --tag-purple-bg: rgba(139, 92, 246, 0.15);
+    --tag-purple-text: #c4b5fd;
+    --tag-gray-bg: rgba(255, 255, 255, 0.06);
+    --tag-gray-text: rgba(255, 255, 255, 0.35);
+
+    /* 操作按钮 */
+    --btn-edit-bg: rgba(234, 179, 8, 0.1);
+    --btn-edit-bd: rgba(234, 179, 8, 0.3);
+    --btn-edit-text: #fde047;
+    --btn-ok-bg: rgba(16, 185, 129, 0.1);
+    --btn-ok-bd: rgba(16, 185, 129, 0.3);
+    --btn-ok-text: #6ee7b7;
+    --btn-warn-bg: rgba(239, 68, 68, 0.08);
+    --btn-warn-bd: rgba(239, 68, 68, 0.2);
+    --btn-warn-text: #fca5a5;
+    --btn-del-bg: rgba(239, 68, 68, 0.08);
+    --btn-del-bd: rgba(239, 68, 68, 0.2);
+    --btn-del-text: #fca5a5;
+
+    /* 滚动条 */
+    --scrollbar-thumb: rgba(110, 231, 183, 0.2);
+}
+
+/* ============================================================
+   CSS 变量体系 — 浅色模式
+   ============================================================ */
+[data-theme="light"] {
+    --bg-root: #f0f4f8;
+    --bg-sidebar: #ffffff;
+    --bg-topbar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-input: #f8fafc;
+    --bg-select: #f8fafc;
+    --bg-modal: #ffffff;
+    --bg-sub-menu: #f1f5f9;
+    --bg-hover-row: #f8fafc;
+    --bg-hover-nav: rgba(5, 150, 105, 0.06);
+    --bg-active-nav: rgba(5, 150, 105, 0.1);
+    --bg-avatar: rgba(5, 150, 105, 0.15);
+    --bg-collapse: #f1f5f9;
+    --bg-btn-search: rgba(5, 150, 105, 0.12);
+    --bg-btn-add: rgba(5, 150, 105, 0.15);
+    --bg-btn-reset: #f1f5f9;
+    --bg-page-btn: #f1f5f9;
+
+    --border-main: #e2e8f0;
+    --border-input: #cbd5e1;
+    --border-modal: #059669;
+    --border-logo: #e2e8f0;
+    --border-sidebar: #e2e8f0;
+    --border-topbar: #e2e8f0;
+    --border-nav: #e2e8f0;
+    --border-table-h: #e2e8f0;
+    --border-table-r: #f1f5f9;
+    --border-page: #e2e8f0;
+    --border-active-nav: #059669;
+
+    --text-primary: #0f172a;
+    --text-secondary: #1e293b;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --text-label: #047857;
+    --text-th: #047857;
+    --text-nav: #334155;
+    --text-sub: #64748b;
+    --text-input: #0f172a;
+    --text-placeholder: #94a3b8;
+    --text-logo: #059669;
+    --text-breadcrumb: #64748b;
+    --text-bc-link: #059669;
+    --text-user: #334155;
+    --text-logout: #059669;
+    --text-collapse: #059669;
+    --text-empty: #94a3b8;
+    --text-page-cur: #64748b;
+    --text-accent: #059669;
+    --text-cyan: #0891b2;
+    --text-yellow: #b45309;
+    --text-blue: #1d4ed8;
+    --text-red: #dc2626;
+    --text-page-desc: #64748b;
+
+    --tag-green-bg: rgba(5, 150, 105, 0.1);
+    --tag-green-text: #047857;
+    --tag-blue-bg: rgba(29, 78, 216, 0.1);
+    --tag-blue-text: #1d4ed8;
+    --tag-yellow-bg: rgba(180, 83, 9, 0.1);
+    --tag-yellow-text: #b45309;
+    --tag-red-bg: rgba(220, 38, 38, 0.1);
+    --tag-red-text: #dc2626;
+    --tag-purple-bg: rgba(109, 40, 217, 0.1);
+    --tag-purple-text: #6d28d9;
+    --tag-gray-bg: #f1f5f9;
+    --tag-gray-text: #64748b;
+
+    --btn-edit-bg: rgba(180, 83, 9, 0.08);
+    --btn-edit-bd: rgba(180, 83, 9, 0.3);
+    --btn-edit-text: #b45309;
+    --btn-ok-bg: rgba(5, 150, 105, 0.08);
+    --btn-ok-bd: rgba(5, 150, 105, 0.3);
+    --btn-ok-text: #047857;
+    --btn-warn-bg: rgba(220, 38, 38, 0.06);
+    --btn-warn-bd: rgba(220, 38, 38, 0.2);
+    --btn-warn-text: #dc2626;
+    --btn-del-bg: rgba(220, 38, 38, 0.06);
+    --btn-del-bd: rgba(220, 38, 38, 0.2);
+    --btn-del-text: #dc2626;
+
+    --scrollbar-thumb: rgba(5, 150, 105, 0.2);
+}
+
+/* ============================================================
+   全局基础样式
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body, #app {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Noto Serif SC', serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--bg-root);
+    color: var(--text-secondary);
+    transition: background 0.3s, color 0.3s;
+}
+
+/* 主题切换过渡 */
+* {
+    transition: background-color 0.25s, border-color 0.25s, color 0.18s;
+}
+
+input, select, textarea, button {
+    transition: background-color 0.25s, border-color 0.25s, color 0.18s;
+}

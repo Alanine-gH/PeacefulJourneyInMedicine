@@ -1,0 +1,324 @@
+{
+	"pages": [
+
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		}, {
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "医路安心"
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/forgot-password/forgot-password",
+			"style": {
+				"navigationBarTitleText": "忘记密码"
+			}
+		},
+		{
+			"path": "pages/authentication/step1",
+			"style": {
+				"navigationBarTitleText": "实名认证"
+			}
+		},
+		{
+			"path": "pages/authentication/step2",
+			"style": {
+				"navigationBarTitleText": "实名认证"
+			}
+		},
+		{
+			"path": "pages/authentication/step3",
+			"style": {
+				"navigationBarTitleText": "实名认证"
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/info/info",
+			"style": {
+				"navigationBarTitleText": "信息"
+			}
+		},
+		{
+			"path": "pages/companion/home",
+			"style": {
+				"navigationBarTitleText": "陪护端首页"
+			}
+		},
+		{
+			"path": "pages/companion/info",
+			"style": {
+				"navigationBarTitleText": "工作信息"
+			}
+		},
+		{
+			"path": "pages/companion/mine",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		},
+		{
+			"path": "pages/companion/orders",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		},
+		{
+			"path": "pages/companion/cooperation",
+			"style": {
+				"navigationBarTitleText": "长期合作"
+			}
+		},
+		{
+			"path": "pages/companion/training",
+			"style": {
+				"navigationBarTitleText": "专业培训"
+			}
+		},
+		{
+			"path": "pages/companion/parttime",
+			"style": {
+				"navigationBarTitleText": "高薪兼职"
+			}
+		},
+		{
+			"path": "pages/diagnosis/index",
+			"style": {
+				"navigationBarTitleText": "智能诊断"
+			}
+		},
+		{
+			"path": "pages/diagnosis/upload",
+			"style": {
+				"navigationBarTitleText": "上传病历"
+			}
+		},
+		{
+			"path": "pages/diagnosis/chat",
+			"style": {
+				"navigationBarTitleText": "智能问答"
+			}
+		},
+		{
+			"path": "pages/promotion/promotion",
+			"style": {
+				"navigationBarTitleText": "优惠活动"
+			}
+		},
+		{
+			"path": "pages/diet/diet",
+			"style": {
+				"navigationBarTitleText": "饮食检测"
+			}
+		},
+		{
+			"path": "pages/medication/medication",
+			"style": {
+				"navigationBarTitleText": "用药提醒"
+			}
+		},
+		{
+			"path": "pages/blood_sugar/blood_sugar",
+			"style": {
+				"navigationBarTitleText": "血糖监测"
+			}
+		},
+		{
+			"path": "pages/customer/customer",
+			"style": {
+				"navigationBarTitleText": "在线客服"
+			}
+		},
+		{
+			"path": "pages/package/package",
+			"style": {
+				"navigationBarTitleText": "导诊预约"
+			}
+		},
+		{
+			"path": "pages/doctor/doctor",
+			"style": {
+				"navigationBarTitleText": "预约详情"
+			}
+		},
+		{
+			"path": "pages/result/result",
+			"style": {
+				"navigationBarTitleText": "预约结果"
+			}
+		},
+		{
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的业务"
+			}
+		},
+		{
+			"path": "pages/evaluation/evaluation",
+			"style": {
+				"navigationBarTitleText": "服务评价"
+			}
+		},
+		{
+			"path": "pages/value-added/value-added",
+			"style": {
+				"navigationBarTitleText": "增值服务"
+			}
+		},
+		{
+			"path": "pages/hall/hall",
+			"style": {
+				"navigationBarTitleText": "选择订单"
+			}
+		},
+		{
+			"path": "pages/order-detail/order-detail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
+			"path": "pages/certification/certification",
+			"style": {
+				"navigationBarTitleText": "资格认证"
+			}
+		},
+		{
+			"path": "pages/service-type/service-type",
+			"style": {
+				"navigationBarTitleText": "服务类型"
+			}
+		},
+		{
+			"path": "pages/select-city/select-city",
+			"style": {
+				"navigationBarTitleText": "选择城市"
+			}
+		},
+		{
+			"path": "pages/select-hospital/select-hospital",
+			"style": {
+				"navigationBarTitleText": "选择医院"
+			}
+		},
+		{
+			"path": "pages/select-time/select-time",
+			"style": {
+				"navigationBarTitleText": "选择时间"
+			}
+		},
+		{
+			"path": "pages/select-patient/select-patient",
+			"style": {
+				"navigationBarTitleText": "选择就诊人"
+			}
+		},
+		{
+			"path": "pages/select-patient/add-patient",
+			"style": {
+				"navigationBarTitleText": "添加就诊人"
+			}
+		},
+		{
+			"path": "pages/select-department/select-department",
+			"style": {
+				"navigationBarTitleText": "选择科室"
+			}
+		},
+		{
+			"path": "pages/doctor-list/doctor-list",
+			"style": {
+				"navigationBarTitleText": "选择医生"
+			}
+		},
+		{
+			"path": "pages/payment/payment",
+			"style": {
+				"navigationBarTitleText": "支付订单"
+			}
+		},
+		{
+			"path": "pages/payment-channel/payment-channel",
+			"style": {
+				"navigationBarTitleText": "支付通道"
+			}
+		},
+		{
+			"path": "pages/payment-auth/payment-auth",
+			"style": {
+				"navigationBarTitleText": "身份认证"
+			}
+		},
+		{
+			"path": "pages/payment-success/payment-success",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+		{
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": "聊天"
+			}
+		},
+		{
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "医路安心",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#999",
+		"selectedColor": "#4DD0E1",
+		"backgroundColor": "#fff",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/home/home",
+				"text": "首页",
+				"iconPath": "static/disHome.png",
+				"selectedIconPath": "static/home.png"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"text": "消息",
+				"iconPath": "static/disMessage.png",
+				"selectedIconPath": "static/message.png"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"text": "我的",
+				"iconPath": "static/disMine.png",
+				"selectedIconPath": "static/mine.png"
+			}
+		]
+	}
+}

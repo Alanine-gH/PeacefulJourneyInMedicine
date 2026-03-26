@@ -1,0 +1,142 @@
+package com.PJDM.untils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecureDigestAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @ClassName JwtUtil工具类
+ * @Author ruoyi-alanine
+ * @project agriBlissMart_common
+ * @Description jwt工具类
+ * @Version 0.12.3
+ */
+@Slf4j
+@Component
+public class JwtUtil {
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+    @Value("${jwt.expire}")
+    private Long ttlMillis;
+
+
+    /**
+     * 生成jwt
+     * 使用Hs256算法，私钥使用固定密钥
+     *
+     * @param claims 设置的信息
+     * @return
+     */
+    public String createJWT(Map<String, Object> claims) {
+        //指定加密算法
+        SecureDigestAlgorithm<SecretKey, SecretKey> algorithm = Jwts.SIG.HS256;
+        //生成JWT的时间
+        long expMillis = System.currentTimeMillis() + ttlMillis;
+        Date exp = new Date(expMillis);
+        //密钥实例
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+
+        String compact = Jwts.builder()
+                .signWith(key, algorithm) //设置签名使用的签名算法和签名使用的秘钥
+                //如果有私有声明，一点要先设置这个自己创建的私有的声明，这个是给builder的claims赋值，一旦卸载标准的声明赋值之后，就是覆盖了那些标准的声明的
+                .expiration(exp)
+                .claims(claims) //设置自定义负载信息
+                .compact();//设置过期时间
+        return compact;
+    }
+
+    /**
+     * 生成jwt
+     * 使用Hs256算法，私钥使用固定密钥
+     *
+     * @param secretKey jwt密钥
+     * @param ttlMillis jwt过期时间，单位毫秒
+     * @param claims    设置的信息
+     * @return
+     */
+    public String createJWT(String secretKey, long ttlMillis, Map<String, Object> claims) {
+        //指定加密算法
+        SecureDigestAlgorithm<SecretKey, SecretKey> algorithm = Jwts.SIG.HS256;
+        //生成JWT的时间
+        long expMillis = System.currentTimeMillis() + ttlMillis;
+        Date exp = new Date(expMillis);
+        //密钥实例
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+
+        String compact = Jwts.builder()
+                .signWith(key, algorithm) //设置签名使用的签名算法和签名使用的秘钥
+                //如果有私有声明，一点要先设置这个自己创建的私有的声明，这个是给builder的claims赋值，一旦卸载标准的声明赋值之后，就是覆盖了那些标准的声明的
+                .expiration(exp)
+                .claims(claims) //设置自定义负载信息
+                .compact();//设置过期时间
+        return compact;
+    }
+
+
+    /**
+     * 解析jwt
+     *
+     * @param token
+     * @return
+     */
+    public Claims parseJWT(String token) {
+        //密钥实例
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+
+        Jws<Claims> claimsJws = Jwts.parser()
+                .verifyWith(key)  //设置签名的密钥
+                .build()
+                .parseSignedClaims(token); //设置要解析的jwt
+
+        return claimsJws.getPayload();
+    }
+
+    /**
+     * 解析jwt并返回Map格式的claims
+     *
+     * @param token
+     * @return Map格式的claims
+     */
+    public Map<String, Object> parseJWTToMap(String token) {
+        Claims claims = parseJWT(token);
+        Map<String, Object> result = new HashMap<>();
+
+        // 将Claims中的所有字段复制到Map中
+        for (Map.Entry<String, Object> entry : claims.entrySet()) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
+
+    /**
+     * 解析jwt
+     *
+     * @param token
+     * @param secretKey
+     * @return
+     */
+    public Jws<Claims> parseJWT(String token, String secretKey) {
+        //密钥实例
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+
+        Jws<Claims> claimsJws = Jwts.parser()
+                .verifyWith(key)  //设置签名的密钥
+                .build()
+                .parseSignedClaims(token); //设置要解析的jwt
+
+        return claimsJws;
+    }
+}

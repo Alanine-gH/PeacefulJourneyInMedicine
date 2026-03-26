@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.MedicalExpertMapper">
+
+    <resultMap id="ExpertListVOMap" type="com.PJDM.vo.ExpertListVO">
+        <id     column="id"                      property="id"/>
+        <result column="expert_code"             property="expertCode"/>
+        <result column="expert_name"             property="expertName"/>
+        <result column="expert_name_en"          property="expertNameEn"/>
+        <result column="hospital_id"             property="hospitalId"/>
+        <result column="hospital_name"           property="hospitalName"/>
+        <result column="department_id"           property="departmentId"/>
+        <result column="department_name"         property="departmentName"/>
+        <result column="professional_title"      property="professionalTitle"/>
+        <result column="specialty"               property="specialty"/>
+        <result column="language_ability"        property="languageAbility"/>
+        <result column="gender"                  property="gender"/>
+        <result column="age"                     property="age"/>
+        <result column="photo_url"               property="photoUrl"/>
+        <result column="experience_years"        property="experienceYears"/>
+        <result column="appointment_fee"         property="appointmentFee"/>
+        <result column="is_accept_international" property="isAcceptInternational"/>
+        <result column="is_recommend"            property="isRecommend"/>
+        <result column="rating_score"            property="ratingScore"/>
+        <result column="comment_count"           property="commentCount"/>
+        <result column="status"                  property="status"/>
+        <result column="sort"                    property="sort"/>
+        <result column="create_time"             property="createTime"/>
+    </resultMap>
+
+    <select id="selectExpertListPage" resultMap="ExpertListVOMap">
+        SELECT
+            id, expert_code, expert_name, expert_name_en,
+            hospital_id, hospital_name, department_id, department_name,
+            professional_title, specialty, language_ability,
+            gender, age, photo_url, experience_years, appointment_fee,
+            is_accept_international, is_recommend,
+            rating_score, comment_count, status, sort, create_time
+        FROM medical_expert
+        <where>
+            <if test="q.expertName != null and q.expertName != ''">
+                AND (expert_name LIKE CONCAT('%', #{q.expertName}, '%')
+                     OR expert_name_en LIKE CONCAT('%', #{q.expertName}, '%'))
+            </if>
+            <if test="q.hospitalId != null">
+                AND hospital_id = #{q.hospitalId}
+            </if>
+            <if test="q.departmentId != null">
+                AND department_id = #{q.departmentId}
+            </if>
+            <if test="q.professionalTitle != null and q.professionalTitle != ''">
+                AND professional_title LIKE CONCAT('%', #{q.professionalTitle}, '%')
+            </if>
+            <if test="q.isRecommend != null">
+                AND is_recommend = #{q.isRecommend}
+            </if>
+            <if test="q.status != null">
+                AND status = #{q.status}
+            </if>
+        </where>
+        ORDER BY is_recommend ASC
+    </select>
+
+</mapper>

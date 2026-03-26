@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.UserUserMapper">
+
+    <!-- 用户列表 ResultMap -->
+    <resultMap id="UserListVOMap" type="com.PJDM.vo.UserListVO">
+        <id     column="id"             property="id"/>
+        <result column="username"       property="username"/>
+        <result column="nick_name"      property="nickName"/>
+        <result column="real_name"      property="realName"/>
+        <result column="phone"          property="phone"/>
+        <result column="email"          property="email"/>
+        <result column="avatar_url"     property="avatarUrl"/>
+        <result column="age"            property="age"/>
+        <result column="gender"         property="gender"/>
+        <result column="user_type"      property="userType"/>
+        <result column="status"         property="status"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="last_login_ip"  property="lastLoginIp"/>
+        <result column="create_time"    property="createTime"/>
+        <!-- 来自 user_identity_auth -->
+        <result column="auth_status"    property="authStatus"/>
+        <result column="auth_type"      property="authType"/>
+    </resultMap>
+
+    <!-- 用户详情 ResultMap -->
+    <resultMap id="UserDetailVOMap" type="com.PJDM.vo.UserDetailVO">
+        <id     column="id"             property="id"/>
+        <result column="username"       property="username"/>
+        <result column="nick_name"      property="nickName"/>
+        <result column="real_name"      property="realName"/>
+        <result column="phone"          property="phone"/>
+        <result column="email"          property="email"/>
+        <result column="avatar_url"     property="avatarUrl"/>
+        <result column="age"            property="age"/>
+        <result column="gender"         property="gender"/>
+        <result column="user_type"      property="userType"/>
+        <result column="status"         property="status"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="last_login_ip"  property="lastLoginIp"/>
+        <result column="create_time"    property="createTime"/>
+        <result column="remark"         property="remark"/>
+    </resultMap>
+
+    <!-- 角色简要信息 ResultMap -->
+    <resultMap id="RoleSimpleVOMap" type="com.PJDM.vo.UserDetailVO$RoleSimpleVO">
+        <id     column="role_id"        property="id"/>
+        <result column="role_name"      property="roleName"/>
+        <result column="role_code"      property="roleCode"/>
+    </resultMap>
+
+    <!--
+        分页查询用户列表
+        LEFT JOIN user_identity_auth 获取认证状态（一对一，每用户最多一条认证记录）
+    -->
+    <!-- 用户列表分页 COUNT（手动提供，避免分页插件优化标量子查询导致分页错误） -->
+    <select id="selectUserListPageCount" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM user_user u
+        <where>
+            <if test="q.username != null and q.username != ''">
+                AND (u.username LIKE CONCAT('%', #{q.username}, '%')
+                     OR u.nick_name LIKE CONCAT('%', #{q.username}, '%'))
+            </if>
+            <if test="q.phone != null and q.phone != ''">
+                AND u.phone = #{q.phone}
+            </if>
+            <if test="q.userType != null">
+                AND u.user_type = #{q.userType}
+            </if>
+            <if test="q.status != null">
+                AND u.status = #{q.status}
+            </if>
+        </where>
+    </select>
+
+<!--    <select id="selectUserListPage" resultMap="UserListVOMap">-->
+<!--        SELECT-->
+<!--            u.id,-->
+<!--            u.username,-->
+<!--            u.nick_name,-->
+<!--            u.real_name,-->
+<!--            u.phone,-->
+<!--            u.email,-->
+<!--            u.avatar_url,-->
+<!--            u.age,-->
+<!--            u.gender,-->
+<!--            u.user_type,-->
+<!--            u.status,-->
+<!--            u.last_login_time,-->
+<!--            u.last_login_ip,-->
+<!--            u.create_time,-->
+<!--            ia.auth_status,-->
+<!--            ia.auth_type-->
+<!--        FROM user_user u-->
+<!--        LEFT JOIN (-->
+<!--            SELECT user_id, auth_status, auth_type-->
+<!--            FROM user_identity_auth-->
+<!--            WHERE id IN (SELECT MAX(id) FROM user_identity_auth GROUP BY user_id)-->
+<!--        ) ia ON ia.user_id = u.id-->
+<!--        <where>-->
+<!--            <if test="q.username != null and q.username != ''">-->
+<!--                AND (u.username LIKE CONCAT('%', #{q.username}, '%')-->
+<!--                     OR u.nick_name LIKE CONCAT('%', #{q.username}, '%'))-->
+<!--            </if>-->
+<!--            <if test="q.phone != null and q.phone != ''">-->
+<!--                AND u.phone = #{q.phone}-->
+<!--            </if>-->
+<!--            <if test="q.userType != null">-->
+<!--                AND u.user_type = #{q.userType}-->
+<!--            </if>-->
+<!--            <if test="q.status != null">-->
+<!--                AND u.status = #{q.status}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY u.create_time DESC-->
+<!--    </select>-->
+
+    <!-- 查询用户详情（基础信息，角色由 selectRolesByUserId 单独查询） -->
+    <select id="selectUserDetail" resultMap="UserDetailVOMap">
+        SELECT
+            u.id,
+            u.username,
+            u.nick_name,
+            u.real_name,
+            u.phone,
+            u.email,
+            u.avatar_url,
+            u.age,
+            u.gender,
+            u.user_type,
+            u.status,
+            u.last_login_time,
+            u.last_login_ip,
+            u.create_time,
+            u.remark
+        FROM user_user u
+        WHERE u.id = #{id}
+    </select>
+
+    <!-- 查询用户关联角色（user_user_role JOIN user_role 多表联查） -->
+    <select id="selectRolesByUserId" resultMap="RoleSimpleVOMap">
+        SELECT
+            r.id   AS role_id,
+            r.role_name,
+            r.role_code
+        FROM user_user_role ur
+        INNER JOIN user_role r ON r.id = ur.role_id
+        WHERE ur.user_id = #{userId}
+          AND r.status = 1
+        ORDER BY r.role_sort
+    </select>
+
+</mapper>

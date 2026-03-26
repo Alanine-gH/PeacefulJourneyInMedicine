@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.OrderPaymentMapper">
+
+    <resultMap id="PaymentListVOMap" type="com.PJDM.vo.PaymentListVO">
+        <id     column="id"                      property="id"/>
+        <result column="payment_id"              property="paymentId"/>
+        <result column="order_id"                property="orderId"/>
+        <result column="order_no"                property="orderNo"/>
+        <result column="user_id"                 property="userId"/>
+        <result column="user_name"               property="userName"/>
+        <result column="payment_type"            property="paymentType"/>
+        <result column="payment_method"          property="paymentMethod"/>
+        <result column="payment_status"          property="paymentStatus"/>
+        <result column="currency"                property="currency"/>
+        <result column="amount"                  property="amount"/>
+        <result column="rmb_amount"              property="rmbAmount"/>
+        <result column="exchange_rate"           property="exchangeRate"/>
+        <result column="payment_channel"         property="paymentChannel"/>
+        <result column="channel_transaction_id" property="channelTransactionId"/>
+        <result column="payer_email"             property="payerEmail"/>
+        <result column="payment_time"            property="paymentTime"/>
+        <result column="create_time"             property="createTime"/>
+    </resultMap>
+
+    <!-- 分页查询支付记录 -->
+    <select id="selectPaymentListPage" resultMap="PaymentListVOMap">
+        SELECT
+            p.id, p.payment_id, p.order_id, p.order_no,
+            p.user_id, p.user_name,
+            p.payment_type, p.payment_method, p.payment_status,
+            p.currency, p.amount, p.rmb_amount, p.exchange_rate,
+            p.payment_channel, p.channel_transaction_id,
+            p.payer_email, p.payment_time, p.create_time
+        FROM order_payment p
+        <where>
+            <if test="q.orderNo != null and q.orderNo != ''">
+                AND p.order_no LIKE CONCAT('%', #{q.orderNo}, '%')
+            </if>
+            <if test="q.paymentId != null and q.paymentId != ''">
+                AND p.payment_id LIKE CONCAT('%', #{q.paymentId}, '%')
+            </if>
+            <if test="q.userName != null and q.userName != ''">
+                AND p.user_name LIKE CONCAT('%', #{q.userName}, '%')
+            </if>
+            <if test="q.paymentStatus != null">
+                AND p.payment_status = #{q.paymentStatus}
+            </if>
+            <if test="q.paymentMethod != null">
+                AND p.payment_method = #{q.paymentMethod}
+            </if>
+        </where>
+    </select>
+
+</mapper>

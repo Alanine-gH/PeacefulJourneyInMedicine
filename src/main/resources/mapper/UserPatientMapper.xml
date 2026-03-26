@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.UserPatientMapper">
+
+    <!-- 分页查询就诊人列表 -->
+    <select id="selectPatientPage" resultType="com.PJDM.vo.PatientDetailVO">
+        SELECT
+            p.id,
+            p.user_id     AS userId,
+            p.name,
+            p.phone,
+            p.id_card     AS idCard,
+            p.gender,
+            p.birthday,
+            p.relation,
+            p.address,
+            p.is_default  AS isDefault,
+            p.create_time AS createTime
+        FROM user_patient p
+        WHERE p.status = 1
+        <if test="q.userId != null">
+            AND p.user_id = #{q.userId}
+        </if>
+        <if test="q.name != null and q.name != ''">
+            AND p.name LIKE CONCAT('%', #{q.name}, '%')
+        </if>
+        ORDER BY p.is_default DESC, p.create_time DESC
+    </select>
+
+</mapper>

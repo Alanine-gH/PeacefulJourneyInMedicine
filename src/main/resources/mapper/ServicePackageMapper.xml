@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.ServicePackageMapper">
+
+    <resultMap id="PackageListVOMap" type="com.PJDM.vo.PackageListVO">
+        <id     column="id"             property="id"/>
+        <result column="package_code"   property="packageCode"/>
+        <result column="package_name"   property="packageName"/>
+        <result column="package_name_en" property="packageNameEn"/>
+        <result column="package_type"   property="packageType"/>
+        <result column="service_type"   property="serviceType"/>
+        <result column="price"          property="price"/>
+        <result column="currency"       property="currency"/>
+        <result column="unit"           property="unit"/>
+        <result column="duration"       property="duration"/>
+        <result column="max_usage_count" property="maxUsageCount"/>
+        <result column="valid_days"     property="validDays"/>
+        <result column="cover_image_url" property="coverImageUrl"/>
+        <result column="includes_items" property="includesItems"/>
+        <result column="sort"           property="sort"/>
+        <result column="status"         property="status"/>
+        <result column="create_time"    property="createTime"/>
+    </resultMap>
+
+    <select id="selectPackageListPage" resultMap="PackageListVOMap">
+        SELECT id, package_code, package_name, package_name_en,
+               package_type, service_type, price, currency, unit,
+               duration, max_usage_count, valid_days, cover_image_url,
+               includes_items, sort, status, create_time
+        FROM service_package
+        <where>
+            <if test="q.packageName != null and q.packageName != ''">
+                AND package_name LIKE CONCAT('%', #{q.packageName}, '%')
+            </if>
+            <if test="q.packageType != null">
+                AND package_type = #{q.packageType}
+            </if>
+            <if test="q.serviceType != null">
+                AND service_type = #{q.serviceType}
+            </if>
+            <if test="q.status != null">
+                AND status = #{q.status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

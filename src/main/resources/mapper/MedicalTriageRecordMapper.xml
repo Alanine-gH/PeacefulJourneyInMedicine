@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.PJDM.mapper.MedicalTriageRecordMapper">
+
+    <resultMap id="TriageListVOMap" type="com.PJDM.vo.TriageListVO">
+        <id     column="id"                      property="id"/>
+        <result column="triage_no"               property="triageNo"/>
+        <result column="user_id"                 property="userId"/>
+        <result column="user_name"               property="userName"/>
+        <result column="user_phone"              property="userPhone"/>
+        <result column="gender"                  property="gender"/>
+        <result column="age"                     property="age"/>
+        <result column="chief_complaint"         property="chiefComplaint"/>
+        <result column="pain_location"           property="painLocation"/>
+        <result column="pain_level"              property="painLevel"/>
+        <result column="recommended_department" property="recommendedDepartment"/>
+        <result column="recommended_hospitals"   property="recommendedHospitals"/>
+        <result column="triage_status"           property="triageStatus"/>
+        <result column="ai_confidence"           property="aiConfidence"/>
+        <result column="ai_analysis_time"        property="aiAnalysisTime"/>
+        <result column="human_review_time"       property="humanReviewTime"/>
+        <result column="create_time"             property="createTime"/>
+    </resultMap>
+
+    <select id="selectTriageListPage" resultMap="TriageListVOMap">
+        SELECT
+            id, triage_no, user_id, user_name, user_phone,
+            gender, age, chief_complaint, pain_location, pain_level,
+            recommended_department, recommended_hospitals,
+            triage_status, ai_confidence, ai_analysis_time,
+            human_review_time, create_time
+        FROM medical_triage_record
+        <where>
+            <if test="q.userName != null and q.userName != ''">
+                AND (user_name LIKE CONCAT('%', #{q.userName}, '%')
+                     OR user_phone LIKE CONCAT('%', #{q.userName}, '%'))
+            </if>
+            <if test="q.recommendedDepartment != null and q.recommendedDepartment != ''">
+                AND recommended_department LIKE CONCAT('%', #{q.recommendedDepartment}, '%')
+            </if>
+            <if test="q.triageStatus != null">
+                AND triage_status = #{q.triageStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>
