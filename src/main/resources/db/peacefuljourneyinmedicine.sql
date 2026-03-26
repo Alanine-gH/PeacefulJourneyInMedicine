@@ -11,7 +11,7 @@
  Target Server Version : 80027 (8.0.27)
  File Encoding         : 65001
 
- Date: 26/03/2026 21:07:57
+ Date: 26/03/2026 21:30:04
 */
 
 CREATE DATABASE IF NOT EXISTS PeacefulJourneyInMedicine
@@ -550,7 +550,7 @@ CREATE TABLE `payment_record`  (
   UNIQUE INDEX `uk_payment_no`(`payment_no` ASC) USING BTREE,
   INDEX `idx_order_no`(`order_no` ASC) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of payment_record
@@ -775,7 +775,7 @@ CREATE TABLE `sys_message`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_receiver_id`(`receiver_id` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统消息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统消息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_message
@@ -921,6 +921,7 @@ CREATE TABLE `user_accompanist`  (
 -- ----------------------------
 -- Records of user_accompanist
 -- ----------------------------
+INSERT INTO `user_accompanist` VALUES (7, 7, '赵敏', '+86 13900139001', 1, 20, '小赵', 1, 'HEA2020001', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,英文,日语', '儿科', 150, 4.99, 99.00, 0, 1, 2, '2026-01-14 16:00:00', 'system', '2026-01-14 16:00:00', NULL, '2026-01-14 16:00:00', '汉语陪诊师');
 INSERT INTO `user_accompanist` VALUES (8, 8, '钱多多', '+86 13900139002', 2, 28, '健康管理师', 2, 'HEA2020002', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,沪语', '儿科,内科,体检', 203, 4.85, 99.20, 1, 1, 2, '2026-01-11 11:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '金牌陪诊师');
 INSERT INTO `user_accompanist` VALUES (9, 9, '孙丽', '+86 13900139003', 2, 32, '医学翻译', 1, 'TRA2020003', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,英文,日语', '肿瘤科,心内科,眼科', 89, 4.50, 97.80, 0, 1, 2, '2026-01-12 14:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:06:05', '英文陪诊师');
 INSERT INTO `user_accompanist` VALUES (10, 10, '李强', '+86 13900139004', 1, 40, '主治医师', 1, 'DOC2020004', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,日语,韩语', '消化内科,呼吸内科,老年科', 245, 4.95, 99.50, 0, 1, 2, '2026-01-13 09:00:00', 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '日语陪诊师');
@@ -960,7 +961,7 @@ CREATE TABLE `user_demand`  (
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE,
   INDEX `idx_city`(`city` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '需求发布表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '需求发布表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_demand
@@ -987,7 +988,7 @@ CREATE TABLE `user_favorite`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_user_target`(`user_id` ASC, `target_type` ASC, `target_id` ASC) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户收藏表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户收藏表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_favorite
@@ -1105,7 +1106,7 @@ CREATE TABLE `user_medical_card`  (
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_patient_id`(`patient_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '就诊卡信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '就诊卡信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_medical_card
@@ -1143,7 +1144,7 @@ CREATE TABLE `user_patient`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '就诊人信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '就诊人信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_patient

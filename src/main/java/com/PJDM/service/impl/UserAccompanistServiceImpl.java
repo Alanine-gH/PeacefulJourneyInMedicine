@@ -53,6 +53,8 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
     private OrderOrderMapper orderOrderMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserAccompanistMapper userAccompanistMapper;
 
     @Override
     public IPage<AccompanistListVO> getAccompanistListPage(AccompanistQueryDTO query) {
@@ -63,9 +65,11 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
 
     @Override
     public UserAccompanist getAccompanistDetail(Long id) {
-        UserAccompanist acc = getById(id);
-        if (acc == null) throw new ResourceNotFoundException("陪诊师", id);
-        return acc;
+        UserAccompanist userAccompanist = userAccompanistMapper.selectById(id);
+//        UserAccompanist acc = getById(id);
+        System.out.println(userAccompanist);
+        if (userAccompanist == null) throw new ResourceNotFoundException("陪诊师", id);
+        return userAccompanist;
     }
 
     @Override
