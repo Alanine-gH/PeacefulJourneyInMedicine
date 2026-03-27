@@ -70,6 +70,7 @@ public class OrderOrderServiceImpl extends ServiceImpl<OrderOrderMapper, OrderOr
     public IPage<OrderListVO> getOrderListPage(OrderQueryDTO query) {
         int size = Math.min(query.getPageSize() == null ? defaultPageSize : query.getPageSize(), maxPageSize);
         Page<OrderListVO> page = new Page<>(query.getPageNum() == null ? 1 : query.getPageNum(), size);
+        log.warn(page.toString());
         return baseMapper.selectOrderListPage(page, query);
     }
 

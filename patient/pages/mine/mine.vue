@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 	<view class="container">
 		<!-- 顶部个人信息区域 -->
 		<view class="header">

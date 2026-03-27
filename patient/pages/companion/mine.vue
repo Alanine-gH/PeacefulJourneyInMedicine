@@ -80,7 +80,7 @@
       </view>
       <view class="menu-item" @click="navigateTo('help')">
         <view class="menu-icon">❓</view>
-        <view class="menu-text">帮助中心</view>
+        <view class="menu-text">权限管理</view>
         <view class="menu-arrow">›</view>
       </view>
       <view class="menu-item logout-item" @click="handleLogout">
@@ -253,6 +253,18 @@ export default {
           // 跳转到权限管理页面
           uni.navigateTo({
             url: '/pages/companion/permissions/permissions'
+          })
+          break
+        case 'settings':
+          // 跳转到个人设置页面
+          uni.navigateTo({
+            url: '/pages/companion/settings/settings'
+          })
+          break
+        case 'patients':
+          // 跳转到患者管理页面
+          uni.navigateTo({
+            url: '/pages/companion/patients/patients'
           })
           break
         default:

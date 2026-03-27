@@ -3,136 +3,148 @@
 <mapper namespace="com.PJDM.mapper.OrderOrderMapper">
 
     <resultMap id="OrderListVOMap" type="com.PJDM.vo.OrderListVO">
-        <id     column="id"                    property="id"/>
-        <result column="order_no"              property="orderNo"/>
-        <result column="user_id"               property="userId"/>
-        <result column="user_name"             property="userName"/>
-        <result column="user_phone"            property="userPhone"/>
-        <result column="user_avatar"           property="userAvatar"/>
-        <result column="accompanist_id"        property="accompanistId"/>
-        <result column="accompanist_name"      property="accompanistName"/>
-        <result column="accompanist_phone"     property="accompanistPhone"/>
-        <result column="order_type"            property="orderType"/>
-        <result column="order_status"          property="orderStatus"/>
-        <result column="service_start_time"    property="serviceStartTime"/>
-        <result column="service_end_time"      property="serviceEndTime"/>
-        <result column="appointment_hospital"  property="appointmentHospital"/>
-        <result column="appointment_date"      property="appointmentDate"/>
-        <result column="total_amount"          property="totalAmount"/>
-        <result column="actual_paid_amount"    property="actualPaidAmount"/>
-        <result column="currency"              property="currency"/>
-        <result column="create_time"           property="createTime"/>
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_avatar" property="userAvatar"/>
+        <result column="accompanist_id" property="accompanistId"/>
+        <result column="accompanist_name" property="accompanistName"/>
+        <result column="accompanist_phone" property="accompanistPhone"/>
+        <result column="order_type" property="orderType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="service_start_time" property="serviceStartTime"/>
+        <result column="service_end_time" property="serviceEndTime"/>
+        <result column="appointment_hospital" property="appointmentHospital"/>
+        <result column="appointment_date" property="appointmentDate"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="actual_paid_amount" property="actualPaidAmount"/>
+        <result column="currency" property="currency"/>
+        <result column="create_time" property="createTime"/>
         <!-- 来自 order_evaluation -->
-        <result column="rating_score"          property="ratingScore"/>
+        <result column="rating_score" property="ratingScore"/>
     </resultMap>
 
     <resultMap id="OrderDetailVOMap" type="com.PJDM.vo.OrderDetailVO">
-        <id     column="id"                    property="id"/>
-        <result column="order_no"              property="orderNo"/>
-        <result column="user_id"               property="userId"/>
-        <result column="user_name"             property="userName"/>
-        <result column="user_phone"            property="userPhone"/>
-        <result column="accompanist_id"        property="accompanistId"/>
-        <result column="accompanist_name"      property="accompanistName"/>
-        <result column="accompanist_phone"     property="accompanistPhone"/>
-        <result column="order_type"            property="orderType"/>
-        <result column="order_status"          property="orderStatus"/>
-        <result column="service_start_time"    property="serviceStartTime"/>
-        <result column="service_end_time"      property="serviceEndTime"/>
-        <result column="service_days"          property="serviceDays"/>
-        <result column="service_hours"         property="serviceHours"/>
-        <result column="patient_name"          property="patientName"/>
-        <result column="patient_gender"        property="patientGender"/>
-        <result column="patient_age"           property="patientAge"/>
-        <result column="patient_passport"      property="patientPassport"/>
-        <result column="disease_description"   property="diseaseDescription"/>
-        <result column="appointment_hospital"  property="appointmentHospital"/>
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="accompanist_id" property="accompanistId"/>
+        <result column="accompanist_name" property="accompanistName"/>
+        <result column="accompanist_phone" property="accompanistPhone"/>
+        <result column="order_type" property="orderType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="service_start_time" property="serviceStartTime"/>
+        <result column="service_end_time" property="serviceEndTime"/>
+        <result column="service_days" property="serviceDays"/>
+        <result column="service_hours" property="serviceHours"/>
+        <result column="patient_name" property="patientName"/>
+        <result column="patient_gender" property="patientGender"/>
+        <result column="patient_age" property="patientAge"/>
+        <result column="patient_passport" property="patientPassport"/>
+        <result column="disease_description" property="diseaseDescription"/>
+        <result column="appointment_hospital" property="appointmentHospital"/>
         <result column="appointment_department" property="appointmentDepartment"/>
-        <result column="appointment_date"      property="appointmentDate"/>
-        <result column="total_amount"          property="totalAmount"/>
-        <result column="deposit_amount"        property="depositAmount"/>
-        <result column="balance_amount"        property="balanceAmount"/>
-        <result column="actual_paid_amount"    property="actualPaidAmount"/>
-        <result column="currency"              property="currency"/>
-        <result column="flight_number"         property="flightNumber"/>
-        <result column="hotel_name"            property="hotelName"/>
-        <result column="cancel_reason"         property="cancelReason"/>
-        <result column="refund_amount"         property="refundAmount"/>
-        <result column="refund_reason"         property="refundReason"/>
-        <result column="create_time"           property="createTime"/>
-        <result column="remark"                property="remark"/>
+        <result column="appointment_date" property="appointmentDate"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="deposit_amount" property="depositAmount"/>
+        <result column="balance_amount" property="balanceAmount"/>
+        <result column="actual_paid_amount" property="actualPaidAmount"/>
+        <result column="currency" property="currency"/>
+        <result column="flight_number" property="flightNumber"/>
+        <result column="hotel_name" property="hotelName"/>
+        <result column="cancel_reason" property="cancelReason"/>
+        <result column="refund_amount" property="refundAmount"/>
+        <result column="refund_reason" property="refundReason"/>
+        <result column="create_time" property="createTime"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <resultMap id="ServiceItemVOMap" type="com.PJDM.vo.OrderDetailVO$ServiceItemVO">
-        <id     column="si_id"          property="id"/>
-        <result column="service_code"   property="serviceCode"/>
-        <result column="service_name"   property="serviceName"/>
-        <result column="service_type"   property="serviceType"/>
-        <result column="unit_price"     property="unitPrice"/>
-        <result column="quantity"       property="quantity"/>
-        <result column="unit"           property="unit"/>
-        <result column="subtotal"       property="subtotal"/>
+        <id column="si_id" property="id"/>
+        <result column="service_code" property="serviceCode"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="service_type" property="serviceType"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="quantity" property="quantity"/>
+        <result column="unit" property="unit"/>
+        <result column="subtotal" property="subtotal"/>
     </resultMap>
 
     <!-- 分页查询订单列表（LEFT JOIN order_evaluation 获取评分） -->
     <select id="selectOrderListPage" resultMap="OrderListVOMap">
         SELECT
-            o.id, o.order_no, o.user_id, o.user_name, o.user_phone,
-            u.avatar_url AS user_avatar,
-            o.accompanist_id, o.accompanist_name, o.accompanist_phone,
-            o.order_type, o.order_status,
-            o.service_start_time, o.service_end_time,
-            o.appointment_hospital, o.appointment_date,
-            o.total_amount, o.actual_paid_amount, o.currency,
-            o.create_time,
-            e.rating_score
-        FROM order_order o
-        LEFT JOIN order_evaluation e ON e.order_id = o.id
-        LEFT JOIN user_user u ON u.id = o.user_id
+        o.id, o.user_name, o.user_phone,
+        u.avatar_url AS user_avatar,
+        o.accompanist_id, o.accompanist_name, o.accompanist_phone,
+        o.order_type, o.order_status,
+        o.service_start_time, o.service_end_time,
+        o.appointment_hospital, o.appointment_date,
+        o.total_amount, o.actual_paid_amount, o.currency,
+        o.create_time
+        FROM order_order o,user_user u
         <where>
-            <if test="q.orderNo != null and q.orderNo != ''">
-                AND o.order_no LIKE CONCAT('%', #{q.orderNo}, '%')
-            </if>
-            <if test="q.userName != null and q.userName != ''">
-                AND (o.user_name LIKE CONCAT('%', #{q.userName}, '%')
-                     OR o.user_phone LIKE CONCAT('%', #{q.userName}, '%'))
-            </if>
-            <if test="q.accompanistName != null and q.accompanistName != ''">
-                AND o.accompanist_name LIKE CONCAT('%', #{q.accompanistName}, '%')
-            </if>
-            <if test="q.orderType != null">
-                AND o.order_type = #{q.orderType}
-            </if>
+            u.id = o.user_id
+            and u.id = #{q.userId}
             <if test="q.orderStatus != null">
                 AND o.order_status = #{q.orderStatus}
-            </if>
-            <if test="q.currency != null and q.currency != ''">
-                AND o.currency = #{q.currency}
             </if>
         </where>
     </select>
 
     <!-- 查询订单详情 -->
     <select id="selectOrderDetail" resultMap="OrderDetailVOMap">
-        SELECT
-            o.id, o.order_no, o.user_id, o.user_name, o.user_phone,
-            o.accompanist_id, o.accompanist_name, o.accompanist_phone,
-            o.order_type, o.order_status,
-            o.service_start_time, o.service_end_time, o.service_days, o.service_hours,
-            o.patient_name, o.patient_gender, o.patient_age, o.patient_passport,
-            o.disease_description, o.appointment_hospital, o.appointment_department,
-            o.appointment_date, o.total_amount, o.deposit_amount, o.balance_amount,
-            o.actual_paid_amount, o.currency, o.flight_number, o.hotel_name,
-            o.cancel_reason, o.refund_amount, o.refund_reason, o.create_time, o.remark
+        SELECT o.id,
+               o.order_no,
+               o.user_id,
+               o.user_name,
+               o.user_phone,
+               o.accompanist_id,
+               o.accompanist_name,
+               o.accompanist_phone,
+               o.order_type,
+               o.order_status,
+               o.service_start_time,
+               o.service_end_time,
+               o.service_days,
+               o.service_hours,
+               o.patient_name,
+               o.patient_gender,
+               o.patient_age,
+               o.patient_passport,
+               o.disease_description,
+               o.appointment_hospital,
+               o.appointment_department,
+               o.appointment_date,
+               o.total_amount,
+               o.deposit_amount,
+               o.balance_amount,
+               o.actual_paid_amount,
+               o.currency,
+               o.flight_number,
+               o.hotel_name,
+               o.cancel_reason,
+               o.refund_amount,
+               o.refund_reason,
+               o.create_time,
+               o.remark
         FROM order_order o
         WHERE o.id = #{id}
     </select>
 
     <!-- 查询订单服务项目 -->
     <select id="selectServiceItems" resultMap="ServiceItemVOMap">
-        SELECT
-            id AS si_id, service_code, service_name, service_type,
-            unit_price, quantity, unit, subtotal
+        SELECT id AS si_id,
+               service_code,
+               service_name,
+               service_type,
+               unit_price,
+               quantity,
+               unit,
+               subtotal
         FROM order_service_item
         WHERE order_id = #{orderId}
         ORDER BY id

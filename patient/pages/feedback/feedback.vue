@@ -4,9 +4,7 @@
     <!-- 头部 -->
     <view class="header">
       <view class="header-content">
-        <view class="back-btn" @click="goBack">
-          <text class="back-icon">‹</text>
-        </view>
+        <view class="header-left"></view>
         <view class="header-title">意见反馈</view>
         <view class="header-right"></view>
       </view>
@@ -105,9 +103,7 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      uni.navigateBack();
-    },
+
 
     chooseImage() {
       uni.chooseImage({
@@ -208,20 +204,13 @@ export default {
   position: relative;
 }
 
-.back-btn {
+.header-left {
   width: 60rpx;
   height: 60rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
-}
-
-.back-icon {
-  font-size: 52rpx;
-  color: #fff;
-  font-weight: bold;
-  line-height: 1;
 }
 
 .header-title {

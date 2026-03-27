@@ -287,6 +287,12 @@
 			"style": {
 				"navigationBarTitleText": "意见反馈"
 			}
+		}, 
+		{
+			"path": "pages/companion/permissions/permissions",
+			"style": {
+				"navigationBarTitleText": "权限管理"
+			}
 		},
 		{
 			"path": "pages/companion/schedule/schedule",
@@ -323,6 +329,54 @@
 			"style": {
 				"navigationBarTitleText": "技能培训"
 			}
+		},
+		{
+			"path": "pages/companion/settings/settings",
+			"style": {
+				"navigationBarTitleText": "个人设置"
+			}
+		},
+		{
+			"path": "pages/companion/settings/edit-profile",
+			"style": {
+				"navigationBarTitleText": "编辑个人资料"
+			}
+		},
+		{
+			"path": "pages/companion/patients/patients",
+			"style": {
+				"navigationBarTitleText": "患者管理"
+			}
+		},
+		{
+			"path": "pages/companion/patients/patient-detail",
+			"style": {
+				"navigationBarTitleText": "患者详情"
+			}
+		},
+		{
+			"path": "pages/expert-consult/expert-consult",
+			"style": {
+				"navigationBarTitleText": "专家咨询"
+			}
+		},
+		{
+			"path": "pages/health-exam/health-exam",
+			"style": {
+				"navigationBarTitleText": "健康体检"
+			}
+		},
+		{
+			"path": "pages/medicine-delivery/medicine-delivery",
+			"style": {
+				"navigationBarTitleText": "药品配送"
+			}
+		},
+		{
+			"path": "pages/companion/patients/edit-patient",
+			"style": {
+				"navigationBarTitleText": "编辑患者信息"
+			}
 		}
 	],
 	"globalStyle": {
@@ -344,8 +398,8 @@
 				"selectedIconPath": "static/home.png"
 			},
 			{
-				"pagePath": "pages/message/message",
-				"text": "消息",
+				"pagePath": "pages/customer/customer",
+				"text": "智能客服",
 				"iconPath": "static/disMessage.png",
 				"selectedIconPath": "static/message.png"
 			},

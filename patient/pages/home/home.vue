@@ -10,9 +10,9 @@
 <!--          <view class="companion-switch" @click="goToCompanionLogin">-->
 <!--            <text class="companion-switch-text">🩺 切换陪护端</text>-->
 <!--          </view>-->
-          <view class="customer-service" @click="openCustomerService">
+          <!-- <view class="customer-service" @click="openCustomerService">
             <text class="service-icon">💬</text>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>
@@ -83,7 +83,7 @@
         </text>
       </view>
       <view class="location-list">
-        <view class="location-item" @click="navigateTo('service1')">
+        <view class="location-item" @click="navigateTo('health-exam')">
           <view class="location-info">
             <view class="location-name">健康体检</view>
             <view class="location-address">专业体检套餐</view>
@@ -94,7 +94,7 @@
             <text class="action-btn">查看</text>
           </view>
         </view>
-        <view class="location-item" @click="navigateTo('service2')">
+        <view class="location-item" @click="navigateTo('expert-consult')">
           <view class="location-info">
             <view class="location-name">专家咨询</view>
             <view class="location-address">一对一专家服务</view>
@@ -105,7 +105,7 @@
             <text class="action-btn">查看</text>
           </view>
         </view>
-        <view class="location-item" @click="navigateTo('service3')">
+        <view class="location-item" @click="navigateTo('medicine-delivery')">
           <view class="location-info">
             <view class="location-name">药品配送</view>
             <view class="location-address">送药上门服务</view>
@@ -232,9 +232,25 @@ export default {
         })
       } else if (page === 'evaluation') {
         uni.navigateTo({
-          url: '/pages/evaluation/evaluation'
+          url: '/pages/order/order?status=completed',
+		  // url: '/pages/evaluation/evaluation'
         })
-      } else {
+      } else if (page === 'expert-consult') {
+        uni.navigateTo({
+          url: '/pages/expert-consult/expert-consult',
+		  // url: '/pages/evaluation/evaluation'
+        })
+      }else if (page === 'health-exam') {
+        uni.navigateTo({
+          url: '/pages/health-exam/health-exam',
+		  // url: '/pages/evaluation/evaluation'
+        })
+      }else if (page === 'medicine-delivery') {
+        uni.navigateTo({
+          url: '/pages/medicine-delivery/medicine-delivery',
+		  // url: '/pages/evaluation/evaluation'
+        })
+      }else {
         uni.showToast({
           title: `跳转到${page}页面`,
           icon: 'none'

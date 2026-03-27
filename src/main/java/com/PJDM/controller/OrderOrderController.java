@@ -38,8 +38,11 @@ public class OrderOrderController {
     @GetMapping("/list")
     @Operation(summary = "分页查询订单列表")
     public R<IPage<OrderListVO>> list(OrderQueryDTO query) {
-        log.info("[订单] 列表查询 query={}", query);
+//        String userId = query.getUserId();
+//        query.setUserId(userId);
+                log.warn("[订单] 列表查询 query={}", query);
         return R.success(orderOrderService.getOrderListPage(query));
+//        return null;
     }
 
     @GetMapping("/{id}")

@@ -93,10 +93,13 @@ async function createPatientOrder(data) {
  * @param {string} params.status - 订单状态筛选
  * @param {number} params.page - 页码
  * @param {number} params.pageSize - 每页数量
+ * @param {string} userId -用户id
  * @returns {Promise<object>} 返回订单列表
  * @description 获取患者的订单列表，支持按状态筛选和分页
  */
 async function getPatientOrders(params) {
+	// const userId  = uni.getStorageSync('userId');
+	
   return request('/order/list', {
     method: 'GET',
     data: params
