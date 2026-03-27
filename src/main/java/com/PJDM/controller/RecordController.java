@@ -44,7 +44,7 @@ public class RecordController {
         record.setCreateTime(LocalDateTime.now());
         // 生成唯一病历编号：REC + yyyyMMddHHmmss + 6位随机串
         String recordNo = "REC" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
-                + UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+                + java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
         record.setRecordNo(recordNo);
         recordUploadService.save(record);
         return R.success("保存成功");
@@ -86,7 +86,7 @@ public class RecordController {
         record.setCreateTime(LocalDateTime.now());
         // 生成唯一病历编号
         String recordNo = "REC" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
-                + UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+                + java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
         record.setRecordNo(recordNo);
         recordUploadService.save(record);
         return R.success("上传成功");
