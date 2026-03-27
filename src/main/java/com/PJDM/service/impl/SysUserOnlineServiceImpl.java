@@ -63,7 +63,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
             online.setUserType(Integer.parseInt(userType.toString()));
         }
         // loginLocation 若为空，用 IP 简单填充
-        if (!org.springframework.util.StringUtils.hasText(online.getLoginLocation())) {
+        if (!StringUtils.hasText(online.getLoginLocation())) {
             String ip = online.getIpaddr();
             if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
                 online.setLoginLocation("本地");
