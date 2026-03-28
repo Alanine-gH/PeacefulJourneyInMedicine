@@ -129,42 +129,54 @@
 </template>
 
 <script>
+import { createPatientOrder } from '@/utils/patient-api.js';
+
 export default {
   data() {
     return {
       serviceType: '',
+      serviceTypeId: null,
       hospital: '',
+      hospitalId: null,
       visitTime: '',
       patient: '',
+      patientId: null,
       doctor: '',
+      doctorId: null,
+      department: '',
       phone: '',
       demand: '',
       agreed: false
     }
   },
   onShow() {
-    // 检查是否有从其他页面返回的数据
-    const pages = getCurrentPages()
-    const currentPage = pages[pages.length - 1]
-    if (currentPage.data) {
-      if (currentPage.data.serviceType) {
-        this.serviceType = currentPage.data.serviceType
+    // 从 Storage 读取各子页面回传的选择结果
+    const st = uni.getStorageSync('selectedServiceType')
+    if (st) { this.serviceType = st; this.serviceTypeId = uni.getStorageSync('selectedServiceTypeId') || null }
+    const h = uni.getStorageSync('_sel_hospital')
+    if (h) {
+      this.hospital = h
+      this.hospitalId = uni.getStorageSync('_sel_hospitalId') || null
+      if (uni.getStorageSync('_sel_clearDoctor') === '1') {
+        this.doctor = ''; this.doctorId = null; this.department = ''
+        uni.removeStorageSync('_sel_clearDoctor')
+        uni.removeStorageSync('selectedDoctor')
+        uni.removeStorageSync('selectedDoctorId')
+        uni.removeStorageSync('selectedDepartment')
       }
-      if (currentPage.data.hospital) {
-        this.hospital = currentPage.data.hospital
-      }
-      if (currentPage.data.visitTime) {
-        this.visitTime = currentPage.data.visitTime
-      }
-      if (currentPage.data.patient) {
-        this.patient = currentPage.data.patient
-      }
-      if (currentPage.data.doctor) {
-        this.doctor = currentPage.data.doctor
-      }
-      if (currentPage.data.hospital) {
-        this.hospital = currentPage.data.hospital
-      }
+    }
+    const t = uni.getStorageSync('_sel_visitTime')
+    if (t) this.visitTime = t
+    const p = uni.getStorageSync('selectedPatientName')
+    if (p) { this.patient = p; this.patientId = uni.getStorageSync('selectedPatientId') || null }
+    const doc = uni.getStorageSync('selectedDoctor')
+    if (doc) { this.doctor = doc; this.doctorId = uni.getStorageSync('selectedDoctorId') || null }
+    const dept = uni.getStorageSync('selectedDepartment')
+    if (dept) this.department = dept
+    // 预填手机号
+    if (!this.phone) {
+      const userInfo = uni.getStorageSync('userInfo')
+      if (userInfo && userInfo.phone) this.phone = userInfo.phone
     }
   },
   methods: {
@@ -240,7 +252,7 @@ export default {
         }
       })
     },
-    submitDemand() {
+    async submitDemand() {
       // 验证所有必填项
       if (!this.serviceType) {
         uni.showToast({title: '请选择服务类型', icon: 'none'})
@@ -279,10 +291,36 @@ export default {
         return
       }
 
-      // 跳转到支付订单页面
-      uni.navigateTo({
-        url: '/pages/payment/payment'
-      })
+      uni.showLoading({ title: '发布中...' })
+      try {
+        const userId = uni.getStorageSync('userId')
+        const orderData = {
+          userId: userId,
+          orderType: this.serviceTypeId || 1,
+          appointmentHospital: this.hospital,
+          appointmentDate: this.visitTime,
+          patientName: this.patient,
+          contactPhone: this.phone,
+          requirementDesc: this.demand,
+          doctorName: this.doctor,
+          departmentName: this.department
+        }
+        const res = await createPatientOrder(orderData)
+        uni.hideLoading()
+        if (res && (res.code === 200 || res.code === 1)) {
+          const orderNo = res.data && (res.data.orderNo || res.data.order_no || res.data)
+          ;['selectedServiceType','selectedServiceTypeId','_sel_hospital','_sel_hospitalId',
+            '_sel_visitTime','selectedPatientName','selectedPatientId',
+            'selectedDoctor','selectedDoctorId','selectedDepartment'].forEach(k => uni.removeStorageSync(k))
+          uni.navigateTo({ url: '/pages/payment/payment?orderNo=' + (orderNo || '') })
+        } else {
+          uni.showToast({ title: (res && res.msg) || '发布失败，请重试', icon: 'none' })
+        }
+      } catch (e) {
+        uni.hideLoading()
+        console.error('发布需求失败:', e)
+        uni.showToast({ title: '网络错误，请重试', icon: 'none' })
+      }
     }
   }
 }

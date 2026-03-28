@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="header-left"></view>
         <view class="header-title">患者管理</view>
         <view class="header-right"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 搜索框 -->
     <view class="search-section">
@@ -29,7 +29,7 @@
         v-for="patient in filteredPatients" 
         :key="patient.id"
         class="patient-item"
-        @click="viewPatientDetail(patient.id)"
+        @click="viewPatientDetail(patient)"
       >
         <view class="patient-avatar">
           <text class="avatar-icon">{{ patient.name.charAt(0) }}</text>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { getCompanionOrders } from '@/utils/companion-api.js'
+import { getCompanionPatients } from '@/utils/companion-api.js'
 
 export default {
   data() {
@@ -100,36 +100,19 @@ export default {
     async loadPatients() {
       this.loading = true
       try {
-        const res = await getCompanionOrders({ page: 1, pageSize: 100 })
-        
+        const res = await getCompanionPatients()
         if (res.code === 200 && res.data) {
-          const orderList = res.data.records || res.data.list || (Array.isArray(res.data) ? res.data : [])
-          
-          // 从订单中提取患者信息，去重
-          const patientMap = {}
-          orderList.forEach(order => {
-            const patientName = order.patientName || order.patient_name
-            const patientPhone = order.patientPhone || order.patient_phone || ''
-            
-            if (patientName) {
-              const patientId = `${patientName}_${patientPhone || 'unknown'}`
-              if (!patientMap[patientId]) {
-                patientMap[patientId] = {
-                  id: patientId,
-                  name: patientName,
-                  phone: patientPhone,
-                  age: order.patientAge || order.patient_age || 0,
-                  gender: order.patientGender || order.patient_gender || 0,
-                  address: order.patientAddress || order.patient_address || '',
-                  medicalHistory: '',
-                  contactPerson: '',
-                  contactPhone: ''
-                }
-              }
-            }
-          })
-          
-          this.patients = Object.values(patientMap)
+          this.patients = (Array.isArray(res.data) ? res.data : []).map(p => ({
+            id: p.id || '',
+            name: p.name || '',
+            phone: p.phone || '',
+            gender: p.gender || 0,
+            age: p.age || 0,
+            diseaseDescription: p.diseaseDescription || '',
+            appointmentHospital: p.appointmentHospital || '',
+            appointmentDepartment: p.appointmentDepartment || '',
+            userId: p.userId || ''
+          }))
         }
       } catch (error) {
         console.error('获取患者信息失败:', error)
@@ -140,10 +123,19 @@ export default {
       }
     },
     
-    viewPatientDetail(patientId) {
-      // 跳转到患者详情页面
+    viewPatientDetail(patient) {
+      const query = [
+        `id=${encodeURIComponent(patient.id)}`,
+        `name=${encodeURIComponent(patient.name || '')}`,
+        `phone=${encodeURIComponent(patient.phone || '')}`,
+        `age=${patient.age || 0}`,
+        `gender=${patient.gender || 0}`,
+        `diseaseDescription=${encodeURIComponent(patient.diseaseDescription || '')}`,
+        `appointmentHospital=${encodeURIComponent(patient.appointmentHospital || '')}`,
+        `appointmentDepartment=${encodeURIComponent(patient.appointmentDepartment || '')}`
+      ].join('&')
       uni.navigateTo({
-        url: `/pages/companion/patients/patient-detail?id=${patientId}`
+        url: `/pages/companion/patients/patient-detail?${query}`
       })
     }
   }

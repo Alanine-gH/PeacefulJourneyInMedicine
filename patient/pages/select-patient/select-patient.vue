@@ -177,15 +177,10 @@ export default {
         uni.showToast({title: '请选择就诊人', icon: 'none'})
         return
       }
-
       const patient = this.patientList.find(p => p.id === this.selectedPatient)
-
-      // 返回发布需求页面并传递选中的就诊人
-      const pages = getCurrentPages()
-      const prevPage = pages[pages.length - 2]
-      if (prevPage) {
-        prevPage.$vm.patient = patient.name
-      }
+      // 用 Storage 回传
+      uni.setStorageSync('selectedPatientName', patient.name)
+      uni.setStorageSync('selectedPatientId', patient.id)
       uni.navigateBack()
     }
   }

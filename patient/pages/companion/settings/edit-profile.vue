@@ -1,15 +1,15 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="back-btn" @click="goBack">
           <text class="back-icon">‹</text>
         </view>
         <view class="header-title">编辑个人资料</view>
-        <view class="save-btn" @click="saveProfile">保存</view>
+        
       </view>
-    </view>
+    </view> -->
 
     <!-- 表单 -->
     <view class="form">
@@ -17,7 +17,7 @@
         <view class="form-label">真实姓名</view>
         <input 
           class="form-input" 
-          v-model="formData.real_name" 
+          v-model="formData.realName" 
           placeholder="请输入真实姓名"
         />
       </view>
@@ -66,7 +66,7 @@
         <view class="form-label">职称</view>
         <input 
           class="form-input" 
-          v-model="formData.professional_title" 
+          v-model="formData.professionalTitle" 
           placeholder="请输入职称"
         />
       </view>
@@ -75,7 +75,7 @@
         <view class="form-label">语言能力</view>
         <input 
           class="form-input" 
-          v-model="formData.language_ability" 
+          v-model="formData.languageAbility" 
           placeholder="请输入语言能力"
         />
       </view>
@@ -91,6 +91,11 @@
       </view>
     </view>
 
+    <!-- 保存按钮 -->
+    <view class="bottom-btn-wrap">
+      <button class="save-submit-btn" @click="saveProfile">保存</button>
+    </view>
+
     <!-- 底部空白区域 -->
     <view class="bottom-space"></view>
   </view>
@@ -103,12 +108,12 @@ export default {
   data() {
     return {
       formData: {
-        real_name: '',
+        realName: '',
         phone: '',
         gender: 0,
         age: '',
-        professional_title: '',
-        language_ability: '',
+        professionalTitle: '',
+        languageAbility: '',
         specialties: ''
       },
       companionId: ''
@@ -122,15 +127,16 @@ export default {
       try {
         const res = await getCompanionProfile();
         if (res.code === 200) {
-          this.companionId = res.data.id;
+          const d = res.data
+          this.companionId = d.id;
           this.formData = {
-            real_name: res.data.real_name || '',
-            phone: res.data.phone || '',
-            gender: res.data.gender || 0,
-            age: res.data.age || '',
-            professional_title: res.data.professional_title || '',
-            language_ability: res.data.language_ability || '',
-            specialties: res.data.specialties || ''
+            realName: d.realName || d.real_name || '',
+            phone: d.phone || '',
+            gender: d.gender || 0,
+            age: d.age || '',
+            professionalTitle: d.professionalTitle || d.professional_title || '',
+            languageAbility: d.languageAbility || d.language_ability || '',
+            specialties: d.specialties || ''
           };
         }
       } catch (error) {
@@ -140,27 +146,21 @@ export default {
     },
     
     async saveProfile() {
-      // 表单验证
-      if (!this.formData.real_name) {
+      if (!this.formData.realName) {
         uni.showToast({ title: '请输入真实姓名', icon: 'none' });
         return;
       }
-      
       if (!this.formData.phone) {
         uni.showToast({ title: '请输入手机号', icon: 'none' });
         return;
       }
-      
-      // 保存数据
       try {
         const res = await updateCompanionProfile(this.companionId, this.formData);
         if (res.code === 200) {
           uni.showToast({ title: '保存成功', icon: 'success' });
-          setTimeout(() => {
-            uni.navigateBack();
-          }, 1000);
+          setTimeout(() => { uni.navigateBack(); }, 1000);
         } else {
-          uni.showToast({ title: '保存失败', icon: 'none' });
+          uni.showToast({ title: res.msg || '保存失败', icon: 'none' });
         }
       } catch (error) {
         console.error('更新陪护员信息失败:', error);
@@ -293,6 +293,29 @@ export default {
   background-color: #4DD0E1;
   color: #fff;
   border-color: #4DD0E1;
+}
+
+/* 底部保存按钮 */
+.bottom-btn-wrap {
+  padding: 30rpx;
+  background-color: #f8f9fa;
+}
+
+.save-submit-btn {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 45rpx;
+  border: none;
+  text-align: center;
+}
+
+.save-submit-btn::after {
+  border: none;
 }
 
 /* 底部空白区域 */

@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="header-left"></view>
         <view class="header-title">个人设置</view>
         <view class="header-right"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 个人信息设置 -->
     <view class="section">
@@ -41,15 +41,15 @@
         <view class="setting-label">修改密码</view>
         <view class="setting-arrow">›</view>
       </view>
-      <view class="setting-item" @click="bindPhone">
+      <!-- <view class="setting-item" @click="bindPhone">
         <view class="setting-label">绑定手机</view>
         <view class="setting-value">{{ companionInfo.phone ? '已绑定' : '未绑定' }}</view>
         <view class="setting-arrow">›</view>
-      </view>
+      </view> -->
     </view>
 
     <!-- 工作设置 -->
-    <view class="section">
+    <!-- <view class="section">
       <view class="section-title">工作设置</view>
       <view class="setting-item" @click="setWorkStatus">
         <view class="setting-label">工作状态</view>
@@ -61,7 +61,7 @@
         <view class="setting-value">设置</view>
         <view class="setting-arrow">›</view>
       </view>
-    </view>
+    </view> -->
 
 
 
@@ -140,14 +140,49 @@ export default {
     },
     
     editAvatar() {
-      // 选择头像并上传
       uni.chooseImage({
         count: 1,
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          // 这里应该上传图片到服务器
-          uni.showToast({ title: '头像上传功能开发中', icon: 'none' });
+          const tempFilePath = res.tempFilePaths[0]
+          uni.showLoading({ title: '上传中...' })
+          const token = uni.getStorageSync('token') || ''
+          uni.uploadFile({
+            url: 'http://localhost:8080/upload',
+            filePath: tempFilePath,
+            name: 'file',
+            header: { 'Authorization': 'Bearer ' + token },
+            success: (uploadRes) => {
+              uni.hideLoading()
+              try {
+                const data = JSON.parse(uploadRes.data)
+                if (data.code === 200 || data.code === 1) {
+                  const fileName = data.data
+                  // 更新本地显示
+                  this.$set(this.companionInfo, 'certificatePhoto', fileName)
+                  this.$set(this.companionInfo, 'certificate_photo', fileName)
+                  // 同步更新到后端
+                  const id = this.companionInfo.id || uni.getStorageSync('accompanistId')
+                  if (id) {
+                    updateCompanionProfile(id, { certificatePhoto: fileName })
+                      .then(() => uni.showToast({ title: '头像更新成功', icon: 'success' }))
+                      .catch(() => uni.showToast({ title: '头像同步失败', icon: 'none' }))
+                  } else {
+                    uni.showToast({ title: '头像上传成功', icon: 'success' })
+                  }
+                } else {
+                  uni.showToast({ title: data.msg || '上传失败', icon: 'none' })
+                }
+              } catch (e) {
+                uni.showToast({ title: '上传响应解析失败', icon: 'none' })
+              }
+            },
+            fail: () => {
+              uni.hideLoading()
+              uni.showToast({ title: '上传失败，请重试', icon: 'none' })
+            }
+          })
         }
       })
     },

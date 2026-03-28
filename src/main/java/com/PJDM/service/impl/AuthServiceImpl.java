@@ -220,6 +220,39 @@ public class AuthServiceImpl extends ServiceImpl<UserUserMapper, UserUser> imple
         log.info("用户 [{}] 注册成功，userType={}", dto.getUsername(), userType);
     }
 
+    // ==================== 重置密码 ====================
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void resetPassword(String username, String phone, String newPassword, String captcha, String captchaKey) {
+        // 1. 校验图形验证码
+        if (!captchaHelper.validate(captchaKey, captcha)) {
+            throw new RuntimeException("验证码错误或已过期");
+        }
+        // 2. 校验密码长度
+        if (!StringUtils.hasText(newPassword) || newPassword.length() < 8) {
+            throw new RuntimeException("密码长度不能少于8位");
+        }
+        // 3. 查询用户名
+        UserUser user = getOne(new LambdaQueryWrapper<UserUser>()
+                .eq(UserUser::getUsername, username));
+        if (user == null) {
+            throw new RuntimeException("用户名不存在");
+        }
+        // 4. 校验手机号是否与用户名匹配
+        if (!phone.equals(user.getPhone())) {
+            throw new RuntimeException("手机号与用户名不匹配");
+        }
+        // 5. 更新密码
+        UserUser update = new UserUser();
+        update.setId(user.getId());
+        update.setPassword(passwordEncoder.encode(newPassword));
+        update.setUpdateTime(LocalDateTime.now());
+        update.setUpdateBy(username);
+        updateById(update);
+        log.info("用户 [{}] 重置密码成功", username);
+    }
+
     // ==================== 退出 ====================
 
     @Override

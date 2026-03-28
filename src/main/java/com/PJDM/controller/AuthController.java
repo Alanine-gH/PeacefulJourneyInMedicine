@@ -61,6 +61,28 @@ public class AuthController {
     }
 
     /**
+     * 重置密码（忘记密码）
+     */
+    @PostMapping("/reset-password")
+    @Operation(summary = "重置密码")
+    public R<String> resetPassword(@RequestBody java.util.Map<String, String> body) {
+        try {
+            String username = body.get("username");
+            String phone = body.get("phone");
+            String newPassword = body.get("newPassword");
+            String captcha = body.get("captcha");
+            String captchaKey = body.get("captchaKey");
+            if (!org.springframework.util.StringUtils.hasText(username)) return R.error("用户名不能为空");
+            if (!org.springframework.util.StringUtils.hasText(phone)) return R.error("手机号不能为空");
+            if (!org.springframework.util.StringUtils.hasText(newPassword)) return R.error("新密码不能为空");
+            authService.resetPassword(username, phone, newPassword, captcha, captchaKey);
+            return R.success("密码重置成功");
+        } catch (RuntimeException e) {
+            return R.error(e.getMessage());
+        }
+    }
+
+    /**
      * 退出登录
      */
     @PostMapping("/logout")

@@ -83,14 +83,9 @@ export default {
     // },
     selectService(item) {
       this.selectedService = item
-      // 返回上一页并传递选中的服务类型
-      const pages = getCurrentPages()
-      const prevPage = pages[pages.length - 2]
-      if (prevPage) {
-        prevPage.$vm.serviceType = item.packageName || item.name
-        prevPage.$vm.servicePackageId = item.id
-        prevPage.$vm.servicePrice = item.price
-      }
+      // 用 Storage 回传，避免 $vm 赋值失效
+      uni.setStorageSync('selectedServiceType', item.packageName || item.name)
+      uni.setStorageSync('selectedServiceTypeId', item.id)
       setTimeout(() => {
         uni.navigateBack()
       }, 300)

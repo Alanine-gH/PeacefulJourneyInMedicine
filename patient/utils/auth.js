@@ -85,13 +85,15 @@ async function sendVerificationCode(phone) {
  * @returns {Promise<object>} 返回重置结果
  * @description 用于忘记密码场景，通过手机验证码重置密码
  */
-async function resetPassword(phone, verificationCode, newPassword) {
+async function resetPassword(username, phone, newPassword, captcha, captchaKey) {
 	return request('/auth/reset-password', {
 		method: 'POST',
 		data: {
+			username,
 			phone,
-			verification_code: verificationCode,
-			new_password: newPassword
+			newPassword,
+			captcha,
+			captchaKey
 		}
 	});
 }

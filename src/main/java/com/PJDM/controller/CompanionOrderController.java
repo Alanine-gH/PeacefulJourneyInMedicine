@@ -84,6 +84,37 @@ public class CompanionOrderController {
         return R.success(vo);
     }
 
+    @GetMapping("/patients")
+    @Operation(summary = "获取陪诊师服务过的患者列表（从订单中提取，去重）")
+    public R<java.util.List<java.util.Map<String, Object>>> getPatients(
+            @RequestParam Long accompanistId) {
+        // 查当前陪诊师所有订单
+        java.util.List<OrderOrder> orders = orderService.list(
+            new LambdaQueryWrapper<OrderOrder>()
+                .eq(OrderOrder::getAccompanistId, accompanistId)
+                .orderByDesc(OrderOrder::getCreateTime)
+        );
+        // 按 patientName+userPhone 去重，组装患者信息
+        java.util.Map<String, java.util.Map<String, Object>> patientMap = new java.util.LinkedHashMap<>();
+        for (OrderOrder o : orders) {
+            String key = (o.getPatientName() != null ? o.getPatientName() : "") + "_" + (o.getUserPhone() != null ? o.getUserPhone() : "");
+            if (!patientMap.containsKey(key)) {
+                java.util.Map<String, Object> p = new java.util.LinkedHashMap<>();
+                p.put("id", key);
+                p.put("name", o.getPatientName() != null ? o.getPatientName() : "");
+                p.put("phone", o.getUserPhone() != null ? o.getUserPhone() : "");
+                p.put("gender", o.getPatientGender() != null ? o.getPatientGender() : 0);
+                p.put("age", o.getPatientAge() != null ? o.getPatientAge() : 0);
+                p.put("diseaseDescription", o.getDiseaseDescription() != null ? o.getDiseaseDescription() : "");
+                p.put("appointmentHospital", o.getAppointmentHospital() != null ? o.getAppointmentHospital() : "");
+                p.put("appointmentDepartment", o.getAppointmentDepartment() != null ? o.getAppointmentDepartment() : "");
+                p.put("userId", o.getUserId());
+                patientMap.put(key, p);
+            }
+        }
+        return R.success(new java.util.ArrayList<>(patientMap.values()));
+    }
+
     // ==================== 订单管理 ====================
 
     @GetMapping("/orders/available")

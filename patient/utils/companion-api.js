@@ -269,6 +269,21 @@ async function replyCompanionEvaluation(id, reply) {
   });
 }
 
+/**
+ * 获取陪诊师服务过的患者列表
+ * @returns {Promise<object>}
+ */
+async function getCompanionPatients() {
+  const accompanistId = uni.getStorageSync('accompanistId') || '';
+  if (!accompanistId) {
+    return Promise.reject(new Error('accompanistId 未初始化'));
+  }
+  return request('/companion/patients', {
+    method: 'GET',
+    data: { accompanistId }
+  });
+}
+
 export {
   request,
   getCompanionProfile,
@@ -285,5 +300,6 @@ export {
   companionCheckin,
   getCompanionCheckinRecords,
   getCompanionEvaluations,
-  replyCompanionEvaluation
+  replyCompanionEvaluation,
+  getCompanionPatients
 };

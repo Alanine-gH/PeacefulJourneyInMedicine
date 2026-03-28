@@ -3,9 +3,9 @@
     <!-- 头部 -->
     <view class="header">
       <view class="header-content">
-        <view class="back-btn" @click="goBack">
+       <!-- <view class="back-btn" @click="goBack">
           <text class="back-icon">‹</text>
-        </view>
+        </view> -->
         <view class="header-title">编辑患者信息</view>
         <view class="save-btn" @click="savePatient">保存</view>
       </view>

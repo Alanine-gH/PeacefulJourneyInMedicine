@@ -36,4 +36,16 @@ public interface IAuthService extends IService<UserUser> {
      * @param token JWT Token
      */
     void logout(String token);
+
+    /**
+     * 重置密码（忘记密码）
+     * 校验用户名与手机号同时匹配，且图形验证码正确，方可修改密码
+     *
+     * @param username   用户名
+     * @param phone      手机号
+     * @param newPassword 新密码
+     * @param captcha    图形验证码
+     * @param captchaKey 验证码UUID
+     */
+    void resetPassword(String username, String phone, String newPassword, String captcha, String captchaKey);
 }

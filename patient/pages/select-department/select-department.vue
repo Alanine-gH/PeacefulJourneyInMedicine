@@ -149,6 +149,7 @@ export default {
       this.selectedCategory = index
     },
     selectDepartment(dept) {
+      uni.setStorageSync('selectedDepartment', dept.name)
       uni.navigateTo({
         url: '/pages/doctor-list/doctor-list?hospital=' + encodeURIComponent(this.hospitalName) + '&department=' + encodeURIComponent(dept.name)
       })
