@@ -2,46 +2,48 @@
   <view class="select-department-page">
     <!-- 导航栏 -->
     <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
+      <!--      <view class="back-btn" @click="goBack">-->
+      <!--        <text class="back-arrow">‹</text>-->
+      <!--      </view>-->
       <text class="nav-title">选择科室</text>
       <view class="placeholder"></view>
     </view>
 
     <!-- 医院信息 -->
     <view class="hospital-info-bar">
-      <image class="hospital-icon" src="/static/hospital1.png" mode="aspectFill"></image>
-      <text class="hospital-name">{{hospitalName}}</text>
+      <!-- <image class="hospital-icon" src="/static/hospital1.png" mode="aspectFill"></image> -->
+      <text class="hospital-name">{{ hospitalName }}</text>
     </view>
 
     <!-- 科室列表 -->
     <view class="department-content">
       <!-- 左侧科室分类 -->
       <scroll-view class="category-list" scroll-y="true">
-        <view 
-          class="category-item" 
-          v-for="(category, index) in departmentCategories" 
-          :key="index"
-          :class="{ active: selectedCategory === index }"
-          @click="selectCategory(index)"
+        <view
+            class="category-item"
+            v-for="(category, index) in departmentCategories"
+            :key="index"
+            :class="{ active: selectedCategory === index }"
+            @click="selectCategory(index)"
         >
-          <text class="category-text">{{category.name}}</text>
+          <text class="category-text">{{ category.name }}</text>
         </view>
       </scroll-view>
 
       <!-- 右侧科室详情 -->
       <scroll-view class="department-list" scroll-y="true">
         <view class="department-section">
-          <text class="section-title">{{departmentCategories[selectedCategory] && departmentCategories[selectedCategory].name}}</text>
+          <text class="section-title">
+            {{ departmentCategories[selectedCategory] && departmentCategories[selectedCategory].name }}
+          </text>
           <view class="department-grid">
-            <view 
-              class="department-item" 
-              v-for="(dept, index) in currentDepartments" 
-              :key="index"
-              @click="selectDepartment(dept)"
+            <view
+                class="department-item"
+                v-for="(dept, index) in currentDepartments"
+                :key="index"
+                @click="selectDepartment(dept)"
             >
-              <text class="department-name">{{dept.name}}</text>
+              <text class="department-name">{{ dept.name }}</text>
             </view>
           </view>
         </view>
@@ -58,73 +60,79 @@ export default {
       selectedCategory: 0,
       departmentCategories: [
         {
+          id: 1,
           name: '内科',
           departments: [
-            { name: '呼吸内科' },
-            { name: '消化内科' },
-            { name: '心血管内科' },
-            { name: '神经内科' },
-            { name: '内分泌科' },
-            { name: '肾内科' },
-            { name: '血液内科' },
-            { name: '风湿免疫科' }
+            {id: 35, name: '呼吸内科'},
+            {id: 10, name: '消化内科'},
+            {id: 9, name: '心血管内科'},
+            {id: 7, name: '神经内科'},
+            {id: 36, name: '内分泌科'},
+            {id: 37, name: '肾内科'},
+            {id: 38, name: '血液内科'},
+            {id: 39, name: '风湿免疫科'}
           ]
         },
         {
+          id: 2,
           name: '外科',
           departments: [
-            { name: '普外科' },
-            { name: '骨科' },
-            { name: '神经外科' },
-            { name: '心胸外科' },
-            { name: '泌尿外科' },
-            { name: '整形外科' }
+            {id: 48, name: '普外科'},
+            {id: 6, name: '骨科'},
+            {id: 49, name: '神经外科'},
+            {id: 50, name: '心胸外科'},
+            {id: 51, name: '泌尿外科'},
+            {id: 52, name: '整形外科'}
           ]
         },
         {
+          id: 3,
           name: '妇产科',
           departments: [
-            { name: '妇科' },
-            { name: '产科' },
-            { name: '生殖医学科' },
-            { name: '计划生育科' }
+            {id: 44, name: '妇科'},
+            {id: 45, name: '产科'},
+            {id: 46, name: '生殖医学科'}
           ]
         },
         {
+          id: 4,
           name: '儿科',
           departments: [
-            { name: '小儿内科' },
-            { name: '小儿外科' },
-            { name: '新生儿科' },
-            { name: '儿童保健科' }
+            {id: 40, name: '小儿内科'},
+            {id: 41, name: '小儿外科'},
+            {id: 42, name: '新生儿科'},
+            {id: 43, name: '儿童保健科'}
           ]
         },
         {
+          id: 23,
           name: '五官科',
           departments: [
-            { name: '眼科' },
-            { name: '耳鼻喉科' },
-            { name: '口腔科' }
+            {id: 5, name: '眼科'},
+            {id: 33, name: '耳鼻喉科'},
+            {id: 34, name: '口腔科'}
           ]
         },
         {
+          id: 22,
           name: '中医科',
           departments: [
-            { name: '中医内科' },
-            { name: '中医外科' },
-            { name: '针灸推拿科' },
-            { name: '中医骨伤科' }
+            {id: 29, name: '中医内科'},
+            {id: 30, name: '中医外科'},
+            {id: 31, name: '针灸推拿科'},
+            {id: 32, name: '中医骨伤科'}
           ]
         },
         {
+          id: 21,
           name: '其他科室',
           departments: [
-            { name: '皮肤科' },
-            { name: '肿瘤科' },
-            { name: '康复医学科' },
-            { name: '急诊科' },
-            { name: '体检中心' },
-            { name: '放射科' }
+            {id: 24, name: '皮肤科'},
+            {id: 8, name: '肿瘤科'},
+            {id: 25, name: '康复医学科'},
+            {id: 26, name: '急诊科'},
+            {id: 27, name: '体检中心'},
+            {id: 28, name: '放射科'}
           ]
         }
       ]
@@ -149,9 +157,8 @@ export default {
       this.selectedCategory = index
     },
     selectDepartment(dept) {
-      uni.setStorageSync('selectedDepartment', dept.name)
       uni.navigateTo({
-        url: '/pages/doctor-list/doctor-list?hospital=' + encodeURIComponent(this.hospitalName) + '&department=' + encodeURIComponent(dept.name)
+        url: '/pages/doctor-list/doctor-list?hospital=' + encodeURIComponent(this.hospitalName) + '&department=' + encodeURIComponent(dept.name) + '&departmentId=' + dept.id
       })
     }
   }
@@ -172,20 +179,7 @@ export default {
   padding: 40rpx 30rpx 0 30rpx;
   background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
 }
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
 .nav-title {
   font-size: 36rpx;
   font-weight: 500;

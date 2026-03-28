@@ -1,14 +1,11 @@
 <template>
   <view class="doctor-list-page">
     <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
       <text class="nav-title">选择医生</text>
       <view class="placeholder"></view>
     </view>
     <view class="info-bar">
-      <text class="info-text">{{ hospitalName }}{{ departmentName ? ' - ' + departmentName : '' }}</text>
+      <text class="info-text">{{ hospitalName }}</text>
     </view>
     <view class="loading-wrap" v-if="loading">
       <text class="loading-text">加载中...</text>
@@ -109,7 +106,6 @@ export default {
       }
       uni.setStorageSync('selectedDoctor', this.selectedObj.expertName || this.selectedObj.name)
       uni.setStorageSync('selectedDoctorId', this.selectedId)
-      uni.setStorageSync('selectedDepartment', this.departmentName)
       uni.navigateBack({delta: 2})
     }
   }
@@ -131,20 +127,7 @@ export default {
   padding: 40rpx 30rpx 0;
   background: linear-gradient(135deg, #4DD0E1, #26C6DA);
 }
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
 .nav-title {
   font-size: 36rpx;
   font-weight: 500;

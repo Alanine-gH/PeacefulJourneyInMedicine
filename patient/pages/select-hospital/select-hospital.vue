@@ -575,23 +575,6 @@ export default {
           },
           {name: '临汾市中医院', level: '三甲', type: '中医医院', distance: '3.6公里', image: '/static/hospital3.png'}
         ],
-        '无锡市': [
-          {
-            name: '无锡市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.6公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '江南大学附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '5.9公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '无锡市中医院', level: '三甲', type: '中医医院', distance: '2.7公里', image: '/static/hospital3.png'}
-        ],
         '常州市': [
           {
             name: '常州市第一人民医院',
