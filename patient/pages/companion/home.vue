@@ -3,9 +3,9 @@
     <!-- 头部 -->
     <view class="header">
       <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">陪护端首页</text>
-        </view>
+<!--        <view class="logo">-->
+<!--          <text class="logo-text">陪护端首页</text>-->
+<!--        </view>-->
         <view class="header-actions">
 <!--          <view class="switch-back" @click="switchToPatient">-->
 <!--            <text class="switch-back-text">← 患者端</text>-->

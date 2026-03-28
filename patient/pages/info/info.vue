@@ -1,8 +1,8 @@
 <template>
   <view class="container">
-    <view class="header">
-      <text class="title">修改个人信息</text>
-    </view>
+<!--    <view class="header">-->
+<!--      <text class="title">修改个人信息</text>-->
+<!--    </view>-->
 
     <view class="form-wrap">
       <!-- 头像 -->

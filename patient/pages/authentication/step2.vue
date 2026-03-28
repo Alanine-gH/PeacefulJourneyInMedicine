@@ -124,12 +124,15 @@ export default {
         
         uni.hideLoading();
         
-        if (uploadRes.code === 200) {
-          this.frontImage = uploadRes.data.url;
+        if (uploadRes.code === 200 || uploadRes.code === 1) {
+          this.frontImage = uploadRes.data;
           uni.showToast({ title: '上传成功', icon: 'success' });
+        } else {
+          uni.showToast({ title: uploadRes.msg || '上传失败', icon: 'none' });
         }
       } catch (error) {
         uni.hideLoading();
+        if (error && (error.errMsg || '').includes('cancel')) return;
         console.error('上传身份证正面失败:', error);
         uni.showToast({ title: '上传失败', icon: 'none' });
       }
@@ -148,12 +151,15 @@ export default {
         
         uni.hideLoading();
         
-        if (uploadRes.code === 200) {
-          this.backImage = uploadRes.data.url;
+        if (uploadRes.code === 200 || uploadRes.code === 1) {
+          this.backImage = uploadRes.data;
           uni.showToast({ title: '上传成功', icon: 'success' });
+        } else {
+          uni.showToast({ title: uploadRes.msg || '上传失败', icon: 'none' });
         }
       } catch (error) {
         uni.hideLoading();
+        if (error && (error.errMsg || '').includes('cancel')) return;
         console.error('上传身份证反面失败:', error);
         uni.showToast({ title: '上传失败', icon: 'none' });
       }

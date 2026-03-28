@@ -3,7 +3,7 @@
  * 提供文件上传、系统配置等功能的接口
  */
 
-import { request } from './config.js';
+import { request, BASE_URL as baseUrl } from './config.js';
 
 /**
  * 上传文件
@@ -19,7 +19,7 @@ async function uploadFile(filePath, bizType, module, timestamp) {
   
   return new Promise((resolve, reject) => {
     uni.uploadFile({
-      url: baseUrl + '/api/file/upload',
+      url: baseUrl + '/common/upload',
       filePath: filePath,
       name: 'file',
       formData: {

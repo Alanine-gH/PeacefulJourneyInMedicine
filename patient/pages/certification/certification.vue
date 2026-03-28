@@ -173,13 +173,16 @@ export default {
         
         uni.hideLoading();
         
-        if (uploadRes.code === 200) {
-          // uploadRes.data 是文件名字符串，直接使用
+        if (uploadRes.code === 200 || uploadRes.code === 1) {
           this.formData[field] = uploadRes.data;
           uni.showToast({ title: '上传成功', icon: 'success' });
+        } else {
+          uni.showToast({ title: uploadRes.msg || '上传失败', icon: 'none' });
         }
       } catch (error) {
         uni.hideLoading();
+        // 用户取消选图，不提示错误
+        if (error && (error.errMsg || '').includes('cancel')) return;
         console.error('上传图片失败:', error);
         uni.showToast({ title: '上传失败', icon: 'none' });
       }

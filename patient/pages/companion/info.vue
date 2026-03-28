@@ -1,18 +1,18 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">工作信息</text>
-        </view>
-        <view class="header-actions">
-          <view class="customer-service" @click="openCustomerService">
-            <text class="service-icon">💬</text>
-          </view>
-        </view>
-      </view>
-    </view>
+<!--    <view class="header">-->
+<!--      <view class="header-content">-->
+<!--        <view class="logo">-->
+<!--          <text class="logo-text">工作信息</text>-->
+<!--        </view>-->
+<!--        <view class="header-actions">-->
+<!--          <view class="customer-service" @click="openCustomerService">-->
+<!--            <text class="service-icon">💬</text>-->
+<!--          </view>-->
+<!--        </view>-->
+<!--      </view>-->
+<!--    </view>-->
 
     <!-- 信息列表 -->
     <view class="info-section">

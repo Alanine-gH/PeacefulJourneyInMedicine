@@ -51,7 +51,7 @@
 		{
 			"path": "pages/info/info",
 			"style": {
-				"navigationBarTitleText": "信息"
+				"navigationBarTitleText": "修改个人信息"
 			}
 		},
 		{
