@@ -3,7 +3,7 @@
  * 提供评价列表、评价详情、评价管理等功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

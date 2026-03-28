@@ -3,7 +3,7 @@
  * 提供文件上传、系统配置等功能的接口
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

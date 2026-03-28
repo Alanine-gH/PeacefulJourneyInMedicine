@@ -3,7 +3,7 @@
  * 提供患者相关的所有功能接口，包括个人中心、订单管理和收藏管理
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

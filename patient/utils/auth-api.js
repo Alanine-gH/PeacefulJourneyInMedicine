@@ -3,7 +3,7 @@
  * 提供实名认证、身份证上传、认证状态查询等功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

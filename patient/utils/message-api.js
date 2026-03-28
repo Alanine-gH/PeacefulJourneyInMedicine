@@ -3,7 +3,7 @@
  * 提供消息列表、消息详情、消息状态管理等功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

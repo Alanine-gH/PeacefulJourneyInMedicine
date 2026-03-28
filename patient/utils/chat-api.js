@@ -3,7 +3,7 @@
  * 提供聊天记录、发送消息、聊天列表等功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

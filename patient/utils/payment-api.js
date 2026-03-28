@@ -3,7 +3,7 @@
  * 提供支付订单创建、支付状态查询、支付方式管理等功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

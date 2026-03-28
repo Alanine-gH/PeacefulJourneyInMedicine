@@ -3,7 +3,7 @@
  * 提供医院、科室、专家等医疗资源的查询功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

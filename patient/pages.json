@@ -363,7 +363,15 @@
 		{
 			"path": "pages/health-exam/health-exam",
 			"style": {
-				"navigationBarTitleText": "健康体检"
+				"navigationBarTitleText": "健康体检",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/health-exam/health-exam-detail",
+			"style": {
+				"navigationBarTitleText": "套餐详情",
+				"navigationStyle": "custom"
 			}
 		},
 		{

@@ -7,473 +7,539 @@
         <view class="header-title">健康体检</view>
         <view class="header-right"></view>
       </view>
+      <!-- 搜索栏 -->
+      <view class="search-bar">
+        <text class="search-icon">🔍</text>
+        <input
+          class="search-input"
+          v-model="keyword"
+          placeholder="搜索套餐名称"
+          @confirm="onSearch"
+        />
+        <text v-if="keyword" class="clear-icon" @click="clearSearch">✕</text>
+      </view>
+    </view>
+
+    <!-- 套餐类型筛选 -->
+    <view class="filter-bar">
+      <view
+        v-for="tab in tabs"
+        :key="tab.value"
+        class="filter-tab"
+        :class="{ active: activeTab === tab.value }"
+        @click="switchTab(tab.value)"
+      >
+        <text>{{ tab.label }}</text>
+      </view>
+    </view>
+
+    <!-- 加载中 -->
+    <view v-if="loading" class="loading-wrap">
+      <text class="loading-text">加载中...</text>
     </view>
 
     <!-- 体检套餐列表 -->
-    <view class="package-section">
-      <view class="section-header">
-        <text class="section-title">体检套餐</text>
+    <view v-else class="package-section">
+      <view v-if="packages.length === 0" class="empty-wrap">
+        <text class="empty-text">暂无套餐数据</text>
       </view>
-      <view class="package-list">
-        <view 
-          v-for="(pkg, index) in examPackages" 
-          :key="index"
-          class="package-item"
-        >
-          <view class="package-image">
-            <text class="image-icon">{{ pkg.icon }}</text>
+      <view
+        v-for="pkg in packages"
+        :key="pkg.id"
+        class="package-item"
+        @click="goDetail(pkg.id)"
+      >
+        <!-- 封面图 -->
+        <view class="pkg-cover">
+          <image
+            v-if="pkg.coverImageUrl"
+            :src="pkg.coverImageUrl"
+            class="cover-img"
+            mode="aspectFill"
+          />
+          <view v-else class="cover-placeholder">
+            <text class="cover-icon">🏥</text>
           </view>
-          <view class="package-info">
-            <text class="package-name">{{ pkg.name }}</text>
-            <text class="package-desc">{{ pkg.description }}</text>
-            <text class="package-price">¥{{ pkg.price }}</text>
-            <view class="package-features">
-              <text 
-                v-for="(feature, idx) in pkg.features" 
-                :key="idx"
-                class="feature-tag"
-              >
-                {{ feature }}
-              </text>
+        </view>
+
+        <!-- 套餐信息 -->
+        <view class="pkg-info">
+          <view class="pkg-name-row">
+            <text class="pkg-name">{{ pkg.packageName }}</text>
+            <view class="pkg-type-tag" :class="typeClass(pkg.packageType)">
+              <text class="type-text">{{ typeLabel(pkg.packageType) }}</text>
+            </view>
+          </view>
+          <text v-if="pkg.packageNameEn" class="pkg-name-en">{{ pkg.packageNameEn }}</text>
+          <text class="pkg-desc">{{ pkg.description || '暂无描述' }}</text>
+
+          <view class="pkg-meta-row">
+            <view class="meta-item">
+              <text class="meta-label">服务时长</text>
+              <text class="meta-val">{{ pkg.duration ? pkg.duration + 'h' : '-' }}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-label">单位</text>
+              <text class="meta-val">{{ pkg.unit || '-' }}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-label">有效期</text>
+              <text class="meta-val">{{ pkg.validDays ? pkg.validDays + '天' : '-' }}</text>
+            </view>
+          </view>
+
+          <view class="pkg-bottom">
+            <view class="pkg-price-wrap">
+              <text class="price-symbol">¥</text>
+              <text class="pkg-price">{{ pkg.price }}</text>
+              <text class="price-unit">/ {{ pkg.unit || '次' }}</text>
+            </view>
+            <view class="detail-btn">
+              <text class="detail-btn-text">查看详情 ›</text>
             </view>
           </view>
         </view>
       </view>
-    </view>
 
-    <!-- 体检机构 -->
-    <view class="hospital-section">
-      <view class="section-header">
-        <text class="section-title">合作机构</text>
+      <!-- 加载更多 -->
+      <view v-if="hasMore" class="load-more" @click="loadMore">
+        <text class="load-more-text">点击加载更多</text>
       </view>
-      <view class="hospital-list">
-        <view 
-          v-for="(hospital, index) in hospitals" 
-          :key="index"
-          class="hospital-item"
-        >
-          <view class="hospital-info">
-            <text class="hospital-name">{{ hospital.name }}</text>
-            <text class="hospital-address">{{ hospital.address }}</text>
-            <text class="hospital-phone">联系电话: {{ hospital.phone }}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <!-- 常见问题 -->
-    <view class="faq-section">
-      <view class="section-header">
-        <text class="section-title">常见问题</text>
-      </view>
-      <view class="faq-list">
-        <view 
-          v-for="(faq, index) in faqs" 
-          :key="index"
-          class="faq-item"
-          @click="toggleFaq(index)"
-        >
-          <view class="faq-question">
-            <text class="question-text">{{ faq.question }}</text>
-            <text class="faq-icon">{{ faq.expanded ? '▼' : '▶' }}</text>
-          </view>
-          <view v-if="faq.expanded" class="faq-answer">
-            <text class="answer-text">{{ faq.answer }}</text>
-          </view>
-        </view>
+      <view v-else-if="packages.length > 0" class="no-more">
+        <text class="no-more-text">— 已加载全部 —</text>
       </view>
     </view>
   </view>
 </template>
 
 <script>
+import { getHealthExamPackages } from '@/utils/health-exam-api.js';
+
 export default {
   data() {
     return {
-      examPackages: [
-        {
-          id: 1,
-          name: '基础体检套餐',
-          description: '适合一般健康人群的基础体检',
-          price: '399',
-          icon: '🏥',
-          features: ['血常规', '尿常规', '肝功能', '肾功能', '心电图']
-        },
-        {
-          id: 2,
-          name: '中年体检套餐',
-          description: '适合40-60岁人群的全面体检',
-          price: '699',
-          icon: '🧪',
-          features: ['基础套餐', '血脂', '血糖', '腹部B超', '胸部X光']
-        },
-        {
-          id: 3,
-          name: '老年体检套餐',
-          description: '适合60岁以上人群的专项体检',
-          price: '999',
-          icon: '👴',
-          features: ['中年套餐', '骨密度', '心脑血管检查', '肿瘤标志物', '眼底检查']
-        },
-        {
-          id: 4,
-          name: '女性体检套餐',
-          description: '适合女性的专项体检',
-          price: '799',
-          icon: '👩',
-          features: ['基础套餐', '妇科检查', '乳腺B超', '宫颈癌筛查', '激素水平']
-        }
+      keyword: '',
+      activeTab: 0,       // 0=全部 1=基础 2=增值 3=定制
+      tabs: [
+        { label: '全部', value: 0 },
+        { label: '基础套餐', value: 1 },
+        { label: '增值套餐', value: 2 },
+        { label: '定制套餐', value: 3 }
       ],
-      hospitals: [
-        {
-          id: 1,
-          name: '北京协和医院',
-          address: '北京市东城区帅府园1号',
-          phone: '010-69156114'
-        },
-        {
-          id: 2,
-          name: '上海瑞金医院',
-          address: '上海市黄浦区瑞金二路197号',
-          phone: '021-64370045'
-        },
-        {
-          id: 3,
-          name: '广州中山医院',
-          address: '广州市越秀区中山二路58号',
-          phone: '020-87755766'
-        }
-      ],
-      faqs: [
-        {
-          question: '体检前需要注意什么？',
-          answer: '体检前一天应避免剧烈运动，保持充足睡眠。体检当天需空腹，一般要求禁食8-12小时。女性应避开月经期，最好在月经结束后3-7天进行体检。',
-          expanded: false
-        },
-        {
-          question: '体检报告多久能出来？',
-          answer: '一般情况下，体检报告会在3-5个工作日内出来。具体时间可能因体检项目多少和医院工作效率而有所不同。',
-          expanded: false
-        },
-        {
-          question: '体检套餐可以根据个人需求调整吗？',
-          answer: '是的，我们可以根据您的具体需求和健康状况，为您定制个性化的体检套餐。您可以在预约时与我们的客服人员沟通。',
-          expanded: false
-        },
-        {
-          question: '体检结果异常怎么办？',
-          answer: '如果体检结果出现异常，我们的医生会为您提供专业的解读和建议。对于严重异常的情况，我们会及时通知您并建议进一步检查或治疗。',
-          expanded: false
-        }
-      ]
+      packages: [],
+      page: 1,
+      pageSize: 10,
+      total: 0,
+      loading: false,
+      hasMore: false
+    };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.total / this.pageSize);
     }
   },
+  onLoad() {
+    this.fetchPackages(true);
+  },
   methods: {
-    selectPackage(pkg) {
-      uni.showToast({
-        title: `选择了${pkg.name}套餐`,
-        icon: 'none'
-      });
-      // 这里可以跳转到预约页面
-      // uni.navigateTo({
-      //   url: `/pages/appointment/appointment?package_id=${pkg.id}`
-      // });
+    async fetchPackages(reset = false) {
+      if (this.loading) return;
+      if (reset) {
+        this.page = 1;
+        this.packages = [];
+      }
+      this.loading = true;
+      try {
+        const params = {
+          page: this.page,
+          pageSize: this.pageSize
+        };
+        if (this.activeTab !== 0) params.packageType = this.activeTab;
+        if (this.keyword.trim()) params.keyword = this.keyword.trim();
+
+        const res = await getHealthExamPackages(params);
+        if (res && res.code === 200 && res.data) {
+          const data = res.data;
+          // IPage 格式：records / total
+          const records = data.records || [];
+          this.total = data.total || 0;
+          if (reset) {
+            this.packages = records;
+          } else {
+            this.packages = [...this.packages, ...records];
+          }
+          this.hasMore = this.packages.length < this.total;
+        } else {
+          uni.showToast({ title: (res && res.msg) || '获取套餐失败', icon: 'none' });
+        }
+      } catch (e) {
+        console.error('获取套餐列表失败', e);
+        uni.showToast({ title: '网络错误，请稍后重试', icon: 'none' });
+      } finally {
+        this.loading = false;
+      }
     },
-    toggleFaq(index) {
-      this.faqs[index].expanded = !this.faqs[index].expanded;
+
+    switchTab(val) {
+      if (this.activeTab === val) return;
+      this.activeTab = val;
+      this.fetchPackages(true);
+    },
+
+    onSearch() {
+      this.fetchPackages(true);
+    },
+
+    clearSearch() {
+      this.keyword = '';
+      this.fetchPackages(true);
+    },
+
+    loadMore() {
+      if (!this.hasMore || this.loading) return;
+      this.page += 1;
+      this.fetchPackages(false);
+    },
+
+    goDetail(id) {
+      uni.navigateTo({
+        url: `/pages/health-exam/health-exam-detail?id=${id}`
+      });
+    },
+
+    typeLabel(type) {
+      const map = { 1: '基础', 2: '增值', 3: '定制' };
+      return map[type] || '套餐';
+    },
+
+    typeClass(type) {
+      const map = { 1: 'tag-basic', 2: 'tag-value', 3: 'tag-custom' };
+      return map[type] || 'tag-basic';
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .container {
-  background-color: #f8f9fa;
+  background-color: #f4f6f9;
   min-height: 100vh;
 }
 
 /* 头部 */
 .header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
+  background: linear-gradient(135deg, #26C6DA 0%, #4DD0E1 100%);
+  padding: 40rpx 30rpx 24rpx;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
 }
 
-.header-left {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-.header-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
+.header-left,
 .header-right {
   width: 60rpx;
 }
 
-/* 体检套餐 */
-.package-section {
+.header-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2rpx;
+}
+
+/* 搜索栏 */
+.search-bar {
+  margin-top: 20rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  padding: 14rpx 24rpx;
+  gap: 12rpx;
+}
+
+.search-icon {
+  font-size: 28rpx;
+  color: #fff;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 26rpx;
+  color: #fff;
+  background: transparent;
+  border: none;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.clear-icon {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 4rpx;
+}
+
+/* 筛选条 */
+.filter-bar {
+  display: flex;
   background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  padding: 0 20rpx;
+  border-bottom: 1rpx solid #eef0f3;
+  overflow-x: auto;
 }
 
-.section-header {
-  margin-bottom: 20rpx;
+.filter-tab {
+  flex-shrink: 0;
+  padding: 24rpx 28rpx;
+  font-size: 26rpx;
+  color: #888;
+  position: relative;
 }
 
-.section-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
+.filter-tab.active {
+  color: #26C6DA;
+  font-weight: 700;
 }
 
-.package-list {
+.filter-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #26C6DA;
+  border-radius: 2rpx;
+}
+
+/* 加载 */
+.loading-wrap,
+.empty-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80rpx 0;
+}
+
+.loading-text,
+.empty-text {
+  font-size: 28rpx;
+  color: #bbb;
+}
+
+/* 套餐列表 */
+.package-section {
+  padding: 20rpx;
   display: flex;
   flex-direction: column;
   gap: 20rpx;
 }
 
 .package-item {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  padding: 25rpx;
-  background: #f8f9fa;
-  border-radius: 15rpx;
-  transition: all 0.3s ease;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.06);
+  active-opacity: 0.85;
 }
 
-.package-item:hover {
-  background: #e9ecef;
-  transform: translateY(-2rpx);
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+.package-item:active {
+  opacity: 0.85;
 }
 
-.package-image {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 15rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+/* 封面 */
+.pkg-cover {
+  width: 160rpx;
+  flex-shrink: 0;
+  background: #f0f8ff;
+}
+
+.cover-img {
+  width: 160rpx;
+  height: 100%;
+  min-height: 200rpx;
+}
+
+.cover-placeholder {
+  width: 160rpx;
+  height: 100%;
+  min-height: 200rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 20rpx;
-  box-shadow: 0 4rpx 12rpx rgba(77, 208, 225, 0.3);
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
 }
 
-.image-icon {
-  font-size: 50rpx;
-  color: white;
+.cover-icon {
+  font-size: 60rpx;
 }
 
-.package-info {
+/* 套餐信息 */
+.pkg-info {
   flex: 1;
+  padding: 22rpx 24rpx;
   display: flex;
   flex-direction: column;
   gap: 10rpx;
+  min-width: 0;
 }
 
-.package-name {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #333;
-}
-
-.package-desc {
-  font-size: 24rpx;
-  color: #666;
-  line-height: 1.4;
-}
-
-.package-price {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #ff5722;
-}
-
-.package-features {
+.pkg-name-row {
   display: flex;
+  align-items: center;
+  gap: 12rpx;
   flex-wrap: wrap;
-  gap: 10rpx;
-  margin-top: 5rpx;
 }
 
-.feature-tag {
-  background-color: #E1F5FE;
-  color: #2196F3;
-  padding: 5rpx 15rpx;
-  border-radius: 15rpx;
-  font-size: 20rpx;
-  font-weight: 500;
-}
-
-/* 体检机构 */
-.hospital-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-}
-
-.hospital-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.hospital-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25rpx;
-  background: #f8f9fa;
-  border-radius: 15rpx;
-  transition: all 0.3s ease;
-}
-
-.hospital-item:hover {
-  background: #e9ecef;
-}
-
-.hospital-info {
-  flex: 1;
-}
-
-.hospital-name {
+.pkg-name {
   font-size: 30rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.pkg-type-tag {
+  border-radius: 8rpx;
+  padding: 4rpx 14rpx;
+}
+
+.tag-basic {
+  background: #e3f2fd;
+}
+
+.tag-value {
+  background: #fce4ec;
+}
+
+.tag-custom {
+  background: #f3e5f5;
+}
+
+.type-text {
+  font-size: 20rpx;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 8rpx;
 }
 
-.hospital-address {
+.tag-basic .type-text {
+  color: #1976d2;
+}
+
+.tag-value .type-text {
+  color: #c2185b;
+}
+
+.tag-custom .type-text {
+  color: #7b1fa2;
+}
+
+.pkg-name-en {
+  font-size: 22rpx;
+  color: #aaa;
+  letter-spacing: 1rpx;
+}
+
+.pkg-desc {
   font-size: 24rpx;
-  color: #666;
-  margin-bottom: 8rpx;
-  line-height: 1.4;
+  color: #777;
+  line-height: 1.5;
+  /* 最多2行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.hospital-phone {
-  font-size: 24rpx;
-  color: #999;
+/* 元信息 */
+.pkg-meta-row {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 4rpx;
 }
 
-/* 常见问题 */
-.faq-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0 40rpx;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-}
-
-.faq-list {
+.meta-item {
   display: flex;
   flex-direction: column;
-  gap: 15rpx;
-}
-
-.faq-item {
-  border-bottom: 1rpx solid #f0f0f0;
-  padding-bottom: 15rpx;
-}
-
-.faq-question {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  padding: 15rpx 0;
 }
 
-.question-text {
-  font-size: 28rpx;
-  font-weight: 500;
-  color: #333;
-  flex: 1;
+.meta-label {
+  font-size: 20rpx;
+  color: #bbb;
 }
 
-.faq-icon {
+.meta-val {
   font-size: 24rpx;
-  color: #999;
-  transition: transform 0.3s ease;
+  color: #444;
+  font-weight: 600;
+  margin-top: 2rpx;
 }
 
-.faq-answer {
-  padding: 15rpx 0;
-  animation: slideDown 0.3s ease;
+/* 底部价格行 */
+.pkg-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8rpx;
 }
 
-.answer-text {
+.pkg-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.price-symbol {
   font-size: 24rpx;
-  color: #666;
-  line-height: 1.5;
+  color: #f44336;
+  font-weight: 600;
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10rpx);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.pkg-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #f44336;
 }
 
-/* 响应式调整 */
-@media (max-width: 375px) {
-  .package-image {
-    width: 80rpx;
-    height: 80rpx;
-  }
-  
-  .image-icon {
-    font-size: 40rpx;
-  }
-  
-  .package-name {
-    font-size: 28rpx;
-  }
-  
-  .package-desc {
-    font-size: 22rpx;
-  }
-  
-  .hospital-name {
-    font-size: 28rpx;
-  }
-  
-  .hospital-address {
-    font-size: 22rpx;
-  }
-  
-  .question-text {
-    font-size: 26rpx;
-  }
-  
-  .answer-text {
-    font-size: 22rpx;
-  }
+.price-unit {
+  font-size: 22rpx;
+  color: #aaa;
+}
+
+.detail-btn {
+  background: linear-gradient(135deg, #26C6DA 0%, #4DD0E1 100%);
+  border-radius: 30rpx;
+  padding: 10rpx 24rpx;
+}
+
+.detail-btn-text {
+  font-size: 24rpx;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 加载更多 */
+.load-more,
+.no-more {
+  display: flex;
+  justify-content: center;
+  padding: 30rpx 0;
+}
+
+.load-more-text {
+  font-size: 26rpx;
+  color: #26C6DA;
+  font-weight: 600;
+}
+
+.no-more-text {
+  font-size: 24rpx;
+  color: #ccc;
 }
 </style>

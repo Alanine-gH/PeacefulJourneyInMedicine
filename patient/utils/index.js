@@ -9,3 +9,4 @@ export * from './triage-api';
 export * from './record-api';
 export * from './auth';
 export * from './api';
+export * from './health-exam-api';

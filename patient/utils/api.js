@@ -1,6 +1,6 @@
 // API 工具文件 - 医路安心 AI 接口
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 将头像字段转换为后端代理下载 URL

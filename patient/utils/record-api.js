@@ -3,7 +3,7 @@
  * 提供电子病历管理、检查报告上传、服务套餐浏览等功能
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

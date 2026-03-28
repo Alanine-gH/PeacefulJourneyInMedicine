@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +19,7 @@ import lombok.Setter;
  * @author Alanine
  * @since 2026-03-17
  */
-@Getter
-@Setter
+@Data
 @TableName("service_package")
 public class ServicePackage implements Serializable {
 

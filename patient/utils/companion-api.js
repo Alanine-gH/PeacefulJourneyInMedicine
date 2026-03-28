@@ -3,7 +3,7 @@
  * 提供陪护员相关的所有功能接口，包括个人中心、订单管理、资格认证、日程管理、打卡管理和评价管理
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法

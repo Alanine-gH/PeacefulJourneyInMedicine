@@ -3,7 +3,7 @@
  * 提供用户登录、注册、验证码发送、密码重置等认证功能的接口
  */
 
-const baseUrl = 'http://localhost:8080';
+import { BASE_URL as baseUrl } from './config.js';
 
 /**
  * 通用请求方法
