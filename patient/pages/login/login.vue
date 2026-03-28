@@ -50,17 +50,17 @@
 					</view>
 
 					<!-- 语言选择 -->
-					<view class="language-selector">
-						<view class="language-label">语言 / Language</view>
-						<view class="language-options">
-							<view class="language-option" :class="selectedLanguage === 'zh' ? 'active' : ''"
-								@click="selectLanguage('zh')">中文
-							</view>
-							<view class="language-option" :class="selectedLanguage === 'en' ? 'active' : ''"
-								@click="selectLanguage('en')">English
-							</view>
-						</view>
-					</view>
+<!--					<view class="language-selector">-->
+<!--						<view class="language-label">语言 / Language</view>-->
+<!--						<view class="language-options">-->
+<!--							<view class="language-option" :class="selectedLanguage === 'zh' ? 'active' : ''"-->
+<!--								@click="selectLanguage('zh')">中文-->
+<!--							</view>-->
+<!--							<view class="language-option" :class="selectedLanguage === 'en' ? 'active' : ''"-->
+<!--								@click="selectLanguage('en')">English-->
+<!--							</view>-->
+<!--						</view>-->
+<!--					</view>-->
 				</view>
 
 				<!-- 辅助链接 -->

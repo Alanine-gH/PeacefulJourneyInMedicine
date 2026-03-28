@@ -212,6 +212,21 @@ async function getTriageSession(sessionId) {
 	return request(`/ai/triage/session/${sessionId}`);
 }
 
+// 12. 获取分诊记录列表
+async function getTriageRecords(params) {
+	return request('/medical/triage/list', {
+		method: 'GET',
+		data: params
+	});
+}
+
+// 13. 获取分诊记录详情
+async function getTriageRecordDetail(id) {
+	return request(`/medical/triage/${id}`, {
+		method: 'GET'
+	});
+}
+
 // 导出所有 API 函数
 export {
 	request,

@@ -385,6 +385,18 @@
 			"style": {
 				"navigationBarTitleText": "编辑患者信息"
 			}
+		},
+		{
+			"path": "pages/medical-record/medical-record",
+			"style": {
+				"navigationBarTitleText": "病例查询"
+			}
+		},
+		{
+			"path": "pages/medical-record/detail",
+			"style": {
+				"navigationBarTitleText": "病例详情"
+			}
 		}
 	],
 	"globalStyle": {

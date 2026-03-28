@@ -225,7 +225,7 @@ export default {
     },
     navigateTo(page) {
       const pageMap = {
-        'appointment': '/pages/package/package',
+        'appointment': '/pages/medical-record/medical-record',
         'favorites': '/pages/favorites/favorites',
         'help': '/pages/customer/customer',
         'feedback': '/pages/feedback/feedback',

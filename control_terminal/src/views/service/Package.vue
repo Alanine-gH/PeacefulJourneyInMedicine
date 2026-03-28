@@ -221,7 +221,7 @@ export default {
           alert('服务器响应异常：' + text.substring(0, 300)); return
         }
         if (json.code === 1 || json.code === 200) {
-          this.$set(this.form, field, json.data)
+          this.form[field] = json.data
         } else {
           alert('上传失败：' + (json.msg || json.message || '未知错误'))
         }
