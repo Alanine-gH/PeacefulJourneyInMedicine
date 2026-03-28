@@ -42,14 +42,19 @@ public class AuthController {
     }
 
     /**
-     * 注册
+     * 注册（患者/陪诊师）
+     * userType=1 → 患者，仅插 user_user
+     * userType=2 → 陪诊师，插 user_user + user_accompanist（待审核）
      */
     @PostMapping("/register")
-    @Operation(summary = "用户注册")
+    @Operation(summary = "用户注册（患者或陪诊师）")
     public R<String> register(@RequestBody RegisterDTO registerDTO) {
         try {
+            byte userType = (registerDTO.getUserType() != null && registerDTO.getUserType() == 2) ? (byte) 2 : (byte) 1;
+            log.info("[注册] username={} userType={}", registerDTO.getUsername(), userType);
             authService.register(registerDTO);
-            return R.success("注册成功");
+            String msg = userType == 2 ? "注册成功，您的陪诊师账号需等待管理员审核后方可接单" : "注册成功";
+            return R.success(msg);
         } catch (RuntimeException e) {
             return R.error(e.getMessage());
         }

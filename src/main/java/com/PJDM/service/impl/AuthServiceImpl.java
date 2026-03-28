@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.PJDM.common.CaptchaHelper;
 import com.PJDM.dto.LoginDTO;
 import com.PJDM.dto.RegisterDTO;
+import com.PJDM.mapper.UserAccompanistMapper;
 import com.PJDM.mapper.UserUserMapper;
+import com.PJDM.pojo.UserAccompanist;
 import com.PJDM.pojo.UserUser;
 import com.PJDM.service.IAuthService;
 import com.PJDM.untils.JwtUtil;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -60,6 +63,9 @@ public class AuthServiceImpl extends ServiceImpl<UserUserMapper, UserUser> imple
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserAccompanistMapper userAccompanistMapper;
 
     // ==================== 登录 ====================
 
@@ -143,6 +149,7 @@ public class AuthServiceImpl extends ServiceImpl<UserUserMapper, UserUser> imple
     // ==================== 注册 ====================
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void register(RegisterDTO dto) {
         if (!StringUtils.hasText(dto.getUsername())) {
             throw new RuntimeException("用户名不能为空");
@@ -179,20 +186,38 @@ public class AuthServiceImpl extends ServiceImpl<UserUserMapper, UserUser> imple
             throw new RuntimeException("邮箱已被注册");
         }
 
-        // 保存用户
+        // 校验 userType，只允许患者(1)和陪诊师(2)自助注册
+        byte userType = (dto.getUserType() != null && dto.getUserType() == 2) ? (byte) 2 : (byte) 1;
+
+        // 保存 user_user
         UserUser user = new UserUser();
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setEmail(dto.getEmail());
         user.setNickName(dto.getUsername());
         user.setPhone(dto.getPhone());
-        user.setUserType((byte) 1); // 默认注册为患者，陪诊师/管理员由后台设置
+        user.setUserType(userType);
         user.setStatus((byte) 1);
         user.setCreateTime(LocalDateTime.now());
         user.setCreateBy(dto.getUsername());
         save(user);
 
-        log.info("用户 [{}] 注册成功", dto.getUsername());
+        // 若注册为陪诊师，同步插入 user_accompanist 记录（待审核状态）
+        if (userType == 2) {
+            UserAccompanist acc = new UserAccompanist();
+            acc.setUserId(user.getId());
+            acc.setPhone(dto.getPhone());
+            acc.setAccompanyStatus((byte) 1);  // 空闲
+            acc.setAuditStatus((byte) 1);       // 待审核
+            acc.setServiceCount(0);
+            acc.setComplaintCount(0);
+            acc.setCreateBy(dto.getUsername());
+            acc.setCreateTime(LocalDateTime.now());
+            userAccompanistMapper.insert(acc);
+            log.info("陪诊师 [{}] 注册，user_accompanist 已创建，待管理员审核", dto.getUsername());
+        }
+
+        log.info("用户 [{}] 注册成功，userType={}", dto.getUsername(), userType);
     }
 
     // ==================== 退出 ====================

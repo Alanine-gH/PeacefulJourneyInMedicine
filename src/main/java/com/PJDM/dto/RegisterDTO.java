@@ -39,4 +39,9 @@ public class RegisterDTO {
      * 验证码 UUID（对应 Redis key）
      */
     private String captchaKey;
+
+    /**
+     * 用户类型（1：患者；2：陪诊师），默认为1
+     */
+    private Byte userType;
 }
