@@ -3,7 +3,9 @@
  * 提供用户登录、注册、验证码发送、密码重置等认证功能的接口
  */
 
-import { request } from './config.js';
+import {
+	request
+} from './config.js';
 
 
 /**
@@ -11,7 +13,7 @@ import { request } from './config.js';
  * @returns {string} 返回token字符串，如果不存在则返回空字符串
  */
 function getToken() {
-  return uni.getStorageSync('token') || '';
+	return uni.getStorageSync('token') || '';
 }
 
 /**
@@ -24,10 +26,15 @@ function getToken() {
  * @description 用于用户登录认证，成功后返回token和用户基本信息
  */
 async function login(username, password, captcha, captchaKey) {
-  return request('/auth/login', {
-    method: 'POST',
-    data: { username, password, captcha, captchaKey }
-  });
+	return request('/auth/login', {
+		method: 'POST',
+		data: {
+			username,
+			password,
+			captcha,
+			captchaKey
+		}
+	});
 }
 
 /**
@@ -41,18 +48,18 @@ async function login(username, password, captcha, captchaKey) {
  * @returns {Promise<object>} 返回注册结果
  * @description 用于新用户注册
  */
-async function register(username, password, phone,captcha,captchaKey,userType) {
-  return request('/auth/register', {
-    method: 'POST',
-    data: {
-      username,
-      password,
-      phone,
-      captcha,
-      captchaKey,
-	  userType
-    }
-  });
+async function register(username, password, phone, captcha, captchaKey, userType) {
+	return request('/auth/register', {
+		method: 'POST',
+		data: {
+			username,
+			password,
+			phone,
+			captcha,
+			captchaKey,
+			userType
+		}
+	});
 }
 
 /**
@@ -62,10 +69,12 @@ async function register(username, password, phone,captcha,captchaKey,userType) {
  * @description 向指定手机号发送验证码，用于注册或重置密码
  */
 async function sendVerificationCode(phone) {
-  return request('/auth/send-code', {
-    method: 'POST',
-    data: { phone }
-  });
+	return request('/auth/send-code', {
+		method: 'POST',
+		data: {
+			phone
+		}
+	});
 }
 
 /**
@@ -77,14 +86,14 @@ async function sendVerificationCode(phone) {
  * @description 用于忘记密码场景，通过手机验证码重置密码
  */
 async function resetPassword(phone, verificationCode, newPassword) {
-  return request('/auth/reset-password', {
-    method: 'POST',
-    data: { 
-      phone, 
-      verification_code: verificationCode, 
-      new_password: newPassword 
-    }
-  });
+	return request('/auth/reset-password', {
+		method: 'POST',
+		data: {
+			phone,
+			verification_code: verificationCode,
+			new_password: newPassword
+		}
+	});
 }
 
 /**
@@ -93,9 +102,9 @@ async function resetPassword(phone, verificationCode, newPassword) {
  * @description 用户退出登录，清除服务端session
  */
 async function logout() {
-  return request('/auth/logout', {
-    method: 'POST'
-  });
+	return request('/auth/logout', {
+		method: 'POST'
+	});
 }
 
 /**
@@ -104,9 +113,9 @@ async function logout() {
  * @description 获取图形验证码，用于用户登录时的图形验证
  */
 async function getCaptcha() {
-  return request('/captcha', {
-    method: 'GET'
-  });
+	return request('/captcha', {
+		method: 'GET'
+	});
 }
 
 /**
@@ -116,19 +125,19 @@ async function getCaptcha() {
  * @description 获取当前登录用户的详细信息，包括个人资料、权限等
  */
 async function getUserInfo(userId) {
-  const uid = userId || uni.getStorageSync('userId');
-  if (!uid) throw new Error('未找到用户ID，请重新登录');
-  return request(`/user/${uid}`);
+	const uid = userId || uni.getStorageSync('userId');
+	if (!uid) throw new Error('未找到用户ID，请重新登录');
+	return request(`/user/${uid}`);
 }
 
 export {
-  request,
-  getToken,
-  login,
-  register,
-  sendVerificationCode,
-  resetPassword,
-  logout,
-  getUserInfo,
-  getCaptcha
+	request,
+	getToken,
+	login,
+	register,
+	sendVerificationCode,
+	resetPassword,
+	logout,
+	getUserInfo,
+	getCaptcha
 };
