@@ -45,3 +45,4 @@ public class UserDetailVO {
 
     @Schema(description = "用户类型（1患者 2陪诊师 3管理员）")
     private Byte userType;
+}
