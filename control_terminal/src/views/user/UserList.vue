@@ -122,10 +122,7 @@
             <div class="form-item"><label>用户类型</label>
               <select v-model="form.userType" class="form-select">
                 <option :value="1">患者</option>
-                <option :value="2">陪诊师</option>
                 <option :value="3">客服</option>
-                <option :value="4">管理员</option>
-                <option :value="5">专家</option>
               </select>
             </div>
             <div class="form-item"><label>状态</label>

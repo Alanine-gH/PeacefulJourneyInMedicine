@@ -93,6 +93,8 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
             user.setNickName(StringUtils.hasText(dto.getRealName()) ? dto.getRealName() : dto.getUsername());
             user.setRealName(dto.getRealName());
             user.setPhone(dto.getPhone());
+            user.setGender(dto.getGender());
+            user.setAge(dto.getAge());
             user.setUserType((byte) 2);
             user.setStatus((byte) 1);
             user.setCreateBy("admin");
@@ -108,6 +110,11 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
                 // 自动更正 user_type 为陪诊师
                 UserUser update = new UserUser();
                 update.setId(userId);
+                update.setNickName(StringUtils.hasText(dto.getRealName()) ? dto.getRealName() : dto.getUsername());
+                update.setRealName(dto.getRealName());
+                update.setPhone(dto.getPhone());
+                update.setGender(dto.getGender());
+                update.setAge(dto.getAge());
                 update.setUserType((byte) 2);
                 userUserMapper.updateById(update);
             }
@@ -159,6 +166,17 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
         update.setCertificatePhoto(dto.getCertificatePhoto());
         update.setRemark(dto.getRemark());
         updateById(update);
+        // 同步更新 user_user 的姓名/手机/性别/年龄
+        UserAccompanist acc = getById(id);
+        if (acc != null && acc.getUserId() != null) {
+            UserUser userUpdate = new UserUser();
+            userUpdate.setId(acc.getUserId());
+            userUpdate.setRealName(dto.getRealName());
+            userUpdate.setPhone(dto.getPhone());
+            userUpdate.setGender(dto.getGender());
+            userUpdate.setAge(dto.getAge());
+            userUserMapper.updateById(userUpdate);
+        }
         log.info("修改陪诊师 [{}] 成功", id);
     }
 

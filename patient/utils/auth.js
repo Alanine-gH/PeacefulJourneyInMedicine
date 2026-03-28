@@ -37,10 +37,11 @@ async function login(username, password, captcha, captchaKey) {
  * @param {string} phone - 手机号
  * @param {string} captcha 验证码答案
  * @param {string} captchaKey 验证码uuid
+ * @param {byte} userType 用户类型（默认是患者，不可改）
  * @returns {Promise<object>} 返回注册结果
  * @description 用于新用户注册
  */
-async function register(username, password, phone,captcha,captchaKey) {
+async function register(username, password, phone,captcha,captchaKey,userType) {
   return request('/auth/register', {
     method: 'POST',
     data: {
@@ -48,7 +49,8 @@ async function register(username, password, phone,captcha,captchaKey) {
       password,
       phone,
       captcha,
-      captchaKey
+      captchaKey,
+	  userType
     }
   });
 }

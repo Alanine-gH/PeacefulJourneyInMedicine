@@ -242,6 +242,8 @@ export default {
       detailModal: {show: false, data: null},
       form: {
         userId: '',
+        username: '',
+        password: '',
         realName: '',
         phone: '',
         gender: 1,
@@ -251,8 +253,12 @@ export default {
         accompanyStatus: 1,
         specialties: '',
         languageAbility: '',
+        certificateNumber: '',
+        certificatePhoto: '',
         remark: ''
       },
+      submitting: false,
+      editId: null,
       uploadingField: null
     }
   },
@@ -265,44 +271,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl(filename) {
-      if (!filename) return '';
-      if (filename.startsWith('http')) return filename;
-      return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
-    },
-    async handleUpload(e, field) {
-      const file = e.target.files[0];
-      if (!file) return;
-      this.uploadingField = field;
-      try {
-        const fd = new FormData();
-        fd.append('file', file);
-        const token = localStorage.getItem('token') || '';
-        const res = await fetch('http://localhost:8080/common/upload', {
-          method: 'POST',
-          headers: token ? {'Authorization': 'Bearer ' + token} : {},
-          body: fd
-        });
-        const text = await res.text();
-        let json;
-        try {
-          json = JSON.parse(text)
-        } catch (_) {
-          alert('服务器响应异常：' + text.substring(0, 300));
-          return
-        }
-        if (json.code === 200) {
-          this.form[field] = json.data
-        } else {
-          alert('上传失败：' + (json.msg || json.message || JSON.stringify(json)))
-        }
-      } catch (err) {
-        alert('上传异常：' + err.message)
-      } finally {
-        this.uploadingField = null;
-        e.target.value = ''
-      }
-    },
     getFileUrl(filename) {
       if (!filename) return ''
       if (filename.startsWith('http')) return filename

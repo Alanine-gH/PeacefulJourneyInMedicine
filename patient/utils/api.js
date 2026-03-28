@@ -20,33 +20,6 @@ function getToken() {
 	return uni.getStorageSync('token') || '';
 }
 
-	try {
-		const response = await uni.request(config);
-		if (response.statusCode === 200) {
-			return response.data;
-		} else if (response.statusCode === 401) {
-			// Token 过期或未携带
-			uni.showToast({
-				title: '登录已过期，请重新登录',
-				icon: 'none'
-			});
-			uni.navigateTo({
-				url: '/pages/login/login'
-			});
-			throw new Error('Token 过期');
-		} else {
-			throw new Error(`请求失败: ${response.statusCode}`);
-		}
-	} catch (error) {
-		console.error('API 请求错误:', error);
-		uni.showToast({
-			title: '网络连接失败，请稍后重试',
-			icon: 'none'
-		});
-		throw error;
-	}
-
-
 // 1. 同步聊天
 async function sendChat(data) {
 	return request('/ai/chat', {

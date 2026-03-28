@@ -128,6 +128,16 @@
                                                                  class="form-input"></div>
             <div class="form-item"><label>工作年限</label><input v-model="form.experienceYears" type="number"
                                                                  class="form-input"></div>
+            <div class="form-item"><label>性别</label>
+              <select v-model="form.gender" class="form-input">
+                <option :value="1">男</option>
+                <option :value="2">女</option>
+                <option :value="3">未知</option>
+              </select>
+            </div>
+            <div class="form-item"><label>年龄</label><input v-model="form.age" type="number" class="form-input"></div>
+            <div class="form-item"><label>学历背景</label><input v-model="form.educationBackground" class="form-input" placeholder="如博士、硕士"></div>
+            <div class="form-item"><label>发表论文数</label><input v-model="form.publicationCount" type="number" class="form-input"></div>
             <div class="form-item"><label>是否接受国际患者</label>
               <select v-model="form.isAcceptInternational" class="form-input">
                 <option :value="1">接受</option>
@@ -254,7 +264,7 @@ export default {
     },
     openAdd() {
       this.editId = null;
-      this.form = {isAcceptInternational: 1, isRecommend: 2, sort: 0, username: '', password: ''};
+      this.form = {isAcceptInternational: 1, isRecommend: 2, sort: 0, gender: 1, age: '', educationBackground: '', publicationCount: 0, username: '', password: ''};
       this.modal = {show: true, isEdit: false}
     },
     openEdit(row) {
@@ -271,6 +281,10 @@ export default {
         specialty: row.specialty || '',
         languageAbility: row.languageAbility || '',
         experienceYears: row.experienceYears,
+        gender: row.gender || 1,
+        age: row.age || '',
+        educationBackground: row.educationBackground || '',
+        publicationCount: row.publicationCount || 0,
         appointmentFee: row.appointmentFee,
         isAcceptInternational: row.isAcceptInternational,
         isRecommend: row.isRecommend,
