@@ -199,44 +199,6 @@ export default {
   },
   methods: {
     getFileUrl(filename) {
-      if (!filename) return '';
-      if (filename.startsWith('http')) return filename;
-      return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
-    },
-    async handleUpload(e, field) {
-      const file = e.target.files[0];
-      if (!file) return;
-      this.uploadingField = field;
-      try {
-        const fd = new FormData();
-        fd.append('file', file);
-        const token = localStorage.getItem('token') || '';
-        const res = await fetch('http://localhost:8080/common/upload', {
-          method: 'POST',
-          headers: token ? {'Authorization': 'Bearer ' + token} : {},
-          body: fd
-        });
-        const text = await res.text();
-        let json;
-        try {
-          json = JSON.parse(text)
-        } catch (_) {
-          alert('服务器响应异常：' + text.substring(0, 300));
-          return
-        }
-        if (json.code === 200) {
-          this.form[field] = json.data
-        } else {
-          alert('上传失败：' + (json.msg || json.message || JSON.stringify(json)))
-        }
-      } catch (err) {
-        alert('上传异常：' + err.message)
-      } finally {
-        this.uploadingField = null;
-        e.target.value = ''
-      }
-    },
-    getFileUrl(filename) {
       if (!filename) return ''
       if (filename.startsWith('http')) return filename
       return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
@@ -253,16 +215,20 @@ export default {
           headers: {'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')},
           body: fd
         })
-        const json = await res.json()
+        const text = await res.text()
+        let json
+        try { json = JSON.parse(text) } catch (_) {
+          alert('服务器响应异常：' + text.substring(0, 300)); return
+        }
         if (json.code === 1 || json.code === 200) {
           this.$set(this.form, field, json.data)
         } else {
           alert('上传失败：' + (json.msg || json.message || '未知错误'))
         }
       } catch (err) {
-        alert('上传失败')
+        alert('上传失败：' + err.message)
       } finally {
-        this.uploadingField = null;
+        this.uploadingField = null
         e.target.value = ''
       }
     },
