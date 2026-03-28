@@ -151,13 +151,7 @@
 </template>
 
 <script>
-import {getHealthExamPackageDetail} from '@/utils/health-exam-api.js';
-
-})
-;
-if (res.statusCode === 200) return res.data;
-throw new Error('请求失败: ' + res.statusCode);
-}
+import { getHealthExamPackageDetail } from '@/utils/health-exam-api.js';
 
 const PKG_TYPE_MAP = {1: '基础套餐', 2: '增值套餐', 3: '定制套餐'};
 const SVC_TYPE_MAP = {1: '全程陪诊', 2: '代办手续', 3: '接机服务', 4: '送机服务', 5: '翻译服务'};

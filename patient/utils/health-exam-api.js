@@ -8,10 +8,11 @@ import { request } from './api.js';
 /**
  * 获取体检套餐列表（分页）
  * GET /service/packages
+ * 后端支持的参数：page, pageSize, keyword（名称/描述模糊搜索）
+ * 注意：后端不支持 packageType 筛选，类型筛选由前端完成
  * @param {object} params
  * @param {number}  params.page        页码（默认1）
  * @param {number}  params.pageSize    每页条数（默认10）
- * @param {number}  [params.packageType] 套餐类型 1基础 2增值 3定制
  * @param {string}  [params.keyword]   名称/描述模糊搜索
  * @returns {Promise<{code,data:{records:ServicePackage[],total:number},msg}>}
  */

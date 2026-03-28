@@ -14,6 +14,7 @@
           class="search-input"
           v-model="keyword"
           placeholder="搜索套餐名称"
+          @input="onKeywordInput"
           @confirm="onSearch"
         />
         <text v-if="keyword" class="clear-icon" @click="clearSearch">✕</text>
@@ -41,7 +42,7 @@
     <!-- 体检套餐列表 -->
     <view v-else class="package-section">
       <view v-if="packages.length === 0" class="empty-wrap">
-        <text class="empty-text">暂无套餐数据</text>
+        <text class="empty-text">{{ allPackages.length === 0 ? '暂无套餐数据' : '无匹配的套餐' }}</text>
       </view>
       <view
         v-for="pkg in packages"
@@ -105,7 +106,7 @@
       <view v-if="hasMore" class="load-more" @click="loadMore">
         <text class="load-more-text">点击加载更多</text>
       </view>
-      <view v-else-if="packages.length > 0" class="no-more">
+      <view v-else-if="allPackages.length > 0" class="no-more">
         <text class="no-more-text">— 已加载全部 —</text>
       </view>
     </view>
@@ -126,50 +127,50 @@ export default {
         { label: '增值套餐', value: 2 },
         { label: '定制套餐', value: 3 }
       ],
-      packages: [],
+      allPackages: [],    // 从后端拉取的全量数据（当页）
       page: 1,
-      pageSize: 10,
+      pageSize: 50,       // 一次多拉，前端做筛选
       total: 0,
       loading: false,
       hasMore: false
     };
   },
   computed: {
-    totalPages() {
-      return Math.ceil(this.total / this.pageSize);
+    // 前端根据 activeTab + keyword 过滤
+    packages() {
+      let list = this.allPackages;
+      if (this.activeTab !== 0) {
+        list = list.filter(p => p.packageType === this.activeTab);
+      }
+      const kw = this.keyword.trim().toLowerCase();
+      if (kw) {
+        list = list.filter(p =>
+          (p.packageName && p.packageName.toLowerCase().includes(kw)) ||
+          (p.description && p.description.toLowerCase().includes(kw))
+        );
+      }
+      return list;
     }
   },
   onLoad() {
-    this.fetchPackages(true);
+    this.fetchPackages();
   },
   methods: {
-    async fetchPackages(reset = false) {
+    async fetchPackages() {
       if (this.loading) return;
-      if (reset) {
-        this.page = 1;
-        this.packages = [];
-      }
       this.loading = true;
       try {
         const params = {
           page: this.page,
           pageSize: this.pageSize
         };
-        if (this.activeTab !== 0) params.packageType = this.activeTab;
-        if (this.keyword.trim()) params.keyword = this.keyword.trim();
-
         const res = await getHealthExamPackages(params);
         if (res && res.code === 200 && res.data) {
           const data = res.data;
-          // IPage 格式：records / total
           const records = data.records || [];
           this.total = data.total || 0;
-          if (reset) {
-            this.packages = records;
-          } else {
-            this.packages = [...this.packages, ...records];
-          }
-          this.hasMore = this.packages.length < this.total;
+          this.allPackages = [...this.allPackages, ...records];
+          this.hasMore = this.allPackages.length < this.total;
         } else {
           uni.showToast({ title: (res && res.msg) || '获取套餐失败', icon: 'none' });
         }
@@ -182,24 +183,30 @@ export default {
     },
 
     switchTab(val) {
-      if (this.activeTab === val) return;
       this.activeTab = val;
-      this.fetchPackages(true);
+      // 如果还有更多数据未加载，继续拉取
+      if (this.hasMore) {
+        this.page += 1;
+        this.fetchPackages();
+      }
+    },
+
+    onKeywordInput(e) {
+      this.keyword = e.detail.value;
     },
 
     onSearch() {
-      this.fetchPackages(true);
+      // keyword 已通过 v-model 双向绑定，computed 自动过滤
     },
 
     clearSearch() {
       this.keyword = '';
-      this.fetchPackages(true);
     },
 
     loadMore() {
       if (!this.hasMore || this.loading) return;
       this.page += 1;
-      this.fetchPackages(false);
+      this.fetchPackages();
     },
 
     goDetail(id) {
