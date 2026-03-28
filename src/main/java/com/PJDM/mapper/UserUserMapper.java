@@ -12,7 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.List;
 
 /**
  * 用户主表 Mapper
@@ -35,14 +34,9 @@ public interface UserUserMapper extends BaseMapper<UserUser> {
     Long selectUserListPageCount(@Param("q") UserQueryDTO query);
 
     /**
-     * 查询用户详情（含角色列表）
+     * 查询用户详情
      */
     UserDetailVO selectUserDetail(@Param("id") Long id);
-
-    /**
-     * 查询用户关联的角色列表
-     */
-    List<UserDetailVO.RoleSimpleVO> selectRolesByUserId(@Param("userId") Long userId);
 
     /**
      * 查询用户最新一条认证记录

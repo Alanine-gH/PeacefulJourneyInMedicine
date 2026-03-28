@@ -101,8 +101,6 @@ public class UserUserServiceImpl extends ServiceImpl<UserUserMapper, UserUser> i
         if (vo == null) {
             throw new RuntimeException("用户不存在");
         }
-        List<UserDetailVO.RoleSimpleVO> roles = baseMapper.selectRolesByUserId(id);
-        vo.setRoles(roles);
         return vo;
     }
 

@@ -42,12 +42,7 @@
         <result column="remark"         property="remark"/>
     </resultMap>
 
-    <!-- 角色简要信息 ResultMap -->
-    <resultMap id="RoleSimpleVOMap" type="com.PJDM.vo.UserDetailVO$RoleSimpleVO">
-        <id     column="role_id"        property="id"/>
-        <result column="role_name"      property="roleName"/>
-        <result column="role_code"      property="roleCode"/>
-    </resultMap>
+    <!-- 角色简要信息 ResultMap 已废弃，user_user_role 表不存在，直接从 user_user 表获取用户信息 -->
 
     <!--
         分页查询用户列表
@@ -116,7 +111,7 @@
 <!--        ORDER BY u.create_time DESC-->
 <!--    </select>-->
 
-    <!-- 查询用户详情（基础信息，角色由 selectRolesByUserId 单独查询） -->
+    <!-- 查询用户详情（基础信息，直接从 user_user 表获取） -->
     <select id="selectUserDetail" resultMap="UserDetailVOMap">
         SELECT
             u.id,
@@ -136,19 +131,6 @@
             u.remark
         FROM user_user u
         WHERE u.id = #{id}
-    </select>
-
-    <!-- 查询用户关联角色（user_user_role JOIN user_role 多表联查） -->
-    <select id="selectRolesByUserId" resultMap="RoleSimpleVOMap">
-        SELECT
-            r.id   AS role_id,
-            r.role_name,
-            r.role_code
-        FROM user_user_role ur
-        INNER JOIN user_role r ON r.id = ur.role_id
-        WHERE ur.user_id = #{userId}
-          AND r.status = 1
-        ORDER BY r.role_sort
     </select>
 
 </mapper>

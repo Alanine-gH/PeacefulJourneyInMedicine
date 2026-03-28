@@ -43,35 +43,5 @@ public class UserDetailVO {
     @Schema(description = "性别 0未知 1男 2女")
     private Byte gender;
 
-    @Schema(description = "用户类型")
+    @Schema(description = "用户类型（1患者 2陪诊师 3管理员）")
     private Byte userType;
-
-    @Schema(description = "账号状态")
-    private Byte status;
-
-    @Schema(description = "最后登录时间")
-    private LocalDateTime lastLoginTime;
-
-    @Schema(description = "最后登录IP")
-    private String lastLoginIp;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
-    @Schema(description = "备注")
-    private String remark;
-
-    @Schema(description = "角色列表（来自 user_role 多表联查）")
-    private List<RoleSimpleVO> roles;
-
-    @Data
-    @Schema(description = "角色简要信息")
-    public static class RoleSimpleVO {
-        @Schema(description = "角色ID")
-        private Long id;
-        @Schema(description = "角色名称")
-        private String roleName;
-        @Schema(description = "角色编码")
-        private String roleCode;
-    }
-}
