@@ -3,8 +3,10 @@ package com.PJDM.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,6 +55,16 @@ public class MedicalDepartment implements Serializable {
      * 科室类型（1：内科；2：外科；3：妇产科；4：儿科；5：眼科；6：耳鼻喉科；7：皮肤科；8：骨科；9：神经科；10：其他）
      */
     private Byte departmentType;
+
+    /**
+     * 小类
+     */
+    private String smallType;
+
+    /**
+     * 小类科室描述
+     */
+    private String smallDescription;
 
     /**
      * 科室描述
