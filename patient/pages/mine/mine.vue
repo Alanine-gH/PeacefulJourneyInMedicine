@@ -94,9 +94,9 @@
           <text class="service-text">病例查询</text>
           <text class="service-arrow">›</text>
         </view>
-        <view class="service-item" @click="navigateTo('help')">
+        <view class="service-item" @click="handleLogout">
           <view class="service-icon">❓</view>
-          <text class="service-text">帮助与客服</text>
+          <text class="service-text">退出登录</text>
           <text class="service-arrow">›</text>
         </view>
         <view class="service-item" @click="navigateTo('feedback')">
@@ -106,19 +106,6 @@
         </view>
       </view>
     </view>
-
-    <!-- 退出登录 -->
-    <view class="logout-section" v-if="userInfo">
-      <view class="logout-btn" @click="handleLogout">
-        <text class="logout-icon">🚪</text>
-        <text class="logout-text">退出登录</text>
-      </view>
-    </view>
-
-    <!-- 底部转换按钮 -->
-    <!-- <view class="bottom-btn">
-      <button class="switch-btn" @click="switchToCompanion">切换到陪护端</button>
-    </view> -->
   </view>
 </template>
 
@@ -580,62 +567,4 @@ export default {
   color: #999;
 }
 
-/* 底部转换按钮 */
-.bottom-btn {
-  padding: 30rpx 20rpx 50rpx;
-}
-
-.switch-btn {
-  width: 100%;
-  height: 90rpx;
-  background-color: #4DD0E1;
-  color: #fff;
-  font-size: 32rpx;
-  font-weight: 500;
-  border-radius: 45rpx;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.switch-btn::after {
-  border: none;
-}
-
-.switch-btn:active {
-  opacity: 0.9;
-  transform: scale(0.98);
-}
-
-/* 退出登录 */
-.logout-section {
-  margin: 20rpx;
-  border-radius: 20rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-}
-
-.logout-btn {
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  padding: 35rpx 30rpx;
-  cursor: pointer;
-}
-
-.logout-btn:active {
-  background-color: #f5f5f5;
-}
-
-.logout-icon {
-  font-size: 36rpx;
-  margin-right: 20rpx;
-}
-
-.logout-text {
-  font-size: 28rpx;
-  color: #F44336;
-  font-weight: 500;
-}
 </style>
