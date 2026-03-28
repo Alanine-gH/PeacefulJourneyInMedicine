@@ -42,7 +42,6 @@
           <th>状态</th>
           <th>金额</th>
           <th>服务/预约日期</th>
-          <th>评分</th>
           <th>下单时间</th>
           <th>操作</th>
         </tr>
@@ -71,9 +70,6 @@
           <td><span class="tag" :class="statusClass(row.orderStatus)">{{ statusLabel(row.orderStatus) }}</span></td>
           <td><span class="amount">{{ row.currency }} {{ row.totalAmount }}</span></td>
           <td>{{ row.serviceStartTime ? fmtDate(row.serviceStartTime) : (row.appointmentDate || '-') }}</td>
-          <td><span v-if="row.ratingScore" class="score">⭐ {{ row.ratingScore }}</span><span v-else
-                                                                                             class="text-muted">-</span>
-          </td>
           <td>{{ fmtTime(row.createTime) }}</td>
           <td>
             <div class="action-btns">
@@ -574,10 +570,6 @@ export default {
 .amount {
   color: var(--text-yellow);
   font-weight: 600;
-}
-
-.score {
-  color: var(--text-yellow);
 }
 
 .text-muted {

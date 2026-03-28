@@ -3,51 +3,7 @@
  * 提供电子病历管理、检查报告上传、服务套餐浏览等功能
  */
 
-import { BASE_URL as baseUrl } from './config.js';
-
-/**
- * 通用请求方法
- * @param {string} url - 请求路径
- * @param {object} options - 请求配置选项
- * @param {string} options.method - 请求方法 (GET/POST/PUT/DELETE)
- * @param {object} options.data - 请求数据
- * @param {object} options.header - 请求头
- * @returns {Promise} 返回请求结果
- */
-async function request(url, options = {}) {
-  const token = uni.getStorageSync('token') || '';
-  
-  const config = {
-    url: baseUrl + url,
-    method: options.method || 'GET',
-    header: {
-      'Content-Type': 'application/json',
-      ...options.header
-    },
-    data: options.data
-  };
-  
-  if (token) {
-    config.header['Authorization'] = 'Bearer ' + token;
-  }
-  
-  try {
-    const response = await uni.request(config);
-    if (response.statusCode === 200) {
-      return response.data;
-    } else if (response.statusCode === 401) {
-      uni.showToast({ title: '登录已过期，请重新登录', icon: 'none' });
-      uni.navigateTo({ url: '/pages/login/login' });
-      throw new Error('Token 过期');
-    } else {
-      throw new Error(`请求失败: ${response.statusCode}`);
-    }
-  } catch (error) {
-    console.error('API 请求错误:', error);
-    uni.showToast({ title: '网络连接失败，请稍后重试', icon: 'none' });
-    throw error;
-  }
-}
+import { request } from './config.js';
 
 /**
  * 6.1 电子病历

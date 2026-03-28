@@ -3,7 +3,7 @@
  * 对应后端 ServicePackageApiController
  */
 
-import { request } from './api.js';
+import { request } from './config.js';
 
 /**
  * 获取体检套餐列表（分页）
@@ -14,7 +14,7 @@ import { request } from './api.js';
  * @param {number}  params.page        页码（默认1）
  * @param {number}  params.pageSize    每页条数（默认10）
  * @param {string}  [params.keyword]   名称/描述模糊搜索
- * @returns {Promise<{code,data:{records:ServicePackage[],total:number},msg}>}
+ * @returns {Promise}
  */
 export function getHealthExamPackages(params = {}) {
   return request('/service/packages', { method: 'GET', data: params });
@@ -24,8 +24,8 @@ export function getHealthExamPackages(params = {}) {
  * 获取体检套餐详情
  * GET /service/packages/{packageId}
  * @param {number|string} packageId  套餐ID
- * @returns {Promise<{code,data:ServicePackage,msg}>}
+ * @returns {Promise}
  */
 export function getHealthExamPackageDetail(packageId) {
-  return request(`/service/packages/${packageId}`, { method: 'GET' });
+  return request('/service/packages/' + packageId, { method: 'GET' });
 }

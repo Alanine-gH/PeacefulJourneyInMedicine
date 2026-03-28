@@ -11,11 +11,11 @@
       <view class="search-bar">
         <text class="search-icon">🔍</text>
         <input
-          class="search-input"
-          v-model="keyword"
-          placeholder="搜索套餐名称"
-          @input="onKeywordInput"
-          @confirm="onSearch"
+            class="search-input"
+            v-model="keyword"
+            placeholder="搜索套餐名称"
+            @input="onKeywordInput"
+            @confirm="onSearch"
         />
         <text v-if="keyword" class="clear-icon" @click="clearSearch">✕</text>
       </view>
@@ -24,11 +24,11 @@
     <!-- 套餐类型筛选 -->
     <view class="filter-bar">
       <view
-        v-for="tab in tabs"
-        :key="tab.value"
-        class="filter-tab"
-        :class="{ active: activeTab === tab.value }"
-        @click="switchTab(tab.value)"
+          v-for="tab in tabs"
+          :key="tab.value"
+          class="filter-tab"
+          :class="{ active: activeTab === tab.value }"
+          @click="switchTab(tab.value)"
       >
         <text>{{ tab.label }}</text>
       </view>
@@ -45,18 +45,18 @@
         <text class="empty-text">{{ allPackages.length === 0 ? '暂无套餐数据' : '无匹配的套餐' }}</text>
       </view>
       <view
-        v-for="pkg in packages"
-        :key="pkg.id"
-        class="package-item"
-        @click="goDetail(pkg.id)"
+          v-for="pkg in packages"
+          :key="pkg.id"
+          class="package-item"
+          @click="goDetail(pkg.id)"
       >
         <!-- 封面图 -->
         <view class="pkg-cover">
           <image
-            v-if="pkg.coverImageUrl"
-            :src="pkg.coverImageUrl"
-            class="cover-img"
-            mode="aspectFill"
+              v-if="pkg.coverImageUrl"
+              :src="pkg.coverImageUrl"
+              class="cover-img"
+              mode="aspectFill"
           />
           <view v-else class="cover-placeholder">
             <text class="cover-icon">🏥</text>
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { getHealthExamPackages } from '@/utils/health-exam-api.js';
+import {getHealthExamPackages} from '@/utils/health-exam-api.js';
 
 export default {
   data() {
@@ -122,10 +122,10 @@ export default {
       keyword: '',
       activeTab: 0,       // 0=全部 1=基础 2=增值 3=定制
       tabs: [
-        { label: '全部', value: 0 },
-        { label: '基础套餐', value: 1 },
-        { label: '增值套餐', value: 2 },
-        { label: '定制套餐', value: 3 }
+        {label: '全部', value: 0},
+        {label: '基础套餐', value: 1},
+        {label: '增值套餐', value: 2},
+        {label: '定制套餐', value: 3}
       ],
       allPackages: [],    // 从后端拉取的全量数据（当页）
       page: 1,
@@ -145,8 +145,8 @@ export default {
       const kw = this.keyword.trim().toLowerCase();
       if (kw) {
         list = list.filter(p =>
-          (p.packageName && p.packageName.toLowerCase().includes(kw)) ||
-          (p.description && p.description.toLowerCase().includes(kw))
+            (p.packageName && p.packageName.toLowerCase().includes(kw)) ||
+            (p.description && p.description.toLowerCase().includes(kw))
         );
       }
       return list;
@@ -172,11 +172,11 @@ export default {
           this.allPackages = [...this.allPackages, ...records];
           this.hasMore = this.allPackages.length < this.total;
         } else {
-          uni.showToast({ title: (res && res.msg) || '获取套餐失败', icon: 'none' });
+          uni.showToast({title: (res && res.msg) || '获取套餐失败', icon: 'none'});
         }
       } catch (e) {
         console.error('获取套餐列表失败', e);
-        uni.showToast({ title: '网络错误，请稍后重试', icon: 'none' });
+        uni.showToast({title: '网络错误，请稍后重试', icon: 'none'});
       } finally {
         this.loading = false;
       }
@@ -216,12 +216,12 @@ export default {
     },
 
     typeLabel(type) {
-      const map = { 1: '基础', 2: '增值', 3: '定制' };
+      const map = {1: '基础', 2: '增值', 3: '定制'};
       return map[type] || '套餐';
     },
 
     typeClass(type) {
-      const map = { 1: 'tag-basic', 2: 'tag-value', 3: 'tag-custom' };
+      const map = {1: 'tag-basic', 2: 'tag-value', 3: 'tag-custom'};
       return map[type] || 'tag-basic';
     }
   }
@@ -415,18 +415,6 @@ export default {
 .pkg-type-tag {
   border-radius: 8rpx;
   padding: 4rpx 14rpx;
-}
-
-.tag-basic {
-  background: #e3f2fd;
-}
-
-.tag-value {
-  background: #fce4ec;
-}
-
-.tag-custom {
-  background: #f3e5f5;
 }
 
 .type-text {

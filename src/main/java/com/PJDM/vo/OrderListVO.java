@@ -72,8 +72,4 @@ public class OrderListVO {
 
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
-
-    /** 来自 order_evaluation 多表联查 */
-    @Schema(description = "评价评分（已完成订单）")
-    private BigDecimal ratingScore;
 }

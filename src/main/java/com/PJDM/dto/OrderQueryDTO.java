@@ -18,6 +18,9 @@ public class OrderQueryDTO {
     @Schema(description = "用户ID")
     private String userId;
 
+    @Schema(description = "患者姓名或手机号（模糊）")
+    private String userName;
+
     @Schema(description = "陪诊师姓名（模糊）")
     private String accompanistName;
 
