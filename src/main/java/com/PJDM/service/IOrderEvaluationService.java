@@ -1,6 +1,7 @@
 package com.PJDM.service;
 
 import com.PJDM.dto.EvaluationQueryDTO;
+import com.PJDM.dto.EvaluationSubmitDTO;
 import com.PJDM.pojo.OrderEvaluation;
 import com.PJDM.vo.EvaluationListVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,4 +22,6 @@ public interface IOrderEvaluationService extends IService<OrderEvaluation> {
 
     /** 删除评价 */
     void deleteEvaluation(Long id);
+
+    void submitEvaluation(com.PJDM.dto.EvaluationSubmitDTO dto);
 }

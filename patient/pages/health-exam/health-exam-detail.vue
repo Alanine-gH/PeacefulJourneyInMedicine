@@ -12,9 +12,9 @@
         <text class="cover-ph-icon">🏥</text>
       </view>
       <!-- 返回按钮 -->
-      <!--      <view class="back-btn" @click="goBack">-->
-      <!--        <text class="back-icon">‹</text>-->
-      <!--      </view>-->
+            <view class="back-btn" @click="goBack">
+              <text class="back-icon">‹</text>
+            </view>
     </view>
 
     <!-- 加载中 -->
@@ -262,7 +262,7 @@ export default {
 }
 
 /* 返回按钮*/
-/*
+
 .back-btn {
   position: absolute;
   top: 40rpx;
@@ -282,7 +282,7 @@ export default {
   line-height: 1;
   margin-top: -4rpx;
 }
-*/
+
 /* 卡片 */
 .card {
   background: #fff;

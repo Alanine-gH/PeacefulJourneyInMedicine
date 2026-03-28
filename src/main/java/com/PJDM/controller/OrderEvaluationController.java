@@ -2,6 +2,7 @@ package com.PJDM.controller;
 
 import com.PJDM.common.R;
 import com.PJDM.dto.EvaluationQueryDTO;
+import com.PJDM.dto.EvaluationSubmitDTO;
 import com.PJDM.pojo.OrderEvaluation;
 import com.PJDM.service.IOrderEvaluationService;
 import com.PJDM.vo.EvaluationListVO;
@@ -25,6 +26,17 @@ public class OrderEvaluationController {
 
     @Autowired
     private IOrderEvaluationService evaluationService;
+
+    @PostMapping("/submit")
+    @Operation(summary = "患者提交评价")
+    public R<String> submit(@RequestBody EvaluationSubmitDTO dto) {
+        try {
+            evaluationService.submitEvaluation(dto);
+            return R.success("评价成功");
+        } catch (RuntimeException e) {
+            return R.error(e.getMessage());
+        }
+    }
 
     @GetMapping("/list")
     @Operation(summary = "分页查询评价列表（LEFT JOIN user_user、user_accompanist）")

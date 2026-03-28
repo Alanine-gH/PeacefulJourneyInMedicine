@@ -1,42 +1,35 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <view class="header">
-      <view class="header-content">
-        <view class="header-left"></view>
-        <view class="header-title">专家咨询</view>
-        <view class="header-right"></view>
-      </view>
-    </view>
-
     <!-- 专家列表 -->
     <view class="expert-section">
       <view class="section-header">
         <text class="section-title">专家团队</text>
       </view>
       <view class="expert-list">
-        <view 
-          v-for="(expert, index) in experts" 
-          :key="index"
+        <view v-if="loading" class="loading-tip"><text>加载中...</text></view>
+        <view v-else-if="experts.length === 0" class="loading-tip"><text>暂无专家数据</text></view>
+        <view
+          v-for="(expert, index) in experts"
+          :key="expert.id || index"
           class="expert-item"
         >
           <view class="expert-image">
-            <text class="image-icon">{{ expert.icon }}</text>
+            <image v-if="expert.photoUrl" :src="expert.photoUrl" class="expert-photo" mode="aspectFill"/>
+            <text v-else class="image-icon">{{ expert.gender === 2 ? '👩‍⚕️' : '👨‍⚕️' }}</text>
           </view>
           <view class="expert-info">
-            <text class="expert-name">{{ expert.name }}</text>
-            <text class="expert-title">{{ expert.title }}</text>
-            <text class="expert-hospital">{{ expert.hospital }}</text>
-            <text class="expert-desc">{{ expert.description }}</text>
-            <text class="expert-price">¥{{ expert.price }}/次</text>
-            <view class="expert-specialties">
-              <text 
-                v-for="(specialty, idx) in expert.specialties" 
-                :key="idx"
-                class="specialty-tag"
-              >
-                {{ specialty }}
-              </text>
+            <text class="expert-name">{{ expert.expertName || '-' }}</text>
+            <text class="expert-title">{{ expert.professionalTitle || '-' }}</text>
+            <text class="expert-hospital">{{ expert.hospitalName || '-' }}{{ expert.departmentName ? ' · ' + expert.departmentName : '' }}</text>
+            <text class="expert-desc">{{ expert.specialty || '-' }}</text>
+            <text class="expert-price" v-if="expert.appointmentFee">¥{{ expert.appointmentFee }}/次</text>
+            <view class="expert-specialties" v-if="expert.languageAbility">
+              <text class="specialty-tag">{{ expert.languageAbility }}</text>
+            </view>
+            <view class="expert-specialties" v-if="expert.experienceYears">
+              <text class="specialty-tag">从业{{ expert.experienceYears }}年</text>
+              <text class="specialty-tag" v-if="expert.isAcceptInternational === 1">接受国际患者</text>
+              <text class="specialty-tag" v-if="expert.isRecommend === 1">平台推荐</text>
             </view>
           </view>
         </view>
@@ -69,51 +62,13 @@
 </template>
 
 <script>
+import { request, getFileUrl } from '../../utils/config.js';
+
 export default {
   data() {
     return {
-      experts: [
-        {
-          id: 1,
-          name: '张教授',
-          title: '主任医师',
-          hospital: '北京协和医院',
-          description: '从事心血管疾病诊治30年，擅长冠心病、高血压等疾病的诊断和治疗',
-          price: '299',
-          icon: '👨‍⚕️',
-          specialties: ['心血管', '冠心病', '高血压']
-        },
-        {
-          id: 2,
-          name: '李主任',
-          title: '副主任医师',
-          hospital: '上海瑞金医院',
-          description: '专注糖尿病及内分泌疾病研究，发表多篇学术论文',
-          price: '399',
-          icon: '👩‍⚕️',
-          specialties: ['糖尿病', '内分泌', '代谢疾病']
-        },
-        {
-          id: 3,
-          name: '王专家',
-          title: '主任医师',
-          hospital: '广州中山医院',
-          description: '神经内科权威专家，擅长脑血管疾病、帕金森病等',
-          price: '499',
-          icon: '👨‍⚕️',
-          specialties: ['神经内科', '脑血管', '帕金森']
-        },
-        {
-          id: 4,
-          name: '赵医生',
-          title: '副主任医师',
-          hospital: '北京协和医院',
-          description: '消化内科专家，擅长胃炎、溃疡、肝病等消化系统疾病',
-          price: '299',
-          icon: '👩‍⚕️',
-          specialties: ['消化内科', '胃炎', '肝病']
-        }
-      ],
+      experts: [],
+      loading: false,
       faqs: [
         {
           question: '专家咨询如何进行？',
@@ -138,7 +93,30 @@ export default {
       ]
     }
   },
+  onLoad() {
+    this.loadExperts()
+  },
   methods: {
+    async loadExperts() {
+      this.loading = true
+      try {
+        const res = await request('/medical/expert/list', {
+          method: 'GET',
+          data: { status: 1, pageNum: 1, pageSize: 100 }
+        })
+        const d = (res && res.data) ? res.data : res
+        const list = d.records || d.list || (Array.isArray(d) ? d : [])
+        // 把 photoUrl 转为完整可访问 URL
+        this.experts = list.map(e => ({
+          ...e,
+          photoUrl: getFileUrl(e.photoUrl)
+        }))
+      } catch (e) {
+        uni.showToast({ title: '加载专家列表失败', icon: 'none' })
+      } finally {
+        this.loading = false
+      }
+    },
     toggleFaq(index) {
       this.faqs[index].expanded = !this.faqs[index].expanded;
     }
@@ -150,42 +128,6 @@ export default {
 .container {
   background-color: #f8f9fa;
   min-height: 100vh;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-
-.header-left {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-.header-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.header-right {
-  width: 60rpx;
 }
 
 /* 专家列表 */
@@ -243,6 +185,20 @@ export default {
 .image-icon {
   font-size: 50rpx;
   color: white;
+}
+
+.expert-photo {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 15rpx;
+  object-fit: cover;
+}
+
+.loading-tip {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #999;
+  font-size: 26rpx;
 }
 
 .expert-info {

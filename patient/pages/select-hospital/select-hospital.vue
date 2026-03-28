@@ -55,6 +55,7 @@ export default {
       hospitalList: [],
       searchTimer: null,
       selectedHospital: '',
+      selectedHospitalId: '',
       hospitalData: {
         '北京市': [
           {
@@ -1004,16 +1005,16 @@ export default {
       uni.navigateTo({url: '/pages/select-city/select-city'})
     },
     selectHospital(item) {
-      this.selectedHospital = item
+      this.selectedHospital = item.name
+      this.selectedHospitalId = item.id || ''
     },
     confirmHospital() {
       if (!this.selectedHospital) {
         uni.showToast({title: '请选择医院', icon: 'none'})
         return
       }
-      // 通过 storage 传递数据，避免 $vm 直接赋值在部分场景下失效
       uni.setStorageSync('_sel_hospital', this.selectedHospital)
-      uni.setStorageSync('_sel_hospitalId', '')
+      uni.setStorageSync('_sel_hospitalId', this.selectedHospitalId || '')
       // 换医院时清空已选医生
       uni.setStorageSync('_sel_clearDoctor', '1')
       uni.navigateBack()

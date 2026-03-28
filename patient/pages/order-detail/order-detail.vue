@@ -92,7 +92,10 @@
       </view>
     </view>
 
-    <!-- 底部空白区域 -->
+    <!-- 评价按钮（已完成且未评价） -->
+    <view class="bottom-action" v-if="orderDetail.orderStatus === 5 && !orderDetail.hasEvaluated">
+      <button class="evaluate-btn" @click="goToEvaluate">立即评价</button>
+    </view>
     <view class="bottom-space"></view>
   </view>
 </template>
@@ -194,12 +197,26 @@ export default {
         url: '/pages/customer/customer'
       })
     },
+    goToEvaluate() {
+      const d = this.orderDetail;
+      uni.navigateTo({
+        url: `/pages/evaluation/evaluation?orderNo=${this.order_no}&accompanistName=${encodeURIComponent(d.accompanistName || '')}&accompanistId=${d.accompanistId || ''}`
+      });
+    },
+    async checkEvaluated() {
+      try {
+        const { request } = await import('@/utils/config.js');
+        const res = await request('/order/evaluation/list', { method: 'GET', data: { orderNo: this.order_no, pageNum: 1, pageSize: 1 } });
+        if (res && res.data) this.$set(this.orderDetail, 'hasEvaluated', (res.data.total || 0) > 0);
+      } catch (e) {}
+    },
     async getOrderDetail() {
       try {
         const res = await getPatientOrderDetail(this.order_no);
         if (res && res.code === 200 && res.data) {
           this.orderDetail = res.data;
           uni.setStorageSync('orderDetail_' + this.order_no, res.data);
+          await this.checkEvaluated();
         }
       } catch (error) {
         console.error('获取订单详情失败:', error);

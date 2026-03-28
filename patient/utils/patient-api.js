@@ -99,9 +99,15 @@ async function cancelPatientOrder(orderNo, reason) {
  * @description 患者对已完成的订单进行评价
  */
 async function evaluateOrder(orderNo, data) {
-  return request('/patient/orders/evaluate', {
+  return request('/order/evaluation/submit', {
     method: 'POST',
-    data: { order_no: orderNo, ...data }
+    data: {
+      orderNo,
+      ratingScore: data.rating,
+      evaluationContent: data.content,
+      ratingLabels: data.labels || '',
+      anonymous: data.anonymous || false
+    }
   });
 }
 

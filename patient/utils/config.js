@@ -8,6 +8,17 @@
 export const BASE_URL = 'http://localhost:8080';
 
 /**
+ * 将后端返回的文件名/路径转为可访问的完整 URL
+ * @param {string} filename - 后端存储的文件名或路径
+ * @returns {string} 完整图片 URL
+ */
+export function getFileUrl(filename) {
+  if (!filename) return '';
+  if (filename.startsWith('http')) return filename;
+  return BASE_URL + '/common/download?name=' + encodeURIComponent(filename);
+}
+
+/**
  * 通用请求方法
  * @param {string} url - 请求路径（不含域名，如 '/user/info'）
  * @param {object} options - 请求配置
