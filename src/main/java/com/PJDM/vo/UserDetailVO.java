@@ -3,12 +3,10 @@ package com.PJDM.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * 用户详情 VO（含角色信息）
+ * 用户详情 VO
  *
  * @author Alanine
  */
@@ -45,4 +43,19 @@ public class UserDetailVO {
 
     @Schema(description = "用户类型（1患者 2陪诊师 3管理员）")
     private Byte userType;
+
+    @Schema(description = "账号状态 1活跃 2停用 3禁用")
+    private Byte status;
+
+    @Schema(description = "最后登录时间")
+    private LocalDateTime lastLoginTime;
+
+    @Schema(description = "最后登录IP")
+    private String lastLoginIp;
+
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
+
+    @Schema(description = "备注")
+    private String remark;
 }

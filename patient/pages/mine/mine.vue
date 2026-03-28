@@ -19,7 +19,7 @@
       </view>
       <view v-else class="user-login">
         <view class="profile-avatar">
-          <image v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar-img" mode="aspectFill"/>
+          <image v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" class="avatar-img" mode="aspectFill"/>
           <text v-else class="avatar-icon">👤</text>
         </view>
         <view class="profile-info">
@@ -32,7 +32,7 @@
         </view>
         <view class="info-button" @click="navigateTo('info')">
           <text class="info-button-icon">📄</text>
-          <text class="info-button-text">信息</text>
+          <text class="info-button-text">修改信息</text>
         </view>
       </view>
     </view>
@@ -160,13 +160,15 @@ export default {
       if (!raw) return null
       return {
         id: raw.id || raw.userId,
-        nickname: raw.nickName || raw.username || raw.nickname || '用户',
-        avatar: getAvatarUrl(raw.avatarUrl || raw.avatar),
+        nickname: raw.nickName || raw.nickname || raw.username || '用户',
+        avatarUrl: getAvatarUrl(raw.avatarUrl || raw.avatar || ''),
         phone: raw.phone || '',
         realName: raw.realName || '',
         userType: raw.userType,
         username: raw.username || '',
-        age: raw.age
+        age: raw.age,
+        gender: raw.gender,
+        email: raw.email || ''
       }
     },
     async fetchUserInfo() {

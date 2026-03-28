@@ -1,15 +1,14 @@
 <template>
 	<view class="promotion-page">
 		<!-- 导航栏 -->
-		<view class="nav-bar"
-			:style="{ backgroundColor: serviceData.navColor, backgroundImage: serviceData.navGradient }">
-			<!--      <view class="back-btn" @click="goBack">-->
-			<!--        <text class="back-arrow">‹</text>-->
-			<!--      </view>-->
-			<text class="nav-title">优惠活动</text>
-			<view class="placeholder"></view>
-		</view>
-
+<!--		<view class="nav-bar"-->
+<!--			:style="{ backgroundColor: serviceData.navColor, backgroundImage: serviceData.navGradient }">-->
+<!--			      <view class="back-btn" @click="goBack">-->
+<!--			        <text class="back-arrow">‹</text>-->
+<!--			      </view>-->
+<!--			<text class="nav-title">优惠活动</text>-->
+<!--			<view class="placeholder"></view>-->
+<!--		</view>-->
 		<!-- 活动详情 -->
 		<view class="promotion-detail">
 			<!-- 顶部横幅 -->
@@ -383,6 +382,7 @@
 	}
 
 	/* 导航栏 */
+  /*
 	.nav-bar {
 		display: flex;
 		align-items: center;
@@ -403,7 +403,7 @@
 	.placeholder {
 		width: 60rpx;
 	}
-
+*/
 	/* 活动详情 */
 	.promotion-detail {
 		padding: 20rpx;
