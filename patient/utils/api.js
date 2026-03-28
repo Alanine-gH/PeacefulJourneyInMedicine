@@ -241,5 +241,7 @@ export {
 	sendTriageStream,
 	saveTriageReply,
 	finishTriageSession,
-	getTriageSession
+	getTriageSession,
+	getTriageRecords,
+	getTriageRecordDetail
 };
