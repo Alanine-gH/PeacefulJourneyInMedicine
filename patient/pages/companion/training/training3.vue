@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+<!--    <view class="header">
       <view class="header-content">
         <view class="logo">
           <text class="logo-text">应急处理</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 视频部分 -->
     <view class="video-section">

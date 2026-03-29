@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 顶部导航 -->
-    <view class="header">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-icon">←</text>-->
-<!--      </view>-->
+    <!-- <view class="header">
+      <view class="back-btn" @click="goBack">
+        <text class="back-icon">←</text>
+      </view>
       <view class="title">智能问答</view>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 快捷问题 -->
     <view v-if="messages.length === 0" class="quick-questions">

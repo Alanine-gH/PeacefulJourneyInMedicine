@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+   <!-- <view class="header">
       <view class="header-content">
         <view class="logo">
           <text class="logo-text">资格认证</text>
@@ -12,7 +12,7 @@
           </view>
         </view>
       </view>
-    </view>
+    </view> -->
     
     <!-- 表单内容 -->
     <view class="form-content">

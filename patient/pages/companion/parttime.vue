@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+<!--    <view class="header">
       <view class="header-content">
         <view class="logo">
           <text class="logo-text">高薪兼职</text>
@@ -13,7 +13,7 @@
         </view>
       </view>
     </view>
-    
+    -->
     <!-- 主要内容 -->
     <view class="main-content">
       <!-- 主题区域 -->

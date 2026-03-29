@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+<!--    <view class="header">
       <view class="header-content">
         <view class="header-left"></view>
         <view class="header-title">日程安排</view>
         <view class="header-right"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 日历区域 -->
     <view class="calendar-section">

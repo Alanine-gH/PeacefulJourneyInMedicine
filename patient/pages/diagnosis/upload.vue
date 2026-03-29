@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 顶部导航 -->
-    <view class="header">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-icon">←</text>-->
-<!--      </view>-->
+<!--    <view class="header">
+      <view class="back-btn" @click="goBack">
+        <text class="back-icon">←</text>
+      </view>
       <view class="title">上传病历</view>
       <view class="placeholder"></view>
-    </view>
+    </view>-->
 
     <!-- 上传区域 -->
     <view class="upload-section">

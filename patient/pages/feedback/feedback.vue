@@ -2,13 +2,13 @@
   <!-- 意见反馈页面 -->
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="header-left"></view>
         <view class="header-title">意见反馈</view>
         <view class="header-right"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 反馈表单 -->
     <view class="form-section">

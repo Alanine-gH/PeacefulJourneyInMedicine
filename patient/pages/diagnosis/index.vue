@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 顶部导航 -->
-    <view class="header">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-icon">←</text>-->
-<!--      </view>-->
+ <!--   <view class="header">
+      <view class="back-btn" @click="goBack">
+        <text class="back-icon">←</text>
+      </view>
       <view class="title">智能诊断</view>
       <view class="placeholder"></view>
-    </view>
+    </view>-->
 
     <!-- 人体2D图 -->
     <view class="body-diagram">

@@ -1,12 +1,12 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-icon">←</text>-->
-<!--      </view>-->
+<!--    <view class="header">
+      <view class="back-btn" @click="goBack">
+        <text class="back-icon">←</text>
+      </view>
       <view class="title">服务评价</view>
-    </view>
+    </view>-->
     
     <!-- 医生信息 -->
     <view class="doctor-info">

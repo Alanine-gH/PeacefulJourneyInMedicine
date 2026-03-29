@@ -1,14 +1,14 @@
 <template>
   <view class="doctor-detail-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
+ <!--   <view class="nav-bar">
+      <view class="back-btn" @click="goBack">
+        <text class="back-arrow">‹</text>
+      </view>
       <text class="nav-title">医生详情</text>
       <view class="placeholder"></view>
     </view>
-
+-->
     <!-- 医生基本信息卡片 -->
     <view class="doctor-header-card">
       <image class="doctor-avatar-large" :src="doctor.avatar" mode="aspectFill"></image>
