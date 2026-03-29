@@ -58,4 +58,7 @@ public class UserDetailVO {
 
     @Schema(description = "备注")
     private String remark;
+
+    @Schema(description = "国家代码（如+86、+1）")
+    private String countryCode;
 }

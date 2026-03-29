@@ -23,12 +23,6 @@
         <input type="text" placeholder="请输入姓名" v-model="form.name" class="input" />
       </view>
 
-      <!-- 身份证号 -->
-      <view class="form-item">
-        <view class="label">身份证号</view>
-        <input type="text" placeholder="请输入身份证号" v-model="form.idCard" class="input" />
-      </view>
-
       <!-- 性别 -->
       <view class="form-item">
         <view class="label">性别</view>
@@ -67,6 +61,13 @@
       <view class="form-item">
         <view class="label">手机号码</view>
         <input type="tel" placeholder="请输入手机号码" v-model="form.phone" class="input" />
+      </view>
+
+      <!-- 身份证号 / 护照号（自动判断：18位纯数字为身份证，否则为护照） -->
+      <view class="form-item">
+        <view class="label">{{ isForeigner ? '护照号' : '身份证号' }}</view>
+        <input type="text" :placeholder="isForeigner ? '请输入护照号' : '请输入身份证号'" v-model="form.idCard" class="input" />
+        <view class="id-hint">{{ isForeigner ? '已识别为外国人（护照号）' : '请输入18位身份证号' }}</view>
       </view>
 
       <!-- 银行卡号 -->
@@ -127,6 +128,12 @@ export default {
       bankIndex: 0
     }
   },
+  computed: {
+    // 根据 idCard 自动判断是否外国人：18位纯数字为中国居民身份证，否则为外国人护照
+    isForeigner() {
+      return !/^\d{17}[\dXx]$/.test(this.form.idCard || '')
+    }
+  },
   methods: {
     // goBack() {
     //   uni.navigateBack()
@@ -144,7 +151,7 @@ export default {
         return
       }
       if (!this.form.idCard) {
-        uni.showToast({ title: '请输入身份证号', icon: 'none' })
+        uni.showToast({ title: '请输入身份证号或护照号', icon: 'none' })
         return
       }
       if (!this.form.gender) {
@@ -180,29 +187,11 @@ export default {
         return
       }
 
-      // 预留：调用表单数据验证接口
-      // TODO: 集成表单数据验证接口
-      // uni.request({
-      //   url: 'http://localhost:8080/api/auth/validate-form',
-      //   method: 'POST',
-      //   data: this.form,
-      //   header: {
-      //     'Authorization': 'Bearer ' + uni.getStorageSync('token')
-      //   },
-      //   success: (res) => {
-      //     if (res.data.code === 200) {
-      //       // 保存表单数据
-      //       uni.setStorageSync('authForm', this.form)
-      //       // 跳转到第二步
-      //       uni.navigateTo({
-      //         url: '/pages/authentication/step2'
-      //       })
-      //     }
-      //   }
-      // })
-
-      // 保存表单数据
-      uni.setStorageSync('authForm', this.form)
+      // 保存表单数据（含自动计算的 isForeigner）
+      uni.setStorageSync('authForm', {
+        ...this.form,
+        isForeigner: this.isForeigner
+      })
       
       // 跳转到第二步
       uni.navigateTo({
@@ -308,6 +297,12 @@ export default {
   font-size: 28rpx;
   color: #333;
   box-sizing: border-box;
+}
+
+.id-hint {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 8rpx;
 }
 
 /* 性别选择 */

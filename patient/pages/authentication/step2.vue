@@ -18,15 +18,15 @@
     <!-- 内容 -->
     <view class="content">
       <view class="tips">
-        <text>完成认证需要提交你的身份证，请保持本人身份证</text>
+        <text>{{ isForeigner ? '完成认证需要提交你的护照，请保持本人护照清晰可读' : '完成认证需要提交你的身份证，请保持本人身份证清晰可读' }}</text>
       </view>
 
-      <!-- 身份证正面 -->
+      <!-- 正面 -->
       <view class="upload-section">
-        <view class="section-title">上传身份证正面</view>
+        <view class="section-title">{{ isForeigner ? '上传护照首页（含照片页）' : '上传身份证正面' }}</view>
         <view class="upload-area" @click="uploadFront">
           <view v-if="!frontImage" class="upload-placeholder">
-            <view class="id-card-front">
+            <view v-if="!isForeigner" class="id-card-front">
               <view class="card-content">
                 <view class="card-header">
                   <text class="card-title">居民身份证</text>
@@ -49,7 +49,25 @@
                 </view>
               </view>
             </view>
-            <view class="upload-text">点击上传身份证正面</view>
+            <view v-else class="id-card-front">
+              <view class="card-content">
+                <view class="card-header">
+                  <text class="card-title">PASSPORT</text>
+                  <text class="card-subtitle">护照 / パスポート</text>
+                </view>
+                <view class="card-body">
+                  <view class="photo-area"></view>
+                  <view class="info-area">
+                    <view class="info-item">Surname / 姓</view>
+                    <view class="info-item">Given names / 名</view>
+                    <view class="info-item">Nationality / 国籍</view>
+                    <view class="info-item">Date of birth / 出生日期</view>
+                    <view class="info-item">Passport No. / 护照号</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="upload-text">{{ isForeigner ? '点击上传护照首页' : '点击上传身份证正面' }}</view>
           </view>
           <view v-else class="uploaded-image">
             <image :src="frontImage" mode="aspectFill"></image>
@@ -58,12 +76,12 @@
         </view>
       </view>
 
-      <!-- 身份证反面 -->
+      <!-- 反面 -->
       <view class="upload-section">
-        <view class="section-title">上传身份证反面</view>
+        <view class="section-title">{{ isForeigner ? '上传护照签证页（或末页）' : '上传身份证反面' }}</view>
         <view class="upload-area" @click="uploadBack">
           <view v-if="!backImage" class="upload-placeholder">
-            <view class="id-card-back">
+            <view v-if="!isForeigner" class="id-card-back">
               <view class="card-content">
                 <view class="card-header">
                   <text class="card-title">居民身份证</text>
@@ -79,7 +97,22 @@
                 </view>
               </view>
             </view>
-            <view class="upload-text">点击上传身份证反面</view>
+            <view v-else class="id-card-back">
+              <view class="card-content">
+                <view class="card-header">
+                  <text class="card-title">VISA PAGE</text>
+                </view>
+                <view class="card-body">
+                  <view class="chip-area"></view>
+                  <view class="info-area">
+                    <view class="info-item">Visa / 签证</view>
+                    <view class="info-item">Valid Until / 有效期至</view>
+                    <view class="info-item">Entries / 入境次数</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="upload-text">{{ isForeigner ? '点击上传护照签证页' : '点击上传身份证反面' }}</view>
           </view>
           <view v-else class="uploaded-image">
             <image :src="backImage" mode="aspectFill"></image>
@@ -102,9 +135,19 @@ import { uploadFile } from '@/utils/system-api';
 export default {
   data() {
     return {
+      authForm: {},
       frontImage: '',
       backImage: ''
     }
+  },
+  computed: {
+    // 根据 step1 保存的 idCard 自动判断是否外国人（18位纯数字身份证 → false，否则护照 → true）
+    isForeigner() {
+      return !/^\d{17}[\dXx]$/.test(this.authForm.idCard || '')
+    }
+  },
+  onLoad() {
+    this.authForm = uni.getStorageSync('authForm') || {}
   },
   methods: {
     // goBack() {
@@ -133,7 +176,7 @@ export default {
       } catch (error) {
         uni.hideLoading();
         if (error && (error.errMsg || '').includes('cancel')) return;
-        console.error('上传身份证正面失败:', error);
+        console.error('上传正面失败:', error);
         uni.showToast({ title: '上传失败', icon: 'none' });
       }
     },
@@ -160,17 +203,19 @@ export default {
       } catch (error) {
         uni.hideLoading();
         if (error && (error.errMsg || '').includes('cancel')) return;
-        console.error('上传身份证反面失败:', error);
+        console.error('上传反面失败:', error);
         uni.showToast({ title: '上传失败', icon: 'none' });
       }
     },
     submitStep() {
       if (!this.frontImage) {
-        uni.showToast({ title: '请上传身份证正面', icon: 'none' })
+        const msg = this.isForeigner ? '请上传护照首页' : '请上传身份证正面'
+        uni.showToast({ title: msg, icon: 'none' })
         return
       }
       if (!this.backImage) {
-        uni.showToast({ title: '请上传身份证反面', icon: 'none' })
+        const msg = this.isForeigner ? '请上传护照签证页' : '请上传身份证反面'
+        uni.showToast({ title: msg, icon: 'none' })
         return
       }
 
@@ -199,19 +244,7 @@ export default {
   padding: 40rpx 30rpx 20rpx;
   border-bottom: 1rpx solid #e8e8e8;
 }
-/*
-.back-btn {
-  position: absolute;
-  top: 40rpx;
-  left: 30rpx;
-  z-index: 1;
-}
 
-.back-icon {
-  font-size: 36rpx;
-  color: #333;
-}
-*/
 .title {
   font-size: 32rpx;
   font-weight: 600;

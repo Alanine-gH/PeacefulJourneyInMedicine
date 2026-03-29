@@ -47,4 +47,7 @@ public class UserUpdateDTO {
 
     @Schema(description = "性别 0未知 1男 2女")
     private Byte gender;
+
+    @Schema(description = "国家代码（如+86、+1）")
+    private String countryCode;
 }

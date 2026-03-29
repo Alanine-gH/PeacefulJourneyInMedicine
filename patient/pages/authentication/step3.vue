@@ -54,50 +54,7 @@
   </view>
 </template>
 
-<script>
-import { sendVerificationCode } from '../../utils/auth';
-
-export default {
-  data() {
-    return {
-      authForm: {},
-      phone: '',
-      verificationCode: '',
-      countdown: 0,
-      timer: null
-    }
-  },
-  computed: {
-    maskedIdCard() {
-      if (!this.authForm.idCard) return ''
-      const idCard = this.authForm.idCard
-      return idCard.substring(0, 3) + '***********' + idCard.substring(idCard.length - 4)
-    }
-  },
-  onLoad() {
-    // 获取之前保存的表单数据
-    this.authForm = uni.getStorageSync('authForm') || {}
-  },
-  onUnload() {
-    if (this.timer) {
-      clearInterval(this.timer)
-    }
-  },
-  methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
-    async sendCode() {
-      if (!this.phone) {
-        uni.showToast({ title: '请先填写手机号码', icon: 'none' })
-        return
-      }
-
-      try {
-        const response = await sendVerificationCode(this.phone);
-        if (response.code === 200) {
-          // 开始倒计时
-          this.countdown = 60
+60
           this.timer = setInterval(() => {
             this.countdown--
             if (this.countdown <= 0) {

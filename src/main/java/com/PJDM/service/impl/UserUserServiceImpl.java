@@ -168,6 +168,7 @@ public class UserUserServiceImpl extends ServiceImpl<UserUserMapper, UserUser> i
         update.setAvatarUrl(dto.getAvatarUrl());
         update.setAge(dto.getAge());
         update.setGender(dto.getGender());
+        update.setCountryCode(dto.getCountryCode());
         updateById(update);
         log.info("修改用户 [{}] 成功", id);
     }
