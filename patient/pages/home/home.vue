@@ -232,23 +232,19 @@ export default {
         })
       } else if (page === 'evaluation') {
         uni.navigateTo({
-          url: '/pages/order/order?status=completed',
-		  // url: '/pages/evaluation/evaluation'
+          url: '/pages/order/order?status=5',
         })
       } else if (page === 'expert-consult') {
         uni.navigateTo({
           url: '/pages/expert-consult/expert-consult',
-		  // url: '/pages/evaluation/evaluation'
         })
       }else if (page === 'health-exam') {
         uni.navigateTo({
           url: '/pages/health-exam/health-exam',
-		  // url: '/pages/evaluation/evaluation'
         })
       }else if (page === 'medicine-delivery') {
         uni.navigateTo({
           url: '/pages/medicine-delivery/medicine-delivery',
-		  // url: '/pages/evaluation/evaluation'
         })
       }else {
         uni.showToast({

@@ -13,7 +13,6 @@
         </view>
       </view>
     </view> -->
-    
     <!-- 表单内容 -->
     <view class="form-content">
       <!-- 真实姓名 -->

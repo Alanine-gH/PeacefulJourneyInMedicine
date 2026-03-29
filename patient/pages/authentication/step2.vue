@@ -5,7 +5,7 @@
 <!--      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-icon">←</text>-->
 <!--      </view>-->
-      <view class="title">实名认证</view>
+      <!-- <view class="title">实名认证</view> -->
       <view class="step-indicator">
         <view class="step active">1</view>
         <view class="step-line active"></view>
