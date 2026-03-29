@@ -130,6 +130,7 @@
 <script>
 import { submitCertification } from '@/utils/companion-api';
 import { uploadFile } from '@/utils/system-api';
+import { getFileUrl } from '@/utils/config.js';
 
 export default {
   data() {
@@ -148,6 +149,11 @@ export default {
         language_ability: '',
         specialties: '',
         agreed: false
+      },
+      fileNames: {
+        certificate_photo: '',
+        criminal_record_cert: '',
+        business_license: ''
       }
     }
   },
@@ -174,7 +180,9 @@ export default {
         uni.hideLoading();
         
         if (uploadRes.code === 200 || uploadRes.code === 1) {
-          this.formData[field] = uploadRes.data;
+          const fileName = uploadRes.data
+          this.fileNames[field] = fileName
+          this.formData[field] = getFileUrl(fileName)
           uni.showToast({ title: '上传成功', icon: 'success' });
         } else {
           uni.showToast({ title: uploadRes.msg || '上传失败', icon: 'none' });
@@ -306,9 +314,9 @@ export default {
           professionalTitle: this.formData.professional_title,
           medicalBackground: this.formData.medical_background,
           certificateNumber: this.formData.certificate_number,
-          certificatePhoto: this.formData.certificate_photo,
-          criminalRecordCert: this.formData.criminal_record_cert,
-          businessLicense: this.formData.business_license,
+          certificatePhoto: this.fileNames.certificate_photo,
+          criminalRecordCert: this.fileNames.criminal_record_cert,
+          businessLicense: this.fileNames.business_license,
           languageAbility: this.formData.language_ability,
           specialties: this.formData.specialties
         };

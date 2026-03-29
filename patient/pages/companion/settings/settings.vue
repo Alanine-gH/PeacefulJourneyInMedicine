@@ -153,23 +153,45 @@ export default {
             filePath: tempFilePath,
             name: 'file',
             header: { 'Authorization': 'Bearer ' + token },
-            success: (uploadRes) => {
+            success: async (uploadRes) => {
               uni.hideLoading()
               try {
                 const data = JSON.parse(uploadRes.data)
                 if (data.code === 200 || data.code === 1) {
                   const fileName = data.data
-                  // 更新本地显示
-                  this.$set(this.companionInfo, 'certificatePhoto', fileName)
-                  this.$set(this.companionInfo, 'certificate_photo', fileName)
-                  // 同步更新到后端
+                  // 获取陪诊师ID
                   const id = this.companionInfo.id || uni.getStorageSync('accompanistId')
-                  if (id) {
-                    updateCompanionProfile(id, { certificatePhoto: fileName })
-                      .then(() => uni.showToast({ title: '头像更新成功', icon: 'success' }))
-                      .catch(() => uni.showToast({ title: '头像同步失败', icon: 'none' }))
-                  } else {
-                    uni.showToast({ title: '头像上传成功', icon: 'success' })
+                  if (!id) {
+                    uni.showToast({ title: '未找到陪诊师ID，请重新登录', icon: 'none' })
+                    return
+                  }
+                  uni.showLoading({ title: '保存中...' })
+                  try {
+                    // 构造完整的更新实体，带上所有现有字段 + 新头像
+                    const updateData = {
+                      realName: this.companionInfo.realName || this.companionInfo.real_name || '',
+                      phone: this.companionInfo.phone || '',
+                      gender: this.companionInfo.gender || 0,
+                      age: this.companionInfo.age || 0,
+                      professionalTitle: this.companionInfo.professionalTitle || this.companionInfo.professional_title || '',
+                      languageAbility: this.companionInfo.languageAbility || this.companionInfo.language_ability || '',
+                      specialties: this.companionInfo.specialties || '',
+                      certificatePhoto: fileName
+                    }
+                    const saveRes = await updateCompanionProfile(id, updateData)
+                    uni.hideLoading()
+                    if (saveRes && (saveRes.code === 200 || saveRes.code === 1)) {
+                      // 更新本地预览（用 getAvatarUrl 转为完整 URL）
+                      this.$set(this.companionInfo, 'certificatePhoto', fileName)
+                      this.$set(this.companionInfo, 'certificate_photo', fileName)
+                      uni.showToast({ title: '头像更新成功', icon: 'success' })
+                    } else {
+                      uni.showToast({ title: (saveRes && saveRes.msg) || '保存失败', icon: 'none' })
+                    }
+                  } catch (e) {
+                    uni.hideLoading()
+                    console.error('保存头像失败:', e)
+                    uni.showToast({ title: '保存失败，请重试', icon: 'none' })
                   }
                 } else {
                   uni.showToast({ title: data.msg || '上传失败', icon: 'none' })
