@@ -1,21 +1,21 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="logo">
           <text class="logo-text">医路安心</text>
         </view>
         <view class="header-actions">
-<!--          <view class="companion-switch" @click="goToCompanionLogin">-->
-<!--            <text class="companion-switch-text">🩺 切换陪护端</text>-->
-<!--          </view>-->
-          <!-- <view class="customer-service" @click="openCustomerService">
+          <view class="companion-switch" @click="goToCompanionLogin">
+            <text class="companion-switch-text">🩺 切换陪护端</text>
+          </view>
+           <view class="customer-service" @click="openCustomerService">
             <text class="service-icon">💬</text>
-          </view> -->
+          </view> 
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 患者功能区 - 第一部分 -->
     <view class="patient-section">

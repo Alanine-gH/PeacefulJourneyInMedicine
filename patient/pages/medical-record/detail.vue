@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 顶部导航栏 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="header-left"></view>
         <view class="header-title">病例详情</view>
         <view class="header-right"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 病例详情 -->
     <view class="record-detail">
