@@ -1,9 +1,9 @@
 <template>
   <view class="select-hospital-page">
-    <view class="nav-bar">
+<!--    <view class="nav-bar">
       <text class="nav-title">选择医院</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 城市选择栏 -->
     <view class="city-bar" @click="selectCity">

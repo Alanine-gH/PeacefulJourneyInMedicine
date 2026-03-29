@@ -1,13 +1,13 @@
 <template>
   <view class="service-type-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
+    <!-- <view class="nav-bar"> -->
 <!--      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-arrow">‹</text>-->
 <!--      </view>-->
-      <text class="nav-title">选择服务</text>
+      <!-- <text class="nav-title">选择服务</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 加载中 -->
     <view class="loading-wrap" v-if="loading">

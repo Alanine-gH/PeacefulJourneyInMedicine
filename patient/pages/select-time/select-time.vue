@@ -1,13 +1,13 @@
 <template>
   <view class="select-time-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
+   <!-- <view class="nav-bar">
+      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
+<!--      </view>
       <text class="nav-title">陪诊时间</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 时间选择区域 -->
     <view class="time-content">

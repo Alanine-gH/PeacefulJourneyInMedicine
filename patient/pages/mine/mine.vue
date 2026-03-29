@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 顶部个人信息区域 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="logo">
           <text class="logo-text">个人中心</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 个人信息 -->
     <view class="profile-section">

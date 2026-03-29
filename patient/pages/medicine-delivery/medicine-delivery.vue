@@ -1,13 +1,13 @@
 <template>
   <view class="container">
     <!-- 头部 -->
-    <view class="header">
+    <!-- <view class="header">
       <view class="header-content">
         <view class="header-left"></view>
         <view class="header-title">药品配送</view>
         <view class="header-right"></view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 配送服务列表 -->
     <view class="service-section">

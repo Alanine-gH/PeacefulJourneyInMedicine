@@ -1,13 +1,13 @@
 <template>
   <view class="select-city-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
+    <!-- <view class="nav-bar"> -->
 <!--      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-arrow">‹</text>-->
 <!--      </view>-->
-      <text class="nav-title">切换城市</text>
+      <!-- <text class="nav-title">切换城市</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 搜索框 -->
     <view class="search-box">

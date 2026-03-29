@@ -1,13 +1,13 @@
 <template>
   <view class="select-department-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
+    <!-- <view class="nav-bar"> -->
       <!--      <view class="back-btn" @click="goBack">-->
       <!--        <text class="back-arrow">‹</text>-->
       <!--      </view>-->
-      <text class="nav-title">选择科室</text>
+     <!-- <text class="nav-title">选择科室</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 医院信息 -->
     <view class="hospital-info-bar">

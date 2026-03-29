@@ -1,13 +1,13 @@
 <template>
   <view class="result-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
+    <!-- <view class="nav-bar"> -->
 <!--      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-arrow">‹</text>-->
 <!--      </view>-->
-      <text class="nav-title">预约结果</text>
+     <!-- <text class="nav-title">预约结果</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 步骤指示器 -->
     <view class="step-indicator">

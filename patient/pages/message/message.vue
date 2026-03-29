@@ -1,14 +1,14 @@
 <template>
   <view class="message-page">
-    <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
+  <!--  <view class="nav-bar">
+      <view class="back-btn" @click="goBack">
+        <text class="back-arrow">‹</text>
+      </view>
       <text class="nav-title">消息</text>
       <view class="search-btn">
         <text class="search-icon">🔍</text>
       </view>
-    </view>
+    </view>-->
 
     <scroll-view class="message-list" scroll-y="true">
 

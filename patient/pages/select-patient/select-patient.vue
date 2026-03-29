@@ -1,10 +1,10 @@
 <template>
   <view class="select-patient-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
+  <!--  <view class="nav-bar">
       <text class="nav-title">选择就诊人</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 就诊人列表 -->
     <view class="patient-list">

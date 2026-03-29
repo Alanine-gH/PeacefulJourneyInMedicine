@@ -1,13 +1,13 @@
 <template>
   <view class="payment-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
+   <!-- <view class="nav-bar">
+<      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
+<!--      </view>
       <text class="nav-title">支付订单</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 步骤指示器 -->
     <view class="step-indicator">

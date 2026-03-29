@@ -1,10 +1,10 @@
 <template>
   <view class="channel-page">
     <!-- 导航栏 -->
-    <view class="nav-bar">
+   <!-- <view class="nav-bar">
       <text class="nav-title">支付通道</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <!-- 步骤指示器 -->
     <view class="step-indicator">

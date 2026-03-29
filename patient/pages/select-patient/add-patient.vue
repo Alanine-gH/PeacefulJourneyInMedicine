@@ -1,12 +1,12 @@
 <template>
   <view class="add-patient-page">
-    <view class="nav-bar">
-<!--      <view class="back-btn" @click="goBack">-->
+  <!--  <view class="nav-bar">
+      <view class="back-btn" @click="goBack">-->
 <!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
+<!--      </view>
       <text class="nav-title">添加就诊人</text>
       <view class="placeholder"></view>
-    </view>
+    </view> -->
 
     <view class="form-wrap">
       <view class="form-item">
