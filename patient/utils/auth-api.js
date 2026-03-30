@@ -195,6 +195,17 @@ async function getAuthStepData(step) {
   return request(`/auth/real-name/step/${step}`);
 }
 
+/**
+ * 提交实名认证（三步合并，含验证码校验）
+ * @param {object} data - RealNameAuthDTO 字段
+ */
+async function submitIdentityAuth(data) {
+  return request('/user/identity/submit', {
+    method: 'POST',
+    data
+  });
+}
+
 export {
   submitRealNameAuth,
   getAuthStatus,
@@ -206,5 +217,6 @@ export {
   saveAuthStep1,
   saveAuthStep2,
   saveAuthStep3,
-  getAuthStepData
+  getAuthStepData,
+  submitIdentityAuth
 };

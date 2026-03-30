@@ -42,6 +42,15 @@ public class AccompanistUpdateDTO {
     @Schema(description = "证书编号")
     private String certificateNumber;
 
+    @Schema(description = "证书照片URL")
+    private String certificatePhoto;
+
+    @Schema(description = "无犯罪记录证明URL")
+    private String criminalRecordCert;
+
+    @Schema(description = "营业执照URL")
+    private String businessLicense;
+
     @Schema(description = "语言能力")
     private String languageAbility;
 
@@ -50,9 +59,6 @@ public class AccompanistUpdateDTO {
 
     @Schema(description = "陪诊状态 1空闲 2服务中 3休假 4停用")
     private Byte accompanyStatus;
-
-    @Schema(description = "证书照片URL")
-    private String certificatePhoto;
 
     @Schema(description = "备注")
     private String remark;

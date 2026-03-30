@@ -2,6 +2,7 @@ package com.PJDM.service;
 
 import com.PJDM.dto.AuditDTO;
 import com.PJDM.dto.IdentityQueryDTO;
+import com.PJDM.dto.RealNameAuthDTO;
 import com.PJDM.pojo.UserIdentityAuth;
 import com.PJDM.vo.IdentityListVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,6 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Alanine
  */
 public interface IUserIdentityAuthService extends IService<UserIdentityAuth> {
+
+    /** 患者端提交实名认证（验证码校验 + 单表插入） */
+    void submitRealNameAuth(RealNameAuthDTO dto);
 
     /** 分页查询实名认证列表（多表联查） */
     IPage<IdentityListVO> getIdentityListPage(IdentityQueryDTO query);

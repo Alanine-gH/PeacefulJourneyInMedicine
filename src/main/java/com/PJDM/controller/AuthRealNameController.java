@@ -105,13 +105,13 @@ public class AuthRealNameController {
         UserIdentityAuth auth = new UserIdentityAuth();
         auth.setUserId(userId);
         auth.setRealName(dto.getRealName());
-        auth.setIdCardNumber(dto.getIdCard());
         auth.setAuthType(dto.getAuthType() != null ? dto.getAuthType() : (byte) 2);
-        auth.setIdCardPhotoFront(dto.getIdCardFront());
-        auth.setIdCardPhotoBack(dto.getIdCardBack());
+        auth.setIdCardNumber(dto.getIdCardNumber());
+        auth.setIdCardPhotoFront(dto.getPhotoFront());
+        auth.setIdCardPhotoBack(dto.getPhotoBack());
         auth.setPassportNumber(dto.getPassportNumber());
-        auth.setPassportPhotoFront(dto.getPassportPhotoFront());
-        auth.setPassportPhotoBack(dto.getPassportPhotoBack());
+        auth.setPassportPhotoFront(dto.getPhotoFront());
+        auth.setPassportPhotoBack(dto.getPhotoBack());
         auth.setAuthStatus((byte) 1);
         auth.setCreateTime(LocalDateTime.now());
         return auth;

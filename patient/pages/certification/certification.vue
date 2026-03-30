@@ -291,13 +291,13 @@ export default {
       try {
         uni.showLoading({ title: '提交中...' });
         
-        // 获取陪护人员ID
-        const accompanistId = uni.getStorageSync('accompanistId');
+        // 获取用户ID（后端通过 userId 关联 user_accompanist）
+        const userId = uni.getStorageSync('userId');
         
-        if (!accompanistId) {
+        if (!userId) {
           uni.hideLoading();
           uni.showToast({
-            title: '陪护人员ID未找到，请重新登录',
+            title: '登录已过期，请重新登录',
             icon: 'none'
           });
           return;
@@ -305,7 +305,7 @@ export default {
         
         // 将前端字段名映射到后端 DTO 字段名
         const submitData = {
-          accompanistId: accompanistId,
+          accompanistId: userId,
           realName: this.formData.real_name,
           phone: this.formData.phone,
           gender: this.formData.gender,

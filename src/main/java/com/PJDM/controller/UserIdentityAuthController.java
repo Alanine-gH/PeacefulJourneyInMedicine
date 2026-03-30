@@ -3,6 +3,7 @@ package com.PJDM.controller;
 import com.PJDM.common.R;
 import com.PJDM.dto.AuditDTO;
 import com.PJDM.dto.IdentityQueryDTO;
+import com.PJDM.dto.RealNameAuthDTO;
 import com.PJDM.pojo.UserIdentityAuth;
 import com.PJDM.service.IUserIdentityAuthService;
 import com.PJDM.vo.IdentityListVO;
@@ -21,11 +22,25 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/user/identity")
-@Tag(name = "实名认证管理", description = "实名认证查询、审核、删除")
+@Tag(name = "实名认证管理", description = "实名认证提交、查询、审核、删除")
 public class UserIdentityAuthController {
 
     @Autowired
     private IUserIdentityAuthService identityAuthService;
+
+    /**
+     * 患者端提交实名认证（三步合并，step3验证码校验后调用）
+     */
+    @PostMapping("/submit")
+    @Operation(summary = "提交实名认证（患者端）")
+    public R<String> submit(@RequestBody RealNameAuthDTO dto) {
+        try {
+            identityAuthService.submitRealNameAuth(dto);
+            return R.success("认证提交成功，请等待审核");
+        } catch (RuntimeException e) {
+            return R.error(e.getMessage());
+        }
+    }
 
     @GetMapping("/list")
     @Operation(summary = "分页查询实名认证列表（user_identity_auth JOIN user_user，证件号脱敏）")

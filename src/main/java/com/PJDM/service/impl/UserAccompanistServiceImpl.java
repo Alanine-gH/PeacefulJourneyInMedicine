@@ -66,8 +66,6 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
     @Override
     public UserAccompanist getAccompanistDetail(Long id) {
         UserAccompanist userAccompanist = userAccompanistMapper.selectById(id);
-//        UserAccompanist acc = getById(id);
-        System.out.println(userAccompanist);
         if (userAccompanist == null) throw new ResourceNotFoundException("陪诊师", id);
         return userAccompanist;
     }
@@ -78,7 +76,6 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
         Long userId = dto.getUserId();
 
         if (userId == null) {
-            // 没有 userId，自动创建 user_user 账号
             if (!StringUtils.hasText(dto.getUsername()))
                 throw new ValidationException("username", "新增陪诊师时必须填写用户名或提供已有用户ID");
             if (!StringUtils.hasText(dto.getPassword()))
@@ -103,11 +100,9 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
             userId = user.getId();
             log.info("自动创建陪诊师账号 username=[{}] userId=[{}]", dto.getUsername(), userId);
         } else {
-            // 提供了 userId，校验用户存在且类型正确
             fkValidator.requireExistsNotNull(userUserMapper, userId, "关联用户");
             UserUser user = userUserMapper.selectById(userId);
             if (user.getUserType() == null || user.getUserType() != 2) {
-                // 自动更正 user_type 为陪诊师
                 UserUser update = new UserUser();
                 update.setId(userId);
                 update.setNickName(StringUtils.hasText(dto.getRealName()) ? dto.getRealName() : dto.getUsername());
@@ -120,7 +115,6 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
             }
         }
 
-        // 唯一性：每个用户只能有一条陪诊师记录
         if (count(new LambdaQueryWrapper<UserAccompanist>()
                 .eq(UserAccompanist::getUserId, userId)) > 0) {
             throw new DuplicateEntryException("userId", String.valueOf(userId));
@@ -142,6 +136,8 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
         acc.setServiceCount(0);
         acc.setComplaintCount(0);
         acc.setCertificatePhoto(dto.getCertificatePhoto());
+        acc.setCriminalRecordCert(dto.getCriminalRecordCert());
+        acc.setBusinessLicense(dto.getBusinessLicense());
         acc.setRemark(dto.getRemark());
         save(acc);
         log.info("新增陪诊师资质 userId=[{}] 成功", userId);
@@ -164,6 +160,8 @@ public class UserAccompanistServiceImpl extends ServiceImpl<UserAccompanistMappe
         update.setSpecialties(dto.getSpecialties());
         update.setAccompanyStatus(dto.getAccompanyStatus());
         update.setCertificatePhoto(dto.getCertificatePhoto());
+        update.setCriminalRecordCert(dto.getCriminalRecordCert());
+        update.setBusinessLicense(dto.getBusinessLicense());
         update.setRemark(dto.getRemark());
         updateById(update);
         // 同步更新 user_user 的姓名/手机/性别/年龄

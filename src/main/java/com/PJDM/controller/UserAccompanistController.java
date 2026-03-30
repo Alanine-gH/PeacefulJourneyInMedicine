@@ -4,6 +4,7 @@ import com.PJDM.common.R;
 import com.PJDM.dto.AccompanistQueryDTO;
 import com.PJDM.dto.AccompanistUpdateDTO;
 import com.PJDM.dto.AuditDTO;
+import com.PJDM.dto.CompanionCertificationDTO;
 import com.PJDM.pojo.UserAccompanist;
 import com.PJDM.service.IUserAccompanistService;
 import com.PJDM.vo.AccompanistListVO;
@@ -65,8 +66,38 @@ public class UserAccompanistController {
         }
     }
 
+    /**
+     * 陪诊师端提交资格认证（前端 certification.vue 调用）
+     * POST /user/accompanist/submit
+     */
+    @PostMapping("/submit")
+    @Operation(summary = "陪诊师端提交资格认证")
+    public R<String> submit(@RequestBody CompanionCertificationDTO dto) {
+        try {
+            AccompanistUpdateDTO updateDTO = new AccompanistUpdateDTO();
+            updateDTO.setUserId(dto.getAccompanistId());
+            updateDTO.setRealName(dto.getRealName());
+            updateDTO.setPhone(dto.getPhone());
+            updateDTO.setGender(dto.getGender());
+            updateDTO.setAge(dto.getAge());
+            updateDTO.setProfessionalTitle(dto.getProfessionalTitle());
+            updateDTO.setMedicalBackground(dto.getMedicalBackground());
+            updateDTO.setCertificateNumber(dto.getCertificateNumber());
+            updateDTO.setCertificatePhoto(dto.getCertificatePhoto());
+            updateDTO.setCriminalRecordCert(dto.getCriminalRecordCert());
+            updateDTO.setBusinessLicense(dto.getBusinessLicense());
+            updateDTO.setLanguageAbility(dto.getLanguageAbility());
+            updateDTO.setSpecialties(dto.getSpecialties());
+            updateDTO.setRemark(dto.getRemark());
+            accompanistService.addAccompanist(updateDTO);
+            return R.success("认证提交成功，请等待审核");
+        } catch (RuntimeException e) {
+            return R.error(e.getMessage());
+        }
+    }
+
     @PostMapping
-    @Operation(summary = "新增陪诊师资质")
+    @Operation(summary = "新增陪诊师资质（管理端）")
     public R<String> add(@RequestBody AccompanistUpdateDTO dto) {
         try {
             accompanistService.addAccompanist(dto);

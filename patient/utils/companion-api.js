@@ -150,13 +150,9 @@ async function acceptOrder(orderNo) {
  * @description 提交陪护员资格认证申请，需要上传相关证件照片
  */
 async function submitCertification(data) {
-  const accompanistId = data.accompanistId;
-  // 移除 accompanistId，因为它作为 URL 参数传递
-  const { accompanistId: _, ...certData } = data;
-  
-  return request(`/companion/certification?accompanistId=${accompanistId}`, {
+  return request('/user/accompanist/submit', {
     method: 'POST',
-    data: certData
+    data
   });
 }
 

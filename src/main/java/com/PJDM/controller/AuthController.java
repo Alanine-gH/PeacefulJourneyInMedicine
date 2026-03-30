@@ -4,6 +4,7 @@ import com.PJDM.common.R;
 import com.PJDM.dto.LoginDTO;
 import com.PJDM.dto.RegisterDTO;
 import com.PJDM.service.IAuthService;
+import com.PJDM.untils.RedisCache;
 import com.PJDM.vo.LoginVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 认证控制器（登录 / 注册 / 退出）
@@ -32,6 +34,9 @@ public class AuthController {
     @Autowired
     private SMSSendCode smsSendCode;
 
+    @Autowired
+    private RedisCache redisCache;
+
     /**
      * 登录
      */
@@ -48,8 +53,6 @@ public class AuthController {
 
     /**
      * 注册（患者/陪诊师）
-     * userType=1 → 患者，仅插 user_user
-     * userType=2 → 陪诊师，插 user_user + user_accompanist（待审核）
      */
     @PostMapping("/register")
     @Operation(summary = "用户注册（患者或陪诊师）")
@@ -112,6 +115,7 @@ public class AuthController {
     /**
      * 发送短信验证码
      * 前端以 JSON 格式传参：{"phone": "13800138000"}
+     * 发送成功后将验证码存入 Redis，key=sms:code:{phone}，有效期5分钟
      */
     @PostMapping("/send-code")
     public R sendCode(@RequestBody Map<String, String> body) throws Exception {
@@ -121,7 +125,8 @@ public class AuthController {
         }
         int code = (int) (Math.random() * 900000) + 100000;
         smsSendCode.sendCode(phone, String.valueOf(code));
-        System.out.println("phone=" + phone + ",code=" + code);
+        // 存入 Redis，5分钟有效，key 与实名认证 Service 保持一致
+        redisCache.setCacheObject("sms:code:" + phone, String.valueOf(code), 5, TimeUnit.MINUTES);
         log.info("[发送验证码] phone={}, code={}", phone, code);
         return R.success("验证码已发送");
     }

@@ -27,16 +27,16 @@
 
       <!-- 验证码区域 -->
       <view class="verification-section">
-        <view class="section-title">验证码</view>
-        
-        <!-- 手机号输入框 -->
+        <view class="section-title">手机号验证</view>
+
+        <!-- 手机号输入框（预填 step1 的手机号，允许修改） -->
         <view class="phone-input-area">
-          <input type="tel" placeholder="请输入手机号码" v-model="phone" class="phone-input" />
+          <input type="tel" placeholder="请输入手机号码" v-model="phone" class="phone-input" maxlength="11" />
         </view>
-        
+
         <view class="code-input-area">
-          <input type="number" placeholder="请输入验证码" v-model="verificationCode" class="code-input" />
-          <button class="send-code-btn" :disabled="countdown > 0" @click="sendCode">
+          <input type="number" placeholder="请输入验证码" v-model="verificationCode" class="code-input" maxlength="6" />
+          <button class="send-code-btn" :disabled="countdown > 0 || sending" @click="sendCode">
             {{ countdown > 0 ? `${countdown}s后重发` : '获取验证码' }}
           </button>
         </view>
@@ -45,22 +45,28 @@
 
     <!-- 底部按钮 -->
     <view class="bottom-btn">
-      <button class="complete-btn" @click="completeAuth">验证完成</button>
+      <button class="complete-btn" :disabled="submitting" @click="completeAuth">
+        {{ submitting ? '提交中...' : '验证完成' }}
+      </button>
     </view>
   </view>
 </template>
 
 <script>
-import { sendVerificationCode } from '../../utils/auth';
+import { sendVerificationCode } from '@/utils/auth.js'
+import { submitIdentityAuth } from '@/utils/auth-api.js'
 
 export default {
   data() {
     return {
       authForm: {},
+      authImages: {},
       phone: '',
       verificationCode: '',
       countdown: 0,
-      timer: null
+      timer: null,
+      sending: false,
+      submitting: false
     }
   },
   computed: {
@@ -72,48 +78,45 @@ export default {
   },
   onLoad() {
     this.authForm = uni.getStorageSync('authForm') || {}
+    this.authImages = uni.getStorageSync('authImages') || {}
+    // 预填 step1 输入的手机号
+    if (this.authForm.phone) {
+      this.phone = this.authForm.phone
+    }
   },
   onUnload() {
-    if (this.timer) {
-      clearInterval(this.timer)
-    }
+    if (this.timer) clearInterval(this.timer)
   },
   methods: {
     async sendCode() {
-      if (!this.phone) {
-        uni.showToast({ title: '请先填写手机号码', icon: 'none' })
+      if (!this.phone || this.phone.length !== 11) {
+        uni.showToast({ title: '请输入正确的11位手机号', icon: 'none' })
         return
       }
-
+      this.sending = true
       try {
-        const response = await sendVerificationCode(this.phone);
-        if (response.code === 200) {
+        const res = await sendVerificationCode(this.phone)
+        if (res && (res.code === 200 || res.code === 1)) {
+          uni.showToast({ title: '验证码已发送', icon: 'success' })
           this.countdown = 60
           this.timer = setInterval(() => {
             this.countdown--
-            if (this.countdown <= 0) {
-              clearInterval(this.timer)
-            }
+            if (this.countdown <= 0) clearInterval(this.timer)
           }, 1000)
-
-          uni.showToast({ title: '验证码已发送', icon: 'success' })
         } else {
-          uni.showToast({
-            title: response.msg || '发送失败',
-            icon: 'none'
-          })
+          uni.showToast({ title: (res && res.msg) || '发送失败', icon: 'none' })
         }
-      } catch (error) {
-        console.error('发送验证码失败:', error);
-        uni.showToast({
-          title: '发送失败，请稍后重试',
-          icon: 'none'
-        })
+      } catch (e) {
+        console.error('发送验证码失败:', e)
+        uni.showToast({ title: '发送失败，请稍后重试', icon: 'none' })
+      } finally {
+        this.sending = false
       }
     },
-    completeAuth() {
-      if (!this.phone) {
-        uni.showToast({ title: '请输入手机号码', icon: 'none' })
+
+    async completeAuth() {
+      if (!this.phone || this.phone.length !== 11) {
+        uni.showToast({ title: '请输入正确的手机号码', icon: 'none' })
         return
       }
       if (!this.verificationCode) {
@@ -121,23 +124,65 @@ export default {
         return
       }
 
-      uni.showLoading({ title: '验证中...' })
+      const userId = uni.getStorageSync('userId')
+      if (!userId) {
+        uni.showToast({ title: '登录已过期，请重新登录', icon: 'none' })
+        return
+      }
 
-      setTimeout(() => {
+      // 判断认证类型：身份证(2) 或 护照(1)
+      const isForeigner = this.authForm.isForeigner
+      const authType = isForeigner ? 1 : 2
+
+      const submitData = {
+        userId: userId,
+        authType: authType,
+        realName: this.authForm.name,
+        phone: this.phone,
+        verificationCode: this.verificationCode,
+        // step1 数据
+        gender: this.authForm.gender,
+        birthDate: this.authForm.birthDate,
+        address: this.authForm.address,
+        bankCard: this.authForm.bankCard,
+        bankType: this.authForm.bankType || '',
+        emergencyContact: this.authForm.emergencyContact,
+        emergencyPhone: this.authForm.emergencyPhone,
+        // step2 图片
+        photoFront: this.authImages.front,
+        photoBack: this.authImages.back,
+        // 证件号
+        idCardNumber: isForeigner ? '' : this.authForm.idCard,
+        passportNumber: isForeigner ? this.authForm.idCard : ''
+      }
+
+      this.submitting = true
+      uni.showLoading({ title: '提交中...' })
+      try {
+        const res = await submitIdentityAuth(submitData)
         uni.hideLoading()
-        uni.showToast({
-          title: '认证成功',
-          icon: 'success',
-          success: () => {
-            setTimeout(() => {
-              // 跳转到首页
-              uni.navigateTo({
-                url: '/pages/home/home'
-              })
-            }, 1500)
-          }
-        })
-      }, 1500)
+        if (res && (res.code === 200 || res.code === 1)) {
+          // 清理 Storage
+          uni.removeStorageSync('authForm')
+          uni.removeStorageSync('authImages')
+          uni.showToast({
+            title: '认证提交成功，等待审核',
+            icon: 'success',
+            duration: 2000
+          })
+          setTimeout(() => {
+            uni.navigateTo({ url: '/pages/home/home' })
+          }, 2000)
+        } else {
+          uni.showToast({ title: (res && res.msg) || '提交失败，请重试', icon: 'none' })
+        }
+      } catch (e) {
+        uni.hideLoading()
+        console.error('提交认证失败:', e)
+        uni.showToast({ title: '网络错误，请重试', icon: 'none' })
+      } finally {
+        this.submitting = false
+      }
     }
   }
 }
@@ -153,14 +198,6 @@ export default {
   background-color: #fff;
   padding: 40rpx 30rpx 20rpx;
   border-bottom: 1rpx solid #e8e8e8;
-}
-
-.title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  margin-bottom: 30rpx;
 }
 
 .step-indicator {
@@ -247,9 +284,8 @@ export default {
   margin-bottom: 20rpx;
 }
 
-.code-input-area {
-  display: flex;
-  gap: 20rpx;
+.phone-input-area {
+  margin-bottom: 20rpx;
 }
 
 .phone-input {
@@ -261,7 +297,11 @@ export default {
   font-size: 28rpx;
   color: #333;
   box-sizing: border-box;
-  margin-bottom: 20rpx;
+}
+
+.code-input-area {
+  display: flex;
+  gap: 20rpx;
 }
 
 .code-input {
@@ -276,10 +316,10 @@ export default {
 }
 
 .send-code-btn {
-  width: 200rpx;
+  width: 220rpx;
   height: 80rpx;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #4DD0E1;
+  color: #fff;
   font-size: 26rpx;
   border-radius: 10rpx;
   border: none;
@@ -288,7 +328,7 @@ export default {
   justify-content: center;
 }
 
-.send-code-btn:disabled {
+.send-code-btn[disabled] {
   background-color: #e8e8e8;
   color: #999;
 }
@@ -318,12 +358,11 @@ export default {
   justify-content: center;
 }
 
-.complete-btn::after {
-  border: none;
+.complete-btn[disabled] {
+  background-color: #b0bec5;
 }
 
-.complete-btn:active {
-  opacity: 0.9;
-  transform: scale(0.98);
+.complete-btn::after {
+  border: none;
 }
 </style>

@@ -3,10 +3,12 @@ package com.PJDM.dto;
 import lombok.Data;
 
 /**
- * 陪诊师资格认证提交 DTO
+ * 陪诊师资格认证提交 DTO（前端 certification.vue 使用）
  */
 @Data
 public class CompanionCertificationDTO {
+    /** 用户ID（前端传 userId，由后端映射到 user_accompanist.user_id） */
+    private Long accompanistId;
     /** 真实姓名 */
     private String realName;
     /** 手机号 */
