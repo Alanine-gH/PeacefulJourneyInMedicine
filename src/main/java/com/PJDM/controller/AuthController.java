@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Random;
-import java.util.random.RandomGenerator;
+import java.util.Map;
 
 /**
  * 认证控制器（登录 / 注册 / 退出）
@@ -29,6 +28,9 @@ public class AuthController {
 
     @Autowired
     private IAuthService authService;
+
+    @Autowired
+    private SMSSendCode smsSendCode;
 
     /**
      * 登录
@@ -68,16 +70,16 @@ public class AuthController {
      */
     @PostMapping("/reset-password")
     @Operation(summary = "重置密码")
-    public R<String> resetPassword(@RequestBody java.util.Map<String, String> body) {
+    public R<String> resetPassword(@RequestBody Map<String, String> body) {
         try {
             String username = body.get("username");
             String phone = body.get("phone");
             String newPassword = body.get("newPassword");
             String captcha = body.get("captcha");
             String captchaKey = body.get("captchaKey");
-            if (!org.springframework.util.StringUtils.hasText(username)) return R.error("用户名不能为空");
-            if (!org.springframework.util.StringUtils.hasText(phone)) return R.error("手机号不能为空");
-            if (!org.springframework.util.StringUtils.hasText(newPassword)) return R.error("新密码不能为空");
+            if (!StringUtils.hasText(username)) return R.error("用户名不能为空");
+            if (!StringUtils.hasText(phone)) return R.error("手机号不能为空");
+            if (!StringUtils.hasText(newPassword)) return R.error("新密码不能为空");
             authService.resetPassword(username, phone, newPassword, captcha, captchaKey);
             return R.success("密码重置成功");
         } catch (RuntimeException e) {
@@ -107,12 +109,20 @@ public class AuthController {
         return bearer;
     }
 
-    @PostMapping("/send_code")
-    public R sendCode(String phone) throws Exception {
+    /**
+     * 发送短信验证码
+     * 前端以 JSON 格式传参：{"phone": "13800138000"}
+     */
+    @PostMapping("/send-code")
+    public R sendCode(@RequestBody Map<String, String> body) throws Exception {
+        String phone = body.get("phone");
+        if (!StringUtils.hasText(phone)) {
+            return R.error("手机号不能为空");
+        }
         int code = (int) (Math.random() * 900000) + 100000;
-
-        SMSSendCode sendCode = new SMSSendCode();
-        sendCode.sendCode(phone, String.valueOf(code));
-        return R.success("<UNK>");
+        smsSendCode.sendCode(phone, String.valueOf(code));
+        System.out.println("phone=" + phone + ",code=" + code);
+        log.info("[发送验证码] phone={}, code={}", phone, code);
+        return R.success("验证码已发送");
     }
 }

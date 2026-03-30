@@ -115,6 +115,15 @@ deepseek:
   temperature: 0.7
   maxTokens: 2000
 
+# 阿里云短信配置
+aliyun:
+  sms:
+    access-key-id: ${ALIBABA_CLOUD_ACCESS_KEY_ID:LTAI5tFZzN3xWgJMnzGMMds7}
+    access-key-secret: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET:wljir2ZzKBrdCJBbBywHWfaxvXeQQ1}
+    sign-name: ${ALIBABA_SMS_SIGN_NAME:速通互联验证码}
+    template-code: ${ALIBABA_SMS_TEMPLATE_CODE:100001}
+    endpoint: ${ALIBABA_SMS_ENDPOINT:dypnsapi.aliyuncs.com}
+
 monitoring:
   aliyun-shutdown-alert:
     enabled: true

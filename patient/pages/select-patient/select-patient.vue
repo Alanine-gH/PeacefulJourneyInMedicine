@@ -179,8 +179,8 @@ export default {
       }
       const patient = this.patientList.find(p => p.id === this.selectedPatient)
       // 用 Storage 回传
-      uni.setStorageSync('selectedPatientName', patient.name)
-      uni.setStorageSync('selectedPatientId', patient.id)
+      uni.setStorageSync('_sel_patient', patient.name)
+      uni.setStorageSync('_sel_patientId', patient.id)
       uni.navigateBack()
     }
   }

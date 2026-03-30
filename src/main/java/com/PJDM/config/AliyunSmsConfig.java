@@ -13,9 +13,14 @@ import org.springframework.stereotype.Component;
 @Data
 @ConfigurationProperties(prefix = "aliyun.sms")
 public class AliyunSmsConfig {
+
     private String accessKeyId;
+
     private String accessKeySecret;
+
     private String signName;
+
     private String templateCode;
+
     private String endpoint;
 }

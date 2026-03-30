@@ -44,10 +44,4 @@ public class SMSSendCode {
         System.out.println(new Gson().toJson(resp));
         client.close();
     }
-
-    // 注意：main方法不能直接调用非静态方法，实际使用时应通过Spring容器获取实例
-//    public static void main(String[] args) {
-//        System.out.println("短信发送功能已配置完成，将在Spring容器中使用。");
-//        System.out.println("请确保在application.yml中正确配置了aliyun.sms相关参数。");
-//    }
 }
