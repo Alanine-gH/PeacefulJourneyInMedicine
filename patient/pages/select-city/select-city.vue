@@ -1,13 +1,10 @@
 <template>
   <view class="select-city-page">
     <!-- 导航栏 -->
-    <!-- <view class="nav-bar"> -->
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
-      <!-- <text class="nav-title">切换城市</text>
+    <view class="nav-bar">
+      <text class="nav-title">切换城市</text>
       <view class="placeholder"></view>
-    </view> -->
+    </view>
 
     <!-- 搜索框 -->
     <view class="search-box">
@@ -83,20 +80,14 @@ export default {
       currentLocation: '北京市',
       isSearching: false,
       searchResults: [],
-      provinceList: ['热门城市', '北京', '上海', '广东', '湖北', '湖南', '江西', '重庆', '山西', '山东', '江苏', '浙江'],
+      provinceList: ['热门城市', '北京', '上海', '广东', '四川', '国际'],
       cityData: {
-        '热门城市': ['全国', '北京市', '武汉市', '广州市', '上海市', '南昌市', '长沙市', '西安市', '青岛市', '深圳市'],
+        '热门城市': ['北京市', '上海市', '广州市', '成都市', 'Rochester', 'Tokyo'],
         '北京': ['北京市'],
         '上海': ['上海市'],
-        '广东': ['广州市', '深圳市', '珠海市', '佛山市', '东莞市'],
-        '湖北': ['武汉市', '宜昌市', '襄阳市', '荆州市'],
-        '湖南': ['长沙市', '株洲市', '湘潭市', '衡阳市'],
-        '江西': ['南昌市', '九江市', '赣州市', '上饶市'],
-        '重庆': ['重庆市', '万州区', '涪陵区', '江津区', '合川区', '永川区', '南川区', '綦江区', '大足区', '璧山区', '铜梁区', '潼南区', '荣昌区', '开州区', '梁平区', '武隆区'],
-        '山西': ['太原市', '大同市', '运城市', '临汾市'],
-        '山东': ['济南市', '青岛市', '烟台市', '潍坊市', '临沂市'],
-        '江苏': ['南京市', '苏州市', '无锡市', '常州市', '徐州市'],
-        '浙江': ['杭州市', '宁波市', '温州市', '嘉兴市', '绍兴市']
+        '广东': ['广州市'],
+        '四川': ['成都市'],
+        '国际': ['Rochester', 'Tokyo']
       }
     }
   },
@@ -194,20 +185,7 @@ export default {
   padding: 40rpx 30rpx 0 30rpx;
   background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
 }
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
 .nav-title {
   font-size: 36rpx;
   font-weight: 500;

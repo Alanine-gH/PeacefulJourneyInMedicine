@@ -19,4 +19,6 @@ public interface IMedicalHospitalService extends IService<MedicalHospital> {
     void deleteHospital(Long id);
 
     void updateStatus(Long id, Byte status);
+
+    IPage<HospitalListVO> searchByRegion(HospitalQueryDTO query);
 }

@@ -37,6 +37,12 @@ public class MedicalHospitalServiceImpl extends ServiceImpl<MedicalHospitalMappe
     }
 
     @Override
+    public IPage<HospitalListVO> searchByRegion(HospitalQueryDTO query) {
+        int size = Math.min(query.getPageSize() == null ? defaultPageSize : query.getPageSize(), maxPageSize);
+        return baseMapper.selectHospitalListPage(new Page<>(query.getPageNum() == null ? 1 : query.getPageNum(), size), query);
+    }
+
+    @Override
     public MedicalHospital getHospitalDetail(Long id) {
         MedicalHospital h = getById(id);
         if (h == null) throw new ResourceNotFoundException("医院", id);

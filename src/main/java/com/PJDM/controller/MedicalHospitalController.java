@@ -37,6 +37,13 @@ public class MedicalHospitalController {
         return R.success(hospitalService.getHospitalListPage(query));
     }
 
+    @GetMapping("/search-by-region")
+    @Operation(summary = "按地区搜索医院列表")
+    public R<IPage<HospitalListVO>> searchByRegion(HospitalQueryDTO query) {
+        log.info("[医院] 按地区搜索 query={}", query);
+        return R.success(hospitalService.searchByRegion(query));
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "获取医院详情")
     public R<MedicalHospital> detail(@PathVariable Long id) {

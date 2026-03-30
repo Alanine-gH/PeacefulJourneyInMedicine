@@ -1,16 +1,10 @@
 <template>
   <view class="select-hospital-page">
-<!--    <view class="nav-bar">
-      <text class="nav-title">选择医院</text>
-      <view class="placeholder"></view>
-    </view> -->
-
     <!-- 城市选择栏 -->
     <view class="city-bar" @click="selectCity">
       <text class="city-text">{{ currentCity }}</text>
       <text class="city-arrow">▼</text>
     </view>
-
     <!-- 医院列表 -->
     <view class="hospital-list">
       <view
@@ -51,7 +45,6 @@ export default {
       currentCity: '北京市',
       keyword: '',
       loading: false,
-      // selectedHospital: null,
       hospitalList: [],
       searchTimer: null,
       selectedHospital: '',
@@ -59,871 +52,70 @@ export default {
       hospitalData: {
         '北京市': [
           {
-            name: '北京市第一医院',
-            level: '三甲',
-            type: '综合医院',
+            id: 1,
+            name: '北京协和医院',
+            level: '三级甲等',
+            type: '三甲医院',
             distance: '3.8公里',
             image: '/static/hospital1.png'
           },
-          {name: '弘爱医院', level: '三甲', type: '综合医院', distance: '11.2公里', image: '/static/hospital2.png'},
           {
-            name: '北京大学附属中医院',
-            level: '三甲',
-            type: '中医医院',
-            distance: '567米',
-            image: '/static/hospital3.png'
+            id: 2,
+            name: '北京大学第一医院',
+            level: '三级甲等',
+            type: '三甲医院',
+            distance: '5.5公里',
+            image: '/static/hospital2.png'
           }
         ],
         '上海市': [
           {
-            name: '上海市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
+            id: 3,
+            name: '上海华山医院',
+            level: '三级甲等',
+            type: '三甲医院',
             distance: '2.5公里',
             image: '/static/hospital1.png'
-          },
-          {name: '华山医院', level: '三甲', type: '综合医院', distance: '8.6公里', image: '/static/hospital2.png'},
-          {name: '瑞金医院', level: '三甲', type: '综合医院', distance: '1.2公里', image: '/static/hospital3.png'}
+          }
         ],
         '广州市': [
           {
-            name: '广州市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
+            id: 4,
+            name: '中山大学附属第一医院',
+            level: '三级甲等',
+            type: '三甲医院',
             distance: '4.2公里',
             image: '/static/hospital1.png'
-          },
-          {
-            name: '中山大学附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '广东省中医院', level: '三甲', type: '中医医院', distance: '3.1公里', image: '/static/hospital3.png'}
+          }
         ],
-        '武汉市': [
+        '成都市': [
           {
-            name: '武汉市第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '2.8公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '协和医院', level: '三甲', type: '综合医院', distance: '5.5公里', image: '/static/hospital2.png'},
-          {name: '同济医院', level: '三甲', type: '综合医院', distance: '7.2公里', image: '/static/hospital3.png'}
-        ],
-        '南昌市': [
-          {
-            name: '南昌市第一医院',
-            level: '三甲',
-            type: '综合医院',
+            id: 5,
+            name: '四川大学华西医院',
+            level: '三级甲等',
+            type: '三甲医院',
             distance: '3.5公里',
             image: '/static/hospital1.png'
-          },
-          {
-            name: '江西省人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '5.8公里',
-            image: '/static/hospital2.png'
-          },
-          {
-            name: '南昌大学附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '2.1公里',
-            image: '/static/hospital3.png'
           }
         ],
-        '长沙市': [
-          {name: '湘雅医院', level: '三甲', type: '综合医院', distance: '4.5公里', image: '/static/hospital1.png'},
+        'Rochester': [
           {
-            name: '湖南省人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.2公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '长沙市第一医院', level: '三甲', type: '综合医院', distance: '1.8公里', image: '/static/hospital3.png'}
-        ],
-        '西安市': [
-          {name: '西京医院', level: '三甲', type: '综合医院', distance: '5.5公里', image: '/static/hospital1.png'},
-          {
-            name: '西安交通大学附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '西安市第一医院', level: '三甲', type: '综合医院', distance: '3.2公里', image: '/static/hospital3.png'}
-        ],
-        '青岛市': [
-          {name: '青岛市立医院', level: '三甲', type: '综合医院', distance: '4.8公里', image: '/static/hospital1.png'},
-          {
-            name: '青岛大学附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.5公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '青岛市中医院', level: '三甲', type: '中医医院', distance: '2.9公里', image: '/static/hospital3.png'}
-        ],
-        '深圳市': [
-          {
-            name: '深圳市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.2公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '北京大学深圳医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '8.1公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '深圳市中医院', level: '三甲', type: '中医医院', distance: '4.5公里', image: '/static/hospital3.png'}
-        ],
-        '济南市': [
-          {name: '山东省立医院', level: '三甲', type: '综合医院', distance: '3.5公里', image: '/static/hospital1.png'},
-          {name: '齐鲁医院', level: '三甲', type: '综合医院', distance: '5.2公里', image: '/static/hospital2.png'},
-          {name: '济南市中医院', level: '三甲', type: '中医医院', distance: '2.8公里', image: '/static/hospital3.png'}
-        ],
-        '烟台市': [
-          {
-            name: '烟台毓璜顶医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.2公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '烟台市烟台山医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '烟台市中医院', level: '三甲', type: '中医医院', distance: '3.1公里', image: '/static/hospital3.png'}
-        ],
-        '潍坊市': [
-          {
-            name: '潍坊市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.8公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '潍坊市中医院', level: '三甲', type: '中医医院', distance: '5.5公里', image: '/static/hospital2.png'},
-          {
-            name: '潍坊医学院附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '2.2公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '临沂市': [
-          {
-            name: '临沂市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.5公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '临沂市中医院', level: '三甲', type: '中医医院', distance: '6.2公里', image: '/static/hospital2.png'},
-          {name: '临沂市中心医院', level: '三甲', type: '综合医院', distance: '1.9公里', image: '/static/hospital3.png'}
-        ],
-        '南京市': [
-          {
-            name: '江苏省人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.2公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '南京鼓楼医院', level: '三甲', type: '综合医院', distance: '5.8公里', image: '/static/hospital2.png'},
-          {name: '南京市中医院', level: '三甲', type: '中医医院', distance: '2.5公里', image: '/static/hospital3.png'}
-        ],
-        '苏州市': [
-          {
-            name: '苏州大学附属第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.1公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '苏州市立医院', level: '三甲', type: '综合医院', distance: '6.5公里', image: '/static/hospital2.png'},
-          {name: '苏州市中医院', level: '三甲', type: '中医医院', distance: '3.3公里', image: '/static/hospital3.png'}
-        ],
-        '无锡市': [
-          {
-            name: '无锡市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.6公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '江南大学附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '5.9公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '无锡市中医院', level: '三甲', type: '中医医院', distance: '2.7公里', image: '/static/hospital3.png'}
-        ],
-        '杭州市': [
-          {
-            name: '浙江大学医学院附属第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.8公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '浙江省人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.2公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '杭州市中医院', level: '三甲', type: '中医医院', distance: '2.4公里', image: '/static/hospital3.png'}
-        ],
-        '宁波市': [
-          {
-            name: '宁波市第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.3公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '宁波大学医学院附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.1公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '宁波市中医院', level: '三甲', type: '中医医院', distance: '3.5公里', image: '/static/hospital3.png'}
-        ],
-        '珠海市': [
-          {
-            name: '珠海市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.9公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '中山大学附属第五医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.7公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '珠海市中医院', level: '三甲', type: '中医医院', distance: '2.8公里', image: '/static/hospital3.png'}
-        ],
-        '佛山市': [
-          {
-            name: '佛山市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.2公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '佛山市中医院', level: '三甲', type: '中医医院', distance: '5.8公里', image: '/static/hospital2.png'},
-          {
-            name: '南方医科大学顺德医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.1公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '东莞市': [
-          {
-            name: '东莞市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.5公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '东莞市中医院', level: '三甲', type: '中医医院', distance: '6.3公里', image: '/static/hospital2.png'},
-          {name: '东莞东华医院', level: '三甲', type: '综合医院', distance: '2.9公里', image: '/static/hospital3.png'}
-        ],
-        '株洲市': [
-          {
-            name: '株洲市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.2公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '湖南省直中医医院',
-            level: '三甲',
-            type: '中医医院',
-            distance: '5.6公里',
-            image: '/static/hospital2.png'
-          },
-          {
-            name: '株洲市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '2.1公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '湘潭市': [
-          {
-            name: '湘潭市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.1公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '湘潭市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '湘潭市中医院', level: '三甲', type: '中医医院', distance: '3.3公里', image: '/static/hospital3.png'}
-        ],
-        '衡阳市': [
-          {
-            name: '南华大学附属第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.8公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '衡阳市中心医院',
-            level: '三甲',
-            type: '综合医院',
+            id: 6,
+            name: 'Mayo Clinic',
+            level: 'International Hospital',
+            type: '国际医院',
             distance: '5.5公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '衡阳市中医院', level: '三甲', type: '中医医院', distance: '2.7公里', image: '/static/hospital3.png'}
-        ],
-        '宜昌市': [
-          {
-            name: '宜昌市中心人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.5公里',
             image: '/static/hospital1.png'
-          },
+          }
+        ],
+        'Tokyo': [
           {
-            name: '宜昌市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
+            id: 7,
+            name: 'Tokyo University Hospital',
+            level: 'International Hospital',
+            type: '国际医院',
             distance: '6.2公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '宜昌市中医院', level: '三甲', type: '中医医院', distance: '2.9公里', image: '/static/hospital3.png'}
-        ],
-        '襄阳市': [
-          {
-            name: '襄阳市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.2公里',
             image: '/static/hospital1.png'
-          },
-          {
-            name: '襄阳市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.1公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '襄阳市中医院', level: '三甲', type: '中医医院', distance: '3.4公里', image: '/static/hospital3.png'}
-        ],
-        '荆州市': [
-          {
-            name: '荆州市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.6公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '荆州市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '5.9公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '荆州市中医院', level: '三甲', type: '中医医院', distance: '2.5公里', image: '/static/hospital3.png'}
-        ],
-        '九江市': [
-          {
-            name: '九江学院附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.9公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '九江市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.5公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '九江市中医院', level: '三甲', type: '中医医院', distance: '2.8公里', image: '/static/hospital3.png'}
-        ],
-        '赣州市': [
-          {
-            name: '赣州市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.3公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '赣南医学院第一附属医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.2公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '赣州市中医院', level: '三甲', type: '中医医院', distance: '3.1公里', image: '/static/hospital3.png'}
-        ],
-        '上饶市': [
-          {
-            name: '上饶市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.7公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '上饶市立医院', level: '三甲', type: '综合医院', distance: '6.4公里', image: '/static/hospital2.png'},
-          {name: '上饶市中医院', level: '三甲', type: '中医医院', distance: '2.6公里', image: '/static/hospital3.png'}
-        ],
-        '太原市': [
-          {
-            name: '山西医科大学第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.4公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '山西省人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '5.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '太原市中医院', level: '三甲', type: '中医医院', distance: '2.3公里', image: '/static/hospital3.png'}
-        ],
-        '大同市': [
-          {
-            name: '大同市第三人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.1公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '大同市第五人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.9公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '大同市中医院', level: '三甲', type: '中医医院', distance: '3.2公里', image: '/static/hospital3.png'}
-        ],
-        '运城市': [
-          {
-            name: '运城市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.8公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '运城市第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.3公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '运城市中医院', level: '三甲', type: '中医医院', distance: '2.9公里', image: '/static/hospital3.png'}
-        ],
-        '临汾市': [
-          {
-            name: '临汾市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.2公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '临汾市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.5公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '临汾市中医院', level: '三甲', type: '中医医院', distance: '3.6公里', image: '/static/hospital3.png'}
-        ],
-        '常州市': [
-          {
-            name: '常州市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.9公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '常州市第二人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.7公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '常州市中医院', level: '三甲', type: '中医医院', distance: '2.8公里', image: '/static/hospital3.png'}
-        ],
-        '徐州市': [
-          {
-            name: '徐州市中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.1公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '徐州市第一人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.3公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '徐州市中医院', level: '三甲', type: '中医医院', distance: '3.5公里', image: '/static/hospital3.png'}
-        ],
-        '温州市': [
-          {
-            name: '温州医科大学附属第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.5公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '温州市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '温州市中医院', level: '三甲', type: '中医医院', distance: '3.2公里', image: '/static/hospital3.png'}
-        ],
-        '嘉兴市': [
-          {
-            name: '嘉兴市第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.7公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '嘉兴市第二医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '6.4公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '嘉兴市中医院', level: '三甲', type: '中医医院', distance: '2.9公里', image: '/static/hospital3.png'}
-        ],
-        '绍兴市': [
-          {
-            name: '绍兴市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.3公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '绍兴市第二医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '7.1公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '绍兴市中医院', level: '三甲', type: '中医医院', distance: '3.4公里', image: '/static/hospital3.png'}
-        ],
-        '重庆市': [
-          {
-            name: '重庆医科大学附属第一医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.5公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '重庆市人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '5.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '重庆市中医院', level: '三甲', type: '中医医院', distance: '2.6公里', image: '/static/hospital3.png'}
-        ],
-        '万州区': [
-          {
-            name: '重庆大学附属三峡医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.2公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '万州区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '6.5公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '万州区中医院', level: '二甲', type: '中医医院', distance: '3.1公里', image: '/static/hospital3.png'}
-        ],
-        '涪陵区': [
-          {name: '涪陵中心医院', level: '三甲', type: '综合医院', distance: '3.8公里', image: '/static/hospital1.png'},
-          {
-            name: '涪陵区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '5.9公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '涪陵区中医院', level: '二甲', type: '中医医院', distance: '2.7公里', image: '/static/hospital3.png'}
-        ],
-        '江津区': [
-          {
-            name: '江津区中心医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.1公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '江津区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '6.8公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '江津区中医院', level: '二甲', type: '中医医院', distance: '3.3公里', image: '/static/hospital3.png'}
-        ],
-        '合川区': [
-          {
-            name: '合川区人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.6公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '合川区中医院', level: '二甲', type: '中医医院', distance: '5.7公里', image: '/static/hospital2.png'},
-          {
-            name: '合川区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '2.8公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '永川区': [
-          {
-            name: '重庆医科大学附属永川医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '3.9公里',
-            image: '/static/hospital1.png'
-          },
-          {
-            name: '永川区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '6.2公里',
-            image: '/static/hospital2.png'
-          },
-          {name: '永川区中医院', level: '二甲', type: '中医医院', distance: '2.9公里', image: '/static/hospital3.png'}
-        ],
-        '南川区': [
-          {
-            name: '南川区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '4.0公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '南川区中医院', level: '二甲', type: '中医医院', distance: '6.1公里', image: '/static/hospital2.png'},
-          {
-            name: '南川区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '3.0公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '綦江区': [
-          {
-            name: '綦江区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '3.7公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '綦江区中医院', level: '二甲', type: '中医医院', distance: '5.8公里', image: '/static/hospital2.png'},
-          {
-            name: '綦江区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '2.5公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '大足区': [
-          {
-            name: '大足区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '4.2公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '大足区中医院', level: '二甲', type: '中医医院', distance: '6.3公里', image: '/static/hospital2.png'},
-          {
-            name: '大足区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '3.1公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '璧山区': [
-          {
-            name: '璧山区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '3.5公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '璧山区中医院', level: '二甲', type: '中医医院', distance: '5.6公里', image: '/static/hospital2.png'},
-          {
-            name: '璧山区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '2.4公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '铜梁区': [
-          {
-            name: '铜梁区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '3.8公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '铜梁区中医院', level: '二甲', type: '中医医院', distance: '6.0公里', image: '/static/hospital2.png'},
-          {
-            name: '铜梁区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '2.7公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '潼南区': [
-          {
-            name: '潼南区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '4.1公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '潼南区中医院', level: '二甲', type: '中医医院', distance: '6.4公里', image: '/static/hospital2.png'},
-          {
-            name: '潼南区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '3.2公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '荣昌区': [
-          {
-            name: '荣昌区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '3.9公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '荣昌区中医院', level: '二甲', type: '中医医院', distance: '6.1公里', image: '/static/hospital2.png'},
-          {
-            name: '荣昌区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '2.8公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '开州区': [
-          {
-            name: '开州区人民医院',
-            level: '三甲',
-            type: '综合医院',
-            distance: '4.3公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '开州区中医院', level: '二甲', type: '中医医院', distance: '6.6公里', image: '/static/hospital2.png'},
-          {
-            name: '开州区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '3.4公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '梁平区': [
-          {
-            name: '梁平区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '3.6公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '梁平区中医院', level: '二甲', type: '中医医院', distance: '5.9公里', image: '/static/hospital2.png'},
-          {
-            name: '梁平区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '2.6公里',
-            image: '/static/hospital3.png'
-          }
-        ],
-        '武隆区': [
-          {
-            name: '武隆区人民医院',
-            level: '二甲',
-            type: '综合医院',
-            distance: '4.0公里',
-            image: '/static/hospital1.png'
-          },
-          {name: '武隆区中医院', level: '二甲', type: '中医医院', distance: '6.3公里', image: '/static/hospital2.png'},
-          {
-            name: '武隆区妇幼保健院',
-            level: '二甲',
-            type: '专科医院',
-            distance: '3.1公里',
-            image: '/static/hospital3.png'
           }
         ]
       }
@@ -1013,58 +205,26 @@ export default {
   padding-bottom: 140rpx;
 }
 
-/* 导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
-}
-
 /* 城市选择栏 */
 .city-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20rpx;
+  padding: 30rpx;
   background-color: #fff;
   border-bottom: 1rpx solid #eee;
 }
 
 .city-text {
-  font-size: 30rpx;
-  color: #2196F3;
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
   margin-right: 10rpx;
 }
 
 .city-arrow {
   font-size: 24rpx;
-  color: #2196F3;
+  color: #999;
 }
 
 /* 医院列表 */
@@ -1079,16 +239,17 @@ export default {
   background-color: #fff;
   border-radius: 16rpx;
   margin-bottom: 20rpx;
-  position: relative;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .hospital-item.active {
-  border: 2rpx solid #2196F3;
+  border: 2rpx solid #4DD0E1;
+  background-color: #E0F7FA;
 }
 
 .hospital-image {
-  width: 140rpx;
-  height: 140rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 12rpx;
   margin-right: 20rpx;
   background-color: #f0f0f0;
@@ -1103,21 +264,21 @@ export default {
   color: #333;
   font-weight: 500;
   display: block;
-  margin-bottom: 10rpx;
+  margin-bottom: 12rpx;
 }
 
 .hospital-tags {
   display: flex;
-  margin-bottom: 10rpx;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
 }
 
 .tag {
-  font-size: 22rpx;
-  color: #2196F3;
-  background-color: #e3f2fd;
+  font-size: 24rpx;
+  color: #4DD0E1;
+  background-color: #E0F7FA;
   padding: 4rpx 12rpx;
   border-radius: 8rpx;
-  margin-right: 10rpx;
 }
 
 .hospital-distance {
@@ -1126,21 +287,17 @@ export default {
 }
 
 .hospital-check {
-  position: absolute;
-  right: 30rpx;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44rpx;
-  height: 44rpx;
+  width: 48rpx;
+  height: 48rpx;
   border-radius: 50%;
-  background-color: #2196F3;
+  background-color: #4DD0E1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .check-icon {
-  font-size: 24rpx;
+  font-size: 28rpx;
   color: #fff;
 }
 
@@ -1159,16 +316,11 @@ export default {
 
 .btn {
   flex: 1;
-  height: 90rpx;
-  line-height: 90rpx;
-  border-radius: 45rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
   font-size: 32rpx;
-  font-weight: 500;
-  border: none;
-}
-
-.btn::after {
-  border: none;
+  text-align: center;
 }
 
 .btn-cancel {
@@ -1177,7 +329,7 @@ export default {
 }
 
 .btn-confirm {
-  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
   color: #fff;
 }
 </style>

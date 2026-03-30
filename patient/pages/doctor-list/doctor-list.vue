@@ -68,10 +68,11 @@ export default {
     }
   },
   onLoad(options) {
-    this.hospitalName = options.hospital || ''
-    this.hospitalId = options.hospitalId || ''
+    this.hospitalName = decodeURIComponent(options.hospital)
+    this.hospitalId = decodeURIComponent(options.hospitalId)
     this.departmentName = options.department || ''
     this.departmentId = options.departmentId || ''
+    // console.hospitalId
     this.loadDoctors()
   },
   methods: {
@@ -79,8 +80,10 @@ export default {
       this.loading = true
       try {
         const params = {page: 1, pageSize: 20}
+        // hospitalId.console
         if (this.hospitalId) params.hospitalId = this.hospitalId
         if (this.departmentId) params.departmentId = this.departmentId
+
         const res = await getExperts(params)
         if (res && res.code === 200 && res.data) {
           this.doctorList = res.data.records || res.data.list || []
@@ -92,9 +95,6 @@ export default {
         this.loading = false
       }
     },
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     selectDoctor(d) {
       this.selectedId = d.id;
       this.selectedObj = d

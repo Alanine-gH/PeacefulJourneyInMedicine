@@ -1,14 +1,5 @@
 <template>
   <view class="select-department-page">
-    <!-- 导航栏 -->
-    <!-- <view class="nav-bar"> -->
-      <!--      <view class="back-btn" @click="goBack">-->
-      <!--        <text class="back-arrow">‹</text>-->
-      <!--      </view>-->
-     <!-- <text class="nav-title">选择科室</text>
-      <view class="placeholder"></view>
-    </view> -->
-
     <!-- 医院信息 -->
     <view class="hospital-info-bar">
       <!-- <image class="hospital-icon" src="/static/hospital1.png" mode="aspectFill"></image> -->
@@ -58,6 +49,7 @@ export default {
     return {
       hospitalName: '',
       selectedCategory: 0,
+      hospitalId: '',
       departmentCategories: [
         {
           id: 1,
@@ -147,6 +139,7 @@ export default {
   onLoad(options) {
     if (options.hospital) {
       this.hospitalName = decodeURIComponent(options.hospital)
+      this.hospitalId = decodeURIComponent(options.hospitalId)
     }
   },
   methods: {
@@ -158,7 +151,7 @@ export default {
     },
     selectDepartment(dept) {
       uni.navigateTo({
-        url: '/pages/doctor-list/doctor-list?hospital=' + encodeURIComponent(this.hospitalName) + '&department=' + encodeURIComponent(dept.name) + '&departmentId=' + dept.id
+        url: '/pages/doctor-list/doctor-list?hospital=' + encodeURIComponent(this.hospitalName) + '&hospitalId=' + encodeURIComponent(this.hospitalId) + '&department=' + encodeURIComponent(dept.name) + '&departmentId=' + dept.id
       })
     }
   }
@@ -169,25 +162,6 @@ export default {
 .select-department-page {
   min-height: 100vh;
   background-color: #f5f5f5;
-}
-
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
 }
 
 .hospital-info-bar {

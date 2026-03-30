@@ -84,8 +84,9 @@ export default {
     selectService(item) {
       this.selectedService = item
       // 用 Storage 回传，避免 $vm 赋值失效
-      uni.setStorageSync('selectedServiceType', item.packageName || item.name)
-      uni.setStorageSync('selectedServiceTypeId', item.id)
+      uni.setStorageSync('_sel_serviceType', item.packageName || item.name)
+      uni.setStorageSync('_sel_servicePackageId', item.id)
+      uni.setStorageSync('_sel_servicePrice', item.price || null)
       setTimeout(() => {
         uni.navigateBack()
       }, 300)

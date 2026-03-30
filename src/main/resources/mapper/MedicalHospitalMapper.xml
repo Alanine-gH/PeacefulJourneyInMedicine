@@ -28,19 +28,25 @@
 
     <select id="selectHospitalListPage" resultMap="HospitalListVOMap">
         SELECT
-            id, hospital_code, hospital_name, hospital_name_en,
-            hospital_type, hospital_level, province, city, address,
-            phone, international_phone, has_international_dept,
-            is_cooperation, cooperation_start_date, logo_url,
-            rating_score, comment_count, status, sort,
-            featured_departments, create_time
+        id, hospital_code, hospital_name, hospital_name_en,
+        hospital_type, hospital_level, province, city, district, address,
+        phone, international_phone, has_international_dept,
+        is_cooperation, cooperation_start_date, logo_url,
+        rating_score, comment_count, status, sort,
+        featured_departments, create_time
         FROM medical_hospital
         <where>
             <if test="q.hospitalName != null and q.hospitalName != ''">
                 AND hospital_name LIKE CONCAT('%', #{q.hospitalName}, '%')
             </if>
+            <if test="q.province != null and q.province != ''">
+                AND province = #{q.province}
+            </if>
             <if test="q.city != null and q.city != ''">
                 AND city = #{q.city}
+            </if>
+            <if test="q.district != null and q.district != ''">
+                AND district = #{q.district}
             </if>
             <if test="q.hospitalType != null">
                 AND hospital_type = #{q.hospitalType}
