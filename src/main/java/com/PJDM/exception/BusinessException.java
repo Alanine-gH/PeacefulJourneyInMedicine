@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BusinessException extends RuntimeException {
 
-    private final int code;
+    private int code;
 
     public BusinessException(String message) {
         super(message);

@@ -1,5 +1,6 @@
 package com.PJDM.service.impl;
 
+import com.PJDM.exception.UserIdentityAuthException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -120,7 +121,9 @@ public class UserIdentityAuthServiceImpl extends ServiceImpl<UserIdentityAuthMap
         log.info("[实名认证] 用户 {} 提交认证成功，authType={}", dto.getUserId(), dto.getAuthType());
     }
 
-    /** 将 step1 补充字段序列化到 remark */
+    /**
+     * 将 step1 补充字段序列化到 remark
+     */
     private String buildRemark(RealNameAuthDTO dto) {
         return String.format(
                 "gender=%s;birthDate=%s;address=%s;phone=%s;bankCard=%s;bankType=%s;emergencyContact=%s;emergencyPhone=%s",
@@ -190,9 +193,8 @@ public class UserIdentityAuthServiceImpl extends ServiceImpl<UserIdentityAuthMap
     public void deleteIdentity(Long id) {
         UserIdentityAuth exist = getById(id);
         if (exist == null) throw new ResourceNotFoundException("认证记录", id);
-
         if (exist.getAuthStatus() == 2) {
-            throw new BusinessException("已通过的实名认证不允许直接删除，请联系管理员");
+            throw new UserIdentityAuthException("已通过的实名认证不允许直接删除，请联系管理员");
         }
         removeById(id);
         log.info("删除认证记录 [{}] userId={} 成功", id, exist.getUserId());

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ValidationException extends RuntimeException {
 
-    private final String field;
+    private String field;
 
     public ValidationException(String message) {
         super(message);

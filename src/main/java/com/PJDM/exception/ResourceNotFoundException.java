@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ResourceNotFoundException extends RuntimeException {
 
-    private final String resourceName;
-    private final Object resourceId;
+    private  String resourceName;
+    private  Object resourceId;
 
     public ResourceNotFoundException(String resourceName, Object resourceId) {
         super(resourceName + " [" + resourceId + "] 不存在");

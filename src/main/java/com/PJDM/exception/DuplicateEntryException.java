@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DuplicateEntryException extends RuntimeException {
 
-    private final String field;
-    private final Object value;
+    private  String field;
+    private  Object value;
 
     public DuplicateEntryException(String field, Object value) {
         super("[" + field + "] = " + value + " 已存在，不允许重复");

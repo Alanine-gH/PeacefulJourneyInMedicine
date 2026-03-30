@@ -59,7 +59,7 @@
               <button class="btn-sm btn-view" @click="openDetail(row)">详情</button>
               <button class="btn-sm btn-pass" v-if="row.authStatus===1" @click="handleAudit(row,2)">通过</button>
               <button class="btn-sm btn-reject" v-if="row.authStatus===1" @click="handleAudit(row,3)">拒绝</button>
-              <button class="btn-sm btn-del" @click="handleDelete(row)">删除</button>
+              <button class="btn-sm btn-del" @click="handleDelete(row)" :disabled="row.authStatus===2" :title="row.authStatus===2 ? '已通过的认证不允许删除' : ''">删除</button>
             </div>
           </td>
         </tr>
@@ -200,6 +200,10 @@ export default {
       }
     },
     async handleDelete(row) {
+      if (row.authStatus === 2) {
+        alert('已通过的认证记录不允许删除')
+        return
+      }
       if (!confirm('确认删除该认证记录？')) return
       try {
         await deleteIdentity(row.id);
