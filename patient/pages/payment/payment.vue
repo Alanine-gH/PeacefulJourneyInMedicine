@@ -203,7 +203,7 @@ export default {
 <style lang="scss">
 .payment-page {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #f4f2ee;
 }
 
 /* 步骤指示器 */
@@ -212,7 +212,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 30rpx 20rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
 }
 
 .step-item {
@@ -236,12 +236,12 @@ export default {
 
 .step-item.active .step-num {
   background-color: #fff;
-  color: #4DD0E1;
+  color: #8db8b6;
 }
 
 .step-item.completed .step-num {
   background-color: #fff;
-  color: #4DD0E1;
+  color: #8db8b6;
 }
 
 .step-text {
@@ -290,7 +290,7 @@ export default {
 
 .amount-value {
   font-size: 40rpx;
-  color: #4DD0E1;
+  color: #8db8b6;
   font-weight: bold;
 }
 
@@ -388,8 +388,8 @@ export default {
 }
 
 .radio.checked {
-  border-color: #4DD0E1;
-  background-color: #4DD0E1;
+  border-color: #8db8b6;
+  background-color: #8db8b6;
 }
 
 .radio-inner {
@@ -414,7 +414,7 @@ export default {
   width: 100%;
   height: 90rpx;
   line-height: 90rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-size: 32rpx;
   font-weight: 500;
@@ -429,4 +429,147 @@ export default {
 .pay-btn:active {
   opacity: 0.9;
 }
+
+/* ── Shared theme overrides ── */
+page { background-color: #f4f2ee !important; }
+
+.container { background-color: #f4f2ee !important; min-height: 100vh; }
+
+/* Cards */
+.patient-section,
+.carousel-section,
+.location-section,
+.training-section,
+.health-section,
+.order-section,
+.menu-section,
+.profile-section,
+.stats-section,
+.orders-section,
+.info-section,
+.order-info,
+.payment-methods,
+.amount-section,
+.step-indicator,
+.filter-bar,
+.package-section {
+  background: #ffffff;
+  border-radius: 20rpx !important;
+  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10) !important;
+  margin: 16rpx 0 !important;
+}
+
+/* Icon squares */
+.patient-icon,
+.health-icon,
+.stat-box-icon {
+  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
+  border-radius: 16rpx !important;
+  box-shadow: none !important;
+}
+
+/* Action buttons / primary CTAs */
+.action-btn,
+.login-btn,
+.switch-btn,
+.submit-btn,
+.pay-btn,
+.confirm-btn {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+  border-radius: 40rpx !important;
+  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
+  border: none !important;
+}
+
+/* Filter active pill */
+.filter-item.active {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Order left border accent */
+.order-item {
+  border-left: 5rpx solid #8db8b6 !important;
+  border-radius: 16rpx !important;
+  background: #f8f7f4 !important;
+}
+
+/* Status tags */
+.order-status { color: #8db8b6 !important; }
+
+/* Section titles */
+.section-title { color: #3a3a4a !important; font-weight: 600 !important; }
+
+/* Stat items */
+.stat-item {
+  background: #f4f2ee !important;
+  border-radius: 14rpx !important;
+}
+
+/* Tab bar selected */
+.tab-item.active,
+.tab-item.active .tab-text { color: #8db8b6 !important; }
+
+/* Profile avatar ring */
+.profile-avatar {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  box-shadow: 0 4rpx 12rpx rgba(100,175,175,0.28) !important;
+}
+
+/* Level tag */
+.level-tag {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border-top-color: #8db8b6 !important;
+}
+
+/* Carousel items - remap class colors to softer palette */
+.carousel-item        { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+.carousel-item.vip    { background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
+.carousel-item.full   { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+.carousel-item.consult{ background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
+.carousel-item.result { background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important; }
+.carousel-item.medicine{ background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important; }
+.carousel-item.basic  { background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important; }
+
+/* Step indicator */
+.step-num { border-color: #8db8b6 !important; color: #8db8b6 !important; }
+.step-item.active .step-num,
+.step-item.completed .step-num {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important; border-color: transparent !important;
+}
+.step-line.active { background-color: #8db8b6 !important; }
+
+/* Health exam header */
+.header { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+
+/* Package type tags */
+.pkg-type-tag { background: #e8f4f4 !important; }
+.pkg-type-tag .type-text { color: #6a9ea0 !important; }
+
+/* Input focus ring */
+.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 3rpx rgba(141,184,182,0.18) !important; }
+
+
+/* ── payment page specifics ── */
+.payment-page { background: #f4f2ee !important; }
+.amount-section { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  border-radius: 20rpx !important; margin: 16rpx 24rpx !important;
+  box-shadow: 0 8rpx 28rpx rgba(100,175,175,0.22) !important; padding: 32rpx !important; }
+.amount-label { color: rgba(255,255,255,0.85) !important; }
+.amount-value  { color: #fff !important; font-size: 64rpx !important; font-weight: 700 !important; }
+.payment-methods { margin: 0 24rpx !important; }
+.payment-item { border-radius: 14rpx !important; background: #f8f7f4 !important; margin-bottom: 12rpx !important; }
+.payment-item.active { border-color: #8db8b6 !important; background: #e8f4f4 !important; }
+.pay-btn,.confirm-btn {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  border-radius: 40rpx !important; color: #fff !important;
+  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important; }
+
 </style>

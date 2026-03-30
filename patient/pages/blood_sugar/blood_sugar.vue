@@ -122,11 +122,11 @@
           </view>
           <view class="form-item">
             <text class="form-label">血糖值 (mmol/L)</text>
-            <input class="form-input" v-model="newRecord.value" placeholder="请输入血糖值" type="number" />
+            <input class="form-input" v-model="newRecord.value" placeholder="请输入血糖值" type="number"/>
           </view>
           <view class="form-item">
             <text class="form-label">备注</text>
-            <input class="form-input" v-model="newRecord.note" placeholder="请输入备注" />
+            <input class="form-input" v-model="newRecord.note" placeholder="请输入备注"/>
           </view>
         </view>
         <view class="modal-footer">
@@ -148,10 +148,10 @@ export default {
       bloodSugarStatus: 'normal',
       bloodSugarStatusText: '正常',
       bloodSugarTrend: [
-        { time: '08:00', value: 5.2 },
-        { time: '12:30', value: 7.8 },
-        { time: '18:30', value: 6.5 },
-        { time: '22:00', value: 5.8 }
+        {time: '08:00', value: 5.2},
+        {time: '12:30', value: 7.8},
+        {time: '18:30', value: 6.5},
+        {time: '22:00', value: 5.8}
       ],
       bloodSugarRecords: [
         {
@@ -258,7 +258,7 @@ export default {
         note: this.newRecord.note || ''
       }
       this.bloodSugarRecords.unshift(newBloodSugarRecord)
-      
+
       // 更新趋势数据
       if (this.bloodSugarTrend.length >= 4) {
         this.bloodSugarTrend.shift()
@@ -267,16 +267,16 @@ export default {
         time: this.selectedTime,
         value: parseFloat(this.newRecord.value)
       })
-      
+
       // 更新空腹和餐后血糖
       if (this.selectedType === '空腹') {
         this.fastingBloodSugar = parseFloat(this.newRecord.value)
       } else if (this.selectedType === '餐后2小时') {
         this.postMealBloodSugar = parseFloat(this.newRecord.value)
       }
-      
+
       this.updateBloodSugarStatus()
-      
+
       this.newRecord = {
         time: '',
         type: '',
@@ -284,7 +284,7 @@ export default {
         note: ''
       }
       this.showAddModal = false
-      
+
       uni.showToast({
         title: '添加成功',
         icon: 'success'
@@ -297,7 +297,7 @@ export default {
 <style scoped>
 .blood-sugar-page {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #f4f2ee;
   padding-bottom: 40rpx;
 }
 
@@ -312,7 +312,7 @@ export default {
 }
 
 .overview-card {
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   border-radius: 20rpx;
   padding: 30rpx;
   box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.3);
@@ -459,11 +459,25 @@ export default {
   background: #f0f0f0;
 }
 
-.grid-line:nth-child(1) { top: 0; }
-.grid-line:nth-child(2) { top: 25%; }
-.grid-line:nth-child(3) { top: 50%; }
-.grid-line:nth-child(4) { top: 75%; }
-.grid-line:nth-child(5) { bottom: 0; }
+.grid-line:nth-child(1) {
+  top: 0;
+}
+
+.grid-line:nth-child(2) {
+  top: 25%;
+}
+
+.grid-line:nth-child(3) {
+  top: 50%;
+}
+
+.grid-line:nth-child(4) {
+  top: 75%;
+}
+
+.grid-line:nth-child(5) {
+  bottom: 0;
+}
 
 .chart-data {
   position: absolute;
@@ -489,7 +503,7 @@ export default {
   width: 20rpx;
   height: 20rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   position: absolute;
   bottom: 0;
   transform: translateY(-50%);
@@ -520,7 +534,7 @@ export default {
 }
 
 .add-btn {
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-size: 24rpx;
   padding: 12rpx 24rpx;
@@ -735,7 +749,184 @@ export default {
 }
 
 .confirm-btn {
-  color: #4DD0E1;
+  color: #8db8b6;
   font-weight: 600;
 }
+
+/* ── Shared theme overrides ── */
+page {
+  background-color: #f4f2ee !important;
+}
+
+.container {
+  background-color: #f4f2ee !important;
+  min-height: 100vh;
+}
+
+/* Cards */
+.patient-section,
+.carousel-section,
+.location-section,
+.training-section,
+.health-section,
+.order-section,
+.menu-section,
+.profile-section,
+.stats-section,
+.orders-section,
+.info-section,
+.order-info,
+.payment-methods,
+.amount-section,
+.step-indicator,
+.filter-bar,
+.package-section {
+  background: #ffffff;
+  border-radius: 20rpx !important;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
+  margin: 16rpx 0 !important;
+}
+
+/* Icon squares */
+.patient-icon,
+.health-icon,
+.stat-box-icon {
+  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
+  border-radius: 16rpx !important;
+  box-shadow: none !important;
+}
+
+/* Action buttons / primary CTAs */
+.action-btn,
+.login-btn,
+.switch-btn,
+.submit-btn,
+.pay-btn,
+.confirm-btn {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+  border-radius: 40rpx !important;
+  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
+  border: none !important;
+}
+
+/* Filter active pill */
+.filter-item.active {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Order left border accent */
+.order-item {
+  border-left: 5rpx solid #8db8b6 !important;
+  border-radius: 16rpx !important;
+  background: #f8f7f4 !important;
+}
+
+/* Status tags */
+.order-status {
+  color: #8db8b6 !important;
+}
+
+/* Section titles */
+.section-title {
+  color: #3a3a4a !important;
+  font-weight: 600 !important;
+}
+
+/* Stat items */
+.stat-item {
+  background: #f4f2ee !important;
+  border-radius: 14rpx !important;
+}
+
+/* Tab bar selected */
+.tab-item.active,
+.tab-item.active .tab-text {
+  color: #8db8b6 !important;
+}
+
+/* Profile avatar ring */
+.profile-avatar {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
+}
+
+/* Level tag */
+.level-tag {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border-top-color: #8db8b6 !important;
+}
+
+/* Carousel items - remap class colors to softer palette */
+.carousel-item {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+.carousel-item.vip {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
+}
+
+.carousel-item.full {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+.carousel-item.consult {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
+}
+
+.carousel-item.result {
+  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
+}
+
+.carousel-item.medicine {
+  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
+}
+
+.carousel-item.basic {
+  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
+}
+
+/* Step indicator */
+.step-num {
+  border-color: #8db8b6 !important;
+  color: #8db8b6 !important;
+}
+
+.step-item.active .step-num,
+.step-item.completed .step-num {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+.step-line.active {
+  background-color: #8db8b6 !important;
+}
+
+/* Health exam header */
+.header {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+/* Package type tags */
+.pkg-type-tag {
+  background: #e8f4f4 !important;
+}
+
+.pkg-type-tag .type-text {
+  color: #6a9ea0 !important;
+}
+
+/* Input focus ring */
+.input-item:focus-within {
+  border-color: #8db8b6 !important;
+  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
+}
+
 </style>

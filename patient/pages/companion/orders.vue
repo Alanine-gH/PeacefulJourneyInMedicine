@@ -1,19 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-<!--    <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">我的订单</text>
-        </view>
-        <view class="header-actions">
-          <view class="customer-service" @click="openCustomerService">
-            <text class="service-icon">💬</text>
-          </view>
-        </view>
-      </view>
-    </view>
-    -->
     <!-- 订单状态筛选 -->
     <view class="status-filter">
       <view 
@@ -63,7 +49,6 @@
         </view>
       </view>
     </view>
-
     <!-- 底部空白区域 -->
     <view class="bottom-space"></view>
   </view>
@@ -91,15 +76,7 @@ export default {
   onLoad() {
     this.loadOrders()
   },
-  onPullDownRefresh() {
-    this.loadOrders()
-  },
   methods: {
-    openCustomerService() {
-      uni.navigateTo({
-        url: '/pages/customer/customer'
-      })
-    },
     selectStatus(status) {
       this.selectedStatus = status
       this.loadOrders()
@@ -206,61 +183,9 @@ export default {
 .container {
   width: 100%;
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #f4f2ee;
   display: flex;
   flex-direction: column;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.customer-service {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.customer-service:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.service-icon {
-  font-size: 32rpx;
-  color: #fff;
 }
 
 /* 订单状态筛选 */
@@ -286,7 +211,7 @@ export default {
 }
 
 .filter-item.active {
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-weight: 500;
 }
@@ -310,7 +235,7 @@ export default {
   width: 60rpx;
   height: 60rpx;
   border: 4rpx solid #f3f3f3;
-  border-top: 4rpx solid #4DD0E1;
+  border-top: 4rpx solid #8db8b6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -504,4 +429,144 @@ export default {
     height: 120rpx;
   }
 }
+
+/* ── Shared theme overrides ── */
+page { background-color: #f4f2ee !important; }
+
+.container { background-color: #f4f2ee !important; min-height: 100vh; }
+
+/* Cards */
+.patient-section,
+.carousel-section,
+.location-section,
+.training-section,
+.health-section,
+.order-section,
+.menu-section,
+.profile-section,
+.stats-section,
+.orders-section,
+.info-section,
+.order-info,
+.payment-methods,
+.amount-section,
+.step-indicator,
+.filter-bar,
+.package-section {
+  background: #ffffff;
+  border-radius: 20rpx !important;
+  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10) !important;
+  margin: 16rpx 0 !important;
+}
+
+/* Icon squares */
+.patient-icon,
+.health-icon,
+.stat-box-icon {
+  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
+  border-radius: 16rpx !important;
+  box-shadow: none !important;
+}
+
+/* Action buttons / primary CTAs */
+.action-btn,
+.login-btn,
+.switch-btn,
+.submit-btn,
+.pay-btn,
+.confirm-btn {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+  border-radius: 40rpx !important;
+  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
+  border: none !important;
+}
+
+/* Filter active pill */
+.filter-item.active {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Order left border accent */
+.order-item {
+  border-left: 5rpx solid #8db8b6 !important;
+  border-radius: 16rpx !important;
+  background: #f8f7f4 !important;
+}
+
+/* Status tags */
+.order-status { color: #8db8b6 !important; }
+
+/* Section titles */
+.section-title { color: #3a3a4a !important; font-weight: 600 !important; }
+
+/* Stat items */
+.stat-item {
+  background: #f4f2ee !important;
+  border-radius: 14rpx !important;
+}
+
+/* Tab bar selected */
+.tab-item.active,
+.tab-item.active .tab-text { color: #8db8b6 !important; }
+
+/* Profile avatar ring */
+.profile-avatar {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  box-shadow: 0 4rpx 12rpx rgba(100,175,175,0.28) !important;
+}
+
+/* Level tag */
+.level-tag {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border-top-color: #8db8b6 !important;
+}
+
+/* Carousel items - remap class colors to softer palette */
+.carousel-item        { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+.carousel-item.vip    { background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
+.carousel-item.full   { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+.carousel-item.consult{ background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
+.carousel-item.result { background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important; }
+.carousel-item.medicine{ background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important; }
+.carousel-item.basic  { background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important; }
+
+/* Step indicator */
+.step-num { border-color: #8db8b6 !important; color: #8db8b6 !important; }
+.step-item.active .step-num,
+.step-item.completed .step-num {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important; border-color: transparent !important;
+}
+.step-line.active { background-color: #8db8b6 !important; }
+
+/* Health exam header */
+.header { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+
+/* Package type tags */
+.pkg-type-tag { background: #e8f4f4 !important; }
+.pkg-type-tag .type-text { color: #6a9ea0 !important; }
+
+/* Input focus ring */
+.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 3rpx rgba(141,184,182,0.18) !important; }
+
+
+/* ── companion orders page specifics ── */
+.status-filter { background: #fff !important; border-bottom-color: #f0ede8 !important; }
+.filter-item { color: #6a6a7a !important; border-radius: 20rpx !important; }
+.order-list { padding: 16rpx 24rpx !important; }
+.order-item { background: #fff !important; border-left-color: #8db8b6 !important;
+  border-radius: 16rpx !important; margin-bottom: 20rpx !important;
+  box-shadow: 0 4rpx 16rpx rgba(100,120,140,0.08) !important; border: none !important; }
+.service-type { color: #3a3a4a !important; font-weight: 700 !important; }
+.info-item { color: #6a6a7a !important; }
+.amount-value { color: #d4a8b0 !important; }
+.order-time { color: #9a9aaa !important; }
+
 </style>

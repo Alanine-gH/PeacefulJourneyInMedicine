@@ -24,7 +24,8 @@
     <view class="stats-section">
       <view class="section-header">
         <text class="section-title">
-          <text class="icon">📊</text> 工作统计
+          <text class="icon">📊</text>
+          工作统计
         </text>
       </view>
       <view class="stats-content">
@@ -56,7 +57,8 @@
     <view class="orders-section">
       <view class="section-header">
         <text class="section-title">
-          <text class="icon">📋</text> 最近订单
+          <text class="icon">📋</text>
+          最近订单
         </text>
       </view>
       <view class="order-list">
@@ -84,7 +86,7 @@
 
 <script>
 import CompanionTabBar from '@/components/CompanionTabBar.vue'
-import { getCompanionWorkInfo, getCompanionOrders } from '@/utils/companion-api';
+import {getCompanionWorkInfo, getCompanionOrders} from '@/utils/companion-api';
 
 export default {
   components: {
@@ -114,9 +116,9 @@ export default {
       try {
         const [workInfoRes, ordersRes] = await Promise.all([
           getCompanionWorkInfo(),
-          getCompanionOrders({ limit: 5 })
+          getCompanionOrders({limit: 5})
         ]);
-        
+
         if (workInfoRes.code === 200) {
           const data = workInfoRes.data || {};
           // 后端字段: activeOrderCount(进行中), pendingOrderCount(待接单), serviceCount, ratingScore
@@ -145,7 +147,7 @@ export default {
         }
       } catch (error) {
         console.error('获取工作信息失败:', error);
-        uni.showToast({ title: '获取工作信息失败', icon: 'none' });
+        uni.showToast({title: '获取工作信息失败', icon: 'none'});
       }
     },
     getOrderStatusText(status) {
@@ -157,7 +159,7 @@ export default {
       return statusMap[status] || '未知';
     },
     getServiceTypeName(type) {
-      const typeMap = { 1: '全程陪诊', 2: '代办手续', 3: '接机服务', 4: '送机服务' };
+      const typeMap = {1: '全程陪诊', 2: '代办手续', 3: '接机服务', 4: '送机服务'};
       return typeMap[type] || '陪诊服务';
     },
     formatOrderTime(dateStr) {
@@ -173,7 +175,7 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f8f9fa;
+  background-color: #f4f2ee;
   min-height: 100vh;
 }
 
@@ -248,7 +250,7 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 20rpx;
-  background: #f8f9fa;
+  background: #f4f2ee;
   border-radius: 15rpx;
 }
 
@@ -287,9 +289,9 @@ export default {
 
 .order-item {
   padding: 20rpx;
-  background: #f8f9fa;
+  background: #f4f2ee;
   border-radius: 15rpx;
-  border-left: 5rpx solid #4DD0E1;
+  border-left: 5rpx solid #8db8b6;
 }
 
 .order-header {
@@ -307,7 +309,7 @@ export default {
 .order-status {
   font-size: 24rpx;
   font-weight: 600;
-  color: #4DD0E1;
+  color: #8db8b6;
 }
 
 .order-info {
@@ -344,15 +346,259 @@ export default {
   .stats-content {
     flex-direction: column;
   }
-  
+
   .stat-item {
     flex-direction: row;
     justify-content: space-between;
   }
-  
+
   .stat-icon {
     margin-bottom: 0;
     margin-right: 20rpx;
   }
 }
+
+/* ── Shared theme overrides ── */
+page {
+  background-color: #f4f2ee !important;
+}
+
+.container {
+  background-color: #f4f2ee !important;
+  min-height: 100vh;
+}
+
+/* Cards */
+.patient-section,
+.carousel-section,
+.location-section,
+.training-section,
+.health-section,
+.order-section,
+.menu-section,
+.profile-section,
+.stats-section,
+.orders-section,
+.info-section,
+.order-info,
+.payment-methods,
+.amount-section,
+.step-indicator,
+.filter-bar,
+.package-section {
+  background: #ffffff;
+  border-radius: 20rpx !important;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
+  margin: 16rpx 0 !important;
+}
+
+/* Icon squares */
+.patient-icon,
+.health-icon,
+.stat-box-icon {
+  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
+  border-radius: 16rpx !important;
+  box-shadow: none !important;
+}
+
+/* Action buttons / primary CTAs */
+.action-btn,
+.login-btn,
+.switch-btn,
+.submit-btn,
+.pay-btn,
+.confirm-btn {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+  border-radius: 40rpx !important;
+  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
+  border: none !important;
+}
+
+/* Filter active pill */
+.filter-item.active {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Order left border accent */
+.order-item {
+  border-left: 5rpx solid #8db8b6 !important;
+  border-radius: 16rpx !important;
+  background: #f8f7f4 !important;
+}
+
+/* Status tags */
+.order-status {
+  color: #8db8b6 !important;
+}
+
+/* Section titles */
+.section-title {
+  color: #3a3a4a !important;
+  font-weight: 600 !important;
+}
+
+/* Stat items */
+.stat-item {
+  background: #f4f2ee !important;
+  border-radius: 14rpx !important;
+}
+
+/* Tab bar selected */
+.tab-item.active,
+.tab-item.active .tab-text {
+  color: #8db8b6 !important;
+}
+
+/* Profile avatar ring */
+.profile-avatar {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
+}
+
+/* Level tag */
+.level-tag {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border-top-color: #8db8b6 !important;
+}
+
+/* Carousel items - remap class colors to softer palette */
+.carousel-item {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+.carousel-item.vip {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
+}
+
+.carousel-item.full {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+.carousel-item.consult {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
+}
+
+.carousel-item.result {
+  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
+}
+
+.carousel-item.medicine {
+  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
+}
+
+.carousel-item.basic {
+  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
+}
+
+/* Step indicator */
+.step-num {
+  border-color: #8db8b6 !important;
+  color: #8db8b6 !important;
+}
+
+.step-item.active .step-num,
+.step-item.completed .step-num {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+.step-line.active {
+  background-color: #8db8b6 !important;
+}
+
+/* Health exam header */
+.header {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+/* Package type tags */
+.pkg-type-tag {
+  background: #e8f4f4 !important;
+}
+
+.pkg-type-tag .type-text {
+  color: #6a9ea0 !important;
+}
+
+/* Input focus ring */
+.input-item:focus-within {
+  border-color: #8db8b6 !important;
+  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
+}
+
+
+/* ── companion info page specifics ── */
+.info-section {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+  padding: 32rpx !important;
+  margin: 16rpx 24rpx !important;
+  box-shadow: 0 8rpx 28rpx rgba(100, 175, 175, 0.22) !important;
+}
+
+.info-item {
+  border-bottom-color: rgba(255, 255, 255, 0.20) !important;
+  padding: 18rpx 0 !important;
+}
+
+.info-label {
+  color: rgba(255, 255, 255, 0.80) !important;
+  font-size: 26rpx !important;
+}
+
+.info-value {
+  color: #fff !important;
+  font-size: 34rpx !important;
+  font-weight: 700 !important;
+}
+
+.stats-section {
+  margin: 0 24rpx !important;
+  padding: 28rpx !important;
+}
+
+.orders-section {
+  margin: 0 24rpx 16rpx !important;
+  padding: 28rpx !important;
+}
+
+.stat-item {
+  background: #f4f2ee !important;
+}
+
+.stat-icon {
+  font-size: 40rpx;
+}
+
+.stat-value {
+  color: #3a3a4a !important;
+  font-size: 36rpx !important;
+  font-weight: 700 !important;
+}
+
+.stat-label {
+  color: #6a6a7a !important;
+}
+
+.order-item {
+  border-left-color: #8db8b6 !important;
+  background: #f4f2ee !important;
+}
+
+.order-status {
+  color: #8db8b6 !important;
+  font-weight: 600 !important;
+}
+
+.order-price {
+  color: #d4a8b0 !important;
+}
+
 </style>
