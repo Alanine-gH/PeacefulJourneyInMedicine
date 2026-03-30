@@ -85,16 +85,12 @@ springdoc:
     packages-to-scan: com.PJDM.controller
 
 # 验证码配置
-slimcamp:
+PeacefulJourneyInMedicine:
   captcha:
     # 验证码类型：math(数学运算) / char(字符)
     type: math
     # 是否开启验证码
     enabled: true
-    # 日志配置
-    log:
-      # 日志记录间隔时间（分钟）
-      interval: 10
 
 # 用户配置
 user:

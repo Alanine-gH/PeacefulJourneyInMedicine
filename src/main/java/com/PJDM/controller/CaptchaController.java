@@ -44,7 +44,7 @@ public class CaptchaController {
     /**
      * 验证码类型 math:数学运算 char:字符
      */
-    @Value("${slimcamp.captcha.type:math}")
+    @Value("${PeacefulJourneyInMedicine.captcha.type:math}")
     private String captchaType;
 
     /**
