@@ -14,13 +14,6 @@
       <text class="time-text">今天 {{ currentDate }}</text>
     </view>
 
-    <!-- 快捷问题（无消息时显示） -->
-    <view v-if="messages.length <= 1" class="quick-list">
-      <view class="quick-item" v-for="(q, i) in quickQuestions" :key="i" @click="sendQuick(q)">
-        <text class="quick-text">{{ q }}</text>
-      </view>
-    </view>
-
     <!-- 聊天内容 -->
     <scroll-view class="chat-content" scroll-y="true" :scroll-into-view="scrollAnchor" scroll-with-animation>
       <view v-for="(msg, idx) in messages" :key="idx" :id="'m' + idx"

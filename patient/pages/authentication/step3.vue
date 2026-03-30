@@ -2,10 +2,6 @@
   <view class="container">
     <!-- 头部 -->
     <view class="header">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-icon">←</text>-->
-<!--      </view>-->
-      <!-- <view class="title">实名认证</view> -->
       <view class="step-indicator">
         <view class="step active">1</view>
         <view class="step-line active"></view>
@@ -24,7 +20,7 @@
           <text class="value">{{ authForm.name }}</text>
         </view>
         <view class="info-item">
-          <text class="label">身份证号：</text>
+          <text class="label">{{ authForm.isForeigner ? '护照号：' : '身份证号：' }}</text>
           <text class="value">{{ maskedIdCard }}</text>
         </view>
       </view>
@@ -54,14 +50,52 @@
   </view>
 </template>
 
-60
+<script>
+import { sendVerificationCode } from '../../utils/auth';
+
+export default {
+  data() {
+    return {
+      authForm: {},
+      phone: '',
+      verificationCode: '',
+      countdown: 0,
+      timer: null
+    }
+  },
+  computed: {
+    maskedIdCard() {
+      if (!this.authForm.idCard) return ''
+      const idCard = this.authForm.idCard
+      return idCard.substring(0, 3) + '***********' + idCard.substring(idCard.length - 4)
+    }
+  },
+  onLoad() {
+    this.authForm = uni.getStorageSync('authForm') || {}
+  },
+  onUnload() {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+  },
+  methods: {
+    async sendCode() {
+      if (!this.phone) {
+        uni.showToast({ title: '请先填写手机号码', icon: 'none' })
+        return
+      }
+
+      try {
+        const response = await sendVerificationCode(this.phone);
+        if (response.code === 200) {
+          this.countdown = 60
           this.timer = setInterval(() => {
             this.countdown--
             if (this.countdown <= 0) {
               clearInterval(this.timer)
             }
           }, 1000)
-          
+
           uni.showToast({ title: '验证码已发送', icon: 'success' })
         } else {
           uni.showToast({
@@ -87,38 +121,6 @@
         return
       }
 
-      // 预留：调用实名认证验证接口
-      // TODO: 集成实名认证验证接口
-      // uni.request({
-      //   url: 'http://localhost:8080/api/auth/verify-identity',
-      //   method: 'POST',
-      //   data: {
-      //     name: this.authForm.name,
-      //     idCard: this.authForm.idCard,
-      //     phone: this.phone,
-      //     code: this.verificationCode
-      //   },
-      //   header: {
-      //     'Authorization': 'Bearer ' + uni.getStorageSync('token')
-      //   },
-      //   success: (res) => {
-      //     if (res.data.code === 200) {
-      //       uni.showToast({
-      //         title: '认证成功',
-      //         icon: 'success',
-      //         success: () => {
-      //           setTimeout(() => {
-      //             uni.navigateTo({
-      //               url: '/pages/home/home'
-      //             })
-      //           }, 1500)
-      //         }
-      //       })
-      //     }
-      //   }
-      // })
-
-      // 模拟验证
       uni.showLoading({ title: '验证中...' })
 
       setTimeout(() => {
@@ -147,25 +149,12 @@
   min-height: 100vh;
 }
 
-/* 头部 */
 .header {
   background-color: #fff;
   padding: 40rpx 30rpx 20rpx;
   border-bottom: 1rpx solid #e8e8e8;
 }
-/*
-.back-btn {
-  position: absolute;
-  top: 40rpx;
-  left: 30rpx;
-  z-index: 1;
-}
 
-.back-icon {
-  font-size: 36rpx;
-  color: #333;
-}
-*/
 .title {
   font-size: 32rpx;
   font-weight: 600;
@@ -209,12 +198,10 @@
   background-color: #4DD0E1;
 }
 
-/* 内容 */
 .content {
   padding: 30rpx;
 }
 
-/* 验证信息 */
 .verification-info {
   background-color: #fff;
   border-radius: 15rpx;
@@ -236,7 +223,7 @@
 .label {
   font-size: 28rpx;
   color: #666;
-  width: 120rpx;
+  width: 160rpx;
 }
 
 .value {
@@ -246,7 +233,6 @@
   flex: 1;
 }
 
-/* 验证码区域 */
 .verification-section {
   background-color: #fff;
   border-radius: 15rpx;
@@ -311,7 +297,6 @@
   border: none;
 }
 
-/* 底部按钮 */
 .bottom-btn {
   padding: 30rpx;
   background-color: #fff;

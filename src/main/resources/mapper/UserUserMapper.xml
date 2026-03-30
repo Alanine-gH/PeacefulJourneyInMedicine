@@ -40,6 +40,7 @@
         <result column="last_login_ip"  property="lastLoginIp"/>
         <result column="create_time"    property="createTime"/>
         <result column="remark"         property="remark"/>
+        <result column="country_code"    property="countryCode"/>
     </resultMap>
 
     <!-- 角色简要信息 ResultMap 已废弃，user_user_role 表不存在，直接从 user_user 表获取用户信息 -->
@@ -128,7 +129,8 @@
             u.last_login_time,
             u.last_login_ip,
             u.create_time,
-            u.remark
+            u.remark,
+            u.country_code
         FROM user_user u
         WHERE u.id = #{id}
     </select>

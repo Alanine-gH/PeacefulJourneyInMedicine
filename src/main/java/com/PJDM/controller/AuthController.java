@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Random;
+import java.util.random.RandomGenerator;
+
 /**
  * 认证控制器（登录 / 注册 / 退出）
  *
@@ -102,5 +105,14 @@ public class AuthController {
             return bearer.substring(7);
         }
         return bearer;
+    }
+
+    @PostMapping("/send_code")
+    public R sendCode(String phone) throws Exception {
+        int code = (int) (Math.random() * 900000) + 100000;
+
+        SMSSendCode sendCode = new SMSSendCode();
+        sendCode.sendCode(phone, String.valueOf(code));
+        return R.success("<UNK>");
     }
 }
