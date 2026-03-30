@@ -1,14 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <!-- <view class="header"> -->
-     <!-- <view class="back-btn" @click="goBack">
-        <text class="back-icon">‹</text>
-      </view> -->
-     <!-- <view class="title">在线客服</view>	
-      <view class="status-dot" :class="isLoading ? 'thinking' : 'online'"></view>
-    </view> -->
-
     <!-- 聊天时间 -->
     <view class="chat-time">
       <text class="time-text">今天 {{ currentDate }}</text>
@@ -43,6 +34,17 @@
       <!-- 滚动锚点 -->
       <view id="scroll-bottom"></view>
     </scroll-view>
+
+    <!-- 快捷问题（水平滚动） -->
+    <view class="quick-questions-scroll">
+      <scroll-view scroll-x="true" class="quick-questions-container" show-scrollbar="false">
+        <view class="quick-questions-list">
+          <view class="quick-question-item" v-for="(q, i) in quickQuestions" :key="i" @click="sendQuick(q)">
+            <text class="quick-question-text">{{ q }}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
 
     <!-- 输入框 -->
     <view class="input-area">
@@ -195,7 +197,7 @@ export default {
         }, 600);
         return;
       }
-      this.history.push({ role: 'user', content });
+      this.history.push({role: 'user', content});
       this.thinking = true;
       this.$nextTick(() => {
         this.scrollAnchor = 'm-thinking';
@@ -215,47 +217,53 @@ export default {
         }
         let aiIdx = -1, fullReply = '';
         await sendChatStream(
-          { userInput: content, history: this.history.slice(0, -1) },
-          (chunk) => {
-            this.thinking = false;
-            fullReply += chunk;
-            if (aiIdx === -1) {
-              this.messages.push({
-                type: 'other',
-                content: fullReply,
-                time: this.getNow(),
-                streaming: true
-              });
-              aiIdx = this.messages.length - 1;
-            } else {
-              this.$set(this.messages, aiIdx, Object.assign({}, this.messages[aiIdx], { content: fullReply }));
+            {userInput: content, history: this.history.slice(0, -1)},
+            (chunk) => {
+              this.thinking = false;
+              fullReply += chunk;
+              if (aiIdx === -1) {
+                this.messages.push({
+                  type: 'other',
+                  content: fullReply,
+                  time: this.getNow(),
+                  streaming: true
+                });
+                aiIdx = this.messages.length - 1;
+              } else {
+                this.$set(this.messages, aiIdx, Object.assign({}, this.messages[aiIdx], {content: fullReply}));
+              }
+              this.scrollToBottom();
+            },
+            (full) => {
+              this.thinking = false;
+              this.isLoading = false;
+              const fc = full || fullReply;
+              if (aiIdx >= 0) {
+                this.$set(this.messages, aiIdx, Object.assign({}, this.messages[aiIdx], {
+                  content: fc,
+                  streaming: false
+                }));
+              } else if (fc) {
+                this.messages.push({type: 'other', content: fc, time: this.getNow()});
+              }
+              this.history.push({role: 'assistant', content: fc});
+              if (this.history.length > 20) this.history = this.history.slice(-20);
+              this.scrollToBottom();
+            },
+            (err) => {
+              this.thinking = false;
+              this.isLoading = false;
+              const e = (typeof err === 'string' && err) ? err : '抱歉，服务暂时不可用，请稍后重试。';
+              if (aiIdx >= 0) {
+                this.$set(this.messages, aiIdx, Object.assign({}, this.messages[aiIdx], {
+                  content: e,
+                  streaming: false
+                }));
+              } else {
+                this.messages.push({type: 'other', content: e, time: this.getNow()});
+              }
+              this.scrollToBottom();
             }
-            this.scrollToBottom();
-          },
-          (full) => {
-            this.thinking = false;
-            this.isLoading = false;
-            const fc = full || fullReply;
-            if (aiIdx >= 0) {
-              this.$set(this.messages, aiIdx, Object.assign({}, this.messages[aiIdx], { content: fc, streaming: false }));
-            } else if (fc) {
-              this.messages.push({ type: 'other', content: fc, time: this.getNow() });
-            }
-            this.history.push({ role: 'assistant', content: fc });
-            if (this.history.length > 20) this.history = this.history.slice(-20);
-            this.scrollToBottom();
-          },
-          (err) => {
-            this.thinking = false;
-            this.isLoading = false;
-            const e = (typeof err === 'string' && err) ? err : '抱歉，服务暂时不可用，请稍后重试。';
-            if (aiIdx >= 0) {
-              this.$set(this.messages, aiIdx, Object.assign({}, this.messages[aiIdx], { content: e, streaming: false }));
-            } else {
-              this.messages.push({ type: 'other', content: e, time: this.getNow() });
-            }
-            this.scrollToBottom();
-          }
         );
       } catch (e) {
         this.thinking = false;
@@ -290,58 +298,6 @@ export default {
   background-color: #f5f7fa;
 }
 
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 56rpx;
-  color: #fff;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.title {
-  flex: 1;
-  text-align: center;
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.status-dot {
-  width: 16rpx;
-  height: 16rpx;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.status-dot.online {
-  background-color: #a5f3a5;
-  box-shadow: 0 0 0 4rpx rgba(165, 243, 165, 0.4);
-}
-
-.status-dot.thinking {
-  background-color: #ffd06e;
-  box-shadow: 0 0 0 4rpx rgba(255, 208, 110, 0.4);
-  animation: pulse 1.2s ease-in-out infinite;
-}
-
 /* 聊天时间 */
 .chat-time {
   text-align: center;
@@ -357,24 +313,40 @@ export default {
   border-radius: 20rpx;
 }
 
-/* 快捷问题 */
-.quick-list {
-  padding: 10rpx 24rpx 20rpx;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16rpx;
+/* 快捷问题（水平滚动） */
+.quick-questions-scroll {
+  background-color: #fff;
+  border-top: 1rpx solid #eee;
   flex-shrink: 0;
 }
 
-.quick-item {
+.quick-questions-container {
+  padding: 16rpx 24rpx;
+  white-space: nowrap;
+}
+
+.quick-questions-list {
+  display: inline-flex;
+  gap: 16rpx;
+}
+
+.quick-question-item {
   background-color: #E1F5FE;
   border-radius: 30rpx;
   padding: 12rpx 28rpx;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
-.quick-text {
+.quick-question-item:active {
+  background-color: #B3E5FC;
+  transform: scale(0.98);
+}
+
+.quick-question-text {
   font-size: 24rpx;
   color: #26C6DA;
+  white-space: nowrap;
 }
 
 /* 聊天内容区 */
@@ -442,8 +414,12 @@ export default {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .thinking-dot {
@@ -510,7 +486,11 @@ export default {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
-</style> 
+</style>
