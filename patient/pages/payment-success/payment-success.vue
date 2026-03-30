@@ -1,11 +1,5 @@
 <template>
   <view class="success-page">
-    <!-- 导航栏 -->
-    <!-- <view class="nav-bar">
-      <text class="nav-title">支付完成</text>
-      <view class="placeholder"></view>
-    </view> -->
-
     <!-- 步骤指示器 -->
     <view class="step-indicator">
       <view class="step-item completed">
@@ -90,39 +84,6 @@ export default {
 .success-page {
   min-height: 100vh;
   background-color: #f5f5f5;
-}
-
-/* 导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
 }
 
 /* 步骤指示器 */

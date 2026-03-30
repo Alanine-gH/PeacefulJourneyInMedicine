@@ -1,14 +1,5 @@
 <template>
   <view class="container">
-    <!-- 顶部导航 -->
- <!--   <view class="header">
-      <view class="back-btn" @click="goBack">
-        <text class="back-icon">←</text>
-      </view>
-      <view class="title">智能诊断</view>
-      <view class="placeholder"></view>
-    </view>-->
-
     <!-- 人体2D图 -->
     <view class="body-diagram">
       <view class="body-image-container">
@@ -139,12 +130,8 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     selectBodyPart(part) {
       this.selectedPart = part
-      
       // 预留：调用身体部位诊断接口
       // TODO: 集成身体部位诊断接口
       // uni.request({
@@ -185,16 +172,7 @@ export default {
   justify-content: space-between;
   color: #fff;
 }
-/*
-.back-btn {
-  z-index: 1;
-}
 
-.back-icon {
-  font-size: 36rpx;
-  color: #fff;
-}
-*/
 .title {
   font-size: 32rpx;
   font-weight: 600;

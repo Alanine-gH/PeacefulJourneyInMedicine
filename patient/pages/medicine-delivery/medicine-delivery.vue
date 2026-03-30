@@ -1,14 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <!-- <view class="header">
-      <view class="header-content">
-        <view class="header-left"></view>
-        <view class="header-title">药品配送</view>
-        <view class="header-right"></view>
-      </view>
-    </view> -->
-
     <!-- 配送服务列表 -->
     <view class="service-section">
       <view class="section-header">
@@ -191,42 +182,6 @@ export default {
 .container {
   background-color: #f8f9fa;
   min-height: 100vh;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-
-.header-left {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-.header-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.header-right {
-  width: 60rpx;
 }
 
 /* 配送服务 */

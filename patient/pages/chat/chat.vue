@@ -2,9 +2,6 @@
   <view class="chat-page">
     <!-- 导航栏 -->
     <view class="nav-bar">
-      <!--      <view class="back-btn" @click="goBack">-->
-      <!--        <text class="back-arrow">‹</text>-->
-      <!--      </view>-->
       <text class="nav-title">{{ chatName }}</text>
       <view class="more-btn" @click="showMore">
         <text class="more-icon">⋯</text>
@@ -376,11 +373,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-/*
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}*/
 
 .nav-title {
   font-size: 36rpx;

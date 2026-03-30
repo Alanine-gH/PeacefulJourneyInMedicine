@@ -1,19 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-<!--    <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">长期合作</text>
-        </view>
-        <view class="header-actions">
-          <view class="back-button" @click="goBack">
-            <text class="back-icon">←</text>
-          </view>
-        </view>
-      </view>
-    </view> -->
-    
     <!-- 主要内容 -->
     <view class="main-content">
       <!-- 主题区域 -->
@@ -148,59 +134,6 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #f8f9fa;
-}
-
-/* 头部 */
-.header {
-  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.back-button {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.back-icon {
-  font-size: 32rpx;
-  color: #fff;
-  font-weight: bold;
 }
 
 /* 主要内容 */

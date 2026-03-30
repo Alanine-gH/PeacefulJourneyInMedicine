@@ -1,13 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
- <!--   <view class="header">
-      <view class="back-btn" @click="goBack">
-        <text class="back-icon">←</text>
-      </view>
-      <view class="title">订单详情</view>
-    </view>-->
-
     <!-- 订单状态 -->
     <view class="status-card" :class="orderStatusClass">
       <view class="status-icon">
@@ -168,9 +160,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     goHome() {
       uni.switchTab({
         url: '/pages/home/home'
@@ -228,32 +217,6 @@ export default {
   min-height: 100vh;
   background-color: #f8f9fa;
   padding-bottom: 100rpx;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-/*
-.back-btn {
-  position: absolute;
-  top: 40rpx;
-  left: 30rpx;
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #fff;
-}
-*/
-.title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
 }
 
 /* 订单状态卡片 */

@@ -1,14 +1,5 @@
 <template>
   <view class="blood-sugar-page">
-    <!-- 导航栏 -->
-    <!-- <view class="nav-bar"> -->
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>-->
-      <!-- <text class="nav-title">血糖监测</text>
-      <view class="placeholder"></view>
-    </view> -->
-
     <!-- 今日血糖概览 -->
     <view class="overview-section">
       <view class="overview-card">
@@ -228,9 +219,6 @@ export default {
       const day = String(date.getDate()).padStart(2, '0')
       this.todayDate = `${year}年${month}月${day}日`
     },
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     updateBloodSugarStatus() {
       const avgBloodSugar = (this.fastingBloodSugar + this.postMealBloodSugar) / 2
       if (avgBloodSugar < 3.9) {
@@ -263,14 +251,12 @@ export default {
         })
         return
       }
-      
       const newBloodSugarRecord = {
         time: this.selectedTime,
         type: this.selectedType,
         value: parseFloat(this.newRecord.value),
         note: this.newRecord.note || ''
       }
-      
       this.bloodSugarRecords.unshift(newBloodSugarRecord)
       
       // 更新趋势数据
@@ -315,35 +301,6 @@ export default {
   padding-bottom: 40rpx;
 }
 
-/* 导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-arrow {
-  font-size: 48rpx;
-  color: #fff;
-  font-weight: 300;
-}
-*/
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 600;
-  color: #fff;
-}
 
 .placeholder {
   width: 60rpx;

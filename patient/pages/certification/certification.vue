@@ -1,18 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-   <!-- <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">资格认证</text>
-        </view>
-        <view class="header-actions">
-          <view class="customer-service" @click="openCustomerService">
-            <text class="service-icon">💬</text>
-          </view>
-        </view>
-      </view>
-    </view> -->
     <!-- 表单内容 -->
     <view class="form-content">
       <!-- 真实姓名 -->
@@ -286,7 +273,6 @@ export default {
       
       this.submitCertification()
     },
-    
     async submitCertification() {
       try {
         uni.showLoading({ title: '提交中...' });
@@ -302,7 +288,6 @@ export default {
           });
           return;
         }
-        
         // 将前端字段名映射到后端 DTO 字段名
         const submitData = {
           accompanistId: userId,
@@ -358,58 +343,6 @@ export default {
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.customer-service {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.customer-service:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.service-icon {
-  font-size: 32rpx;
-  color: #fff;
 }
 
 .form-content {

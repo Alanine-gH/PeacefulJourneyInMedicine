@@ -1,22 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <!-- <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">医路安心</text>
-        </view>
-        <view class="header-actions">
-          <view class="companion-switch" @click="goToCompanionLogin">
-            <text class="companion-switch-text">🩺 切换陪护端</text>
-          </view>
-           <view class="customer-service" @click="openCustomerService">
-            <text class="service-icon">💬</text>
-          </view> 
-        </view>
-      </view>
-    </view> -->
-
     <!-- 患者功能区 - 第一部分 -->
     <view class="patient-section">
       <view class="patient-grid">
@@ -182,15 +165,6 @@ export default {
         url: '/pages/customer/customer'
       })
     },
-    // goToCompanionLogin() {
-    //   // 检查当前是否已以陪诊师身份登录
-    //   const userType = uni.getStorageSync('userType')
-    //   if (userType === 2) {
-    //     uni.reLaunch({ url: '/pages/companion/home' })
-    //   } else {
-    //     uni.navigateTo({ url: '/pages/login/login?mode=companion' })
-    //   }
-    // },
     goToPromotion(index) {
       uni.navigateTo({
         url: `/pages/promotion/promotion?index=${index}`
@@ -263,62 +237,6 @@ export default {
   min-height: 100vh;
 }
 
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-}
-/*
-.companion-switch {
-  background: rgba(255,255,255,0.2);
-  border: 1rpx solid rgba(255,255,255,0.5);
-  border-radius: 30rpx;
-  padding: 10rpx 20rpx;
-  display: flex;
-  align-items: center;
-}
-
-.companion-switch:active {
-  background: rgba(255,255,255,0.35);
-}
-
-.companion-switch-text {
-  font-size: 22rpx;
-  color: #fff;
-  font-weight: 500;
-  white-space: nowrap;
-}
-*/
 .customer-service {
   width: 60rpx;
   height: 60rpx;

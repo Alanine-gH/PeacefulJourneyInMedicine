@@ -1,13 +1,5 @@
 <template>
   <view class="add-patient-page">
-  <!--  <view class="nav-bar">
-      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>
-      <text class="nav-title">添加就诊人</text>
-      <view class="placeholder"></view>
-    </view> -->
-
     <view class="form-wrap">
       <view class="form-item">
         <text class="form-label">姓名</text>
@@ -60,9 +52,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     async submitAdd() {
       const {name, phone, idCard, relation} = this.form
       if (!name.trim()) {
@@ -121,38 +110,6 @@ export default {
   min-height: 100vh;
   background: #f5f5f5;
   padding-bottom: 120rpx;
-}
-
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0;
-  background: linear-gradient(135deg, #4DD0E1, #26C6DA);
-}
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
 }
 
 .form-wrap {

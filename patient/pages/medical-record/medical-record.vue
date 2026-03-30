@@ -1,20 +1,12 @@
 <template>
   <view class="container">
-    <!-- 顶部导航栏 -->
-   <!-- <view class="header">
-      <view class="header-content">
-        <view class="header-left"></view>
-        <view class="header-title">病例查询</view>
-        <view class="header-right"></view>
-      </view>
-    </view> -->
     <!-- 病例列表 -->
     <view class="record-list">
-      <view 
-        v-for="record in filteredRecords" 
-        :key="record.id" 
-        class="record-item"
-        @click="viewRecordDetail(record.id)"
+      <view
+          v-for="record in filteredRecords"
+          :key="record.id"
+          class="record-item"
+          @click="viewRecordDetail(record.id)"
       >
         <view class="record-header">
           <text class="record-title">{{ record.title }}</text>
@@ -29,7 +21,7 @@
           <text class="record-status" :class="record.status">{{ record.statusText }}</text>
         </view>
       </view>
-      
+
       <!-- 空状态 -->
       <view v-if="filteredRecords.length === 0" class="empty-state">
         <text class="empty-icon">📋</text>
@@ -70,7 +62,7 @@ export default {
         this.loading = true;
         // 获取当前登录用户ID
         const userId = uni.getStorageSync('userId');
-        
+
         if (!userId) {
           uni.showToast({
             title: '请先登录',
@@ -81,13 +73,13 @@ export default {
           });
           return;
         }
-        
+
         const response = await getTriageRecords({
           page: this.currentPage,
           size: this.pageSize,
           userId: userId
         });
-        
+
         if (response && response.code === 200 && response.data) {
           // 获取当前登录用户ID
           const userId = uni.getStorageSync('userId');
@@ -183,37 +175,6 @@ export default {
   background-color: #f8f9fa;
   min-height: 100vh;
 }
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header-left {
-  width: 60rpx;
-}
-
-.header-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  flex: 1;
-  text-align: center;
-}
-
-.header-right {
-  width: 60rpx;
-}
-
-
 
 /* 病例列表 */
 .record-list {

@@ -1,741 +1,723 @@
 <template>
-	<view class="container">
-		<!-- Logo区域 -->
-		<view class="logo-section">
-			<!-- <view v-if="mode === 'companion'" class="mode-banner">
-				<text class="mode-banner-text">🩺 陪护端登录</text>
-			</view> -->
-			<view class="logo">
-				<view class="logo-icon">
-					<view class="heart">
-						<view class="heart-inner"></view>
-					</view>
-				</view>
-			</view>
-			<text class="app-name">医路安心</text>
-		</view>
+  <view class="container">
+    <!-- Logo区域 -->
+    <view class="logo-section">
+      <view class="logo">
+        <view class="logo-icon">
+          <view class="heart">
+            <view class="heart-inner"></view>
+          </view>
+        </view>
+      </view>
+      <text class="app-name">医路安心</text>
+    </view>
 
-		<!-- 登录表单 -->
-		<form @submit="onLogin">
-			<view class="form-section">
-				<view class="input-group">
-					<view class="input-item">
-						<view class="input-icon user-icon"></view>
-						<input type="text" placeholder="请输入用户名" v-model="username" class="input-field"
-							name="username" />
-					</view>
-					<view class="input-item">
-						<view class="input-icon lock-icon"></view>
-						<input :type="showPassword?'text':'password'" placeholder="请输入密码" v-model="password"
-							class="input-field" name="password" />
-						<view class="eye-icon" :class="showPassword ? 'eye-open' : 'eye-close'" @click="togglePassword">
-							<text v-if="!showPassword" class="eye-text">👁️</text>
-							<text v-else class="eye-text">👁️‍🗨️</text>
-						</view>
-					</view>
+    <!-- 登录表单 -->
+    <form @submit="onLogin">
+      <view class="form-section">
+        <view class="input-group">
+          <view class="input-item">
+            <view class="input-icon user-icon"></view>
+            <input type="text" placeholder="请输入用户名" v-model="username" class="input-field"
+                   name="username"/>
+          </view>
+          <view class="input-item">
+            <view class="input-icon lock-icon"></view>
+            <input :type="showPassword?'text':'password'" placeholder="请输入密码" v-model="password"
+                   class="input-field" name="password"/>
+            <view class="eye-icon" :class="showPassword ? 'eye-open' : 'eye-close'" @click="togglePassword">
+              <text v-if="!showPassword" class="eye-text">👁️</text>
+              <text v-else class="eye-text">👁️‍🗨️</text>
+            </view>
+          </view>
 
-					<!-- 图形验证码 -->
-					<view class="input-item captcha-item">
-						<view class="input-item-inner">
-							<view class="input-icon captcha-icon"></view>
-							<input type="text" placeholder="请输入验证码" v-model="captcha" class="input-field" name="captcha"
-								maxlength="4" />
-						</view>
-						<view class="captcha-box" @click="fetchCaptcha">
-							<text v-if="captchaLoading" class="captcha-loading"></text>
-							<image v-else-if="captchaImg" :src="'data:image/jpeg;base64,' + captchaImg"
-								class="captcha-img" mode="aspectFit" />
-							<text v-else class="captcha-placeholder">点击获取</text>
-						</view>
-					</view>
+          <!-- 图形验证码 -->
+          <view class="input-item captcha-item">
+            <view class="input-item-inner">
+              <view class="input-icon captcha-icon"></view>
+              <input type="text" placeholder="请输入验证码" v-model="captcha" class="input-field" name="captcha"
+                     maxlength="4"/>
+            </view>
+            <view class="captcha-box" @click="fetchCaptcha">
+              <text v-if="captchaLoading" class="captcha-loading"></text>
+              <image v-else-if="captchaImg" :src="'data:image/jpeg;base64,' + captchaImg"
+                     class="captcha-img" mode="aspectFit"/>
+              <text v-else class="captcha-placeholder">点击获取</text>
+            </view>
+          </view>
 
-				</view>
+        </view>
 
-				<!-- 辅助链接 -->
-				<view class="helper-links">
-					<text class="link-text" @click="goToForgotPassword">忘记密码</text>
-					<text class="link-text register" @click="goToRegister">注册新用户</text>
-				</view>
+        <!-- 辅助链接 -->
+        <view class="helper-links">
+          <text class="link-text" @click="goToForgotPassword">忘记密码</text>
+          <text class="link-text register" @click="goToRegister">注册新用户</text>
+        </view>
 
-				<!-- 登录按钮 -->
-				<button class="login-btn" form-type="submit">登录</button>
-			</view>
-		</form>
+        <!-- 登录按钮 -->
+        <button class="login-btn" form-type="submit">登录</button>
+      </view>
+    </form>
 
-		<!-- 底部协议 -->
-		<view class="agreement-section">
-			<view class="checkbox-wrapper" @click="toggleAgreement">
-				<view class="checkbox" :class="agreed ? 'checked' : ''"></view>
-				<text class="agreement-text">我已阅读并同意</text>
-			</view>
-			<text class="agreement-link" @click="viewUserAgreement">《用户协议》</text>
-			<text class="agreement-text">和</text>
-			<text class="agreement-link" @click="viewServiceAgreement">《服务协议》</text>
-		</view>
-	</view>
+    <!-- 底部协议 -->
+    <view class="agreement-section">
+      <view class="checkbox-wrapper" @click="toggleAgreement">
+        <view class="checkbox" :class="agreed ? 'checked' : ''"></view>
+        <text class="agreement-text">我已阅读并同意</text>
+      </view>
+      <text class="agreement-link" @click="viewUserAgreement">《用户协议》</text>
+      <text class="agreement-text">和</text>
+      <text class="agreement-link" @click="viewServiceAgreement">《服务协议》</text>
+    </view>
+  </view>
 </template>
 
 <script>
-	import {
-		login,
-		getCaptcha
-	} from '../../utils/auth';
+import {
+  login,
+  getCaptcha
+} from '../../utils/auth';
 
-	export default {
-		data() {
-			return {
-				username: '',
-				password: '123456789',
-				captcha: '',
-				captchaImg: '',
-				captchaKey: '',
-				captchaLoading: false,
-				showPassword: false,
-				agreed: true,
-				selectedLanguage: 'zh',
-				mode: 'patient' // 'patient' | 'companion'
-			}
-		},
-		onLoad(options) {
-			this.mode = options.mode || 'patient'
-			this.fetchCaptcha()
-		},
-		methods: {
-			togglePassword() {
-				this.showPassword = !this.showPassword
-			},
+export default {
+  data() {
+    return {
+      username: '',
+      password: '123456789',
+      captcha: '',
+      captchaImg: '',
+      captchaKey: '',
+      captchaLoading: false,
+      showPassword: false,
+      agreed: true,
+      selectedLanguage: 'zh',
+      mode: 'patient' // 'patient' | 'companion'
+    }
+  },
+  onLoad(options) {
+    this.mode = options.mode || 'patient'
+    this.fetchCaptcha()
+  },
+  methods: {
+    togglePassword() {
+      this.showPassword = !this.showPassword
+    },
 
-			async fetchCaptcha() {
-				this.captchaLoading = true
-				this.captchaImg = ''
-				this.captcha = ''
-				try {
-					const res = await getCaptcha()
-					const d = (res && res.data) ? res.data : res
-					this.captchaKey = d.uuid || ''
-					this.captchaImg = d.img || ''
-				} catch (e) {
-					this.captchaImg = ''
-				} finally {
-					this.captchaLoading = false
-				}
-			},
+    async fetchCaptcha() {
+      this.captchaLoading = true
+      this.captchaImg = ''
+      this.captcha = ''
+      try {
+        const res = await getCaptcha()
+        const d = (res && res.data) ? res.data : res
+        this.captchaKey = d.uuid || ''
+        this.captchaImg = d.img || ''
+      } catch (e) {
+        this.captchaImg = ''
+      } finally {
+        this.captchaLoading = false
+      }
+    },
 
-			toggleAgreement() {
-				this.agreed = !this.agreed
-			},
+    toggleAgreement() {
+      this.agreed = !this.agreed
+    },
 
-			selectLanguage(lang) {
-				this.selectedLanguage = lang
-			},
+    selectLanguage(lang) {
+      this.selectedLanguage = lang
+    },
 
-			async onLogin() {
-				const {
-					username,
-					password,
-					captcha,
-					captchaKey,
-					agreed
-				} = this
+    async onLogin() {
+      const {
+        username,
+        password,
+        captcha,
+        captchaKey,
+        agreed
+      } = this
 
-				if (!username) {
-					uni.showToast({
-						title: '请输入用户名',
-						icon: 'none'
-					})
-					return
-				}
+      if (!username) {
+        uni.showToast({
+          title: '请输入用户名',
+          icon: 'none'
+        })
+        return
+      }
 
-				if (!password) {
-					uni.showToast({
-						title: '请输入密码',
-						icon: 'none'
-					})
-					return
-				}
+      if (!password) {
+        uni.showToast({
+          title: '请输入密码',
+          icon: 'none'
+        })
+        return
+      }
 
-				if (!captcha) {
-					uni.showToast({
-						title: '请输入验证码',
-						icon: 'none'
-					})
-					return
-				}
+      if (!captcha) {
+        uni.showToast({
+          title: '请输入验证码',
+          icon: 'none'
+        })
+        return
+      }
 
-				if (!agreed) {
-					uni.showToast({
-						title: '请同意用户协议',
-						icon: 'none'
-					})
-					return
-				}
+      if (!agreed) {
+        uni.showToast({
+          title: '请同意用户协议',
+          icon: 'none'
+        })
+        return
+      }
 
-				// 真实登录
-				uni.showLoading({
-					title: '登录中...'
-				})
+      // 真实登录
+      uni.showLoading({
+        title: '登录中...'
+      })
 
-				try {
-					const response = await login(username, password, captcha, captchaKey);
-					uni.hideLoading();
+      try {
+        const response = await login(username, password, captcha, captchaKey);
+        uni.hideLoading();
 
-					if (response.code === 200) {
-						const data = response.data
-						const userType = data.userType // 1=患者 2=陪诊师 3=客服 4=管理员
+        if (response.code === 200) {
+          const data = response.data
+          const userType = data.userType // 1=患者 2=陪诊师 3=客服 4=管理员
 
-						// 仅支持患者和陪诊师在小程序端登录
-						if (userType !== 1 && userType !== 2) {
-							this.fetchCaptcha()
-							uni.showToast({
-								title: '该账号身份暂不支持在此端登录',
-								icon: 'none',
-								duration: 3000
-							})
-							return
-						}
+          // 仅支持患者和陪诊师在小程序端登录
+          if (userType !== 1 && userType !== 2) {
+            this.fetchCaptcha()
+            uni.showToast({
+              title: '该账号身份暂不支持在此端登录',
+              icon: 'none',
+              duration: 3000
+            })
+            return
+          }
 
-						// 保存登录信息
-						uni.setStorageSync('token', data.token)
-						uni.setStorageSync('userId', data.userId)
-						uni.setStorageSync('userType', userType)
-						uni.setStorageSync('userInfo', data)
-						if (userType === 2) {
-							uni.setStorageSync('accompanistId', data.userId)
-						}
+          // 保存登录信息
+          uni.setStorageSync('token', data.token)
+          uni.setStorageSync('userId', data.userId)
+          uni.setStorageSync('userType', userType)
+          uni.setStorageSync('userInfo', data)
+          if (userType === 2) {
+            uni.setStorageSync('accompanistId', data.userId)
+          }
 
-						uni.showToast({
-							title: '登录成功',
-							icon: 'success',
-							success: () => {
-								setTimeout(() => {
-									if (userType === 2) {
-										uni.reLaunch({
-											url: '/pages/companion/home'
-										})
-									} else {
-										uni.switchTab({
-											url: '/pages/home/home'
-										})
-									}
-								}, 1000)
-							}
-						})
-					} else {
-						this.fetchCaptcha()
-						uni.showToast({
-							title: response.msg || response.message || '登录失败',
-							icon: 'none'
-						})
-					}
-				} catch (error) {
-					uni.hideLoading();
-					console.error('登录失败:', error);
-					this.fetchCaptcha();
-					uni.showToast({
-						title: '登录失败，请稍后重试',
-						icon: 'none'
-					})
-				}
-			},
+          uni.showToast({
+            title: '登录成功',
+            icon: 'success',
+            success: () => {
+              setTimeout(() => {
+                if (userType === 2) {
+                  uni.reLaunch({
+                    url: '/pages/companion/home'
+                  })
+                } else {
+                  uni.switchTab({
+                    url: '/pages/home/home'
+                  })
+                }
+              }, 1000)
+            }
+          })
+        } else {
+          this.fetchCaptcha()
+          uni.showToast({
+            title: response.msg || response.message || '登录失败',
+            icon: 'none'
+          })
+        }
+      } catch (error) {
+        uni.hideLoading();
+        console.error('登录失败:', error);
+        this.fetchCaptcha();
+        uni.showToast({
+          title: '登录失败，请稍后重试',
+          icon: 'none'
+        })
+      }
+    },
 
-			goToForgotPassword() {
-				uni.navigateTo({
-					url: '/pages/forgot-password/forgot-password'
-				})
-			},
+    goToForgotPassword() {
+      uni.navigateTo({
+        url: '/pages/forgot-password/forgot-password'
+      })
+    },
 
-			goToRegister() {
-				uni.navigateTo({
-					url: '/pages/register/register'
-				})
-			},
+    goToRegister() {
+      uni.navigateTo({
+        url: '/pages/register/register'
+      })
+    },
 
-			viewUserAgreement() {
-				uni.showModal({
-					title: '用户协议',
-					content: '医路安心 用户协议\n' +
-              '\n' +
-              '版本：V1.0　生效日期：2026年3月28日\n' +
-              '\n' +
-              '一、总则\n' +
-              '本协议由您（以下称"用户"）与医路安心平台（以下称"平台"）签订。使用本平台即表示您已阅读并同意本协议全部条款。\n' +
-              '\n' +
-              '二、账号注册与管理\n' +
-              '1. 用户须年满18周岁，或在监护人陪同下使用本平台。\n' +
-              '2. 注册时须提供真实、准确、完整的个人信息，如信息变更请及时更新。\n' +
-              '3. 账号及密码由用户自行保管，因保管不当导致的损失由用户自行承担。\n' +
-              '4. 禁止将账号转让、出借或出售给他人使用。\n' +
-              '5. 用户可随时注销账号，注销后账号下的数据将按法规要求处理。\n' +
-              '\n' +
-              '三、平台服务\n' +
-              '1. 平台提供智能分诊、陪诊预约、专家咨询、健康记录管理等服务。\n' +
-              '2. 平台服务内容可能因运营需要调整，调整前将提前通知用户。\n' +
-              '3. 平台依法运营，不从事违反国家法律法规的业务。\n' +
-              '\n' +
-              '四、用户行为规范\n' +
-              '用户承诺不得：\n' +
-              '1. 发布虚假病情或恶意评价，扰乱平台秩序；\n' +
-              '2. 冒充他人（包括医生、陪诊师）进行欺诈；\n' +
-              '3. 利用平台从事任何违法违规活动；\n' +
-              '4. 干扰平台正常运营，攻击平台服务器或数据库；\n' +
-              '5. 传播任何违反公序良俗的内容。\n' +
-              '\n' +
-              '五、个人信息与隐私\n' +
-              '1. 平台依照《个人信息保护法》收集和使用用户信息，详见《隐私政策》。\n' +
-              '2. 平台不会向第三方出售用户个人信息。\n' +
-              '3. 平台采用加密存储、访问控制等措施保障用户数据安全。\n' +
-              '4. 用户有权查阅、更正、删除其个人信息。\n' +
-              '\n' +
-              '六、免责声明\n' +
-              '1. 平台提供的医疗健康内容仅供参考，不构成正式医疗建议，具体诊疗请遵从医生意见。\n' +
-              '2. 因不可抗力（网络故障、自然灾害、政策变化等）导致的服务中断，平台不承担责任。\n' +
-              '3. 用户因违反本协议导致的损失由用户自行承担。\n' +
-              '\n' +
-              '七、知识产权\n' +
-              '平台所有内容（包括但不限于文字、图片、代码、设计）均受知识产权法保护，未经授权不得复制、传播或商业使用。\n' +
-              '\n' +
-              '八、协议变更\n' +
-              '平台有权修改本协议，修改后将在平台内公告，继续使用视为同意修改后的协议。\n' +
-              '\n' +
-              '九、争议解决\n' +
-              '本协议适用中华人民共和国法律。如发生争议，双方应协商解决；协商不成，提交平台注册地有管辖权的人民法院诉讼解决。\n' +
-              '\n' +
-              '十、联系我们\n' +
-              '如有任何问题，请通过平台内"意见反馈"功能联系我们。\n' +
-              '\n' +
-              '医路安心平台\n' +
-              '2026年3月28日',
-					showCancel: false
-				})
-			},
+    viewUserAgreement() {
+      uni.showModal({
+        title: '用户协议',
+        content: '医路安心 用户协议\n' +
+            '\n' +
+            '版本：V1.0　生效日期：2026年3月28日\n' +
+            '\n' +
+            '一、总则\n' +
+            '本协议由您（以下称"用户"）与医路安心平台（以下称"平台"）签订。使用本平台即表示您已阅读并同意本协议全部条款。\n' +
+            '\n' +
+            '二、账号注册与管理\n' +
+            '1. 用户须年满18周岁，或在监护人陪同下使用本平台。\n' +
+            '2. 注册时须提供真实、准确、完整的个人信息，如信息变更请及时更新。\n' +
+            '3. 账号及密码由用户自行保管，因保管不当导致的损失由用户自行承担。\n' +
+            '4. 禁止将账号转让、出借或出售给他人使用。\n' +
+            '5. 用户可随时注销账号，注销后账号下的数据将按法规要求处理。\n' +
+            '\n' +
+            '三、平台服务\n' +
+            '1. 平台提供智能分诊、陪诊预约、专家咨询、健康记录管理等服务。\n' +
+            '2. 平台服务内容可能因运营需要调整，调整前将提前通知用户。\n' +
+            '3. 平台依法运营，不从事违反国家法律法规的业务。\n' +
+            '\n' +
+            '四、用户行为规范\n' +
+            '用户承诺不得：\n' +
+            '1. 发布虚假病情或恶意评价，扰乱平台秩序；\n' +
+            '2. 冒充他人（包括医生、陪诊师）进行欺诈；\n' +
+            '3. 利用平台从事任何违法违规活动；\n' +
+            '4. 干扰平台正常运营，攻击平台服务器或数据库；\n' +
+            '5. 传播任何违反公序良俗的内容。\n' +
+            '\n' +
+            '五、个人信息与隐私\n' +
+            '1. 平台依照《个人信息保护法》收集和使用用户信息，详见《隐私政策》。\n' +
+            '2. 平台不会向第三方出售用户个人信息。\n' +
+            '3. 平台采用加密存储、访问控制等措施保障用户数据安全。\n' +
+            '4. 用户有权查阅、更正、删除其个人信息。\n' +
+            '\n' +
+            '六、免责声明\n' +
+            '1. 平台提供的医疗健康内容仅供参考，不构成正式医疗建议，具体诊疗请遵从医生意见。\n' +
+            '2. 因不可抗力（网络故障、自然灾害、政策变化等）导致的服务中断，平台不承担责任。\n' +
+            '3. 用户因违反本协议导致的损失由用户自行承担。\n' +
+            '\n' +
+            '七、知识产权\n' +
+            '平台所有内容（包括但不限于文字、图片、代码、设计）均受知识产权法保护，未经授权不得复制、传播或商业使用。\n' +
+            '\n' +
+            '八、协议变更\n' +
+            '平台有权修改本协议，修改后将在平台内公告，继续使用视为同意修改后的协议。\n' +
+            '\n' +
+            '九、争议解决\n' +
+            '本协议适用中华人民共和国法律。如发生争议，双方应协商解决；协商不成，提交平台注册地有管辖权的人民法院诉讼解决。\n' +
+            '\n' +
+            '十、联系我们\n' +
+            '如有任何问题，请通过平台内"意见反馈"功能联系我们。\n' +
+            '\n' +
+            '医路安心平台\n' +
+            '2026年3月28日',
+        showCancel: false
+      })
+    },
 
-			viewServiceAgreement() {
-				uni.showModal({
-					title: '服务协议',
-					content: '医路安心 陪诊服务协议\n' +
-              '\n' +
-              '版本：V1.0　生效日期：2026年3月28日\n' +
-              '\n' +
-              '一、协议主体\n' +
-              '本协议由患者用户（以下称"患者"）、陪诊师（以下称"陪诊师"）及医路安心平台（以下称"平台"）三方共同遵守。患者通过平台预约陪诊服务即视为同意本协议。\n' +
-              '\n' +
-              '二、服务内容\n' +
-              '1. 陪同就医：陪诊师陪同患者前往医院，协助挂号、排队、取报告等就医流程。\n' +
-              '2. 代办就医：由陪诊师代替患者前往医院办理相关手续（需患者书面授权）。\n' +
-              '3. 专科协助：针对特定科室（骨科、脑科、妇产科等）提供专业陪诊服务。\n' +
-              '4. 增值服务：包括接送、翻译、健康档案整理等可选服务（按实际套餐约定）。\n' +
-              '\n' +
-              '三、预约与确认\n' +
-              '1. 患者通过平台下单，选择陪诊师、服务类型、就诊时间及医院。\n' +
-              '2. 订单提交后，平台在30分钟内完成派单或通知患者。\n' +
-              '3. 陪诊师接单后，双方信息互相可见，可通过平台内消息沟通。\n' +
-              '4. 就诊前24小时内取消订单，平台将按实际情况处理退款。\n' +
-              '\n' +
-              '四、费用与支付\n' +
-              '1. 服务费用按平台公示价格收取，具体以下单时显示金额为准。\n' +
-              '2. 患者通过平台支付，平台按约定周期结算给陪诊师。\n' +
-              '3. 发票需求请在下单时备注，平台将协助开具。\n' +
-              '4. 因患者原因（迟到超过1小时、临时取消等）导致服务无法进行的，不予退款。\n' +
-              '\n' +
-              '五、陪诊师职责与规范\n' +
-              '陪诊师承诺：\n' +
-              '1. 持有效从业资质，通过平台审核方可接单；\n' +
-              '2. 按时到达约定地点，准时率不低于95%；\n' +
-              '3. 全程尊重患者隐私，不泄露患者病情及个人信息；\n' +
-              '4. 不向患者推销任何药品、保健品或医疗器械；\n' +
-              '5. 不收取平台规定以外的任何费用；\n' +
-              '6. 遇到患者突发状况，第一时间协助就医并通知平台。\n' +
-              '\n' +
-              '六、患者权利与义务\n' +
-              '患者承诺：\n' +
-              '1. 如实告知病情及就诊需求，不隐瞒可能影响服务的重要信息；\n' +
-              '2. 按时赴约，如需取消请提前24小时通知；\n' +
-              '3. 尊重陪诊师，不得对陪诊师实施任何骚扰或侮辱行为；\n' +
-              '4. 不要求陪诊师提供超出服务范围的内容（如私下金钱往来）；\n' +
-              '5. 如实评价服务，不进行恶意差评。\n' +
-              '\n' +
-              '七、隐私保护\n' +
-              '1. 患者的病历、就诊信息属于敏感个人信息，平台和陪诊师均须严格保密。\n' +
-              '2. 陪诊师不得拍摄患者、录音或将患者信息用于任何非服务目的。\n' +
-              '3. 平台对服务全程数据加密存储，保留期限符合法规要求。\n' +
-              '\n' +
-              '八、评价与投诉\n' +
-              '1. 服务完成后，患者可对陪诊师进行评分和评价（1-5星）。\n' +
-              '2. 如对服务有异议，可在服务完成后72小时内通过平台投诉。\n' +
-              '3. 平台在收到投诉后3个工作日内响应处理。\n' +
-              '4. 陪诊师累计投诉达到阈值，平台有权暂停或注销其账号。\n' +
-              '\n' +
-              '九、责任限制\n' +
-              '1. 平台作为信息撮合方，不对陪诊师的医疗行为承担连带责任。\n' +
-              '2. 因患者自身原因（病情变化、个人决定等）导致的就医结果，平台及陪诊师不承担责任。\n' +
-              '3. 陪诊师执行服务期间发生的人身意外，由陪诊师自行购买相关保险保障。\n' +
-              '\n' +
-              '十、协议终止\n' +
-              '1. 患者注销账号或陪诊师通过平台审核注销，本协议自动终止。\n' +
-              '2. 任何一方严重违反本协议，平台有权立即终止服务并追究相关责任。\n' +
-              '\n' +
-              '十一、法律适用与争议解决\n' +
-              '本协议适用中华人民共和国法律。如发生纠纷，三方应首先通过平台调解；调解不成，提交平台注册地有管辖权的人民法院处理。\n' +
-              '\n' +
-              '医路安心平台\n' +
-              '2026年3月28日',
-					showCancel: false
-				})
-			}
-		}
-	}
+    viewServiceAgreement() {
+      uni.showModal({
+        title: '服务协议',
+        content: '医路安心 陪诊服务协议\n' +
+            '\n' +
+            '版本：V1.0　生效日期：2026年3月28日\n' +
+            '\n' +
+            '一、协议主体\n' +
+            '本协议由患者用户（以下称"患者"）、陪诊师（以下称"陪诊师"）及医路安心平台（以下称"平台"）三方共同遵守。患者通过平台预约陪诊服务即视为同意本协议。\n' +
+            '\n' +
+            '二、服务内容\n' +
+            '1. 陪同就医：陪诊师陪同患者前往医院，协助挂号、排队、取报告等就医流程。\n' +
+            '2. 代办就医：由陪诊师代替患者前往医院办理相关手续（需患者书面授权）。\n' +
+            '3. 专科协助：针对特定科室（骨科、脑科、妇产科等）提供专业陪诊服务。\n' +
+            '4. 增值服务：包括接送、翻译、健康档案整理等可选服务（按实际套餐约定）。\n' +
+            '\n' +
+            '三、预约与确认\n' +
+            '1. 患者通过平台下单，选择陪诊师、服务类型、就诊时间及医院。\n' +
+            '2. 订单提交后，平台在30分钟内完成派单或通知患者。\n' +
+            '3. 陪诊师接单后，双方信息互相可见，可通过平台内消息沟通。\n' +
+            '4. 就诊前24小时内取消订单，平台将按实际情况处理退款。\n' +
+            '\n' +
+            '四、费用与支付\n' +
+            '1. 服务费用按平台公示价格收取，具体以下单时显示金额为准。\n' +
+            '2. 患者通过平台支付，平台按约定周期结算给陪诊师。\n' +
+            '3. 发票需求请在下单时备注，平台将协助开具。\n' +
+            '4. 因患者原因（迟到超过1小时、临时取消等）导致服务无法进行的，不予退款。\n' +
+            '\n' +
+            '五、陪诊师职责与规范\n' +
+            '陪诊师承诺：\n' +
+            '1. 持有效从业资质，通过平台审核方可接单；\n' +
+            '2. 按时到达约定地点，准时率不低于95%；\n' +
+            '3. 全程尊重患者隐私，不泄露患者病情及个人信息；\n' +
+            '4. 不向患者推销任何药品、保健品或医疗器械；\n' +
+            '5. 不收取平台规定以外的任何费用；\n' +
+            '6. 遇到患者突发状况，第一时间协助就医并通知平台。\n' +
+            '\n' +
+            '六、患者权利与义务\n' +
+            '患者承诺：\n' +
+            '1. 如实告知病情及就诊需求，不隐瞒可能影响服务的重要信息；\n' +
+            '2. 按时赴约，如需取消请提前24小时通知；\n' +
+            '3. 尊重陪诊师，不得对陪诊师实施任何骚扰或侮辱行为；\n' +
+            '4. 不要求陪诊师提供超出服务范围的内容（如私下金钱往来）；\n' +
+            '5. 如实评价服务，不进行恶意差评。\n' +
+            '\n' +
+            '七、隐私保护\n' +
+            '1. 患者的病历、就诊信息属于敏感个人信息，平台和陪诊师均须严格保密。\n' +
+            '2. 陪诊师不得拍摄患者、录音或将患者信息用于任何非服务目的。\n' +
+            '3. 平台对服务全程数据加密存储，保留期限符合法规要求。\n' +
+            '\n' +
+            '八、评价与投诉\n' +
+            '1. 服务完成后，患者可对陪诊师进行评分和评价（1-5星）。\n' +
+            '2. 如对服务有异议，可在服务完成后72小时内通过平台投诉。\n' +
+            '3. 平台在收到投诉后3个工作日内响应处理。\n' +
+            '4. 陪诊师累计投诉达到阈值，平台有权暂停或注销其账号。\n' +
+            '\n' +
+            '九、责任限制\n' +
+            '1. 平台作为信息撮合方，不对陪诊师的医疗行为承担连带责任。\n' +
+            '2. 因患者自身原因（病情变化、个人决定等）导致的就医结果，平台及陪诊师不承担责任。\n' +
+            '3. 陪诊师执行服务期间发生的人身意外，由陪诊师自行购买相关保险保障。\n' +
+            '\n' +
+            '十、协议终止\n' +
+            '1. 患者注销账号或陪诊师通过平台审核注销，本协议自动终止。\n' +
+            '2. 任何一方严重违反本协议，平台有权立即终止服务并追究相关责任。\n' +
+            '\n' +
+            '十一、法律适用与争议解决\n' +
+            '本协议适用中华人民共和国法律。如发生纠纷，三方应首先通过平台调解；调解不成，提交平台注册地有管辖权的人民法院处理。\n' +
+            '\n' +
+            '医路安心平台\n' +
+            '2026年3月28日',
+        showCancel: false
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
-	.container {
-		background-color: #fff;
-		min-height: 100vh;
-		padding: 60rpx 50rpx;
-		box-sizing: border-box;
-	}
+.container {
+  background-color: #fff;
+  min-height: 100vh;
+  padding: 60rpx 50rpx;
+  box-sizing: border-box;
+}
 
-	/* Logo区域 */
-	.logo-section {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-top: 80rpx;
-		margin-bottom: 80rpx;
-	}
+/* Logo区域 */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80rpx;
+  margin-bottom: 80rpx;
+}
 
-	.logo {
-		width: 120rpx;
-		height: 120rpx;
-		background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-		border-radius: 24rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-bottom: 30rpx;
-		box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.3);
-	}
+.logo {
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.3);
+}
 
-	.logo-icon {
-		width: 60rpx;
-		height: 60rpx;
-		position: relative;
-	}
+.logo-icon {
+  width: 60rpx;
+  height: 60rpx;
+  position: relative;
+}
 
-	.heart {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
+.heart {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
-	.heart::before,
-	.heart::after {
-		content: '';
-		position: absolute;
-		width: 30rpx;
-		height: 48rpx;
-		background: #fff;
-		border-radius: 30rpx 30rpx 0 0;
-		top: 6rpx;
-	}
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 30rpx;
+  height: 48rpx;
+  background: #fff;
+  border-radius: 30rpx 30rpx 0 0;
+  top: 6rpx;
+}
 
-	.heart::before {
-		left: 6rpx;
-		transform: rotate(-45deg);
-	}
+.heart::before {
+  left: 6rpx;
+  transform: rotate(-45deg);
+}
 
-	.heart::after {
-		right: 6rpx;
-		transform: rotate(45deg);
-	}
+.heart::after {
+  right: 6rpx;
+  transform: rotate(45deg);
+}
 
-	.heart-inner {
-		position: absolute;
-		width: 16rpx;
-		height: 16rpx;
-		background: #fff;
-		border-radius: 50%;
-		top: 20rpx;
-		left: 50%;
-		transform: translateX(-50%);
-	}
+.heart-inner {
+  position: absolute;
+  width: 16rpx;
+  height: 16rpx;
+  background: #fff;
+  border-radius: 50%;
+  top: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
-	.app-name {
-		font-size: 36rpx;
-		font-weight: 600;
-		color: #333;
-	}
+.app-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+}
 
-	/* 表单区域 */
-	.form-section {
-		margin-top: 40rpx;
-	}
+/* 表单区域 */
+.form-section {
+  margin-top: 40rpx;
+}
 
-	.input-group {
-		margin-bottom: 30rpx;
-	}
+.input-group {
+  margin-bottom: 30rpx;
+}
 
-	.input-item {
-		display: flex;
-		align-items: center;
-		height: 100rpx;
-		border-bottom: 2rpx solid #e8e8e8;
-		margin-bottom: 20rpx;
-	}
+.input-item {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  border-bottom: 2rpx solid #e8e8e8;
+  margin-bottom: 20rpx;
+}
 
-	.input-icon {
-		width: 40rpx;
-		height: 40rpx;
-		margin-right: 20rpx;
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: center;
-	}
+.input-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
-	.user-icon {
-		background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
-	}
+.user-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+}
 
-	.lock-icon {
-		background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
-	}
+.lock-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+}
 
-	.input-field {
-		flex: 1;
-		font-size: 30rpx;
-		color: #333;
-	}
+.input-field {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
 
-	.eye-icon {
-		width: 40rpx;
-		height: 40rpx;
-		padding: 10rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-	}
+.eye-icon {
+  width: 40rpx;
+  height: 40rpx;
+  padding: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 
-	.eye-text {
-		font-size: 32rpx;
-		line-height: 1;
-	}
+.eye-text {
+  font-size: 32rpx;
+  line-height: 1;
+}
 
-	.eye-close {
-		opacity: 0.6;
-	}
+.eye-close {
+  opacity: 0.6;
+}
 
-	.eye-open {
-		opacity: 1;
-	}
+.eye-open {
+  opacity: 1;
+}
 
-	/* 验证码 */
-	.input-item-inner {
-		margin: auto;
-		display: flex;
-		align-items: center;
-		flex: 1;
-	}
+/* 验证码 */
+.input-item-inner {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
 
-	.input-item.captcha-item {
-		height: 140rpx;
-		align-items: flex-start;
-	}
+.input-item.captcha-item {
+  height: 140rpx;
+  align-items: flex-start;
+}
 
-	.captcha-box {
-		margin: auto;
-		width: 200rpx;
-		height: 80rpx;
-		flex-shrink: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(77, 208, 225, 0.1);
-		border: 2rpx solid rgba(77, 208, 225, 0.3);
-		border-radius: 10rpx;
-		overflow: hidden;
-	}
+.captcha-box {
+  margin: auto;
+  width: 200rpx;
+  height: 80rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 208, 225, 0.1);
+  border: 2rpx solid rgba(77, 208, 225, 0.3);
+  border-radius: 10rpx;
+  overflow: hidden;
+}
 
-	.captcha-box:active {
-		background: rgba(77, 208, 225, 0.2);
-		border-color: rgba(77, 208, 225, 0.5);
-	}
+.captcha-box:active {
+  background: rgba(77, 208, 225, 0.2);
+  border-color: rgba(77, 208, 225, 0.5);
+}
 
-	.captcha-img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border-radius: 8rpx;
-	}
+.captcha-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8rpx;
+}
 
-	.captcha-placeholder {
-		font-size: 22rpx;
-		color: rgba(77, 208, 225, 0.6);
-	}
+.captcha-placeholder {
+  font-size: 22rpx;
+  color: rgba(77, 208, 225, 0.6);
+}
 
-	.captcha-loading {
-		width: 32rpx;
-		height: 32rpx;
-		border: 3rpx solid rgba(77, 208, 225, 0.3);
-		border-top-color: #4DD0E1;
-		border-radius: 50%;
-		animation: spin 0.7s linear infinite;
-	}
+.captcha-loading {
+  width: 32rpx;
+  height: 32rpx;
+  border: 3rpx solid rgba(77, 208, 225, 0.3);
+  border-top-color: #4DD0E1;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
 
-	@keyframes spin {
-		to {
-			transform: rotate(360deg);
-		}
-	}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-	.captcha-icon {
-		background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>');
-	}
+.captcha-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>');
+}
 
-	/* 语言选择 */
-	.language-selector {
-		margin-top: 30rpx;
-		margin-bottom: 20rpx;
-	}
+/* 语言选择 */
+.language-selector {
+  margin-top: 30rpx;
+  margin-bottom: 20rpx;
+}
 
-	.language-label {
-		font-size: 26rpx;
-		color: #666;
-		margin-bottom: 15rpx;
-	}
+.language-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
 
-	.language-options {
-		display: flex;
-		gap: 20rpx;
-	}
+.language-options {
+  display: flex;
+  gap: 20rpx;
+}
 
-	.language-option {
-		flex: 1;
-		height: 80rpx;
-		border: 2rpx solid #e8e8e8;
-		border-radius: 10rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 28rpx;
-		color: #333;
-		transition: all 0.3s ease;
-	}
+.language-option {
+  flex: 1;
+  height: 80rpx;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #333;
+  transition: all 0.3s ease;
+}
 
-	.language-option.active {
-		border-color: #4DD0E1;
-		background-color: rgba(77, 208, 225, 0.05);
-		color: #4DD0E1;
-	}
+.language-option.active {
+  border-color: #4DD0E1;
+  background-color: rgba(77, 208, 225, 0.05);
+  color: #4DD0E1;
+}
 
-	.language-option:active {
-		opacity: 0.8;
-		transform: scale(0.98);
-	}
+.language-option:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
 
-	/* 辅助链接 */
-	.helper-links {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 60rpx;
-		margin-top: 20rpx;
-	}
+/* 辅助链接 */
+.helper-links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60rpx;
+  margin-top: 20rpx;
+}
 
-	.link-text {
-		font-size: 28rpx;
-		color: #4DD0E1;
-	}
+.link-text {
+  font-size: 28rpx;
+  color: #4DD0E1;
+}
 
-	.link-text.register {
-		color: #4DD0E1;
-	}
+.link-text.register {
+  color: #4DD0E1;
+}
 
-	/* 登录按钮 */
-	.login-btn {
-		width: 100%;
-		height: 90rpx;
-		background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-		color: #fff;
-		font-size: 32rpx;
-		font-weight: 500;
-		border-radius: 45rpx;
-		border: none;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.4);
-	}
+/* 登录按钮 */
+.login-btn {
+  width: 100%;
+  height: 90rpx;
+  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 45rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.4);
+}
 
-	.login-btn::after {
-		border: none;
-	}
+.login-btn::after {
+  border: none;
+}
 
-	.login-btn:active {
-		opacity: 0.9;
-		transform: scale(0.98);
-	}
+.login-btn:active {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
 
-	/* 底部协议 */
-	.agreement-section {
-		position: fixed;
-		bottom: 60rpx;
-		left: 0;
-		right: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-wrap: wrap;
-		padding: 0 50rpx;
-	}
+/* 底部协议 */
+.agreement-section {
+  position: fixed;
+  bottom: 60rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 50rpx;
+}
 
-	.checkbox-wrapper {
-		display: flex;
-		align-items: center;
-		margin-right: 10rpx;
-	}
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 10rpx;
+}
 
-	.checkbox {
-		width: 28rpx;
-		height: 28rpx;
-		border: 2rpx solid #ccc;
-		border-radius: 50%;
-		margin-right: 10rpx;
-		position: relative;
-	}
+.checkbox {
+  width: 28rpx;
+  height: 28rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 50%;
+  margin-right: 10rpx;
+  position: relative;
+}
 
-	.checkbox.checked {
-		background-color: #2196F3;
-		border-color: #2196F3;
-	}
+.checkbox.checked {
+  background-color: #2196F3;
+  border-color: #2196F3;
+}
 
-	.checkbox.checked::after {
-		content: '';
-		position: absolute;
-		width: 12rpx;
-		height: 6rpx;
-		border-left: 3rpx solid #fff;
-		border-bottom: 3rpx solid #fff;
-		transform: rotate(-45deg);
-		top: 6rpx;
-		left: 6rpx;
-	}
+.checkbox.checked::after {
+  content: '';
+  position: absolute;
+  width: 12rpx;
+  height: 6rpx;
+  border-left: 3rpx solid #fff;
+  border-bottom: 3rpx solid #fff;
+  transform: rotate(-45deg);
+  top: 6rpx;
+  left: 6rpx;
+}
 
-	.agreement-text {
-		font-size: 24rpx;
-		color: #999;
-	}
-
-	.mode-banner {
-		background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-		border-radius: 20rpx;
-		padding: 16rpx 40rpx;
-		margin-bottom: 30rpx;
-		text-align: center;
-	}
-
-	.mode-banner-text {
-		font-size: 28rpx;
-		color: #fff;
-		font-weight: 600;
-		letter-spacing: 2rpx;
-	}
+.agreement-text {
+  font-size: 24rpx;
+  color: #999;
+}
 </style>

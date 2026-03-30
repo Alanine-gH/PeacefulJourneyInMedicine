@@ -1,14 +1,5 @@
 <template>
   <view class="container">
-    <!-- 顶部导航栏 -->
-    <!-- <view class="header">
-      <view class="header-content">
-        <view class="header-left"></view>
-        <view class="header-title">病例详情</view>
-        <view class="header-right"></view>
-      </view>
-    </view> -->
-
     <!-- 病例详情 -->
     <view class="record-detail">
       <view class="detail-section">
@@ -110,11 +101,11 @@
       <view class="detail-section">
         <view class="section-title">检查报告</view>
         <view class="report-list">
-          <view 
-            v-for="(report, index) in record.reports" 
-            :key="index" 
-            class="report-item"
-            @click="viewReport(report)"
+          <view
+              v-for="(report, index) in record.reports"
+              :key="index"
+              class="report-item"
+              @click="viewReport(report)"
           >
             <text class="report-name">{{ report.name }}</text>
             <text class="report-date">{{ report.date }}</text>
@@ -184,7 +175,7 @@ export default {
         this.loading = true;
         // 获取当前登录用户ID
         const userId = uni.getStorageSync('userId');
-        
+
         if (!userId) {
           uni.showToast({
             title: '请先登录',
@@ -195,9 +186,9 @@ export default {
           });
           return;
         }
-        
+
         const response = await getTriageRecordDetail(this.recordId);
-        
+
         if (response && response.code === 200 && response.data) {
           // 验证病例是否属于当前用户
           if (String(response.data.userId) !== String(userId)) {
@@ -208,7 +199,7 @@ export default {
             uni.navigateBack();
             return;
           }
-          
+
           this.record = this.transformRecordDetail(response.data);
         } else {
           uni.showToast({
@@ -278,7 +269,7 @@ export default {
           date: this.formatDate(record.aiAnalysisTime)
         });
       }
-      return reports.length > 0 ? reports : [{ name: '暂无检查报告', date: '-' }];
+      return reports.length > 0 ? reports : [{name: '暂无检查报告', date: '-'}];
     },
     formatDate(dateStr) {
       if (!dateStr) return '-';
@@ -337,35 +328,6 @@ export default {
 .container {
   background-color: #f8f9fa;
   min-height: 100vh;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header-left {
-  width: 60rpx;
-}
-
-.header-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  flex: 1;
-  text-align: center;
-}
-
-.header-right {
-  width: 60rpx;
 }
 
 /* 病例详情 */

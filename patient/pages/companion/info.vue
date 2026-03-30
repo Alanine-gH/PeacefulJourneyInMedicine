@@ -1,19 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-<!--    <view class="header">-->
-<!--      <view class="header-content">-->
-<!--        <view class="logo">-->
-<!--          <text class="logo-text">工作信息</text>-->
-<!--        </view>-->
-<!--        <view class="header-actions">-->
-<!--          <view class="customer-service" @click="openCustomerService">-->
-<!--            <text class="service-icon">💬</text>-->
-<!--          </view>-->
-<!--        </view>-->
-<!--      </view>-->
-<!--    </view>-->
-
     <!-- 信息列表 -->
     <view class="info-section">
       <view class="info-item">
@@ -181,11 +167,6 @@ export default {
       const day = String(d.getDate()).padStart(2, '0');
       return `${m}-${day}`;
     },
-    openCustomerService() {
-      uni.navigateTo({
-        url: '/pages/customer/customer'
-      })
-    }
   }
 }
 </script>
@@ -194,58 +175,6 @@ export default {
 .container {
   background-color: #f8f9fa;
   min-height: 100vh;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.customer-service {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.customer-service:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.service-icon {
-  font-size: 32rpx;
-  color: #fff;
 }
 
 /* 信息列表 */

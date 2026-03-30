@@ -1,13 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-   <!-- <view class="header">
-      <view class="back-btn" @click="goHome">
-        <text class="back-icon">←</text>
-      </view>
-      <view class="title">增值服务</view>
-    </view> -->
-    
     <!-- 服务选项 -->
     <view class="service-grid">
       <view class="service-item" :class="{ active: selectedService === 0 }" @click="selectService(0)">
@@ -89,32 +81,6 @@ export default {
   min-height: 100vh;
   background-color: #f8f9fa;
   padding-bottom: 100rpx;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.back-btn {
-  position: absolute;
-  top: 40rpx;
-  left: 30rpx;
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #fff;
-}
-
-.title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
 }
 
 .service-grid {

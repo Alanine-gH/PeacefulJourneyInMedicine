@@ -1,27 +1,14 @@
 <template>
   <!-- 意见反馈页面 -->
   <view class="container">
-    <!-- 头部 -->
-    <!-- <view class="header">
-      <view class="header-content">
-        <view class="header-left"></view>
-        <view class="header-title">意见反馈</view>
-        <view class="header-right"></view>
-      </view>
-    </view> -->
-
     <!-- 反馈表单 -->
     <view class="form-section">
       <view class="form-item">
         <view class="form-label">反馈类型</view>
         <view class="form-select">
-          <view 
-            v-for="(type, index) in feedbackTypes" 
-            :key="index"
-            class="select-item"
-            :class="{ active: selectedType === type.value }"
-            @click="selectedType = type.value"
-          >
+          <view v-for="(type, index) in feedbackTypes"
+                :key="index" class="select-item" :class="{ active: selectedType === type.value }"
+                @click="selectedType = type.value">
             <text class="select-text">{{ type.label }}</text>
           </view>
         </view>
@@ -29,42 +16,30 @@
 
       <view class="form-item">
         <view class="form-label">反馈内容</view>
-        <textarea 
-          v-model="feedbackContent" 
-          class="form-textarea"
-          placeholder="请详细描述您的问题或建议..."
-          maxlength="500"
-        ></textarea>
+        <textarea v-model="feedbackContent" class="form-textarea" placeholder="请详细描述您的问题或建议..."
+                  maxlength="500"></textarea>
         <view class="textarea-counter">{{ feedbackContent.length }}/500</view>
       </view>
 
       <view class="form-item">
         <view class="form-label">联系方式</view>
-        <input 
-          v-model="contactInfo" 
-          class="form-input"
-          placeholder="请留下您的手机号或邮箱，方便我们回复"
+        <input
+            v-model="contactInfo"
+            class="form-input"
+            placeholder="请留下您的手机号或邮箱，方便我们回复"
         />
       </view>
 
       <view class="form-item">
         <view class="form-label">上传图片（可选）</view>
         <view class="upload-section">
-          <view 
-            v-for="(image, index) in uploadedImages" 
-            :key="index"
-            class="uploaded-image"
-          >
-            <image :src="image" class="image-preview" mode="aspectFill" />
+          <view v-for="(image, index) in uploadedImages" :key="index" class="uploaded-image">
+            <image :src="image" class="image-preview" mode="aspectFill"/>
             <view class="image-remove" @click="removeImage(index)">
               <text class="remove-icon">×</text>
             </view>
           </view>
-          <view 
-            v-if="uploadedImages.length < 3" 
-            class="upload-btn"
-            @click="chooseImage"
-          >
+          <view v-if="uploadedImages.length < 3" class="upload-btn" @click="chooseImage">
             <text class="upload-icon">+</text>
             <text class="upload-text">添加图片</text>
           </view>
@@ -80,16 +55,16 @@
 </template>
 
 <script>
-import { uploadFile, submitFeedback } from '../../utils/system-api';
+import {uploadFile, submitFeedback} from '../../utils/system-api';
 
 export default {
   data() {
     return {
       feedbackTypes: [
-        { label: '功能建议', value: 'suggestion' },
-        { label: 'bug反馈', value: 'bug' },
-        { label: '服务投诉', value: 'complaint' },
-        { label: '其他', value: 'other' }
+        {label: '功能建议', value: 'suggestion'},
+        {label: 'bug反馈', value: 'bug'},
+        {label: '服务投诉', value: 'complaint'},
+        {label: '其他', value: 'other'}
       ],
       selectedType: 'suggestion',
       feedbackContent: '',
@@ -399,17 +374,17 @@ export default {
   .form-item {
     padding: 20rpx;
   }
-  
+
   .select-item {
     padding: 12rpx 24rpx;
     font-size: 22rpx;
   }
-  
+
   .form-textarea {
     min-height: 180rpx;
     font-size: 26rpx;
   }
-  
+
   .uploaded-image,
   .upload-btn {
     width: 130rpx;

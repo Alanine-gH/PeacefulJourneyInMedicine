@@ -1,38 +1,29 @@
 <template>
   <view class="container">
-    <!-- 顶部导航 -->
-<!--    <view class="header">
-      <view class="back-btn" @click="goBack">
-        <text class="back-icon">←</text>
-      </view>
-      <view class="title">上传病历</view>
-      <view class="placeholder"></view>
-    </view>-->
-
     <!-- 上传区域 -->
     <view class="upload-section">
       <view class="upload-title">上传病历图片</view>
       <view class="upload-desc">请上传清晰的病历照片，支持JPG、PNG格式</view>
-      
+
       <view class="upload-area" @click="chooseImage">
         <view v-if="!imageUrl" class="upload-placeholder">
           <view class="upload-icon">+</view>
           <text class="upload-text">点击上传病历图片</text>
         </view>
-        <image v-else :src="imageUrl" class="uploaded-image" mode="aspectFit" />
+        <image v-else :src="imageUrl" class="uploaded-image" mode="aspectFit"/>
       </view>
     </view>
 
     <!-- 病历信息 -->
     <view class="info-section">
       <view class="section-title">病历信息</view>
-      
+
       <view class="form-item">
         <text class="form-label">就诊医院</text>
         <picker
-          :range="hospitalNames"
-          :value="hospitalIndex"
-          @change="onHospitalChange"
+            :range="hospitalNames"
+            :value="hospitalIndex"
+            @change="onHospitalChange"
         >
           <view class="form-picker" :class="{ placeholder: !formData.hospital }">
             {{ formData.hospital || (hospitalLoading ? '加载中...' : '请选择就诊医院') }}
@@ -40,27 +31,27 @@
           </view>
         </picker>
       </view>
-      
+
       <view class="form-item">
         <text class="form-label">就诊科室</text>
-        <input class="form-input" v-model="formData.department" placeholder="请输入就诊科室" />
+        <input class="form-input" v-model="formData.department" placeholder="请输入就诊科室"/>
       </view>
-      
+
       <view class="form-item">
         <text class="form-label">就诊日期</text>
         <picker mode="date" :value="formData.date" @change="onDateChange">
           <view class="form-picker">{{ formData.date || '请选择就诊日期' }}</view>
         </picker>
       </view>
-      
+
       <view class="form-item">
         <text class="form-label">诊断结果</text>
-        <textarea class="form-textarea" v-model="formData.diagnosis" placeholder="请输入诊断结果" />
+        <textarea class="form-textarea" v-model="formData.diagnosis" placeholder="请输入诊断结果"/>
       </view>
-      
+
       <view class="form-item">
         <text class="form-label">备注</text>
-        <textarea class="form-textarea" v-model="formData.remark" placeholder="请输入备注信息（选填）" />
+        <textarea class="form-textarea" v-model="formData.remark" placeholder="请输入备注信息（选填）"/>
       </view>
     </view>
 
@@ -93,7 +84,7 @@
 </template>
 
 <script>
-import { getHospitals } from '@/utils/medical-api.js'
+import {getHospitals} from '@/utils/medical-api.js'
 
 export default {
   data() {
@@ -125,7 +116,7 @@ export default {
     async loadHospitals() {
       this.hospitalLoading = true
       try {
-        const res = await getHospitals({ page: 1, pageSize: 100 })
+        const res = await getHospitals({page: 1, pageSize: 100})
         if (res && res.code === 200 && res.data) {
           this.hospitalList = res.data.records || res.data.list || []
         }
@@ -143,9 +134,6 @@ export default {
         this.formData.hospitalId = h.id
       }
     },
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     chooseImage() {
       uni.chooseImage({
         count: 1,
@@ -159,13 +147,12 @@ export default {
     onDateChange(e) {
       this.formData.date = e.detail.value
     },
-    
     // 保存病历到数据库
     async saveMedicalRecord() {
       uni.showLoading({
         title: '提交中...'
       })
-      
+
       // 构建请求数据
       const requestData = {
         userId: uni.getStorageSync('userId') || '', // 用户ID
@@ -177,7 +164,7 @@ export default {
         remark: this.formData.remark, // 备注
         createTime: new Date().toISOString() // 创建时间
       }
-      
+
       try {
         // 真实API接口调用
         const response = await uni.request({
@@ -189,9 +176,9 @@ export default {
             'Authorization': 'Bearer ' + uni.getStorageSync('token') || ''
           }
         });
-        
+
         uni.hideLoading();
-        
+
         if (response.statusCode === 200 && (response.data.code === 200 || response.data.success)) {
           this.showSuccessModal();
         } else {
@@ -209,7 +196,7 @@ export default {
         });
       }
     },
-    
+
     submitForm() {
       if (!this.imageUrl) {
         uni.showToast({
@@ -218,7 +205,7 @@ export default {
         })
         return
       }
-      
+
       if (!this.formData.hospital) {
         uni.showToast({
           title: '请输入就诊医院',
@@ -226,7 +213,7 @@ export default {
         })
         return
       }
-      
+
       if (!this.formData.department) {
         uni.showToast({
           title: '请输入就诊科室',
@@ -234,7 +221,7 @@ export default {
         })
         return
       }
-      
+
       if (!this.formData.date) {
         uni.showToast({
           title: '请选择就诊日期',
@@ -242,7 +229,7 @@ export default {
         })
         return
       }
-      
+
       if (!this.formData.diagnosis) {
         uni.showToast({
           title: '请输入诊断结果',
@@ -250,23 +237,23 @@ export default {
         })
         return
       }
-      
+
       // 调用保存病历接口
       this.saveMedicalRecord()
     },
-    
+
     // 跳转到智能问答页面
     goToChat() {
       uni.navigateTo({
         url: '/pages/diagnosis/chat'
       })
     },
-    
+
     // 显示成功弹窗
     showSuccessModal() {
       this.showModal = true
     },
-    
+
     // 返回首页
     goToHome() {
       this.showModal = false
@@ -274,7 +261,7 @@ export default {
         url: '/pages/home/home'
       })
     },
-    
+
     // 跳转到智能问答
     goToChatFromModal() {
       this.showModal = false
@@ -300,22 +287,6 @@ export default {
   align-items: center;
   justify-content: space-between;
   color: #fff;
-}
-/*
-.back-btn {
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #fff;
-}
-*/
-.title {
-  font-size: 32rpx;
-  font-weight: 600;
-  flex: 1;
-  text-align: center;
 }
 
 .placeholder {

@@ -2,10 +2,6 @@
   <view class="container">
     <!-- 头部 -->
     <view class="header">
-<!--      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-icon">←</text>-->
-<!--      </view>-->
-      <!-- <view class="title">实名认证</view> -->
       <view class="step-indicator">
         <view class="step active">1</view>
         <view class="step-line active"></view>
@@ -135,9 +131,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     onBankChange(e) {
       this.bankIndex = e.detail.value
     },
@@ -214,19 +207,6 @@ export default {
   padding: 40rpx 30rpx 20rpx;
   border-bottom: 1rpx solid #e8e8e8;
 }
-/*
-.back-btn {
-  position: absolute;
-  top: 40rpx;
-  left: 30rpx;
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #333;
-}
-*/
 .title {
   font-size: 32rpx;
   font-weight: 600;

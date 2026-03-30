@@ -4,7 +4,6 @@
     <view class="chat-time">
       <text class="time-text">今天 {{ currentDate }}</text>
     </view>
-
     <!-- 聊天内容 -->
     <scroll-view class="chat-content" scroll-y="true" :scroll-into-view="scrollAnchor" scroll-with-animation>
       <view v-for="(msg, idx) in messages" :key="idx" :id="'m' + idx"
@@ -20,7 +19,6 @@
           <text class="message-time">{{ msg.time }}</text>
         </view>
       </view>
-
       <!-- 思考中占位 -->
       <view v-if="thinking" class="message-item" id="m-thinking">
         <view class="message-avatar">
@@ -30,11 +28,9 @@
           <text class="thinking-dot">···</text>
         </view>
       </view>
-
       <!-- 滚动锚点 -->
       <view id="scroll-bottom"></view>
     </scroll-view>
-
     <!-- 快捷问题（水平滚动） -->
     <view class="quick-questions-scroll">
       <scroll-view scroll-x="true" class="quick-questions-container" show-scrollbar="false">
@@ -45,7 +41,6 @@
         </view>
       </scroll-view>
     </view>
-
     <!-- 输入框 -->
     <view class="input-area">
       <input class="input-field" placeholder="请输入您的问题..." v-model="message" confirm-type="send"

@@ -1,30 +1,20 @@
 <template>
   <view class="doctor-detail-page">
-    <!-- 导航栏 -->
- <!--   <view class="nav-bar">
-      <view class="back-btn" @click="goBack">
-        <text class="back-arrow">‹</text>
-      </view>
-      <text class="nav-title">医生详情</text>
-      <view class="placeholder"></view>
-    </view>
--->
     <!-- 医生基本信息卡片 -->
     <view class="doctor-header-card">
       <image class="doctor-avatar-large" :src="doctor.avatar" mode="aspectFill"></image>
       <view class="doctor-basic-info">
         <view class="name-row">
-          <text class="doctor-name-large">{{doctor.name}}</text>
+          <text class="doctor-name-large">{{ doctor.name }}</text>
           <text class="doctor-gender-large" v-if="doctor.gender === '男'">♂</text>
           <text class="doctor-gender-large female" v-else>♀</text>
         </view>
-        <text class="doctor-title-large">{{doctor.title}}</text>
+        <text class="doctor-title-large">{{ doctor.title }}</text>
         <view class="doctor-tags-large">
-          <text class="tag-large" v-for="(tag, index) in doctor.tags" :key="index">{{tag}}</text>
+          <text class="tag-large" v-for="(tag, index) in doctor.tags" :key="index">{{ tag }}</text>
         </view>
       </view>
     </view>
-
     <!-- 医生详细信息 -->
     <view class="info-sections">
       <!-- 基本信息 -->
@@ -36,23 +26,22 @@
         <view class="info-list">
           <view class="info-item">
             <text class="info-label">年龄</text>
-            <text class="info-value">{{doctor.age}}岁</text>
+            <text class="info-value">{{ doctor.age }}岁</text>
           </view>
           <view class="info-item">
             <text class="info-label">性别</text>
-            <text class="info-value">{{doctor.gender}}</text>
+            <text class="info-value">{{ doctor.gender }}</text>
           </view>
           <view class="info-item">
             <text class="info-label">从业年限</text>
-            <text class="info-value">{{doctor.experience}}年</text>
+            <text class="info-value">{{ doctor.experience }}年</text>
           </view>
           <view class="info-item">
             <text class="info-label">毕业院校</text>
-            <text class="info-value">{{doctor.university}}</text>
+            <text class="info-value">{{ doctor.university }}</text>
           </view>
         </view>
       </view>
-
       <!-- 执业信息 -->
       <view class="info-section">
         <view class="section-header">
@@ -62,19 +51,18 @@
         <view class="info-list">
           <view class="info-item">
             <text class="info-label">所属医院</text>
-            <text class="info-value">{{doctor.hospital}}</text>
+            <text class="info-value">{{ doctor.hospital }}</text>
           </view>
           <view class="info-item">
             <text class="info-label">所属科室</text>
-            <text class="info-value">{{doctor.department}}</text>
+            <text class="info-value">{{ doctor.department }}</text>
           </view>
           <view class="info-item">
             <text class="info-label">职称</text>
-            <text class="info-value">{{doctor.title}}</text>
+            <text class="info-value">{{ doctor.title }}</text>
           </view>
         </view>
       </view>
-
       <!-- 联系方式 -->
       <view class="info-section">
         <view class="section-header">
@@ -84,7 +72,7 @@
         <view class="info-list">
           <view class="info-item">
             <text class="info-label">联系电话</text>
-            <text class="info-value">{{doctor.phone}}</text>
+            <text class="info-value">{{ doctor.phone }}</text>
           </view>
         </view>
       </view>
@@ -96,7 +84,7 @@
           <text class="section-title-text">医生简介</text>
         </view>
         <view class="intro-content">
-          <text class="intro-text">{{doctor.introduction || '该医生暂无简介'}}</text>
+          <text class="intro-text">{{ doctor.introduction || '该医生暂无简介' }}</text>
         </view>
       </view>
 
@@ -107,7 +95,7 @@
           <text class="section-title-text">擅长领域</text>
         </view>
         <view class="specialty-tags">
-          <text class="specialty-tag" v-for="(tag, index) in doctor.tags" :key="index">{{tag}}</text>
+          <text class="specialty-tag" v-for="(tag, index) in doctor.tags" :key="index">{{ tag }}</text>
         </view>
       </view>
     </view>
@@ -116,11 +104,11 @@
     <view class="bottom-section">
       <view class="doctor-stats-bar">
         <view class="stat-box">
-          <text class="stat-number">{{doctor.consultCount}}</text>
+          <text class="stat-number">{{ doctor.consultCount }}</text>
           <text class="stat-label">问诊量</text>
         </view>
         <view class="stat-box">
-          <text class="stat-number">{{doctor.rating}}%</text>
+          <text class="stat-number">{{ doctor.rating }}%</text>
           <text class="stat-label">好评率</text>
         </view>
       </view>
@@ -248,9 +236,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     bookDoctor() {
       // 返回发布需求页面并传递选中的医生
       const pages = getCurrentPages()
@@ -292,29 +277,6 @@ export default {
   height: 88rpx;
   padding: 40rpx 30rpx 0 30rpx;
   background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
 }
 
 /* 医生头部卡片 */
@@ -362,7 +324,7 @@ export default {
 
 .doctor-title-large {
   font-size: 28rpx;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 15rpx;
   display: block;
 }
@@ -376,7 +338,7 @@ export default {
 .tag-large {
   font-size: 22rpx;
   color: #fff;
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   padding: 6rpx 16rpx;
   border-radius: 20rpx;
 }
@@ -467,7 +429,7 @@ export default {
   right: 0;
   background-color: #fff;
   padding: 20rpx 30rpx;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
 .doctor-stats-bar {

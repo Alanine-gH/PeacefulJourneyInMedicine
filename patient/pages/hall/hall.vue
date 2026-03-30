@@ -1,19 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <!-- <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">选择订单</text>
-        </view>
-        <view class="header-actions">
-          <view class="customer-service" @click="openCustomerService">
-            <text class="service-icon">💬</text>
-          </view>
-        </view>
-      </view>
-    </view> -->
-    
     <!-- 订单列表 -->
     <view class="order-list">
       <!-- 加载状态 -->
@@ -21,16 +7,17 @@
         <view class="loading-spinner"></view>
         <text class="loading-text">加载中...</text>
       </view>
-      
+
       <!-- 空状态 -->
       <view v-else-if="orderList.length === 0" class="empty-container">
         <text class="empty-icon">📋</text>
         <text class="empty-text">暂无待接订单</text>
       </view>
-      
+
       <!-- 订单列表 -->
       <view v-else>
-        <view v-for="(order, index) in orderList" :key="order.id" class="order-item" @click="goToOrderDetail(order.orderNo || order.order_no)">
+        <view v-for="(order, index) in orderList" :key="order.id" class="order-item"
+              @click="goToOrderDetail(order.orderNo || order.order_no)">
           <view class="order-header">
             <text class="service-type">{{ getServiceTypeName(order.orderType || order.order_type) }}</text>
             <text v-if="(order.orderStatus || order.order_status) === 2" class="order-tag">急</text>
@@ -38,14 +25,30 @@
           <view class="order-content">
             <image class="service-image" src="/static/logo.png" mode="aspectFill"></image>
             <view class="service-info">
-              <text class="info-item">就诊医院：{{ order.appointmentHospital || order.appointment_hospital || '-' }}</text>
-              <text class="info-item">就诊时间：{{ formatDate(order.appointmentDate || order.appointment_date) }} {{ (order.serviceStartTime || order.service_start_time) ? formatTime(order.serviceStartTime || order.service_start_time) : '' }}</text>
-              <text class="info-item">就诊人员：{{ order.patientName || order.patient_name || '-' }} {{ (order.patientGender ?? order.patient_gender) === 1 ? '男' : (order.patientGender ?? order.patient_gender) === 2 ? '女' : '' }} {{ order.patientAge || order.patient_age ? (order.patientAge || order.patient_age) + '周岁' : '' }}</text>
-              <text class="info-item">服务需求：{{ order.diseaseDescription || order.disease_description || '暂无' }}<text v-if="(order.diseaseDescription || order.disease_description) && (order.diseaseDescription || order.disease_description).length > 30" class="expand-btn" @click.stop="expandInfo(index)">展开</text></text>
+              <text class="info-item">就诊医院：{{
+                  order.appointmentHospital || order.appointment_hospital || '-'
+                }}
+              </text>
+              <text class="info-item">就诊时间：{{ formatDate(order.appointmentDate || order.appointment_date) }} {{
+                  (order.serviceStartTime || order.service_start_time) ? formatTime(order.serviceStartTime || order.service_start_time) : ''
+                }}
+              </text>
+              <text class="info-item">就诊人员：{{ order.patientName || order.patient_name || '-' }} {{
+                  (order.patientGender ?? order.patient_gender) === 1 ? '男' : (order.patientGender ?? order.patient_gender) === 2 ? '女' : ''
+                }} {{ order.patientAge || order.patient_age ? (order.patientAge || order.patient_age) + '周岁' : '' }}
+              </text>
+              <text class="info-item">服务需求：{{ order.diseaseDescription || order.disease_description || '暂无' }}
+                <text
+                    v-if="(order.diseaseDescription || order.disease_description) && (order.diseaseDescription || order.disease_description).length > 30"
+                    class="expand-btn" @click.stop="expandInfo(index)">展开
+                </text>
+              </text>
             </view>
           </view>
           <view class="order-footer">
-            <text class="profit">本单收益：<text class="profit-amount">{{ order.totalAmount || order.total_amount || 0 }}元</text></text>
+            <text class="profit">本单收益：
+              <text class="profit-amount">{{ order.totalAmount || order.total_amount || 0 }}元</text>
+            </text>
             <button class="accept-btn" @click.stop="acceptOrder(order.orderNo || order.order_no)">接单</button>
           </view>
         </view>
@@ -58,7 +61,7 @@
 </template>
 
 <script>
-import { getAvailableOrders, acceptOrder as acceptOrderApi } from '@/utils/companion-api.js'
+import {getAvailableOrders, acceptOrder as acceptOrderApi} from '@/utils/companion-api.js'
 
 export default {
   data() {
@@ -82,13 +85,13 @@ export default {
     },
     async loadAvailableOrders() {
       this.loading = true
-      
+
       try {
         const res = await getAvailableOrders({
           page: 1,
           pageSize: 20
         })
-        
+
         if (res.code === 200 && res.data) {
           // 后端返回 IPage，字段为 records
           this.orderList = res.data.records || res.data.list || (Array.isArray(res.data) ? res.data : [])
@@ -145,17 +148,17 @@ export default {
       uni.showLoading({
         title: '接单中...'
       })
-      
+
       try {
         const res = await acceptOrderApi(orderNo)
-        
+
         if (res.code === 200) {
           uni.hideLoading()
           uni.showToast({
             title: '接单成功',
             icon: 'success'
           })
-          
+
           // 接单成功后跳转到订单详情页面
           setTimeout(() => {
             uni.navigateTo({
@@ -191,58 +194,6 @@ export default {
   flex-direction: column;
 }
 
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.customer-service {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.customer-service:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.service-icon {
-  font-size: 32rpx;
-  color: #fff;
-}
-
 .order-list {
   flex: 1;
   padding: 20rpx 30rpx;
@@ -267,8 +218,12 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {

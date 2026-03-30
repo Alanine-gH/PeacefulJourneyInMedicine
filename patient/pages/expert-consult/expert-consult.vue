@@ -6,13 +6,13 @@
         <text class="section-title">专家团队</text>
       </view>
       <view class="expert-list">
-        <view v-if="loading" class="loading-tip"><text>加载中...</text></view>
-        <view v-else-if="experts.length === 0" class="loading-tip"><text>暂无专家数据</text></view>
-        <view
-          v-for="(expert, index) in experts"
-          :key="expert.id || index"
-          class="expert-item"
-        >
+        <view v-if="loading" class="loading-tip">
+          <text>加载中...</text>
+        </view>
+        <view v-else-if="experts.length === 0" class="loading-tip">
+          <text>暂无专家数据</text>
+        </view>
+        <view v-for="(expert, index) in experts" :key="expert.id || index" class="expert-item">
           <view class="expert-image">
             <image v-if="expert.photoUrl" :src="expert.photoUrl" class="expert-photo" mode="aspectFill"/>
             <text v-else class="image-icon">{{ expert.gender === 2 ? '👩‍⚕️' : '👨‍⚕️' }}</text>
@@ -20,7 +20,10 @@
           <view class="expert-info">
             <text class="expert-name">{{ expert.expertName || '-' }}</text>
             <text class="expert-title">{{ expert.professionalTitle || '-' }}</text>
-            <text class="expert-hospital">{{ expert.hospitalName || '-' }}{{ expert.departmentName ? ' · ' + expert.departmentName : '' }}</text>
+            <text class="expert-hospital">{{
+                expert.hospitalName || '-'
+              }}{{ expert.departmentName ? ' · ' + expert.departmentName : '' }}
+            </text>
             <text class="expert-desc">{{ expert.specialty || '-' }}</text>
             <text class="expert-price" v-if="expert.appointmentFee">¥{{ expert.appointmentFee }}/次</text>
             <view class="expert-specialties" v-if="expert.languageAbility">
@@ -42,12 +45,7 @@
         <text class="section-title">常见问题</text>
       </view>
       <view class="faq-list">
-        <view 
-          v-for="(faq, index) in faqs" 
-          :key="index"
-          class="faq-item"
-          @click="toggleFaq(index)"
-        >
+        <view v-for="(faq, index) in faqs" :key="index" class="faq-item" @click="toggleFaq(index)">
           <view class="faq-question">
             <text class="question-text">{{ faq.question }}</text>
             <text class="faq-icon">{{ faq.expanded ? '▼' : '▶' }}</text>
@@ -62,7 +60,7 @@
 </template>
 
 <script>
-import { request, getFileUrl } from '../../utils/config.js';
+import {request, getFileUrl} from '../../utils/config.js';
 
 export default {
   data() {
@@ -102,7 +100,7 @@ export default {
       try {
         const res = await request('/medical/expert/list', {
           method: 'GET',
-          data: { status: 1, pageNum: 1, pageSize: 100 }
+          data: {status: 1, pageNum: 1, pageSize: 100}
         })
         const d = (res && res.data) ? res.data : res
         const list = d.records || d.list || (Array.isArray(d) ? d : [])
@@ -112,7 +110,7 @@ export default {
           photoUrl: getFileUrl(e.photoUrl)
         }))
       } catch (e) {
-        uni.showToast({ title: '加载专家列表失败', icon: 'none' })
+        uni.showToast({title: '加载专家列表失败', icon: 'none'})
       } finally {
         this.loading = false
       }
@@ -322,23 +320,23 @@ export default {
     width: 80rpx;
     height: 80rpx;
   }
-  
+
   .image-icon {
     font-size: 40rpx;
   }
-  
+
   .expert-name {
     font-size: 28rpx;
   }
-  
+
   .expert-desc {
     font-size: 22rpx;
   }
-  
+
   .question-text {
     font-size: 26rpx;
   }
-  
+
   .answer-text {
     font-size: 22rpx;
   }

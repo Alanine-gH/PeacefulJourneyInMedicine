@@ -1,15 +1,5 @@
 <template>
   <view class="message-page">
-  <!--  <view class="nav-bar">
-      <view class="back-btn" @click="goBack">
-        <text class="back-arrow">‹</text>
-      </view>
-      <text class="nav-title">消息</text>
-      <view class="search-btn">
-        <text class="search-icon">🔍</text>
-      </view>
-    </view>-->
-
     <scroll-view class="message-list" scroll-y="true">
 
       <!-- 系统消息（置顶，只读） -->
@@ -130,9 +120,6 @@ export default {
         url: `/pages/chat/chat?targetId=${session.peerId}&name=${encodeURIComponent(session.name || '用户' + session.peerId)}`
       });
     },
-    // goBack() {
-    //   uni.switchTab({url: '/pages/home/home'});
-    // },
     formatTime(val) {
       if (!val) return '';
       const d = new Date(val);
@@ -153,38 +140,6 @@ export default {
 .message-page {
   min-height: 100vh;
   background-color: #f5f5f5;
-}
-
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-
-.back-btn, .search-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/*
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.search-icon {
-  font-size: 32rpx;
 }
 
 .message-list {

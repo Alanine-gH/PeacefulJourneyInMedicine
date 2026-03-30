@@ -1,14 +1,5 @@
 <template>
   <view class="container">
-    <!-- 顶部个人信息区域 -->
-    <!-- <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">个人中心</text>
-        </view>
-      </view>
-    </view> -->
-
     <!-- 个人信息 -->
     <view class="profile-section">
       <view v-if="!userInfo" class="user-unlogin" @click="login">
@@ -245,12 +236,6 @@ export default {
           icon: 'none'
         });
       }
-    },
-    switchToCompanion() {
-      // 跳转到陪护端页面
-      uni.navigateTo({
-        url: '/pages/companion/home'
-      })
     }
   }
 }
@@ -260,36 +245,6 @@ export default {
 .container {
   background-color: #f8f9fa;
   min-height: 100vh;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
 }
 
 /* 个人信息 */
@@ -421,21 +376,6 @@ export default {
 .status-free {
   background: #E8F5E9;
   color: #4CAF50;
-}
-
-.status-busy {
-  background: #F3E5F5;
-  color: #9C27B0;
-}
-
-.status-leave {
-  background: #FFF3E0;
-  color: #FF9800;
-}
-
-.status-off {
-  background: #FFEBEE;
-  color: #F44336;
 }
 
 /* 我的订单 */

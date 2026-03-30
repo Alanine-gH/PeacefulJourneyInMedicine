@@ -11,12 +11,10 @@
       <text class="loading-text">加载中...</text>
     </view>
     <view class="doctor-list" v-else>
-      <view
-          class="doctor-card"
-          v-for="(d, i) in doctorList" :key="d.id || i"
-          :class="{ active: selectedId === d.id }"
-          @click="selectDoctor(d)"
-      >
+      <view class="doctor-card"
+            v-for="(d, i) in doctorList" :key="d.id || i"
+            :class="{ active: selectedId === d.id }"
+            @click="selectDoctor(d)">
         <view class="doctor-header">
           <image class="doctor-avatar" :src="d.avatarUrl || d.avatar || '/static/doctor-default.png'"
                  mode="aspectFill"></image>

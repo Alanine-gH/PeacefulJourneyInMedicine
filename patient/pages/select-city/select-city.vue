@@ -107,9 +107,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     performSearch(keyword) {
       this.isSearching = true
       this.searchResults = []
@@ -174,26 +171,6 @@ export default {
 .select-city-page {
   min-height: 100vh;
   background-color: #f5f5f5;
-}
-
-/* 导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-}
-
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
 }
 
 /* 搜索框 */

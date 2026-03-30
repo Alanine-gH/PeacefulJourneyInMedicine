@@ -1,14 +1,5 @@
 <template>
   <view class="auth-page">
-    <!-- 导航栏 -->
-  <!--  <view class="nav-bar">
-      <view class="back-btn" @click="goBack">-->
-<!--        <text class="back-arrow">‹</text>-->
-<!--      </view>
-      <text class="nav-title">身份认证</text>
-      <view class="placeholder"></view>
-    </view> -->
-
     <!-- 步骤指示器 -->
     <view class="step-indicator">
       <view class="step-item completed">
@@ -85,9 +76,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
     inputKey(key) {
       if (this.password.length < 6) {
         this.password += key
@@ -122,40 +110,6 @@ export default {
   background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
-}
-
-/* 导航栏 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 88rpx;
-  padding: 40rpx 30rpx 0 30rpx;
-  background: linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%);
-  flex-shrink: 0;
-}
-/*
-.back-btn {
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.back-arrow {
-  font-size: 40rpx;
-  color: #fff;
-}
-*/
-.nav-title {
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #fff;
-}
-
-.placeholder {
-  width: 60rpx;
 }
 
 /* 步骤指示器 */

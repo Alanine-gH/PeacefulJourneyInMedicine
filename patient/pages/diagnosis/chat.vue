@@ -1,14 +1,5 @@
 <template>
   <view class="container">
-    <!-- 顶部导航 -->
-    <!-- <view class="header">
-      <view class="back-btn" @click="goBack">
-        <text class="back-icon">←</text>
-      </view>
-      <view class="title">智能问答</view>
-      <view class="placeholder"></view>
-    </view> -->
-
     <!-- 快捷问题 -->
     <view v-if="messages.length === 0" class="quick-questions">
       <view class="quick-questions-title">常见问题</view>
@@ -113,10 +104,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
-    
     sendQuickQuestion(question) {
       this.userInput = question
       this.sendMessage()
@@ -197,9 +184,6 @@ export default {
         this.showSuggestions = true
       }
     },
-    
-
-    
     scrollToBottom() {
       this.$nextTick(() => {
         if (this.messages.length > 0) {
@@ -218,26 +202,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
-/* 顶部导航 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #fff;
-}
-/*
-.back-btn {
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #fff;
-}
-*/
 .title {
   font-size: 32rpx;
   font-weight: 600;

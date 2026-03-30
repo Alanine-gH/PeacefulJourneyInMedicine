@@ -1,13 +1,5 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-<!--    <view class="header">
-      <view class="back-btn" @click="goBack">
-        <text class="back-icon">←</text>
-      </view>
-      <view class="title">服务评价</view>
-    </view>-->
-    
     <!-- 医生信息 -->
     <view class="doctor-info">
       <view class="avatar">
@@ -16,33 +8,30 @@
       <text class="doctor-name">{{ doctorInfo.name || '医生' }}</text>
       <text class="doctor-stats">服务{{ doctorInfo.serviceCount || 0 }}次 综合评分{{ doctorInfo.rating || 0 }}</text>
     </view>
-    
+
     <!-- 服务评分 -->
     <view class="card rating-section">
       <text class="rating-label">服务评分</text>
       <view class="stars">
-        <text 
-          v-for="(star, index) in 5" 
-          :key="index" 
-          class="star" 
-          :class="{ active: selectedRating > index }"
-          @click="selectRating(index + 1)"
-        >★</text>
+        <text v-for="(star, index) in 5"
+              :key="index" class="star" :class="{ active: selectedRating > index }"
+              @click="selectRating(index + 1)">★
+        </text>
       </view>
       <text class="rating-text" v-if="selectedRating > 0">{{ getRatingText(selectedRating) }}</text>
     </view>
-    
+
     <!-- 评价内容 -->
     <view class="card comment-section">
-      <textarea 
-        class="comment-input" 
-        placeholder="说说您的感受~\n\n例如：医生态度很好，诊疗过程很专业..." 
-        v-model="comment"
-        maxlength="200"
+      <textarea
+          class="comment-input"
+          placeholder="说说您的感受~\n\n例如：医生态度很好，诊疗过程很专业..."
+          v-model="comment"
+          maxlength="200"
       ></textarea>
       <text class="comment-count" :class="{ warning: comment.length > 180 }">{{ comment.length }}/200字</text>
     </view>
-    
+
     <!-- 匿名评价选项 -->
     <view class="card anonymous-section">
       <view class="anonymous-option">
@@ -52,7 +41,7 @@
         </view>
       </view>
     </view>
-    
+
     <!-- 提交按钮 -->
     <view class="bottom-buttons">
       <button class="submit-btn" @click="submitEvaluation">提交评价</button>
@@ -61,7 +50,7 @@
 </template>
 
 <script>
-import { evaluateOrder } from '@/utils/patient-api';
+import {evaluateOrder} from '@/utils/patient-api';
 
 export default {
   data() {
@@ -90,14 +79,6 @@ export default {
     }
   },
   methods: {
-    // goBack() {
-    //   uni.navigateBack()
-    // },
-    // goHome() {
-    //   uni.switchTab({
-    //     url: '/pages/home/home'
-    //   })
-    // },
     selectRating(rating) {
       this.selectedRating = rating
     },
@@ -116,7 +97,7 @@ export default {
         })
         return
       }
-      
+
       if (!this.orderNo) {
         uni.showToast({
           title: '订单信息缺失',
@@ -124,14 +105,14 @@ export default {
         })
         return
       }
-      
+
       try {
         const res = await evaluateOrder(this.orderNo, {
           rating: this.selectedRating,
           content: this.comment,
           anonymous: this.anonymous
         });
-        
+
         if (res.code === 200) {
           uni.showToast({
             title: '评价成功',
@@ -161,32 +142,6 @@ export default {
   min-height: 100vh;
   background-color: #f8f9fa;
   padding-bottom: 100rpx;
-}
-
-/* 头部 */
-.header {
-  background-color: #4DD0E1;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-/*
-.back-btn {
-  position: absolute;
-  top: 40rpx;
-  left: 30rpx;
-  z-index: 1;
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #fff;
-}
-*/
-.title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
 }
 
 /* 医生信息 */
