@@ -1,7 +1,6 @@
 import request from './auth'
-import { cleanParams, getFileUrl, uploadFile } from './utils'
+import { cleanParams } from './utils'
 
-export { getFileUrl, uploadFile }
 
 // ==================== 用户管理 user_user ====================
 

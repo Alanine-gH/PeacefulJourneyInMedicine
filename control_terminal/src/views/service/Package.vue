@@ -179,8 +179,8 @@
 </template>
 <script>
 import {getPackageList, addPackage, updatePackage, deletePackage, updatePackageStatus} from '@/api/service.js'
-import { getFileUrl } from '@/api/medical.js'
 import { BASE_URL } from '@/config'
+import {getFileUrl,uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'Package',
@@ -201,6 +201,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,uploadFile,
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return

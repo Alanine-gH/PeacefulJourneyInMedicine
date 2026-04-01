@@ -189,8 +189,9 @@
   </div>
 </template>
 <script>
-import {getHospitalList, addHospital, updateHospital, deleteHospital, updateHospitalStatus, getFileUrl} from '@/api/medical.js'
+import {getHospitalList, addHospital, updateHospital, deleteHospital, updateHospitalStatus} from '@/api/medical.js'
 import { BASE_URL } from '@/config'
+import {uploadFile,getFileUrl} from "@/api/utils.js";
 
 export default {
   name: 'Hospital',
@@ -211,6 +212,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,uploadFile,
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return
@@ -337,6 +339,9 @@ export default {
   }
 }
 </script>
+<style>
+@import '@/assets/medical.css';
+</style>
 <style scoped>
 .hosp-cell {
   display: flex;
@@ -368,8 +373,4 @@ export default {
   object-fit: cover;
   flex-shrink: 0;
 }
-</style>
-
-<style>
-@import '@/assets/medical.css';
 </style>

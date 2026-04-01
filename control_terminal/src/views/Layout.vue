@@ -83,7 +83,7 @@
 <script>
 import {useTheme} from '@/theme.js'
 import { BASE_URL } from '@/config'
-import { getFileUrl } from '@/api/medical.js'
+import { getFileUrl } from '@/api/utils.js'
 
 export default {
   name: 'Layout',

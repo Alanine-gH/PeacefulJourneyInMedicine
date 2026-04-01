@@ -121,8 +121,8 @@
 </template>
 <script>
 import {getDispatchList, addDispatch, updateDispatchStatus, deleteDispatch} from '@/api/service.js'
-import { getFileUrl } from '@/api/medical.js'
 import { BASE_URL } from '@/config'
+import {getFileUrl,uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'Dispatch',
@@ -143,7 +143,7 @@ export default {
     this.loadData()
   },
   methods: {
-
+    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       try {
@@ -218,8 +218,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 @import "@/assets/service.css";
+</style>
+<style scoped>
 
 
 .code-tag.green {

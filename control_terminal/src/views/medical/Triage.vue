@@ -150,7 +150,8 @@
   </div>
 </template>
 <script>
-import {getTriageList, getTriageDetail, updateTriageStatus, deleteTriage} from '@/api/medical.js'
+import {getTriageList, getTriageDetail, updateTriageStatus, deleteTriage } from '@/api/medical.js'
+import {uploadFile,getFileUrl} from "@/api/utils.js";
 
 export default {
   name: 'Triage',
@@ -170,6 +171,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       try {
@@ -230,6 +232,9 @@ export default {
   }
 }
 </script>
+<style>
+@import '@/assets/medical.css';
+</style>
 <style scoped>
 .toolbar {
   margin-bottom: 16px;

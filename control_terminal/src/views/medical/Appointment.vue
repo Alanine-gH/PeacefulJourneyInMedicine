@@ -151,10 +151,10 @@ import {
   addAppointment,
   updateAppointment,
   deleteAppointment,
-  updateAppointmentStatus,
-  getFileUrl
+  updateAppointmentStatus
 } from '@/api/medical.js'
-import { BASE_URL } from '@/config'
+import {BASE_URL} from '@/config'
+import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'Appointment',
@@ -175,6 +175,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl, uploadFile,
     async loadData() {
       this.loading = true
       try {
@@ -294,9 +295,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 @import "@/assets/medical.css";
-
+</style>
+<style scoped>
 .filter-input.w140 {
   width: 140px;
 }

@@ -140,6 +140,7 @@
 
 <script>
 import {getPaymentList, getPaymentDetail, deletePayment} from '@/api/order.js'
+import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'Payment',
@@ -159,6 +160,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       try {
@@ -220,8 +222,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 @import "@/assets/order.css";
+</style>
+<style scoped>
 
 .toolbar {
   margin-bottom: 16px;

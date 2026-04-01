@@ -189,8 +189,9 @@
   </div>
 </template>
 <script>
-import {getExpertList, addExpert, updateExpert, deleteExpert, updateExpertStatus, getFileUrl} from '@/api/medical.js'
+import {getExpertList, addExpert, updateExpert, deleteExpert, updateExpertStatus } from '@/api/medical.js'
 import { BASE_URL } from '@/config'
+import {uploadFile,getFileUrl} from "@/api/utils.js";
 
 export default {
   name: 'Expert',
@@ -211,6 +212,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,uploadFile,
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return
@@ -347,6 +349,9 @@ export default {
   }
 }
 </script>
+<style>
+@import '@/assets/medical.css';
+</style>
 <style scoped>
 .expert-cell {
   display: flex;
@@ -381,7 +386,3 @@ export default {
   color: var(--text-input);
 }
 </style>
-
-<style>
-@import '@/assets/medical.css';
-</style> 

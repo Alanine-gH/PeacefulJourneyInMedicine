@@ -1,7 +1,5 @@
 import request from './auth'
-import { cleanParams, getFileUrl, uploadFile } from './utils'
-
-export { getFileUrl, uploadFile }
+import {cleanParams} from './utils'
 
 // ==================== 医院管理 ====================
 export function getHospitalCount() {
