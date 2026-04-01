@@ -31,9 +31,9 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
     @Override
     public IPage<MessageListVO> getMessagePage(MessageQueryDTO query) {
+        int current = query.getPage() == null ? (query.getPageNum() == null ? 1 : query.getPageNum()) : query.getPage();
         int size = Math.min(query.getPageSize() == null ? defaultPageSize : query.getPageSize(), maxPageSize);
-        return baseMapper.selectMessagePage(
-                new Page<>(query.getPageNum() == null ? 1 : query.getPageNum(), size), query);
+        return baseMapper.selectMessagePage(new Page<>(current, size), query);
     }
 
     @Override

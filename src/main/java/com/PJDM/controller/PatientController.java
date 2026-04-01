@@ -26,9 +26,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "患者端", description = "患者个人中心、就诊人管理、收藏管理")
 public class PatientController {
 
-    @Autowired private IUserPatientService patientService;
-    @Autowired private IUserFavoriteService favoriteService;
-    @Autowired private IUserUserService userUserService;
+    @Autowired
+    private IUserPatientService patientService;
+    @Autowired
+    private IUserFavoriteService favoriteService;
+    @Autowired
+    private IUserUserService userUserService;
 
     // ==================== 患者个人信息 ====================
 

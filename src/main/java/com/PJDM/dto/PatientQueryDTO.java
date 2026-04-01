@@ -12,7 +12,7 @@ public class PatientQueryDTO {
     /** 姓名（模糊搜索） */
     private String name;
     /** 页码 */
-    private Integer pageNum;
+    private Integer page;
     /** 每页数量 */
     private Integer pageSize;
 }

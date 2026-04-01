@@ -13,6 +13,8 @@ public class MessageQueryDTO {
     private String type;
     /** 消息状态（1：未读；2：已读） */
     private Byte status;
+    /** 兼容页码参数（等同 pageNum） */
+    private Integer page;
     /** 页码 */
     private Integer pageNum;
     /** 每页数量 */

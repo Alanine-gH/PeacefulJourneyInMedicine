@@ -46,7 +46,7 @@ public class UserPatientServiceImpl extends ServiceImpl<UserPatientMapper, UserP
     public IPage<PatientDetailVO> getPatientPage(PatientQueryDTO query) {
         int size = Math.min(query.getPageSize() == null ? defaultPageSize : query.getPageSize(), maxPageSize);
         return baseMapper.selectPatientPage(
-                new Page<>(query.getPageNum() == null ? 1 : query.getPageNum(), size), query);
+                new Page<>(query.getPage() == null ? 1 : query.getPage(), size), query);
     }
 
     @Override
