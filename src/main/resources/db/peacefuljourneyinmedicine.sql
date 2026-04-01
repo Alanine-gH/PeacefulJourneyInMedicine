@@ -11,7 +11,7 @@
  Target Server Version : 80027 (8.0.27)
  File Encoding         : 65001
 
- Date: 28/03/2026 20:58:30
+ Date: 01/04/2026 15:24:32
 */
 
 CREATE DATABASE IF NOT EXISTS PeacefulJourneyInMedicine
@@ -884,7 +884,7 @@ CREATE TABLE `order_order`
     INDEX `idx_create_time` (`create_time` ASC) USING BTREE,
     INDEX `idx_user_status_time` (`user_id` ASC, `order_status` ASC, `create_time` ASC) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 21
+  AUTO_INCREMENT = 22
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT = '订单主表'
   ROW_FORMAT = DYNAMIC;
@@ -947,6 +947,10 @@ VALUES (14, 'ORD20260314014', 2, '李四', '+86 13800138002', 8, '钱多多', '+
         NULL, '李四', 2, 28, NULL, '儿科复诊', '上海儿童医学中心', '儿科', '2026-03-28', 500.00, 180.00, 320.00, 500.00,
         'CNY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'system', '2026-03-25 09:00:00', NULL,
         '2026-03-25 09:00:00', '钱多多已确认');
+INSERT INTO `order_order`
+VALUES (21, 'ORD202603301920039CD673', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, '张三', NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, 800.00, NULL, NULL, NULL, 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, '2026-03-30 19:20:03', NULL, '2026-03-30 19:20:03', NULL);
 
 -- ----------------------------
 -- Table structure for order_payment
@@ -1581,65 +1585,6 @@ VALUES (18, 2, 0, 'order', '退款到账通知', '您申请的退款已处理完
         NULL, '2026-03-24 15:00:00');
 
 -- ----------------------------
--- Table structure for sys_notice
--- ----------------------------
-DROP TABLE IF EXISTS `sys_notice`;
-CREATE TABLE `sys_notice`
-(
-    `id`             bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '主键ID，自增',
-    `notice_type`    tinyint                                                       NULL DEFAULT NULL COMMENT '通知类型（1：系统公告；2：活动通知；3：版本更新）',
-    `notice_title`   varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '通知标题',
-    `notice_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci         NULL COMMENT '通知内容',
-    `notice_link`    varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '通知链接',
-    `target_type`    tinyint                                                       NULL DEFAULT NULL COMMENT '目标类型（1：全体用户；2：指定用户；3：指定角色）',
-    `target_ids`     varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '目标ID列表',
-    `publish_status` tinyint                                                       NULL DEFAULT 1 COMMENT '发布状态（1：待发布；2：已发布；3：已撤回）',
-    `publish_time`   datetime                                                      NULL DEFAULT NULL COMMENT '发布时间',
-    `expire_time`    datetime                                                      NULL DEFAULT NULL COMMENT '过期时间',
-    `create_by`      varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL DEFAULT NULL COMMENT '创建人',
-    `create_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_by`      varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NULL DEFAULT NULL COMMENT '修改人',
-    `update_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    `remark`         varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '描述信息',
-    PRIMARY KEY (`id`) USING BTREE,
-    INDEX `idx_notice_type` (`notice_type` ASC) USING BTREE,
-    INDEX `idx_publish_status` (`publish_status` ASC) USING BTREE,
-    INDEX `idx_publish_time` (`publish_time` ASC) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 7
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci COMMENT = '通知公告表'
-  ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_notice
--- ----------------------------
-INSERT INTO `sys_notice`
-VALUES (1, 1, '系统升级通知', '系统将于2026年3月20日凌晨2:00-4:00进行升级维护，届时部分功能可能不可用，请提前做好准备。',
-        NULL, 1, NULL, 2, '2026-03-15 10:00:00', '2026-03-21 00:00:00', 'system', '2026-03-18 12:01:09', NULL,
-        '2026-03-18 12:01:09', '系统公告');
-INSERT INTO `sys_notice`
-VALUES (2, 2, '新春优惠活动', '即日起至2026年3月31日，新用户首单享受8折优惠，欢迎使用我们的陪诊服务！',
-        '/promotion/spring2026', 1, NULL, 2, '2026-03-01 09:00:00', '2026-03-31 23:59:59', 'system',
-        '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09', '活动通知');
-INSERT INTO `sys_notice`
-VALUES (3, 3, '版本更新 v2.1.0', '本次更新：1.优化AI分诊准确性 2.新增日语界面支持 3.修复若干已知问题', '/release/v2.1.0',
-        1, NULL, 2, '2026-03-10 15:00:00', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-18 12:01:09',
-        '版本更新');
-INSERT INTO `sys_notice`
-VALUES (4, 1, '系统升级通知', '系统将于2026年3月20日凌晨2:00-4:00进行升级维护，届时部分功能可能不可用，请提前做好准备。',
-        NULL, 1, NULL, 2, '2026-03-15 10:00:00', '2026-03-21 00:00:00', 'system', '2026-03-18 12:06:05', NULL,
-        '2026-03-18 12:06:05', '系统公告');
-INSERT INTO `sys_notice`
-VALUES (5, 2, '新春优惠活动', '即日起至2026年3月31日，新用户首单享受8折优惠，欢迎使用我们的陪诊服务！',
-        '/promotion/spring2026', 1, NULL, 2, '2026-03-01 09:00:00', '2026-03-31 23:59:59', 'system',
-        '2026-03-18 12:06:05', NULL, '2026-03-18 12:06:05', '活动通知');
-INSERT INTO `sys_notice`
-VALUES (6, 3, '版本更新 v2.1.0', '本次更新：1.优化AI分诊准确性 2.新增日语界面支持 3.修复若干已知问题', '/release/v2.1.0',
-        1, NULL, 2, '2026-03-10 15:00:00', NULL, 'system', '2026-03-18 12:06:05', NULL, '2026-03-18 12:06:05',
-        '版本更新');
-
--- ----------------------------
 -- Table structure for sys_operation_log
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_operation_log`;
@@ -1766,9 +1711,9 @@ CREATE TABLE `user_accompanist`
 -- Records of user_accompanist
 -- ----------------------------
 INSERT INTO `user_accompanist`
-VALUES (7, 7, '赵敏', '+86 13900139001', 1, 20, '小赵', 1, 'HEA2020001', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg',
+VALUES (7, 7, '赵敏', '+86 13900139001', 1, 20, '小赵', 1, 'HEA2020001', '15fd70c4-e152-4d00-aec8-9fe2d67a9ae3.jpg',
         'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,英文,日语', '儿科', 150, 4.99, 99.00, 0, 1, 2,
-        '2026-01-14 16:00:00', 'system', '2026-01-14 16:00:00', NULL, '2026-01-14 16:00:00', '汉语陪诊师');
+        '2026-01-14 16:00:00', 'system', '2026-01-14 16:00:00', NULL, '2026-03-29 14:53:13', '汉语陪诊师');
 INSERT INTO `user_accompanist`
 VALUES (8, 8, '钱多多', '+86 13900139002', 2, 28, '健康管理师', 2, 'HEA2020002',
         'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', NULL, '中文,沪语',
@@ -2215,7 +2160,7 @@ CREATE TABLE `user_user`
 INSERT INTO `user_user`
 VALUES (1, 'zhangsan', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '张三', '小张',
         'zhangsan@example.com', 1, 20, '+86 13800138001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 1, 1,
-        'zh-CN', '2026-03-28 12:20:58', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-28 12:20:58',
+        'zh-CN', '2026-03-30 22:40:16', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-30 22:40:15',
         '测试患者1');
 INSERT INTO `user_user`
 VALUES (2, 'lisi', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '李四', 'Lily', 'lisi@example.com',
@@ -2240,7 +2185,7 @@ VALUES (6, 'kim_minji', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlI
 INSERT INTO `user_user`
 VALUES (7, 'peizhen', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '赵敏', '小赵医生',
         'zhaomin@example.com', 1, 20, '+86 13900139001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 2, 1,
-        'zh-CN', '2026-03-27 19:04:42', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-27 19:04:42',
+        'zh-CN', '2026-03-29 14:51:55', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-29 14:51:55',
         '资深陪诊师');
 INSERT INTO `user_user`
 VALUES (8, 'accompanist002', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '钱多多', '钱姐',
@@ -2269,7 +2214,7 @@ VALUES (13, 'service002', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1t
 INSERT INTO `user_user`
 VALUES (14, 'admin', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '系统管理员', 'Admin',
         'admin@example.com', 2, 25, '+86 13600136001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 4, 1, 'zh-CN',
-        '2026-03-28 13:25:56', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-03-28 13:25:56', 'Alanine');
+        '2026-04-01 14:47:20', NULL, 'system', '2026-03-18 12:01:09', NULL, '2026-04-01 14:47:19', 'Alanine');
 INSERT INTO `user_user`
 VALUES (15, 'expert001', '$2a$10$E3tbc5fkZzK2HWinhhK3recQNZ3yS50TE/U8avkJT3oD1tlISqrne', '张文宏', '张文宏',
         'zhangwh@example.com', 2, 25, '+86 13500135001', '+86', 'cdbc2d1f-0797-4664-9aa2-37f6e1555e63.jpg', 5, 1,

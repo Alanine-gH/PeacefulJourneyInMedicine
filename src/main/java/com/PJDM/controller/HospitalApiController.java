@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -26,9 +27,12 @@ import java.util.List;
 @Tag(name = "患者端-医院科室专家", description = "患者端医院、科室、专家查询")
 public class HospitalApiController {
 
-    @Autowired private IMedicalHospitalService hospitalService;
-    @Autowired private IMedicalDepartmentService departmentService;
-    @Autowired private IMedicalExpertService expertService;
+    @Autowired
+    private IMedicalHospitalService hospitalService;
+    @Autowired
+    private IMedicalDepartmentService departmentService;
+    @Autowired
+    private IMedicalExpertService expertService;
 
     @GetMapping("/medical/hospitals")
     @Operation(summary = "获取医院列表（患者端）")

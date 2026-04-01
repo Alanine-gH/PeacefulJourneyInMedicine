@@ -1,4 +1,4 @@
-package com.PJDM.controller;
+package com.PJDM.controller.tool;
 
 import com.google.code.kaptcha.Producer;
 import com.PJDM.common.CaptchaHelper;

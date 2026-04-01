@@ -1,4 +1,4 @@
-package com.PJDM.controller;
+package com.PJDM.controller.ai;
 
 import com.PJDM.common.BaseContext;
 import com.PJDM.common.R;

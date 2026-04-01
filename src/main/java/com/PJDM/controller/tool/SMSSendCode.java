@@ -1,4 +1,4 @@
-package com.PJDM.controller;
+package com.PJDM.controller.tool;
 
 import com.aliyun.auth.credentials.Credential;
 import com.aliyun.auth.credentials.provider.StaticCredentialProvider;

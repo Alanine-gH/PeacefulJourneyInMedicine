@@ -1,4 +1,4 @@
-package com.PJDM.controller;
+package com.PJDM.controller.ai;
 
 import com.PJDM.common.BaseContext;
 import com.PJDM.common.R;
@@ -17,16 +17,17 @@ import java.util.Map;
 
 /**
  * AI 分诊会话控制器
+ * <br/>
  * 对话历史存 MongoDB，对话结束后异步生成结构化总结写回 MySQL medical_triage_record。
- *
+ * <br/>
  * 典型使用流程：
- *   1. POST /ai/triage/session/start                     创建会话，获取 sessionId
- *   2. POST /ai/triage/session/{sessionId}/message       同步发送消息
- *      或  POST /ai/triage/session/{sessionId}/stream    流式发送（SSE）
- *      +   POST /ai/triage/session/{sessionId}/save-reply 流式完成后保存AI回复
- *   3. 重复步骤2直到对话完成
- *   4. POST /ai/triage/session/{sessionId}/finish        结束会话，异步生成总结
- *   5. GET  /ai/triage/session/{sessionId}               查询会话详情和总结
+ * <p>   1. POST /ai/triage/session/start                     创建会话，获取 sessionId</p>
+ * <p>   2. POST /ai/triage/session/{sessionId}/message       同步发送消息</p>
+ * <p>&nbsp;&nbsp;&nbsp;&nbsp;      或  POST /ai/triage/session/{sessionId}/stream    流式发送（SSE）</p>
+ * <p>&nbsp;&nbsp;&nbsp;&nbsp;      +   POST /ai/triage/session/{sessionId}/save-reply 流式完成后保存AI回复</p>
+ * <p>   3. 重复步骤2直到对话完成</p>
+ * <p>   4. POST /ai/triage/session/{sessionId}/finish        结束会话，异步生成总结</p>
+ * <p>   5. GET  /ai/triage/session/{sessionId}               查询会话详情和总结</p>
  *
  * @author Alanine
  */
@@ -99,7 +100,9 @@ public class AiTriageSessionController {
             try {
                 emitter.send(SseEmitter.event().name("error").data("content 不能为空"));
                 emitter.complete();
-            } catch (Exception e) { emitter.completeWithError(e); }
+            } catch (Exception e) {
+                emitter.completeWithError(e);
+            }
             return emitter;
         }
         try {
@@ -109,7 +112,9 @@ public class AiTriageSessionController {
             try {
                 emitter.send(SseEmitter.event().name("error").data(e.getMessage()));
                 emitter.complete();
-            } catch (Exception ex) { emitter.completeWithError(ex); }
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+            }
         }
         return emitter;
     }
@@ -133,9 +138,9 @@ public class AiTriageSessionController {
     /**
      * 结束会话，触发异步总结生成
      * 立即返回，后台异步：
-     *   1. 向 DeepSeek 发送完整对话 + JSON 格式约束提示词
-     *   2. 解析总结 JSON，写回 MySQL medical_triage_record 各字段
-     *   3. triage_status 更新为 3（AI分诊完成）
+     * 1. 向 DeepSeek 发送完整对话 + JSON 格式约束提示词
+     * 2. 解析总结 JSON，写回 MySQL medical_triage_record 各字段
+     * 3. triage_status 更新为 3（AI分诊完成）
      */
     @PostMapping("/{sessionId}/finish")
     @Operation(summary = "结束会话并生成总结",
