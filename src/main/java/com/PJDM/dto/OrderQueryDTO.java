@@ -33,6 +33,9 @@ public class OrderQueryDTO {
     @Schema(description = "货币类型")
     private String currency;
 
+    @Schema(description = "页码（兼容字段，等同 pageNum）", example = "1")
+    private Integer page;
+
     @Schema(description = "页码", example = "1")
     private Integer pageNum = 1;
 

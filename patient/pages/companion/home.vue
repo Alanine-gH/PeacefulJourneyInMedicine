@@ -236,21 +236,6 @@ export default {
             icon: 'none'
           })
       }
-    },
-    switchTab(tab) {
-      if (tab === 'home') {
-        uni.redirectTo({
-          url: '/pages/companion/home'
-        })
-      } else if (tab === 'info') {
-        uni.navigateTo({
-          url: '/pages/companion/info'
-        })
-      } else if (tab === 'mine') {
-        uni.navigateTo({
-          url: '/pages/companion/mine'
-        })
-      }
     }
   }
 }

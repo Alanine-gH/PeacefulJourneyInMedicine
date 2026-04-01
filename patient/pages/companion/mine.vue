@@ -209,10 +209,10 @@ export default {
             uni.removeStorageSync('userId');
             uni.removeStorageSync('accompanistId');
             uni.removeStorageSync('companionInfo');
-            uni.showToast({ title: '退出登录成功', icon: 'success' });
-            setTimeout(() => {
-              uni.navigateTo({ url: '/pages/login/login' });
-            }, 1000);
+            uni.removeStorageSync('userType');
+            uni.showToast({ title: '退出登录成功', icon: 'success', duration: 600, complete: () => {
+              uni.reLaunch({ url: '/pages/login/login' });
+            }});
           }
         }
       });

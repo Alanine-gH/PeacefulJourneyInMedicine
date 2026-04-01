@@ -32,9 +32,12 @@
         </picker>
       </view>
 
-      <view class="form-item">
+      <view class="form-item" @click="openDepartmentPopup">
         <text class="form-label">就诊科室</text>
-        <input class="form-input" v-model="formData.department" placeholder="请输入就诊科室"/>
+        <view class="form-picker" :class="{ placeholder: !formData.department }">
+          {{ formData.department || (departmentLoading ? '加载中...' : '请选择就诊科室') }}
+          <text class="picker-arrow">▼</text>
+        </view>
       </view>
 
       <view class="form-item">
@@ -65,18 +68,30 @@
       <button class="chat-btn" @click="goToChat">智能问答</button>
     </view>
 
-    <!-- 成功弹窗 -->
-    <view v-if="showModal" class="modal-mask" @click="showModal = false">
-      <view class="modal-content" @click.stop>
-        <view class="modal-icon">✓</view>
-        <view class="modal-title">提交成功</view>
-        <view class="modal-desc">您的病历已成功上传</view>
-        <view class="modal-buttons">
-          <button class="modal-btn modal-btn-home" @click="goToHome">首页</button>
-          <button class="modal-btn modal-btn-chat" @click="goToChatFromModal">问答</button>
-        </view>
+    <!-- 科室选择弹窗 -->
+    <view v-if="showDepartmentPopup" class="modal-mask" @click="closeDepartmentPopup">
+      <view class="modal-content department-modal" @click.stop>
+        <view class="modal-title">选择就诊科室</view>
+        <input
+          class="department-search-input"
+          v-model.trim="departmentKeyword"
+          placeholder="请输入科室名称搜索"
+        />
+        <scroll-view class="department-list" scroll-y>
+          <view
+            v-for="dept in filteredDepartments"
+            :key="dept.id"
+            class="department-item"
+            @click="selectDepartment(dept)"
+          >
+            {{ dept.departmentName || dept.name || dept.department_name }}
+          </view>
+          <view v-if="filteredDepartments.length === 0" class="department-empty">暂无匹配科室</view>
+        </scroll-view>
+        <button class="modal-btn modal-btn-home" @click="closeDepartmentPopup">取消</button>
       </view>
     </view>
+
 
     <!-- 底部空白区域 -->
     <view class="bottom-space"></view>
@@ -84,7 +99,7 @@
 </template>
 
 <script>
-import {getHospitals} from '@/utils/medical-api.js'
+import {getHospitals, getDepartments} from '@/utils/medical-api.js'
 
 export default {
   data() {
@@ -101,16 +116,28 @@ export default {
       hospitalList: [],
       hospitalIndex: 0,
       hospitalLoading: false,
-      showModal: false
+      showDepartmentPopup: false,
+      departmentLoading: false,
+      departmentKeyword: '',
+      departmentList: []
     }
   },
   computed: {
     hospitalNames() {
       return this.hospitalList.map(h => h.hospitalName)
+    },
+    filteredDepartments() {
+      const keyword = (this.departmentKeyword || '').toLowerCase()
+      if (!keyword) return this.departmentList
+      return this.departmentList.filter(d => {
+        const name = d.departmentName || d.name || d.department_name || ''
+        return name.toLowerCase().includes(keyword)
+      })
     }
   },
   onLoad() {
     this.loadHospitals()
+    this.loadDepartments()
   },
   methods: {
     async loadHospitals() {
@@ -125,6 +152,30 @@ export default {
       } finally {
         this.hospitalLoading = false
       }
+    },
+    async loadDepartments() {
+      this.departmentLoading = true
+      try {
+        const res = await getDepartments({ page: 1, pageSize: 200 })
+        if (res && res.code === 200 && res.data) {
+          this.departmentList = res.data.records || res.data.list || []
+        }
+      } catch (e) {
+        console.error('加载科室列表失败:', e)
+      } finally {
+        this.departmentLoading = false
+      }
+    },
+    openDepartmentPopup() {
+      this.showDepartmentPopup = true
+    },
+    closeDepartmentPopup() {
+      this.showDepartmentPopup = false
+      this.departmentKeyword = ''
+    },
+    selectDepartment(dept) {
+      this.formData.department = dept.departmentName || dept.name || dept.department_name || ''
+      this.closeDepartmentPopup()
     },
     onHospitalChange(e) {
       this.hospitalIndex = e.detail.value
@@ -180,7 +231,16 @@ export default {
         uni.hideLoading();
 
         if (response.statusCode === 200 && (response.data.code === 200 || response.data.success)) {
-          this.showSuccessModal();
+          uni.showToast({
+            title: '提交成功',
+            icon: 'success',
+            duration: 600,
+            complete: () => {
+              uni.switchTab({
+                url: '/pages/home/home'
+              });
+            }
+          });
         } else {
           uni.showToast({
             title: response.data.message || '提交失败',
@@ -248,27 +308,6 @@ export default {
         url: '/pages/diagnosis/chat'
       })
     },
-
-    // 显示成功弹窗
-    showSuccessModal() {
-      this.showModal = true
-    },
-
-    // 返回首页
-    goToHome() {
-      this.showModal = false
-      uni.switchTab({
-        url: '/pages/home/home'
-      })
-    },
-
-    // 跳转到智能问答
-    goToChatFromModal() {
-      this.showModal = false
-      uni.navigateTo({
-        url: '/pages/diagnosis/chat'
-      })
-    }
   }
 }
 </script>
@@ -497,6 +536,47 @@ export default {
 .bottom-space {
   height: 20vh;
   width: 100%;
+}
+
+/* 科室弹窗 */
+.department-modal {
+  width: 680rpx;
+  max-height: 70vh;
+}
+
+.department-search-input {
+  width: 100%;
+  height: 76rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+}
+
+.department-list {
+  max-height: 600rpx;
+  border: 1rpx solid #f0f0f0;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.department-item {
+  padding: 22rpx 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.department-item:last-child {
+  border-bottom: none;
+}
+
+.department-empty {
+  padding: 40rpx 20rpx;
+  text-align: center;
+  color: #999;
+  font-size: 26rpx;
 }
 
 /* 成功弹窗 */

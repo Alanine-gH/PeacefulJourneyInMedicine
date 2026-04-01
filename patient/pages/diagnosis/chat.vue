@@ -66,6 +66,11 @@
       </view>
     </view>
 
+    <!-- 返回首页按钮 -->
+    <view class="home-section">
+      <button class="home-btn" @click="goHome">回到首页</button>
+    </view>
+
     <!-- 底部空白区域 -->
     <view class="bottom-space"></view>
   </view>
@@ -73,6 +78,14 @@
 
 <script>
 import { sendChatStream as apiSendChatStream } from '../../utils/api';
+
+function decodeUtf8Chunk(chunk) {
+  try {
+    return decodeURIComponent(escape(chunk));
+  } catch (e) {
+    return chunk;
+  }
+}
 
 export default {
   data() {
@@ -141,13 +154,14 @@ export default {
           { userInput: question },
           (chunk) => {
             // 处理流式响应
+            const safeChunk = decodeUtf8Chunk(chunk)
             const lastMessage = this.messages[this.messages.length - 1]
             if (lastMessage && lastMessage.role === 'assistant') {
-              lastMessage.content += chunk
+              lastMessage.content += safeChunk
             } else {
               this.messages.push({
                 role: 'assistant',
-                content: chunk
+                content: safeChunk
               })
             }
             this.scrollToBottom()
@@ -183,6 +197,11 @@ export default {
         // 显示提示框
         this.showSuggestions = true
       }
+    },
+    goHome() {
+      uni.switchTab({
+        url: '/pages/home/home'
+      })
     },
     scrollToBottom() {
       this.$nextTick(() => {
@@ -298,6 +317,27 @@ export default {
 .message-text {
   font-size: 28rpx;
   line-height: 1.6;
+}
+
+/* 返回首页 */
+.home-section {
+  background-color: #fff;
+  padding: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.home-btn {
+  width: 100%;
+  height: 78rpx;
+  background: #fff;
+  border: 2rpx solid #8db8b6;
+  color: #8db8b6;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+
+.home-btn::after {
+  border: none;
 }
 
 /* 输入区域 */

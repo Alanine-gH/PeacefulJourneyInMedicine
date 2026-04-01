@@ -44,7 +44,14 @@
           </view>
           <view class="order-footer">
             <text class="order-amount">订单金额：<text class="amount-value">{{ order.currency || 'CNY' }} {{ order.totalAmount || order.total_amount }}</text></text>
-            <text class="order-time">{{ formatOrderTime(order.createTime || order.create_time) }}</text>
+            <view class="order-footer-right">
+              <button
+                v-if="(order.orderStatus || order.order_status) === 5 && !isEvaluated(order.orderNo || order.order_no)"
+                class="evaluate-btn-mini"
+                @click.stop="goToEvaluate(order)"
+              >评价</button>
+              <text class="order-time">{{ formatOrderTime(order.createTime || order.create_time) }}</text>
+            </view>
           </view>
         </view>
       </view>
@@ -57,12 +64,15 @@
 
 <script>
 import { getPatientOrders } from '@/utils/patient-api'
+import { request } from '@/utils/config.js'
 
 export default {
   data() {
     return {
       loading: false,
       orderList: [],
+      evaluatedMap: {},
+      onlyPendingEval: false,
       selectedStatus: null,
       statusFilters: [
         { value: null, label: '全部' },
@@ -74,7 +84,12 @@ export default {
       ]
     }
   },
-  onLoad() {
+  onLoad(options) {
+    const status = Number(options && options.status)
+    if (!Number.isNaN(status) && status > 0) {
+      this.selectedStatus = status
+    }
+    this.onlyPendingEval = String(options && options.pendingEval) === '1'
     this.loadOrders()
   },
   methods: {
@@ -95,6 +110,13 @@ export default {
         if (res.code === 200 && res.data) {
           // 后端返回 IPage，字段为 records，且字段为驼峰命名
           this.orderList = res.data.records || res.data.list || (Array.isArray(res.data) ? res.data : [])
+          await this.loadEvaluatedStatus()
+          if (this.onlyPendingEval) {
+            this.orderList = this.orderList.filter(o => {
+              const orderNo = o.orderNo || o.order_no
+              return (o.orderStatus || o.order_status) === 5 && !this.isEvaluated(orderNo)
+            })
+          }
         } else {
           uni.showToast({
             title: res.msg || res.message || '获取订单失败',
@@ -111,6 +133,29 @@ export default {
         this.loading = false
         uni.stopPullDownRefresh()
       }
+    },
+    async loadEvaluatedStatus() {
+      const completedOrders = this.orderList.filter(o => (o.orderStatus || o.order_status) === 5)
+      const orderNos = completedOrders.map(o => o.orderNo || o.order_no).filter(Boolean)
+      const map = {}
+      if (!orderNos.length) {
+        this.evaluatedMap = map
+        return
+      }
+      try {
+        const res = await request('/order/evaluation/status', {
+          method: 'GET',
+          data: { orderNos: orderNos.join(',') }
+        })
+        const data = (res && res.data) || {}
+        orderNos.forEach(no => { map[no] = !!data[no] })
+      } catch (e) {
+        orderNos.forEach(no => { map[no] = false })
+      }
+      this.evaluatedMap = map
+    },
+    isEvaluated(orderNo) {
+      return !!this.evaluatedMap[orderNo]
     },
     getServiceTypeName(type) {
       const typeMap = {
@@ -170,6 +215,13 @@ export default {
       const hours = String(date.getHours()).padStart(2, '0')
       const minutes = String(date.getMinutes()).padStart(2, '0')
       return `${month}-${day} ${hours}:${minutes}`
+    },
+    goToEvaluate(order) {
+      const orderNo = order.orderNo || order.order_no
+      if (!orderNo) return
+      uni.navigateTo({
+        url: `/pages/evaluation/evaluation?orderNo=${orderNo}&doctorName=${encodeURIComponent(order.accompanistName || order.accompanist_name || '')}`
+      })
     },
     goToOrderDetail(orderId) {
       if (!orderId) return
@@ -387,6 +439,27 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.order-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.evaluate-btn-mini {
+  height: 54rpx;
+  line-height: 54rpx;
+  padding: 0 22rpx;
+  font-size: 24rpx;
+  color: #fff;
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 26rpx;
+  border: none;
+}
+
+.evaluate-btn-mini::after {
+  border: none;
 }
 
 .order-amount {

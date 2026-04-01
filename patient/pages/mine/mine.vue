@@ -177,20 +177,25 @@ export default {
     async logout() {
       try {
         await logout();
-        uni.removeStorageSync('token');
-        uni.removeStorageSync('userId');
-        uni.removeStorageSync('userInfo');
-        this.userInfo = null;
-        uni.showToast({
-          title: '退出登录成功',
-          icon: 'success'
-        })
       } catch (error) {
-        uni.removeStorageSync('token');
-        uni.removeStorageSync('userId');
-        uni.removeStorageSync('userInfo');
-        this.userInfo = null;
+        // 忽略退出接口异常，仍执行本地退出
       }
+      uni.removeStorageSync('token');
+      uni.removeStorageSync('userId');
+      uni.removeStorageSync('userInfo');
+      uni.removeStorageSync('userType');
+      uni.removeStorageSync('accompanistId');
+      this.userInfo = null;
+            uni.showToast({
+              title: '退出登录成功',
+              icon: 'success',
+              duration: 600,
+              complete: () => {
+                uni.reLaunch({
+                  url: '/pages/login/login'
+                })
+              }
+            })
     },
     login() {
       uni.navigateTo({
@@ -203,15 +208,15 @@ export default {
       });
     },
     viewOrders(status) {
-      // 映射到订单页面的筛选状态
+      // 映射到订单页面的筛选状态（与 order.vue 对齐）
       const statusMap = {
-        'pending_payment': 'unpaid', // 待付款 -> 待支付
-        'pending_service': 'pending', // 待服务 -> 待服务
-        'pending_review': 'completed' // 待评价 -> 已完成
+        'pending_payment': 1,
+        'pending_service': 3,
+        'pending_review': 5
       };
-      const targetStatus = statusMap[status] || 'all';
+      const targetStatus = statusMap[status];
       uni.navigateTo({
-        url: `/pages/order/order?status=${targetStatus}`
+        url: targetStatus ? `/pages/order/order?status=${targetStatus}` : '/pages/order/order'
       });
     },
     navigateTo(page) {

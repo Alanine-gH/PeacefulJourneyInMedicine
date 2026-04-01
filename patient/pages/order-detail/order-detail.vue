@@ -186,8 +186,13 @@ export default {
     async checkEvaluated() {
       try {
         const { request } = await import('@/utils/config.js');
-        const res = await request('/order/evaluation/list', { method: 'GET', data: { orderNo: this.order_no, pageNum: 1, pageSize: 1 } });
-        if (res && res.data) this.$set(this.orderDetail, 'hasEvaluated', (res.data.total || 0) > 0);
+        const res = await request('/order/evaluation/status', {
+          method: 'GET',
+          data: { orderNos: this.order_no }
+        });
+        if (res && res.data) {
+          this.$set(this.orderDetail, 'hasEvaluated', !!res.data[this.order_no]);
+        }
       } catch (e) {}
     },
     async getOrderDetail() {

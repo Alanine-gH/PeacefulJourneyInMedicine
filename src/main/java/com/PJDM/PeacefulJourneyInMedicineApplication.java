@@ -14,5 +14,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class PeacefulJourneyInMedicineApplication {
     public static void main(String[] args) {
         SpringApplication.run(PeacefulJourneyInMedicineApplication.class, args);
+        System.out.println("""
+                 医路安心 Peaceful Journey In Medicine 启动成功
+                 ____        _   ___   __  __
+                |  _ \\      | | |_ _| |  \\/  |
+                | |_) |  _  | |  | |  | |\\/| |
+                |  __/  | |_| |  | |  | |  | |
+                |_|      \\___/  |___| |_|  |_|
+                
+                """);
     }
 }

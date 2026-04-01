@@ -206,7 +206,7 @@ export default {
         })
       } else if (page === 'evaluation') {
         uni.navigateTo({
-          url: '/pages/order/order?status=5',
+          url: '/pages/order/order?status=5&pendingEval=1',
         })
       } else if (page === 'expert-consult') {
         uni.navigateTo({

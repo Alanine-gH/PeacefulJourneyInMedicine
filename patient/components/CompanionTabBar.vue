@@ -22,7 +22,7 @@
         :src="activeTab === 'info' ? '/static/message.png' : '/static/disMessage.png'"
         mode="aspectFit"
       ></image>
-      <text class="tab-text">信息</text>
+      <text class="tab-text">工作台</text>
     </view>
     <view
       class="tab-item"

@@ -60,8 +60,9 @@ async function sendChatStream(data, onChunk, onDone, onError) {
 
 	task.onChunkReceived((res) => {
 		try {
-			// ArrayBuffer → string
-			const chunk = String.fromCharCode.apply(null, new Uint8Array(res.data));
+			// ArrayBuffer → UTF-8 string
+			const decoder = new TextDecoder('utf-8');
+			const chunk = decoder.decode(new Uint8Array(res.data));
 			buffer += chunk;
 			// 按行解析 SSE
 			const lines = buffer.split('\n');

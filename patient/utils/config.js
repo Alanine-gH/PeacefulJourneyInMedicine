@@ -49,8 +49,20 @@ export async function request(url, options = {}) {
     if (response.statusCode === 200) {
       return response.data;
     } else if (response.statusCode === 401) {
+      uni.removeStorageSync('token');
+      uni.removeStorageSync('userId');
+      uni.removeStorageSync('userInfo');
+      uni.removeStorageSync('userType');
+      uni.removeStorageSync('accompanistId');
+
       uni.showToast({ title: '登录已过期，请重新登录', icon: 'none' });
-      uni.navigateTo({ url: '/pages/login/login' });
+
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      if (!currentPage || currentPage.route !== 'pages/login/login') {
+        uni.reLaunch({ url: '/pages/login/login' });
+      }
+
       throw new Error('Token 过期');
     } else {
       throw new Error(`请求失败: ${response.statusCode}`);

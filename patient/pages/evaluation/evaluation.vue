@@ -119,13 +119,26 @@ export default {
             icon: 'success'
           });
           setTimeout(() => {
-            uni.navigateTo({
-              url: '/pages/value-added/value-added'
-            });
-          }, 1500);
+            uni.navigateBack();
+          }, 800);
+        } else {
+          uni.showModal({
+            title: '提示',
+            content: res.msg || res.message || '提交失败',
+            showCancel: false
+          });
         }
       } catch (error) {
         console.error('提交评价失败:', error);
+        const msg = (error && error.message) || ''
+        if (msg.includes('已评价')) {
+          uni.showModal({
+            title: '提示',
+            content: '该订单已评价过，不能重复提交',
+            showCancel: false
+          })
+          return
+        }
         uni.showToast({
           title: '评价失败，请稍后重试',
           icon: 'none'

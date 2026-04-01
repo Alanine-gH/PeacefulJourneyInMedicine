@@ -13,10 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * 订单评价 Controller
- *
- * @author Alanine
  */
 @Slf4j
 @RestController
@@ -42,6 +48,30 @@ public class OrderEvaluationController {
     @Operation(summary = "分页查询评价列表（LEFT JOIN user_user、user_accompanist）")
     public R<IPage<EvaluationListVO>> list(EvaluationQueryDTO query) {
         return R.success(evaluationService.getEvaluationListPage(query));
+    }
+
+    @GetMapping("/status")
+    @Operation(summary = "批量查询订单是否已评价")
+    public R<Map<String, Boolean>> status(@RequestParam(required = false) String orderNos) {
+        if (orderNos == null || orderNos.isBlank()) {
+            return R.success(Collections.emptyMap());
+        }
+        List<String> orderNoList = Arrays.stream(orderNos.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+        if (orderNoList.isEmpty()) {
+            return R.success(Collections.emptyMap());
+        }
+        Set<String> evaluatedOrderNoSet = evaluationService.getEvaluatedOrderNos(orderNoList)
+                .stream()
+                .collect(Collectors.toSet());
+        Map<String, Boolean> statusMap = new LinkedHashMap<>();
+        for (String orderNo : orderNoList) {
+            statusMap.put(orderNo, evaluatedOrderNoSet.contains(orderNo));
+        }
+        return R.success(statusMap);
     }
 
     @GetMapping("/{id}")

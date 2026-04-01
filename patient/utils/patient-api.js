@@ -53,7 +53,7 @@ async function createPatientOrder(data) {
  * @description 获取患者的订单列表，支持按状态筛选和分页
  */
 async function getPatientOrders(params) {
-  return request('/order/list', {
+  return request('/patient/orders', {
     method: 'GET',
     data: params
   });

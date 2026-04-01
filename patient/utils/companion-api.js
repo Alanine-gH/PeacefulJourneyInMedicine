@@ -5,7 +5,19 @@
 
 import { request } from './config.js';
 
-
+async function ensureAccompanistId() {
+  let accompanistId = uni.getStorageSync('accompanistId') || '';
+  if (accompanistId) return accompanistId;
+  const userId = uni.getStorageSync('userId') || '';
+  if (!userId) throw new Error('未找到用户ID，请重新登录');
+  const res = await request(`/user/accompanist/by-user/${userId}`);
+  if (res && res.code === 200 && res.data && res.data.id) {
+    accompanistId = res.data.id;
+    uni.setStorageSync('accompanistId', accompanistId);
+    return accompanistId;
+  }
+  throw new Error('未找到陪诊师档案，请先完成认证');
+}
 
 /**
  * 1.1 陪护端个人中心
@@ -52,7 +64,7 @@ async function updateCompanionProfile(companionId, data) {
  * @description 获取陪护员的工作统计信息，包括完成订单数、收入、评分等
  */
 async function getCompanionWorkInfo() {
-  const accompanistId = uni.getStorageSync('accompanistId') || '';
+  const accompanistId = await ensureAccompanistId();
   if (!accompanistId) {
     return Promise.reject(new Error('accompanistId 未初始化，请先进入「我的」页面'));
   }
@@ -92,7 +104,7 @@ async function getAvailableOrders(params) {
  * @description 获取陪护员的订单列表，支持按状态筛选和分页
  */
 async function getCompanionOrders(params) {
-  const accompanistId = uni.getStorageSync('accompanistId') || '';
+  const accompanistId = await ensureAccompanistId();
   if (!accompanistId) {
     return Promise.reject(new Error('accompanistId 未初始化'));
   }
@@ -120,7 +132,7 @@ async function getCompanionOrderDetail(orderNo) {
  * 数据操作：更新order_order表的accompanist_id字段为当前陪护员ID，order_status更新为3（已确认）
  */
 async function acceptOrder(orderNo) {
-  const accompanistId = uni.getStorageSync('accompanistId') || '';
+  const accompanistId = await ensureAccompanistId();
   return request(`/companion/orders/accept?accompanistId=${accompanistId}`, {
     method: 'POST',
     data: { order_no: orderNo }
@@ -270,7 +282,7 @@ async function replyCompanionEvaluation(id, reply) {
  * @returns {Promise<object>}
  */
 async function getCompanionPatients() {
-  const accompanistId = uni.getStorageSync('accompanistId') || '';
+  const accompanistId = await ensureAccompanistId();
   if (!accompanistId) {
     return Promise.reject(new Error('accompanistId 未初始化'));
   }

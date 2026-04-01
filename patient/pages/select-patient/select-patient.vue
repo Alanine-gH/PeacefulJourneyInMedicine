@@ -6,11 +6,11 @@
           class="patient-card"
           v-for="(patient, index) in patientList"
           :key="index"
-          :class="{ active: selectedPatient === patient.id }"
+          :class="{ active: selectedPatient === String(patient.id) }"
           @click="selectPatient(patient)"
       >
         <!-- 选中标记 -->
-        <view class="check-mark" v-if="selectedPatient === patient.id">
+        <view class="check-mark" v-if="selectedPatient === String(patient.id)">
           <text class="check-icon">✓</text>
         </view>
 
@@ -138,23 +138,37 @@ export default {
   methods: {
     async loadPatients() {
       try {
+        const userId = uni.getStorageSync('userId')
         const res = await request('/user/patient/list', {
-          method: 'GET'
+          method: 'GET',
+          data: { userId, page: 1, pageSize: 100 }
         });
-        if (res.code === 200 && res.data && res.data.length > 0) {
-          this.patientList = res.data;
+        const list = res?.data?.records || res?.data?.list || (Array.isArray(res?.data) ? res.data : [])
+        if (res.code === 200 && list.length > 0) {
+          this.patientList = list.map(item => ({
+            id: item.id,
+            name: item.name || item.realName || item.real_name || '未命名就诊人',
+            relation: item.relation || item.relationName || '',
+            isDefault: !!(item.isDefault || item.is_default),
+            avatar: item.avatar || item.avatarUrl || '/static/avatar1.png',
+            idcard: item.idcard || item.idCard || item.id_card || '-',
+            medicalCards: Array.isArray(item.medicalCards)
+              ? item.medicalCards.map(card => ({
+                  hospital: card.hospital || card.hospitalName || '-',
+                  cardNo: card.cardNo || card.card_no || card.medicalCardNo || '-'
+                }))
+              : []
+          }));
         }
-        // 如果API返回空数据，保留示例数据
       } catch (error) {
         console.error('加载就诊人列表失败:', error);
-        // 使用示例数据，不显示错误提示
       }
     },
     goBack() {
       uni.navigateBack()
     },
     selectPatient(patient) {
-      this.selectedPatient = patient.id
+      this.selectedPatient = String(patient.id)
     },
     showQRCode(card) {
       this.currentQRCode = card
@@ -171,10 +185,10 @@ export default {
         uni.showToast({title: '请选择就诊人', icon: 'none'})
         return
       }
-      const patient = this.patientList.find(p => p.id === this.selectedPatient)
+      const patient = this.patientList.find(p => String(p.id) === this.selectedPatient)
       // 用 Storage 回传
-      uni.setStorageSync('_sel_patient', patient.name)
-      uni.setStorageSync('_sel_patientId', patient.id)
+      uni.setStorageSync('_sel_patient', patient?.name || patient?.realName || '')
+      uni.setStorageSync('_sel_patientId', patient?.id || '')
       uni.navigateBack()
     }
   }

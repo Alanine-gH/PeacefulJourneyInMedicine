@@ -53,8 +53,15 @@
         <view class="setting-arrow">›</view>
       </view>
     </view> -->
-
-
+    <!-- 存储管理 -->
+    <view class="section">
+      <view class="section-title">存储管理</view>
+      <view class="setting-item" @click="clearCache">
+        <view class="setting-label">清除缓存</view>
+        <view class="setting-value">释放本地存储空间</view>
+        <view class="setting-arrow">›</view>
+      </view>
+    </view>
 
     <!-- 底部空白区域 -->
     <view class="bottom-space"></view>
@@ -215,6 +222,23 @@ export default {
       uni.showToast({ title: '工作状态设置功能开发中', icon: 'none' });
     },
     
+    clearCache() {
+      uni.showModal({
+        title: '清除缓存',
+        content: '确定清除本地缓存吗？不会影响账号数据。',
+        success: (res) => {
+          if (!res.confirm) return
+          const token = uni.getStorageSync('token')
+          const userInfo = uni.getStorageSync('userInfo')
+          const userId = uni.getStorageSync('userId')
+          uni.clearStorageSync()
+          if (token) uni.setStorageSync('token', token)
+          if (userInfo) uni.setStorageSync('userInfo', userInfo)
+          if (userId) uni.setStorageSync('userId', userId)
+          uni.showToast({ title: '缓存已清除', icon: 'success' })
+        }
+      })
+    },
     setWorkTime() {
       uni.showToast({ title: '工作时间设置功能开发中', icon: 'none' });
     }

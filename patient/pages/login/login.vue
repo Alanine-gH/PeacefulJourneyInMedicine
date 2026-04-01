@@ -77,6 +77,7 @@ import {
   login,
   getCaptcha
 } from '../../utils/auth';
+import { request } from '../../utils/config';
 
 export default {
   data() {
@@ -197,7 +198,14 @@ export default {
           uni.setStorageSync('userType', userType)
           uni.setStorageSync('userInfo', data)
           if (userType === 2) {
-            uni.setStorageSync('accompanistId', data.userId)
+            try {
+              const profileRes = await request(`/user/accompanist/by-user/${data.userId}`)
+              if (profileRes && profileRes.code === 200 && profileRes.data && profileRes.data.id) {
+                uni.setStorageSync('accompanistId', profileRes.data.id)
+              }
+            } catch (e) {
+              console.warn('获取陪诊师ID失败，后续页面会自动补偿', e)
+            }
           }
 
           uni.showToast({

@@ -23,5 +23,8 @@ public interface IOrderEvaluationService extends IService<OrderEvaluation> {
     /** 删除评价 */
     void deleteEvaluation(Long id);
 
+    /** 批量查询已评价订单号 */
+    java.util.List<String> getEvaluatedOrderNos(java.util.List<String> orderNos);
+
     void submitEvaluation(com.PJDM.dto.EvaluationSubmitDTO dto);
 }

@@ -116,7 +116,7 @@ export default {
       try {
         const [workInfoRes, ordersRes] = await Promise.all([
           getCompanionWorkInfo(),
-          getCompanionOrders({limit: 5})
+          getCompanionOrders({ page: 1, pageSize: 5 })
         ]);
 
         if (workInfoRes.code === 200) {
