@@ -44,13 +44,13 @@ public class CaptchaController {
     /**
      * 验证码类型 math:数学运算 char:字符
      */
-    @Value("${PeacefulJourneyInMedicine.captcha.type:math}")
+    @Value("${PeacefulJourneyInMedicine.captcha.type}")
     private String captchaType;
 
     /**
      * 是否开启验证码
      */
-    @Value("${slimcamp.captcha.enabled:true}")
+    @Value("${PeacefulJourneyInMedicine.captcha.enabled}")
     private boolean captchaEnabled;
 
     /**

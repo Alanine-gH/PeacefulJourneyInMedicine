@@ -29,7 +29,7 @@ public class CaptchaHelper {
     /**
      * 是否开启验证码
      */
-    @Value("${PeacefulJourneyInMedicine.captcha.enabled:true}")
+    @Value("${PeacefulJourneyInMedicine.captcha.enabled}")
     private boolean captchaEnabled;
 
     /**
