@@ -89,22 +89,30 @@
           <div class="detail-section">
             <div class="section-title">认证信息</div>
             <div class="detail-grid">
-              <div class="detail-item"><span class="dk">用户名</span><span
-                  class="dv">{{ detailModal.data.username || '-' }}</span></div>
-              <div class="detail-item"><span class="dk">真实姓名</span><span
-                  class="dv">{{ detailModal.data.realName || '-' }}</span></div>
-              <div class="detail-item"><span class="dk">认证类型</span><span
-                  class="dv">{{ authTypeLabel(detailModal.data.authType) }}</span></div>
-              <div class="detail-item"><span class="dk">认证状态</span><span
-                  class="dv">{{ statusLabel(detailModal.data.authStatus) }}</span></div>
-              <div class="detail-item"><span class="dk">身份证号</span><span
-                  class="dv">{{ detailModal.data.idCardNumber || '-' }}</span></div>
-              <div class="detail-item"><span class="dk">护照号</span><span
-                  class="dv">{{ detailModal.data.passportNumber || '-' }}</span></div>
-              <div class="detail-item"><span class="dk">认证时间</span><span
-                  class="dv">{{ detailModal.data.authTime ? fmtTime(detailModal.data.authTime) : '-' }}</span></div>
-              <div class="detail-item"><span class="dk">拒绝原因</span><span
-                  class="dv fail">{{ detailModal.data.authFailReason || '-' }}</span></div>
+              <div class="detail-item"><span class="dk">用户名</span>
+                <span class="dv">{{ detailModal.data.username || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">真实姓名</span>
+                <span class="dv">{{ detailModal.data.realName || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">认证类型</span>
+                <span class="dv">{{ authTypeLabel(detailModal.data.authType) }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">认证状态</span>
+                <span class="dv">{{ statusLabel(detailModal.data.authStatus) }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">身份证号</span>
+                <span class="dv">{{ detailModal.data.idCardNumber || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">护照号</span>
+                <span class="dv">{{ detailModal.data.passportNumber || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">认证时间</span>
+                <span class="dv">{{ detailModal.data.authTime ? fmtTime(detailModal.data.authTime) : '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">拒绝原因</span>
+                <span class="dv fail">{{ detailModal.data.authFailReason || '-' }}</span>
+              </div>
             </div>
           </div>
           <div class="detail-section" v-if="detailModal.data.idCardPhotoFront||detailModal.data.passportPhotoFront">
@@ -237,41 +245,7 @@ export default {
 }
 </script>
 <style scoped>
-
-.filter-input {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 12px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-  width: 150px;
-}
-
-.filter-input::placeholder {
-  color: var(--text-placeholder);
-}
-
-.filter-select {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 10px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-}
-
-.btn-search {
-  background: var(--bg-btn-search);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-}
+@import "@/assets/user.css";
 
 .btn-reset {
   background: var(--bg-input);
@@ -283,39 +257,6 @@ export default {
   font-size: 13px;
 }
 
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-main);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table th {
-  padding: 11px 14px;
-  text-align: left;
-  font-size: 12px;
-  color: var(--text-th);
-  font-weight: 500;
-  border-bottom: 1px solid var(--border-logo);
-  white-space: nowrap;
-}
-
-.data-table td {
-  padding: 11px 14px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-table-r);
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
 .data-table tr:hover td {
   background: var(--bg-card);
 }
@@ -323,54 +264,6 @@ export default {
 .id-cell {
   color: var(--text-dim);
   font-size: 12px;
-}
-
-.tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.tag-blue {
-  background: var(--tag-blue-bg);
-  color: var(--text-blue);
-}
-
-.tag-green {
-  background: var(--tag-green-bg);
-  color: var(--text-accent);
-}
-
-.tag-yellow {
-  background: var(--tag-yellow-bg);
-  color: var(--text-yellow);
-}
-
-.tag-red {
-  background: var(--tag-red-bg);
-  color: var(--text-red);
-}
-
-.action-btns {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-sm {
-  padding: 3px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-}
-
-.btn-view {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--text-blue);
 }
 
 .btn-pass {
@@ -393,62 +286,8 @@ export default {
   font-size: 13px;
 }
 
-
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: var(--bg-modal);
-  border: 1px solid var(--border-modal);
-  border-radius: 14px;
-  width: 560px;
-  max-width: 95vw;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
 .modal-lg {
   width: 720px;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-main);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 20px;
-  border-top: 1px solid var(--border-main);
 }
 
 .btn-cancel {
@@ -459,42 +298,6 @@ export default {
   color: var(--text-sub);
   cursor: pointer;
   font-size: 13px;
-}
-
-.detail-section {
-  margin-bottom: 20px;
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-accent);
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border-logo);
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 10px;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.dk {
-  font-size: 11px;
-  color: var(--text-page-desc);
-}
-
-.dv {
-  font-size: 13px;
-  color: var(--text-input);
 }
 
 .fail {

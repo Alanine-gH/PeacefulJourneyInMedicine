@@ -132,27 +132,6 @@ export default {
 </script>
 
 <style scoped>
-.page-wrap {
-  padding: 28px 32px;
-  min-height: 100%;
-}
-
-.page-header {
-  margin-bottom: 24px;
-}
-
-.page-header h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 2px;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 12px;
-  color: var(--text-page-desc);
-}
 
 .stats-row {
   display: flex;
@@ -172,31 +151,12 @@ export default {
   min-width: 160px;
   flex: 1;
 }
-
-.stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
 .stat-val {
   font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
 }
-
-.stat-label {
-  font-size: 12px;
-  color: var(--text-page-desc);
-  margin-top: 4px;
-}
-
 .table-card {
   background: var(--bg-sidebar);
   border: 1px solid var(--border-nav);

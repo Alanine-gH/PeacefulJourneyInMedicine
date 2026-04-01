@@ -190,6 +190,7 @@ export default {
 }
 </script>
 <style scoped>
+@import "@/assets/order.css";
 .toolbar {
   margin-bottom: 16px;
 }
@@ -201,58 +202,14 @@ export default {
   align-items: center;
 }
 
-.filter-input {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 12px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-  width: 140px;
-}
 
 .filter-input.w80 {
   width: 80px;
 }
 
-.filter-input::placeholder {
-  color: var(--text-placeholder);
-}
-
-.btn-search {
-  background: var(--bg-btn-search);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-reset {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-
 .id-cell {
   color: var(--text-dim);
   font-size: 12px;
-}
-
-.order-no {
-  font-family: monospace;
-  font-size: 12px;
-  color: var(--text-accent);
-  background: var(--bg-hover-nav);
-  padding: 2px 6px;
-  border-radius: 4px;
 }
 
 .score-badge {
@@ -305,59 +262,15 @@ export default {
   text-overflow: ellipsis;
 }
 
-.tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
 .tag-green {
   background: var(--tag-green-bg);
   color: var(--text-accent);
-}
-
-.tag-gray {
-  background: var(--bg-collapse);
-  color: var(--tag-gray-text);
-}
-
-.action-btns {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-sm {
-  padding: 3px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-}
-
-.btn-view {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--text-blue);
 }
 
 .btn-del {
   background: var(--btn-warn-bg);
   border-color: var(--btn-warn-bd);
   color: var(--text-red);
-}
-
-
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
 }
 
 .modal {
@@ -375,38 +288,6 @@ export default {
   width: 680px;
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-main);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 20px;
-  border-top: 1px solid var(--border-main);
-}
-
 .btn-cancel {
   background: var(--bg-collapse);
   border: 1px solid var(--border-input);
@@ -417,30 +298,10 @@ export default {
   font-size: 13px;
 }
 
-.detail-grid {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 10px;
-}
-
 .detail-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
-}
-
-.detail-item.full {
-  grid-column: 1/-1;
-}
-
-.dk {
-  font-size: 11px;
-  color: var(--text-page-desc);
-}
-
-.dv {
-  font-size: 13px;
-  color: var(--text-input);
 }
 
 .mono {

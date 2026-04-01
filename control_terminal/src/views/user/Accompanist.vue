@@ -101,21 +101,27 @@
         <div class="modal-body">
           <div class="form-grid">
             <div class="form-item full form-tip">带 * 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
-            <div class="form-item" v-if="modal.mode==='add'"><label>登录用户名 *</label><input v-model="form.username"
-                                                                                               class="form-input"
-                                                                                               placeholder="留空则需填写已有用户ID">
+            <div class="form-item" v-if="modal.mode==='add'">
+              <label>登录用户名 *</label>
+              <input v-model="form.username" class="form-input"
+                     placeholder="留空则需填写已有用户ID">
             </div>
-            <div class="form-item" v-if="modal.mode==='add'"><label>登录密码 *</label><input v-model="form.password"
-                                                                                             type="password"
-                                                                                             class="form-input"
-                                                                                             placeholder="至少8位">
+            <div class="form-item" v-if="modal.mode==='add'">
+              <label>登录密码 *</label>
+              <input v-model="form.password" type="password"
+                     class="form-input"
+                     placeholder="至少8位">
             </div>
-            <div class="form-item" v-if="modal.mode==='add'"><label>已有用户ID（二选一）</label><input
-                v-model="form.userId" class="form-input" placeholder="填此项则无需填用户名密码"></div>
-            <div class="form-item"><label>真实姓名 <em>*</em></label><input v-model="form.realName" class="form-input"
-                                                                 placeholder="真实姓名"></div>
-            <div class="form-item"><label>手机号 <em>*</em></label><input v-model="form.phone" class="form-input"
-                                                               placeholder="手机号"></div>
+            <div class="form-item" v-if="modal.mode==='add'">
+              <label>已有用户ID（二选一）</label>
+              <input v-model="form.userId" class="form-input"
+                     placeholder="填此项则无需填用户名密码"></div>
+            <div class="form-item"><label>真实姓名 <em>*</em></label>
+              <input v-model="form.realName" class="form-input"
+                     placeholder="真实姓名"></div>
+            <div class="form-item"><label>手机号 <em>*</em></label>
+              <input v-model="form.phone" class="form-input"
+                     placeholder="手机号"></div>
             <div class="form-item"><label>性别</label>
               <select v-model="form.gender" class="form-select">
                 <option :value="1">男</option>
@@ -123,10 +129,12 @@
                 <option :value="3">未知</option>
               </select>
             </div>
-            <div class="form-item"><label>年龄（可留空）</label><input v-model="form.age" type="number" class="form-input"
-                                                             placeholder="年龄"></div>
-            <div class="form-item"><label>职称（可留空）</label><input v-model="form.professionalTitle" class="form-input"
-                                                             placeholder="如主治医师"></div>
+            <div class="form-item"><label>年龄（可留空）</label>
+              <input v-model="form.age" type="number" class="form-input"
+                     placeholder="年龄"></div>
+            <div class="form-item"><label>职称（可留空）</label>
+              <input v-model="form.professionalTitle" class="form-input"
+                     placeholder="如主治医师"></div>
             <div class="form-item"><label>医学背景</label>
               <select v-model="form.medicalBackground" class="form-select">
                 <option :value="1">有医学背景</option>
@@ -141,10 +149,12 @@
                 <option :value="4">停用</option>
               </select>
             </div>
-            <div class="form-item full"><label>专业擅长</label><input v-model="form.specialties" class="form-input"
-                                                                      placeholder="如骨科、脑科"></div>
-            <div class="form-item full"><label>语言能力</label><input v-model="form.languageAbility" class="form-input"
-                                                                      placeholder="如英语、日语"></div>
+            <div class="form-item full"><label>专业擅长</label>
+              <input v-model="form.specialties" class="form-input"
+                     placeholder="如骨科、脑科"></div>
+            <div class="form-item full"><label>语言能力</label>
+              <input v-model="form.languageAbility" class="form-input"
+                     placeholder="如英语、日语"></div>
             <div class="form-item full">
               <label>证书照片</label>
               <div class="upload-row">
@@ -162,15 +172,14 @@
                 </button>
               </div>
             </div>
-            <div class="form-item full"><label>备注</label><textarea v-model="form.remark" class="form-input"
-                                                                     rows="2"></textarea></div>
+            <div class="form-item full"><label>备注</label>
+              <textarea v-model="form.remark" class="form-input" rows="2"></textarea></div>
           </div>
         </div>
         <div class="modal-footer">
           <button class="btn-cancel" @click="modal.show=false">取消</button>
-          <button class="btn-confirm" @click="handleSubmit" :disabled="submitting">{{
-              submitting ? '提交中...' : '确认'
-            }}
+          <button class="btn-confirm" @click="handleSubmit" :disabled="submitting">
+            {{ submitting ? '提交中...' : '确认' }}
           </button>
         </div>
       </div>
@@ -185,33 +194,42 @@
           <div class="detail-section">
             <div class="section-title">基本信息</div>
             <div class="detail-grid">
-              <div class="detail-item"><span class="dk">姓名</span><span class="dv">{{
-                  detailModal.data.realName || '-'
-                }}</span></div>
-              <div class="detail-item"><span class="dk">手机号</span><span class="dv">{{
-                  detailModal.data.phone || '-'
-                }}</span></div>
+              <div class="detail-item"><span class="dk">姓名</span>
+                <span class="dv">{{ detailModal.data.realName || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">手机号</span>
+                <span class="dv">{{ detailModal.data.phone || '-' }}</span>
+              </div>
               <div class="detail-item"><span class="dk">性别</span><span
-                  class="dv">{{ genderLabel(detailModal.data.gender) }}</span></div>
-              <div class="detail-item"><span class="dk">年龄</span><span class="dv">{{
-                  detailModal.data.age || '-'
-                }}</span></div>
-              <div class="detail-item"><span class="dk">职称</span><span
-                  class="dv">{{ detailModal.data.professionalTitle || '-' }}</span></div>
-              <div class="detail-item"><span class="dk">医学背景</span><span
-                  class="dv">{{ detailModal.data.medicalBackground === 1 ? '有' : '无' }}</span></div>
-              <div class="detail-item"><span class="dk">评分</span><span
-                  class="dv">⭐ {{ detailModal.data.ratingScore || '0.00' }}</span></div>
-              <div class="detail-item"><span class="dk">服务次数</span><span
-                  class="dv">{{ detailModal.data.serviceCount || 0 }}</span></div>
-              <div class="detail-item"><span class="dk">准时率</span><span
-                  class="dv">{{ detailModal.data.onTimeRate || '100' }}%</span></div>
-              <div class="detail-item"><span class="dk">投诉次数</span><span
-                  class="dv">{{ detailModal.data.complaintCount || 0 }}</span></div>
-              <div class="detail-item full"><span class="dk">专业擅长</span><span
-                  class="dv">{{ detailModal.data.specialties || '-' }}</span></div>
-              <div class="detail-item full"><span class="dk">语言能力</span><span
-                  class="dv">{{ detailModal.data.languageAbility || '-' }}</span></div>
+                  class="dv">{{ genderLabel(detailModal.data.gender) }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">年龄</span>
+                <span class="dv">{{ detailModal.data.age || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">职称</span>
+                <span class="dv">{{ detailModal.data.professionalTitle || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">医学背景</span>
+                <span class="dv">{{ detailModal.data.medicalBackground === 1 ? '有' : '无' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">评分</span>
+                <span class="dv">⭐ {{ detailModal.data.ratingScore || '0.00' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">服务次数</span>
+                <span class="dv">{{ detailModal.data.serviceCount || 0 }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">准时率</span>
+                <span class="dv">{{ detailModal.data.onTimeRate || '100' }}%</span>
+              </div>
+              <div class="detail-item"><span class="dk">投诉次数</span>
+                <span class="dv">{{ detailModal.data.complaintCount || 0 }}</span>
+              </div>
+              <div class="detail-item full"><span class="dk">专业擅长</span>
+                <span class="dv">{{ detailModal.data.specialties || '-' }}</span>
+              </div>
+              <div class="detail-item full"><span class="dk">语言能力</span>
+                <span class="dv">{{ detailModal.data.languageAbility || '-' }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -434,6 +452,8 @@ export default {
 }
 </script>
 <style scoped>
+@import "@/assets/user.css";
+
 .filter-input {
   background: var(--bg-input);
   border: 1px solid var(--border-input);
@@ -443,113 +463,6 @@ export default {
   font-size: 13px;
   outline: none;
   width: 160px;
-}
-
-.filter-input::placeholder {
-  color: var(--text-placeholder);
-}
-
-.filter-select {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 10px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-}
-
-.btn-search {
-  background: var(--bg-btn-search);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-reset {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-add {
-  background: var(--bg-btn-add);
-  border: 1px solid rgba(110, 231, 183, 0.5);
-  border-radius: 8px;
-  padding: 8px 18px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-main);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table th {
-  padding: 11px 14px;
-  text-align: left;
-  font-size: 12px;
-  color: var(--text-th);
-  font-weight: 500;
-  border-bottom: 1px solid var(--border-logo);
-  white-space: nowrap;
-}
-
-.data-table td {
-  padding: 11px 14px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-table-r);
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tr:hover td {
-  background: var(--bg-card);
-}
-
-.id-cell {
-  color: var(--text-dim);
-  font-size: 12px;
-}
-
-.user-cell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.avatar-sm {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--bg-avatar);
-  color: var(--text-accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
 }
 
 .score {
@@ -565,31 +478,6 @@ export default {
   font-weight: 500;
 }
 
-.action-btns {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-sm {
-  padding: 3px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-}
-
-.btn-view {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--text-blue);
-}
-
-.btn-edit {
-  background: var(--btn-edit-bg);
-  border-color: var(--btn-edit-bd);
-  color: var(--text-yellow);
-}
 
 .btn-pass {
   background: var(--tag-green-bg);
@@ -603,215 +491,8 @@ export default {
   color: var(--text-red);
 }
 
-
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: var(--bg-modal);
-  border: 1px solid var(--border-modal);
-  border-radius: 14px;
-  width: 560px;
-  max-width: 95vw;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-lg {
-  width: 700px;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-main);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 20px;
-  border-top: 1px solid var(--border-main);
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 14px;
-}
-
-.form-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.form-item.full {
-  grid-column: 1/-1;
-}
-
-.form-item label {
-  font-size: 12px;
-  color: var(--text-label);
-}
-
-.form-item label em {
-  color: var(--text-red);
-  font-style: normal;
-}
-
-.form-input {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 12px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-  resize: vertical;
-}
-
-.form-select {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 10px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-}
-
-.btn-cancel {
-  background: var(--bg-collapse);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 20px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-confirm {
-  background: var(--bg-btn-add);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 8px 20px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.btn-confirm:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.detail-section {
-  margin-bottom: 20px;
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-accent);
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border-logo);
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 10px;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
 .detail-item.full {
   grid-column: 1/-1;
-}
-
-.dk {
-  font-size: 11px;
-  color: var(--text-page-desc);
-}
-
-.dv {
-  font-size: 13px;
-  color: var(--text-input);
-}
-
-.upload-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.preview-img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--border-input);
-}
-
-.upload-btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 7px 16px;
-  background: var(--bg-btn-search);
-  border: 1px dashed var(--border-active-nav);
-  border-radius: 7px;
-  color: var(--text-accent);
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.upload-btn:hover {
-  background: var(--bg-active-nav);
-}
-
-.upload-clear {
-  background: none;
-  border: none;
-  color: var(--text-red);
-  font-size: 12px;
-  cursor: pointer;
-  padding: 4px 8px;
 }
 
 .avatar-img {

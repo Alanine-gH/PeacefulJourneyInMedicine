@@ -107,18 +107,23 @@
         <div class="modal-body">
           <div class="form-grid">
             <div class="form-item full form-tip">带 * 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
-            <div class="form-item"><label>用户名 <em>*</em></label><input v-model="form.username"
-                                                                          :disabled="modal.mode==='edit'"
-                                                                          class="form-input" placeholder="4-20位"></div>
-            <div class="form-item" v-if="modal.mode==='add'"><label>密码 <em>*</em></label><input
-                v-model="form.password" type="password" class="form-input" placeholder="至少8位"></div>
-            <div class="form-item"><label>昵称（可留空）</label><input v-model="form.nickName" class="form-input"
-                                                             placeholder="昵称"></div>
-            <div class="form-item"><label>真实姓名（可留空）</label><input v-model="form.realName" class="form-input"
-                                                                 placeholder="真实姓名"></div>
-            <div class="form-item"><label>手机号（可留空）</label><input v-model="form.phone" class="form-input"
-                                                               placeholder="手机号"></div>
-            <div class="form-item"><label>邮箱（可留空）</label><input v-model="form.email" class="form-input" placeholder="邮箱">
+            <div class="form-item"><label>用户名 <em>*</em></label>
+              <input v-model="form.username" :disabled="modal.mode==='edit'" class="form-input" placeholder="4-20位">
+            </div>
+            <div class="form-item" v-if="modal.mode==='add'"><label>密码 <em>*</em></label>
+              <input v-model="form.password" type="password" class="form-input" placeholder="至少8位">
+            </div>
+            <div class="form-item"><label>昵称（可留空）</label>
+              <input v-model="form.nickName" class="form-input" placeholder="昵称">
+            </div>
+            <div class="form-item"><label>真实姓名（可留空）</label>
+              <input v-model="form.realName" class="form-input" placeholder="真实姓名">
+            </div>
+            <div class="form-item"><label>手机号（可留空）</label>
+              <input v-model="form.phone" class="form-input" placeholder="手机号">
+            </div>
+            <div class="form-item"><label>邮箱（可留空）</label>
+              <input v-model="form.email" class="form-input" placeholder="邮箱">
             </div>
             <div class="form-item"><label>用户类型</label>
               <select v-model="form.userType" class="form-select">
@@ -133,8 +138,9 @@
                 <option :value="3">禁用</option>
               </select>
             </div>
-            <div class="form-item"><label>年龄</label><input v-model.number="form.age" type="number" min="0" max="150"
-                                                             class="form-input" placeholder="年龄"></div>
+            <div class="form-item"><label>年龄</label>
+              <input v-model.number="form.age" type="number" min="0" max="150" class="form-input" placeholder="年龄">
+            </div>
             <div class="form-item"><label>性别</label>
               <select v-model.number="form.gender" class="form-select">
                 <option :value="0">未知</option>
@@ -155,15 +161,15 @@
                 </button>
               </div>
             </div>
-            <div class="form-item full"><label>备注</label><textarea v-model="form.remark" class="form-input" rows="2"
-                                                                     placeholder="备注"></textarea></div>
+            <div class="form-item full"><label>备注</label>
+              <textarea v-model="form.remark" class="form-input" rows="2" placeholder="备注"></textarea>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
           <button class="btn-cancel" @click="modal.show=false">取消</button>
-          <button class="btn-confirm" @click="handleSubmit" :disabled="submitting">{{
-              submitting ? '提交中...' : '确认'
-            }}
+          <button class="btn-confirm" @click="handleSubmit" :disabled="submitting">
+            {{ submitting ? '提交中...' : '确认' }}
           </button>
         </div>
       </div>
@@ -178,31 +184,30 @@
           <div class="detail-section">
             <div class="section-title">基本信息</div>
             <div class="detail-grid">
-              <div class="detail-item"><span class="dk">用户名</span><span class="dv">{{
-                  detailModal.data.username
-                }}</span></div>
-              <div class="detail-item"><span class="dk">真实姓名</span><span
-                  class="dv">{{ detailModal.data.realName || '-' }}</span></div>
-              <div class="detail-item"><span class="dk">手机号</span><span class="dv">{{
-                  detailModal.data.phone || '-'
-                }}</span></div>
-              <div class="detail-item"><span class="dk">邮箱</span><span class="dv">{{
-                  detailModal.data.email || '-'
-                }}</span></div>
-              <div class="detail-item"><span class="dk">用户类型</span><span
-                  class="dv">{{ typeLabel(detailModal.data.userType) }}</span></div>
-              <div class="detail-item"><span class="dk">状态</span><span
-                  class="dv">{{ statusLabel(detailModal.data.status) }}</span></div>
-              <div class="detail-item"><span class="dk">年龄</span><span class="dv">{{
-                  detailModal.data.age || '-'
-                }}</span></div>
-              <div class="detail-item"><span class="dk">性别</span><span class="dv">{{
-                  {
-                    0: '未知',
-                    1: '男',
-                    2: '女'
-                  }[detailModal.data.gender] || '-'
-                }}</span></div>
+              <div class="detail-item"><span class="dk">用户名</span>
+                <span class="dv">{{ detailModal.data.username }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">真实姓名</span>
+                <span class="dv">{{ detailModal.data.realName || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">手机号</span>
+                <span class="dv">{{ detailModal.data.phone || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">邮箱</span>
+                <span class="dv">{{ detailModal.data.email || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">用户类型</span>
+                <span class="dv">{{ typeLabel(detailModal.data.userType) }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">状态</span>
+                <span class="dv">{{ statusLabel(detailModal.data.status) }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">年龄</span>
+                <span class="dv">{{ detailModal.data.age || '-' }}</span>
+              </div>
+              <div class="detail-item"><span class="dk">性别</span>
+                <span class="dv">{{ {0: '未知', 1: '男', 2: '女'}[detailModal.data.gender] || '-' }}</span>
+              </div>
               <div class="detail-item"><span class="dk">注册时间</span><span
                   class="dv">{{ fmtTime(detailModal.data.createTime) }}</span></div>
               <div class="detail-item"><span class="dk">最后登录IP</span><span
@@ -453,431 +458,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.filter-input {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 12px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-  width: 150px;
-}
-
-.filter-input::placeholder {
-  color: var(--text-placeholder);
-}
-
-.filter-select {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 10px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-}
-
-.btn-search {
-  background: var(--bg-btn-search);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-reset {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-add {
-  background: var(--bg-btn-add);
-  border: 1px solid rgba(110, 231, 183, 0.5);
-  border-radius: 8px;
-  padding: 8px 18px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-main);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table th {
-  padding: 11px 14px;
-  text-align: left;
-  font-size: 12px;
-  color: var(--text-th);
-  font-weight: 500;
-  border-bottom: 1px solid var(--border-logo);
-  white-space: nowrap;
-}
-
-.data-table td {
-  padding: 11px 14px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-table-r);
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tr:hover td {
-  background: var(--bg-card);
-}
-
-.id-cell {
-  color: var(--text-dim);
-  font-size: 12px;
-}
-
-.user-cell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.avatar-sm {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--bg-avatar);
-  color: var(--text-accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.avatar-img {
-  object-fit: cover;
-  background: none;
-}
-
-.tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.tag-blue {
-  background: var(--tag-blue-bg);
-  color: var(--text-blue);
-}
-
-.tag-green {
-  background: var(--tag-green-bg);
-  color: var(--text-accent);
-}
-
-.tag-yellow {
-  background: var(--tag-yellow-bg);
-  color: var(--text-yellow);
-}
-
-.tag-red {
-  background: var(--tag-red-bg);
-  color: var(--text-red);
-}
-
-.tag-gray {
-  background: var(--bg-collapse);
-  color: var(--tag-gray-text);
-}
-
-.action-btns {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-sm {
-  padding: 3px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-}
-
-.btn-view {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--text-blue);
-}
-
-.btn-edit {
-  background: var(--btn-edit-bg);
-  border-color: var(--btn-edit-bd);
-  color: var(--text-yellow);
-}
-
-.btn-stop {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.25);
-  color: var(--text-red);
-}
-
-.btn-start {
-  background: var(--tag-green-bg);
-  border-color: var(--btn-ok-bd);
-  color: var(--text-accent);
-}
-
-.btn-del {
-  background: var(--btn-warn-bg);
-  border-color: var(--btn-warn-bd);
-  color: var(--text-red);
-}
-
-
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: var(--bg-modal);
-  border: 1px solid var(--border-modal);
-  border-radius: 14px;
-  width: 560px;
-  max-width: 95vw;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-lg {
-  width: 700px;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-main);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 20px;
-  border-top: 1px solid var(--border-main);
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 14px;
-}
-
-.form-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.form-item.full {
-  grid-column: 1/-1;
-}
-
-.form-item label {
-  font-size: 12px;
-  color: var(--text-label);
-}
-
-.form-item label em {
-  color: var(--text-red);
-  font-style: normal;
-}
-
-.form-input {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 12px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-  resize: vertical;
-}
-
-.form-select {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 10px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-}
-
-.btn-cancel {
-  background: var(--bg-collapse);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 20px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-confirm {
-  background: var(--bg-btn-add);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 8px 20px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.btn-confirm:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.detail-section {
-  margin-bottom: 20px;
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-accent);
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border-logo);
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 10px;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.dk {
-  font-size: 11px;
-  color: var(--text-page-desc);
-}
-
-.dv {
-  font-size: 13px;
-  color: var(--text-input);
-}
-
-.role-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.role-tag {
-  background: var(--tag-blue-bg);
-  color: var(--text-blue);
-  padding: 3px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.text-muted {
-  color: var(--text-placeholder);
-  font-size: 13px;
-}
-
-.upload-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.preview-img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--border-input);
-}
-
-.upload-btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 7px 16px;
-  background: var(--bg-btn-search);
-  border: 1px dashed var(--border-active-nav);
-  border-radius: 7px;
-  color: var(--text-accent);
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.upload-btn:hover {
-  background: var(--bg-active-nav);
-}
-
-.upload-clear {
-  background: none;
-  border: none;
-  color: var(--text-red);
-  font-size: 12px;
-  cursor: pointer;
-  padding: 4px 8px;
-}
+<style>
+@import '@/assets/user.css';
 </style>

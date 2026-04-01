@@ -253,50 +253,6 @@ export default {
   width: 150px;
 }
 
-.filter-input::placeholder {
-  color: var(--text-placeholder);
-}
-
-.filter-select {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 10px;
-  color: var(--text-input);
-  font-size: 13px;
-  outline: none;
-}
-
-.btn-search {
-  background: var(--bg-btn-search);
-  border: 1px solid var(--border-active-nav);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-accent);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-reset {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 7px 14px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-
-.code-tag {
-  font-family: monospace;
-  font-size: 12px;
-  color: var(--text-accent);
-  background: var(--bg-hover-nav);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
 .user-cell {
   display: flex;
   align-items: center;
@@ -382,132 +338,14 @@ export default {
   color: var(--text-placeholder);
 }
 
-.tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.tag-blue {
-  background: var(--tag-blue-bg);
-  color: var(--text-blue);
-}
-
-.tag-green {
-  background: var(--tag-green-bg);
-  color: var(--text-accent);
-}
-
-.tag-gray {
-  background: var(--bg-collapse);
-  color: var(--tag-gray-text);
-}
-
-.tag-yellow {
-  background: var(--tag-yellow-bg);
-  color: var(--text-yellow);
-}
-
-.action-btns {
-  display: flex;
-  gap: 5px;
-}
-
-.btn-sm {
-  padding: 3px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-}
-
 .btn-view {
   background: rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.3);
   color: var(--text-blue);
 }
 
-.btn-ok {
-  background: var(--tag-green-bg);
-  border-color: var(--btn-ok-bd);
-  color: var(--text-accent);
-}
-
-.btn-del {
-  background: var(--btn-warn-bg);
-  border-color: var(--btn-warn-bd);
-  color: var(--text-red);
-}
-
-
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: var(--bg-modal);
-  border: 1px solid var(--border-modal);
-  border-radius: 14px;
-  width: 560px;
-  max-width: 95vw;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
 .modal-xl {
   width: 820px;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-main);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 20px;
-  border-top: 1px solid var(--border-main);
-}
-
-.btn-cancel {
-  background: var(--bg-collapse);
-  border: 1px solid var(--border-input);
-  border-radius: 7px;
-  padding: 8px 20px;
-  color: var(--text-sub);
-  cursor: pointer;
-  font-size: 13px;
 }
 
 .detail-section {
@@ -560,4 +398,8 @@ export default {
   line-height: 1.6;
   white-space: pre-wrap;
 }
+</style>
+
+<style>
+@import '@/assets/medical.css';
 </style>

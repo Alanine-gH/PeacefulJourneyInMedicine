@@ -251,97 +251,13 @@ export default {
 </script>
 
 <style scoped>
-.page-wrap {
-  padding: 28px 32px;
-  min-height: 100%;
-}
 
-.page-header {
-  margin-bottom: 24px;
-}
-
-.page-header h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 2px;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 12px;
-  color: var(--text-page-desc);
-}
-
-.stats-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.stat-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: var(--bg-collapse);
-  border: 1px solid var(--border-nav);
-  border-radius: 12px;
-  padding: 16px 20px;
-  flex: 1;
-  min-width: 140px;
-}
-
-.stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.stat-val {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 12px;
-  color: var(--text-page-desc);
-  margin-top: 4px;
-}
-
-.info-card {
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border-nav);
-  border-radius: 12px;
-  padding: 20px 24px;
-}
-
-.card-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-accent);
-  letter-spacing: 1px;
-  margin-bottom: 14px;
-}
 
 .card-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
-}
-
-.grid-2 {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  gap: 16px;
 }
 
 /* 基本信息表格 */
