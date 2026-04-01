@@ -148,20 +148,25 @@ public class UserUserServiceImpl extends ServiceImpl<UserUserMapper, UserUser> i
         if (exist == null) {
             throw new RuntimeException("用户不存在");
         }
-        if (hasText(dto.getPhone()) && !dto.getPhone().equals(exist.getPhone()) &&
-                count(new LambdaQueryWrapper<UserUser>().eq(UserUser::getPhone, dto.getPhone())) > 0) {
+
+        String phone = StringUtils.hasText(dto.getPhone()) ? dto.getPhone().trim() : null;
+        String email = StringUtils.hasText(dto.getEmail()) ? dto.getEmail().trim() : null;
+
+        if (phone != null && !phone.equals(exist.getPhone()) &&
+                count(new LambdaQueryWrapper<UserUser>().eq(UserUser::getPhone, phone)) > 0) {
             throw new RuntimeException("手机号已被使用");
         }
-        if (hasText(dto.getEmail()) && !dto.getEmail().equals(exist.getEmail()) &&
-                count(new LambdaQueryWrapper<UserUser>().eq(UserUser::getEmail, dto.getEmail())) > 0) {
+        if (email != null && !email.equals(exist.getEmail()) &&
+                count(new LambdaQueryWrapper<UserUser>().eq(UserUser::getEmail, email)) > 0) {
             throw new RuntimeException("邮箱已被使用");
         }
+
         UserUser update = new UserUser();
         update.setId(id);
         update.setNickName(dto.getNickName());
         update.setRealName(dto.getRealName());
-        update.setPhone(dto.getPhone());
-        update.setEmail(dto.getEmail());
+        if (phone != null) update.setPhone(phone);
+        if (email != null) update.setEmail(email);
         update.setUserType(dto.getUserType());
         update.setStatus(dto.getStatus());
         update.setRemark(dto.getRemark());
