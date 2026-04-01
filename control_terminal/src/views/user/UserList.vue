@@ -106,18 +106,19 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item"><label>用户名 <em>*</em></label><input v-model="form.username"
                                                                           :disabled="modal.mode==='edit'"
                                                                           class="form-input" placeholder="4-20位"></div>
             <div class="form-item" v-if="modal.mode==='add'"><label>密码 <em>*</em></label><input
                 v-model="form.password" type="password" class="form-input" placeholder="至少8位"></div>
-            <div class="form-item"><label>昵称</label><input v-model="form.nickName" class="form-input"
+            <div class="form-item"><label>昵称（可留空）</label><input v-model="form.nickName" class="form-input"
                                                              placeholder="昵称"></div>
-            <div class="form-item"><label>真实姓名</label><input v-model="form.realName" class="form-input"
+            <div class="form-item"><label>真实姓名（可留空）</label><input v-model="form.realName" class="form-input"
                                                                  placeholder="真实姓名"></div>
-            <div class="form-item"><label>手机号</label><input v-model="form.phone" class="form-input"
+            <div class="form-item"><label>手机号（可留空）</label><input v-model="form.phone" class="form-input"
                                                                placeholder="手机号"></div>
-            <div class="form-item"><label>邮箱</label><input v-model="form.email" class="form-input" placeholder="邮箱">
+            <div class="form-item"><label>邮箱（可留空）</label><input v-model="form.email" class="form-input" placeholder="邮箱">
             </div>
             <div class="form-item"><label>用户类型</label>
               <select v-model="form.userType" class="form-select">
@@ -370,11 +371,11 @@ export default {
     },
     async handleSubmit() {
       if (this.modal.mode === 'add' && !this.form.username) {
-        alert('请输入用户名');
+        alert('用户名不能为空');
         return
       }
       if (this.modal.mode === 'add' && (!this.form.password || this.form.password.length < 8)) {
-        alert('密码至8位');
+        alert('密码不能为空且至少8位');
         return
       }
       this.submitting = true
@@ -417,7 +418,7 @@ export default {
     async resetPwd(row) {
       const p = prompt('重置 ' + row.username + ' 的密码：')
       if (!p || p.length < 8) {
-        alert('密码至8位');
+        alert('密码不能为空且至少8位');
         return
       }
       try {

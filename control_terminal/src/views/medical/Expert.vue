@@ -105,6 +105,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item"><label>专家编码</label><input v-model="form.expertCode" class="form-input"
                                                                  :disabled="modal.isEdit"></div>
             <div class="form-item"><label>专家姓名 *</label><input v-model="form.expertName" class="form-input"></div>
@@ -297,10 +298,10 @@ export default {
     },
     async handleSubmit() {
       if (!this.form.expertName) return alert('专家姓名不能为空')
-      if (!this.form.hospitalId) return alert('请填写医院ID')
-      if (!this.form.departmentId) return alert('请填写科室ID')
-      if (!this.modal.isEdit && !this.form.username) return alert('请填写登录用户名')
-      if (!this.modal.isEdit && (!this.form.password || this.form.password.length < 8)) return alert('密码至少8位')
+      if (!this.form.hospitalId) return alert('医院ID不能为空')
+      if (!this.form.departmentId) return alert('科室ID不能为空')
+      if (!this.modal.isEdit && !this.form.username) return alert('登录用户名不能为空')
+      if (!this.modal.isEdit && (!this.form.password || this.form.password.length < 8)) return alert('登录密码不能为空且至少8位')
       this.submitting = true
       try {
         if (this.modal.isEdit) await updateExpert(this.editId, this.form)

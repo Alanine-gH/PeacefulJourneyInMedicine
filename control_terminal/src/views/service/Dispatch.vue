@@ -99,6 +99,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填项；其余字段可留空。</div>
             <div class="form-item"><label>订单ID *</label><input v-model="form.orderId" type="number"
                                                                  class="form-input"></div>
             <div class="form-item"><label>陪诊师ID *</label><input v-model="form.accompanistId" type="number"

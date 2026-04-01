@@ -100,6 +100,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item" v-if="modal.mode==='add'"><label>登录用户名 *</label><input v-model="form.username"
                                                                                                class="form-input"
                                                                                                placeholder="留空则需填写已有用户ID">
@@ -111,9 +112,9 @@
             </div>
             <div class="form-item" v-if="modal.mode==='add'"><label>已有用户ID（二选一）</label><input
                 v-model="form.userId" class="form-input" placeholder="填此项则无需填用户名密码"></div>
-            <div class="form-item"><label>真实姓名</label><input v-model="form.realName" class="form-input"
+            <div class="form-item"><label>真实姓名 <em>*</em></label><input v-model="form.realName" class="form-input"
                                                                  placeholder="真实姓名"></div>
-            <div class="form-item"><label>手机号</label><input v-model="form.phone" class="form-input"
+            <div class="form-item"><label>手机号 <em>*</em></label><input v-model="form.phone" class="form-input"
                                                                placeholder="手机号"></div>
             <div class="form-item"><label>性别</label>
               <select v-model="form.gender" class="form-select">
@@ -122,9 +123,9 @@
                 <option :value="3">未知</option>
               </select>
             </div>
-            <div class="form-item"><label>年龄</label><input v-model="form.age" type="number" class="form-input"
+            <div class="form-item"><label>年龄（可留空）</label><input v-model="form.age" type="number" class="form-input"
                                                              placeholder="年龄"></div>
-            <div class="form-item"><label>职称</label><input v-model="form.professionalTitle" class="form-input"
+            <div class="form-item"><label>职称（可留空）</label><input v-model="form.professionalTitle" class="form-input"
                                                              placeholder="如主治医师"></div>
             <div class="form-item"><label>医学背景</label>
               <select v-model="form.medicalBackground" class="form-select">
@@ -366,6 +367,10 @@ export default {
       }
     },
     async handleSubmit() {
+      if (!this.form.realName) return alert('真实姓名不能为空')
+      if (!this.form.phone) return alert('手机号不能为空')
+      if (this.modal.mode === 'add' && !this.form.userId && !this.form.username) return alert('登录用户名不能为空（或填写已有用户ID）')
+      if (this.modal.mode === 'add' && !this.form.userId && (!this.form.password || this.form.password.length < 8)) return alert('登录密码不能为空且至少8位')
       this.submitting = true
       try {
         if (this.modal.mode === 'add') {

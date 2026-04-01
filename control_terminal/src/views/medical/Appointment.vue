@@ -104,6 +104,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item"><label>患者用户ID *</label><input v-model="form.userId" type="number"
                                                                      class="form-input"></div>
             <div class="form-item"><label>医院ID *</label><input v-model="form.hospitalId" type="number"
@@ -226,10 +227,10 @@ export default {
       this.modal = {show: true, isEdit: true}
     },
     async handleSubmit() {
-      if (!this.form.userId) return alert('请填写患者用户ID')
-      if (!this.form.hospitalId) return alert('请填写医院ID')
-      if (!this.form.departmentId) return alert('请填写科室ID')
-      if (!this.form.appointmentDate) return alert('请选择预约日期')
+      if (!this.form.userId) return alert('患者用户ID不能为空')
+      if (!this.form.hospitalId) return alert('医院ID不能为空')
+      if (!this.form.departmentId) return alert('科室ID不能为空')
+      if (!this.form.appointmentDate) return alert('预约日期不能为空')
       this.submitting = true
       try {
         if (this.modal.isEdit) await updateAppointment(this.editId, this.form)

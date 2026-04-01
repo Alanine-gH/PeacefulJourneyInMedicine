@@ -64,6 +64,7 @@
       <div class="modal-box">
         <div class="modal-header"><span>{{ dialog.isEdit?'编辑就诊人':'新增就诊人' }}</span><button @click="dialog.visible=false">✕</button></div>
         <div class="modal-body">
+          <div class="form-row form-tip"><span>带 <em>*</em> 为必填（不能为空）；其余字段可留空（后端允许为空）。</span></div>
           <div class="form-row"><label>用户ID *</label><input v-model="form.userId" placeholder="用户ID"></div>
           <div class="form-row"><label>姓名 *</label><input v-model="form.name" placeholder="姓名"></div>
           <div class="form-row"><label>手机号</label><input v-model="form.phone" placeholder="手机号"></div>

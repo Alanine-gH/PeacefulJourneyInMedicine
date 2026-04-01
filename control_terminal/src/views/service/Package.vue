@@ -106,6 +106,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item"><label>套餐编码</label><input v-model="form.packageCode" class="form-input"
                                                                  :disabled="modal.isEdit"></div>
             <div class="form-item"><label>套餐名称 *</label><input v-model="form.packageName" class="form-input"></div>

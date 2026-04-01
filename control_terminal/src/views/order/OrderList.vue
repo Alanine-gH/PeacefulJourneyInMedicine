@@ -102,6 +102,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
+            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item"><label>陪诊师ID</label><input v-model="form.accompanistId" class="form-input"
                                                                  placeholder="陪诊师ID"></div>
             <div class="form-item"><label>预约医院</label><input v-model="form.appointmentHospital" class="form-input">
