@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 
 /**
@@ -23,8 +24,10 @@ import java.time.LocalDateTime;
 @Tag(name = "患者端-分诊建议", description = "患者端分诊记录提交、查询、就医建议书获取")
 public class TriageApiController {
 
-    @Autowired private IMedicalTriageService triageService;
-    @Autowired private IMedicalAdviceBookService adviceBookService;
+    @Autowired
+    private IMedicalTriageService triageService;
+    @Autowired
+    private IMedicalAdviceBookService adviceBookService;
 
     // ==================== 分诊管理 ====================
 
