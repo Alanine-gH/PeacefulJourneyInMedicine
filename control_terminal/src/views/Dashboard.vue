@@ -38,8 +38,7 @@
                     :stroke="seg.color" stroke-width="16"
                     :stroke-dasharray="seg.dash"
                     :stroke-dashoffset="seg.offset"
-                    style="transform:rotate(-90deg);transform-origin:60px 60px"
-            />
+                    style="transform:rotate(-90deg);transform-origin:60px 60px"/>
             <text x="60" y="56" text-anchor="middle" class="d-val">{{ orderStats.total }}</text>
             <text x="60" y="70" text-anchor="middle" class="d-lbl">总订单</text>
           </svg>
@@ -54,8 +53,9 @@
       </div>
 
       <div class="info-card card-wide">
-        <div class="card-title"><span class="dot dot-blue"></span>最新订单<span class="card-action"
-                                                                                @click="$router.push('/order/list')">全部 →</span>
+        <div class="card-title">
+          <span class="dot dot-blue"></span> 最新订单
+          <span class="card-action" @click="$router.push('/order/list')">全部 →</span>
         </div>
         <table class="data-table">
           <thead>
@@ -90,7 +90,6 @@
         </table>
       </div>
     </div>
-
     <!-- 底部：资源概况 + 快捷入口 + 预约柱图 -->
     <div class="bot-grid">
       <div class="info-card">
@@ -106,7 +105,6 @@
           </div>
         </div>
       </div>
-
       <div class="info-card">
         <div class="card-title"><span class="dot dot-purple"></span>快捷入口</div>
         <div class="quick-grid">
@@ -116,7 +114,6 @@
           </div>
         </div>
       </div>
-
       <div class="info-card">
         <div class="card-title"><span class="dot dot-cyan"></span>预约状态分布</div>
         <div class="bar-chart">
@@ -143,6 +140,7 @@
 import {getOrderList, getOrderCount} from '@/api/order.js'
 import {getHospitalCount, getExpertList, getAppointmentList} from '@/api/medical.js'
 import {getUserCount, getAccompanistCount} from '@/api/user.js'
+import { BASE_URL } from '@/config'
 
 export default {
   name: 'Dashboard',
@@ -284,7 +282,7 @@ export default {
       const hdr = tok ? {Authorization: 'Bearer ' + tok} : {}
       const safeGet = async (url) => {
         try {
-          const r = await fetch('http://localhost:8080' + url, {headers: hdr});
+          const r = await fetch(BASE_URL + url, {headers: hdr});
           return await r.json()
         } catch {
           return {code: 0}

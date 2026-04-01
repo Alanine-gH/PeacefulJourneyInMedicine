@@ -1,28 +1,7 @@
 import request from './auth'
+import { cleanParams, getFileUrl, uploadFile } from './utils'
 
-// 过滤空字符串参数，避免 Byte/Integer 类型转换异常
-function cleanParams(params) {
-    const result = {}
-    for (const key in params) {
-        const v = params[key]
-        if (v !== '' && v !== null && v !== undefined) result[key] = v
-    }
-    return result
-}
-
-/** 上传文件到 MinIO，返回文件名 */
-export function uploadFile(file) {
-    const fd = new FormData()
-    fd.append('file', file)
-    return request({url: '/common/upload', method: 'post', data: fd, headers: {'Content-Type': 'multipart/form-data'}})
-}
-
-/** 根据 MinIO 文件名拼接预览地址 */
-export function getFileUrl(filename) {
-    if (!filename) return ''
-    if (filename.startsWith('http')) return filename
-    return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
-}
+export { getFileUrl, uploadFile }
 
 // ==================== 医院管理 ====================
 export function getHospitalCount() {
@@ -119,4 +98,3 @@ export function updateTriageStatus(id, status) {
 export function deleteTriage(id) {
     return request({url: `/medical/triage/${id}`, method: 'delete'})
 }
-

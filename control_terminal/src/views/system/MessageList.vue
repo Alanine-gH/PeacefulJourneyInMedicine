@@ -105,12 +105,12 @@
   </div>
 </template>
 <script>
-const B = 'http://localhost:8080'
+import { BASE_URL } from '@/config'
 const H = () => {
   const t = localStorage.getItem('token');
   return t ? {Authorization: 'Bearer ' + t} : {}
 }
-const api = async (u, o = {}) => (await fetch(B + u, {headers: {'Content-Type': 'application/json', ...H()}, ...o})).json()
+const api = async (u, o = {}) => (await fetch(BASE_URL + u, {headers: {'Content-Type': 'application/json', ...H()}, ...o})).json()
 export default {
   data() {
     return {

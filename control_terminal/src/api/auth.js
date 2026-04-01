@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { BASE_URL, TIMEOUT } from '@/config'
 
 const request = axios.create({
-    baseURL: 'http://localhost:8080',
-    timeout: 10000,
+    baseURL: BASE_URL,
+    timeout: TIMEOUT,
 })
 
 // 请求拦截器

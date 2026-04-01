@@ -131,7 +131,7 @@
 </template>
 
 <script>
-const BASE = 'http://localhost:8080'
+import { BASE_URL } from '@/config'
 
 function authHeader() {
   const t = localStorage.getItem('token')
@@ -139,7 +139,7 @@ function authHeader() {
 }
 
 async function api(url, opt = {}) {
-  const res = await fetch(BASE + url, {
+  const res = await fetch(BASE_URL + url, {
     headers: {'Content-Type': 'application/json', ...authHeader()},
     ...opt
   })

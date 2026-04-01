@@ -1,14 +1,5 @@
 import request from './auth'
-
-// 过滤空字符串参数，避免 Byte/Integer 类型转换异常
-function cleanParams(params) {
-    const result = {}
-    for (const key in params) {
-        const v = params[key]
-        if (v !== '' && v !== null && v !== undefined) result[key] = v
-    }
-    return result
-}
+import { cleanParams } from './utils'
 
 // ==================== 服务套餐 ====================
 export function getPackageList(params) {

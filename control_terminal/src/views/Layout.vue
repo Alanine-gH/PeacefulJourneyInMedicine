@@ -82,12 +82,14 @@
 
 <script>
 import {useTheme} from '@/theme.js'
+import { BASE_URL } from '@/config'
+import { getFileUrl } from '@/api/medical.js'
 
 export default {
   name: 'Layout',
   setup() {
     const {state, toggle} = useTheme()
-    return {themeState: state, toggleTheme: toggle}
+    return {themeState: state, toggleTheme: toggle, getFileUrl}
   },
   data() {
     return {
@@ -235,19 +237,13 @@ export default {
       this.$router.push('/login')
     },
     exportUrl(path) {
-      const base = 'http://localhost:8080'
       const token = localStorage.getItem('token') || ''
-      return base + path + (token ? '?token=' + token : '')
+      return BASE_URL + path + (token ? '?token=' + token : '')
     },
     closeExport(e) {
       if (this.$refs.exportWrap && !this.$refs.exportWrap.contains(e.target)) {
         this.exportOpen = false
       }
-    },
-    getFileUrl(filename) {
-      if (!filename) return ''
-      if (filename.startsWith('http')) return filename
-      return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
     }
   }
 }

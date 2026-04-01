@@ -239,8 +239,10 @@ import {
   updateUser,
   deleteUser,
   updateUserStatus,
-  resetPassword
+  resetPassword,
+  getFileUrl
 } from '@/api/user.js'
+import { BASE_URL } from '@/config'
 
 export default {
   name: 'UserList',
@@ -274,11 +276,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl(filename) {
-      if (!filename) return '';
-      if (filename.startsWith('http')) return filename;
-      return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
-    },
     async handleUpload(e, field) {
       const file = e.target.files[0];
       if (!file) return;
@@ -287,7 +284,7 @@ export default {
         const fd = new FormData();
         fd.append('file', file);
         const token = localStorage.getItem('token') || '';
-        const res = await fetch('http://localhost:8080/common/upload', {
+        const res = await fetch(BASE_URL + '/common/upload', {
           method: 'POST',
           headers: token ? {'Authorization': 'Bearer ' + token} : {},
           body: fd

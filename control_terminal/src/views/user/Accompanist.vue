@@ -248,8 +248,10 @@ import {
   addAccompanist,
   updateAccompanist,
   deleteAccompanist,
-  auditAccompanist
+  auditAccompanist,
+  getFileUrl
 } from '@/api/user.js'
+import { BASE_URL } from '@/config'
 
 export default {
   name: 'Accompanist',
@@ -290,11 +292,7 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl(filename) {
-      if (!filename) return ''
-      if (filename.startsWith('http')) return filename
-      return 'http://localhost:8080/common/download?name=' + encodeURIComponent(filename)
-    },
+
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return
@@ -302,7 +300,7 @@ export default {
       try {
         const fd = new FormData()
         fd.append('file', file)
-        const res = await fetch('http://localhost:8080/common/upload', {
+        const res = await fetch(BASE_URL + '/common/upload', {
           method: 'POST',
           headers: {'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')},
           body: fd
