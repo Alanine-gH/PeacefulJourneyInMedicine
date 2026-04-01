@@ -58,22 +58,22 @@
 		{
 			"path": "pages/companion/home",
 			"style": {
-				"navigationBarTitleText": "陪护端首页",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "陪护端首页"
+				
 			}
 		},
 		{
 			"path": "pages/companion/info",
 			"style": {
-				"navigationBarTitleText": "工作信息",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "工作信息"
+				
 			}
 		},
 		{
 			"path": "pages/companion/mine",
 			"style": {
-				"navigationBarTitleText": "个人中心",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "个人中心"
+				
 			}
 		},
 		{
@@ -301,8 +301,8 @@
 		{
 			"path": "pages/companion/schedule/schedule",
 			"style": {
-				"navigationBarTitleText": "日程安排",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "日程安排"
+				
 			}
 		},
 		{

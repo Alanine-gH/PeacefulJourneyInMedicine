@@ -2,23 +2,18 @@
   <view class="container">
     <!-- 导航栏 -->
     <CompanionNavBar title="我的订单" showBack="true"></CompanionNavBar>
-    
+
     <!-- 顶部空白区域 -->
     <view class="top-space"></view>
-    
+
     <!-- 订单状态筛选 -->
     <view class="status-filter">
-      <view 
-        v-for="status in statusFilters" 
-        :key="status.value"
-        class="filter-item"
-        :class="{ active: selectedStatus === status.value }"
-        @click="selectStatus(status.value)"
-      >
+      <view v-for="status in statusFilters" :key="status.value" class="filter-item"
+            :class="{ active: selectedStatus === status.value }" @click="selectStatus(status.value)">
         <text class="filter-text">{{ status.label }}</text>
       </view>
     </view>
-    
+
     <!-- 订单列表 -->
     <view class="order-list">
       <!-- 加载状态 -->
@@ -26,30 +21,50 @@
         <view class="loading-spinner"></view>
         <text class="loading-text">加载中...</text>
       </view>
-      
+
       <!-- 空状态 -->
       <view v-else-if="orderList.length === 0" class="empty-container">
         <text class="empty-icon">📋</text>
         <text class="empty-text">暂无订单</text>
       </view>
-      
+
       <!-- 订单列表 -->
       <view v-else>
-        <view v-for="(order, index) in orderList" :key="order.id" class="order-item" @click="goToOrderDetail(order.orderNo || order.order_no)">
+        <view v-for="(order, index) in orderList" :key="order.id" class="order-item"
+              @click="goToOrderDetail(order.orderNo || order.order_no)">
           <view class="order-header">
             <text class="service-type">{{ getServiceTypeName(order.orderType || order.order_type) }}</text>
-            <text class="order-status" :class="getStatusClass(order.orderStatus || order.order_status)">{{ getOrderStatusName(order.orderStatus || order.order_status) }}</text>
+            <text class="order-status"
+                  :class="getStatusClass(order.orderStatus || order.order_status)">
+              {{ getOrderStatusName(order.orderStatus || order.order_status) }}
+            </text>
           </view>
           <view class="order-content">
             <image class="service-image" src="/static/logo.png" mode="aspectFill"></image>
             <view class="service-info">
-              <text class="info-item">就诊医院：{{ order.appointmentHospital || order.appointment_hospital || '-' }}</text>
-              <text class="info-item">就诊时间：{{ formatDate(order.appointmentDate || order.appointment_date) }} {{ (order.serviceStartTime || order.service_start_time) ? formatTime(order.serviceStartTime || order.service_start_time) : '' }}</text>
-              <text class="info-item">就诊人员：{{ order.patientName || order.patient_name || '-' }} {{ (order.patientGender ?? order.patient_gender) !== null && (order.patientGender ?? order.patient_gender) !== undefined ? ((order.patientGender ?? order.patient_gender) === 1 ? '男' : '女') : '' }} {{ (order.patientAge || order.patient_age) ? (order.patientAge || order.patient_age) + '周岁' : '' }}</text>
+              <text
+                  class="info-item">就诊医院：{{ order.appointmentHospital || order.appointment_hospital || '-' }}
+              </text>
+              <text
+                  class="info-item">就诊时间：{{ formatDate(order.appointmentDate || order.appointment_date) }}
+                {{
+                  (order.serviceStartTime || order.service_start_time) ? formatTime(order.serviceStartTime || order.service_start_time) : ''
+                }}
+              </text>
+              <text class="info-item">就诊人员：{{ order.patientName || order.patient_name || '-' }}
+                {{
+                  (order.patientGender ?? order.patient_gender) !== null && (order.patientGender ?? order.patient_gender) !== undefined ? ((order.patientGender ?? order.patient_gender) === 1 ? '男' : '女') : ''
+                }}
+                {{ (order.patientAge || order.patient_age) ? (order.patientAge || order.patient_age) + '周岁' : '' }}
+              </text>
             </view>
           </view>
           <view class="order-footer">
-            <text class="order-amount">订单金额：<text class="amount-value">{{ order.currency || 'CNY' }} {{ order.totalAmount || order.total_amount }}</text></text>
+            <text class="order-amount">订单金额：
+              <text class="amount-value">{{ order.currency || 'CNY' }}
+                {{ order.totalAmount || order.total_amount }}
+              </text>
+            </text>
             <text class="order-time">{{ formatOrderTime(order.createTime || order.create_time) }}</text>
           </view>
         </view>
@@ -62,7 +77,9 @@
 
 <script>
 import CompanionNavBar from '@/components/CompanionNavBar.vue'
-import { getCompanionOrders } from '@/utils/companion-api.js'
+import {
+  getCompanionOrders
+} from '@/utils/companion-api.js'
 
 export default {
   components: {
@@ -73,13 +90,30 @@ export default {
       loading: false,
       orderList: [],
       selectedStatus: null,
-      statusFilters: [
-        { value: null, label: '全部' },
-        { value: 2, label: '已付款' },
-        { value: 3, label: '已确认' },
-        { value: 4, label: '服务中' },
-        { value: 5, label: '已完成' },
-        { value: 6, label: '已取消' }
+      statusFilters: [{
+        value: null,
+        label: '全部'
+      },
+        {
+          value: 2,
+          label: '已付款'
+        },
+        {
+          value: 3,
+          label: '已确认'
+        },
+        {
+          value: 4,
+          label: '服务中'
+        },
+        {
+          value: 5,
+          label: '已完成'
+        },
+        {
+          value: 6,
+          label: '已取消'
+        }
       ]
     }
   },
@@ -94,12 +128,15 @@ export default {
     async loadOrders() {
       this.loading = true
       try {
-        const params = { page: 1, pageSize: 50 }
+        const params = {
+          page: 1,
+          pageSize: 50
+        }
         if (this.selectedStatus !== null && this.selectedStatus !== undefined) {
           params.status = this.selectedStatus
         }
         const res = await getCompanionOrders(params)
-        
+
         if (res.code === 200 && res.data) {
           // 后端返回 IPage，字段为 records，且字段为驼峰命名
           this.orderList = res.data.records || res.data.list || (Array.isArray(res.data) ? res.data : [])
@@ -257,8 +294,13 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -430,16 +472,16 @@ export default {
   .status-filter {
     padding: 15rpx 0;
   }
-  
+
   .filter-item {
     padding: 10rpx 20rpx;
     font-size: 24rpx;
   }
-  
+
   .order-item {
     padding: 24rpx;
   }
-  
+
   .service-image {
     width: 120rpx;
     height: 120rpx;
@@ -447,9 +489,14 @@ export default {
 }
 
 /* ── Shared theme overrides ── */
-page { background-color: #f4f2ee !important; }
+page {
+  background-color: #f4f2ee !important;
+}
 
-.container { background-color: #f4f2ee !important; min-height: 100vh; }
+.container {
+  background-color: #f4f2ee !important;
+  min-height: 100vh;
+}
 
 /* Cards */
 .patient-section,
@@ -471,7 +518,7 @@ page { background-color: #f4f2ee !important; }
 .package-section {
   background: #ffffff;
   border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10) !important;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
   margin: 16rpx 0 !important;
 }
 
@@ -494,7 +541,7 @@ page { background-color: #f4f2ee !important; }
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
   color: #fff !important;
   border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
+  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
   border: none !important;
 }
 
@@ -512,10 +559,15 @@ page { background-color: #f4f2ee !important; }
 }
 
 /* Status tags */
-.order-status { color: #8db8b6 !important; }
+.order-status {
+  color: #8db8b6 !important;
+}
 
 /* Section titles */
-.section-title { color: #3a3a4a !important; font-weight: 600 !important; }
+.section-title {
+  color: #3a3a4a !important;
+  font-weight: 600 !important;
+}
 
 /* Stat items */
 .stat-item {
@@ -525,12 +577,14 @@ page { background-color: #f4f2ee !important; }
 
 /* Tab bar selected */
 .tab-item.active,
-.tab-item.active .tab-text { color: #8db8b6 !important; }
+.tab-item.active .tab-text {
+  color: #8db8b6 !important;
+}
 
 /* Profile avatar ring */
 .profile-avatar {
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100,175,175,0.28) !important;
+  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
 }
 
 /* Level tag */
@@ -545,44 +599,110 @@ page { background-color: #f4f2ee !important; }
 }
 
 /* Carousel items - remap class colors to softer palette */
-.carousel-item        { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-.carousel-item.vip    { background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
-.carousel-item.full   { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-.carousel-item.consult{ background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
-.carousel-item.result { background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important; }
-.carousel-item.medicine{ background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important; }
-.carousel-item.basic  { background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important; }
+.carousel-item {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+.carousel-item.vip {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
+}
+
+.carousel-item.full {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
+
+.carousel-item.consult {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
+}
+
+.carousel-item.result {
+  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
+}
+
+.carousel-item.medicine {
+  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
+}
+
+.carousel-item.basic {
+  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
+}
 
 /* Step indicator */
-.step-num { border-color: #8db8b6 !important; color: #8db8b6 !important; }
+.step-num {
+  border-color: #8db8b6 !important;
+  color: #8db8b6 !important;
+}
+
 .step-item.active .step-num,
 .step-item.completed .step-num {
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important; border-color: transparent !important;
+  color: #fff !important;
+  border-color: transparent !important;
 }
-.step-line.active { background-color: #8db8b6 !important; }
+
+.step-line.active {
+  background-color: #8db8b6 !important;
+}
 
 /* Health exam header */
-.header { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+.header {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
+}
 
 /* Package type tags */
-.pkg-type-tag { background: #e8f4f4 !important; }
-.pkg-type-tag .type-text { color: #6a9ea0 !important; }
+.pkg-type-tag {
+  background: #e8f4f4 !important;
+}
+
+.pkg-type-tag .type-text {
+  color: #6a9ea0 !important;
+}
 
 /* Input focus ring */
-.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 3rpx rgba(141,184,182,0.18) !important; }
+.input-item:focus-within {
+  border-color: #8db8b6 !important;
+  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
+}
 
 
 /* ── companion orders page specifics ── */
-.status-filter { background: #fff !important; border-bottom-color: #f0ede8 !important; }
-.filter-item { color: #6a6a7a !important; border-radius: 20rpx !important; }
-.order-list { padding: 16rpx 24rpx !important; }
-.order-item { background: #fff !important; border-left-color: #8db8b6 !important;
-  border-radius: 16rpx !important; margin-bottom: 20rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100,120,140,0.08) !important; border: none !important; }
-.service-type { color: #3a3a4a !important; font-weight: 700 !important; }
-.info-item { color: #6a6a7a !important; }
-.amount-value { color: #d4a8b0 !important; }
-.order-time { color: #9a9aaa !important; }
+.status-filter {
+  background: #fff !important;
+  border-bottom-color: #f0ede8 !important;
+}
 
+.filter-item {
+  color: #6a6a7a !important;
+  border-radius: 20rpx !important;
+}
+
+.order-list {
+  padding: 16rpx 24rpx !important;
+}
+
+.order-item {
+  background: #fff !important;
+  border-left-color: #8db8b6 !important;
+  border-radius: 16rpx !important;
+  margin-bottom: 20rpx !important;
+  box-shadow: 0 4rpx 16rpx rgba(100, 120, 140, 0.08) !important;
+  border: none !important;
+}
+
+.service-type {
+  color: #3a3a4a !important;
+  font-weight: 700 !important;
+}
+
+.info-item {
+  color: #6a6a7a !important;
+}
+
+.amount-value {
+  color: #d4a8b0 !important;
+}
+
+.order-time {
+  color: #9a9aaa !important;
+}
 </style>
