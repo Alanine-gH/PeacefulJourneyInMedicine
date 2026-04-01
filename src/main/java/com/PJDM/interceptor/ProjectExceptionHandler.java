@@ -3,6 +3,7 @@ package com.PJDM.interceptor;
 import com.PJDM.common.R;
 import com.PJDM.exception.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -51,6 +52,18 @@ public class ProjectExceptionHandler {
         return R.error(e.getMessage());
     }
 
+    @ExceptionHandler(FriendlyException.class)
+    public R<?> handleFriendly(FriendlyException e) {
+        log.info("[友好异常] msg={}", e.getMessage());
+        return R.error(e.getMessage());
+    }
+
+    @ExceptionHandler(DataConstraintException.class)
+    public R<?> handleConstraint(DataConstraintException e) {
+        log.info("[数据约束异常] msg={}", e.getMessage());
+        return R.error(e.getMessage());
+    }
+
     // ===== Excel 导出异常：WARN 级别 =====
 
     @ExceptionHandler(ExcelExportException.class)
@@ -69,20 +82,30 @@ public class ProjectExceptionHandler {
 
     // ===== 数据库层异常 =====
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public R<?> handleDataIntegrity(DataIntegrityViolationException e) {
+        String message = DbExceptionMessageTranslator.translate(e);
+        log.warn("[数据完整性异常] msg={} raw={}", message,
+                e.getMostSpecificCause() != null ? e.getMostSpecificCause().getMessage() : e.getMessage());
+        return R.error(message);
+    }
+
     @ExceptionHandler(DuplicateKeyException.class)
     public R<?> handleDuplicateKey(DuplicateKeyException e) {
-        log.warn("[数据库唯一键冲突] msg={}", e.getMessage());
-        return R.error("数据已存在，请勿重复提交");
+        String message = DbExceptionMessageTranslator.translate(e);
+        log.warn("[数据库唯一键冲突] msg={} raw={}", message, e.getMessage());
+        return R.error(message);
     }
 
     @ExceptionHandler(SQLException.class)
     public R<?> handleSql(SQLException e) {
+        String message = DbExceptionMessageTranslator.translate(e);
         if (e.getMessage() != null && e.getMessage().contains("Duplicate entry")) {
-            log.warn("[SQL唯一键冲突] msg={}", e.getMessage());
-            return R.error("数据已存在，请勿重复提交");
+            log.warn("[SQL唯一键冲突] msg={} raw={}", message, e.getMessage());
+            return R.error(message);
         }
-        log.error("[SQL异常] msg={}", e.getMessage(), e);
-        return R.error("数据操作异常，请联系管理员");
+        log.error("[SQL异常] msg={} raw={}", message, e.getMessage(), e);
+        return R.error(message);
     }
 
     // ===== 参数类型异常 =====

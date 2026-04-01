@@ -51,7 +51,7 @@ public class UserUserServiceImpl extends ServiceImpl<UserUserMapper, UserUser> i
         LambdaQueryWrapper<UserUser> lqw = new LambdaQueryWrapper<>();//下面是lqw的判断
         if (hasText(query.getUsername())) {
             lqw.and(w -> w.like(UserUser::getUsername, query.getUsername())
-                          .or().like(UserUser::getNickName, query.getUsername()));
+                    .or().like(UserUser::getNickName, query.getUsername()));
         }
         if (hasText(query.getPhone())) {
             lqw.eq(UserUser::getPhone, query.getPhone());
