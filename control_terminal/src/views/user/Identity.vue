@@ -59,7 +59,9 @@
               <button class="btn-sm btn-view" @click="openDetail(row)">详情</button>
               <button class="btn-sm btn-pass" v-if="row.authStatus===1" @click="handleAudit(row,2)">通过</button>
               <button class="btn-sm btn-reject" v-if="row.authStatus===1" @click="handleAudit(row,3)">拒绝</button>
-              <button class="btn-sm btn-del" @click="handleDelete(row)" :disabled="row.authStatus===2" :title="row.authStatus===2 ? '已通过的认证不允许删除' : ''">删除</button>
+              <button class="btn-sm btn-del" @click="handleDelete(row)" :disabled="row.authStatus===2"
+                      :title="row.authStatus===2 ? '已通过的认证不允许删除' : ''">删除
+              </button>
             </div>
           </td>
         </tr>
@@ -235,43 +237,6 @@ export default {
 }
 </script>
 <style scoped>
-.page-wrap {
-  padding: 28px 32px;
-  min-height: 100%;
-}
-
-.page-header {
-  margin-bottom: 20px;
-}
-
-.page-header h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 2px;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 12px;
-  color: var(--text-page-desc);
-}
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
-}
 
 .filter-input {
   background: var(--bg-input);
@@ -428,55 +393,6 @@ export default {
   font-size: 13px;
 }
 
-.empty {
-  text-align: center;
-  color: var(--text-empty);
-  padding: 40px !important;
-}
-
-.pagination {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--border-page);
-}
-
-.page-info {
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-.page-btn {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 5px;
-  padding: 4px 10px;
-  color: var(--text-sub);
-  cursor: pointer;
-}
-
-.page-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.page-cur {
-  font-size: 13px;
-  color: var(--text-sub);
-  min-width: 50px;
-  text-align: center;
-}
-
-.page-size {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 5px;
-  padding: 4px 8px;
-  color: var(--text-input);
-  font-size: 12px;
-  margin-left: auto;
-}
 
 .modal-mask {
   position: fixed;

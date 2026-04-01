@@ -129,12 +129,12 @@
           </div>
         </div>
       </div>
-        <div class="msg-alert" v-if="unreadMsg>0" @click="$router.push('/system/message')">
-          <span>🔔</span><span>有 <b>{{ unreadMsg }}</b> 条未读系统消息</span><span class="alert-arrow">→</span>
-        </div>
-        <div class="msg-alert demand-alert" v-if="pendingDemand>0" @click="$router.push('/patient/demand')">
-          <span>📢</span><span>有 <b>{{ pendingDemand }}</b> 条需求待接单</span><span class="alert-arrow">→</span>
-        </div>
+      <div class="msg-alert" v-if="unreadMsg>0" @click="$router.push('/system/message')">
+        <span>🔔</span><span>有 <b>{{ unreadMsg }}</b> 条未读系统消息</span><span class="alert-arrow">→</span>
+      </div>
+      <div class="msg-alert demand-alert" v-if="pendingDemand>0" @click="$router.push('/patient/demand')">
+        <span>📢</span><span>有 <b>{{ pendingDemand }}</b> 条需求待接单</span><span class="alert-arrow">→</span>
+      </div>
     </div>
   </div>
 </template>
@@ -154,14 +154,14 @@ export default {
       pendingDemand: 0,
       today: new Date().toLocaleDateString('zh-CN', {year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'}),
       stats: [
-        {label: '总用户数', icon: '👤', val: 0, pct: 0, trend: 0, theme: 'theme-blue',   path: '/user/list'},
-        {label: '订单总数', icon: '📋', val: 0, pct: 0, trend: 0, theme: 'theme-green',  path: '/order/list'},
+        {label: '总用户数', icon: '👤', val: 0, pct: 0, trend: 0, theme: 'theme-blue', path: '/user/list'},
+        {label: '订单总数', icon: '📋', val: 0, pct: 0, trend: 0, theme: 'theme-green', path: '/order/list'},
         {label: '合作医院', icon: '🏥', val: 0, pct: 0, trend: 0, theme: 'theme-yellow', path: '/medical/hospital'},
         {label: '陪诊师数', icon: '🩺', val: 0, pct: 0, trend: 0, theme: 'theme-purple', path: '/user/accompanist'},
-        {label: '就诊人数', icon: '🧑', val: 0, pct: 0, trend: 0, theme: 'theme-teal',   path: '/patient/list'},
+        {label: '就诊人数', icon: '🧑', val: 0, pct: 0, trend: 0, theme: 'theme-teal', path: '/patient/list'},
         {label: '需求发布', icon: '📢', val: 0, pct: 0, trend: 0, theme: 'theme-orange', path: '/patient/demand'},
-        {label: '支付记录', icon: '💳', val: 0, pct: 0, trend: 0, theme: 'theme-red',    path: '/payment/list'},
-        {label: '未读消息', icon: '🔔', val: 0, pct: 0, trend: 0, theme: 'theme-cyan',   path: '/system/message'},
+        {label: '支付记录', icon: '💳', val: 0, pct: 0, trend: 0, theme: 'theme-red', path: '/payment/list'},
+        {label: '未读消息', icon: '🔔', val: 0, pct: 0, trend: 0, theme: 'theme-cyan', path: '/system/message'},
       ],
       orderStats: {total: 0, pending: 0, serving: 0, done: 0, cancel: 0, other: 0},
       recentOrders: [],
@@ -175,7 +175,7 @@ export default {
       quickLinks: [
         {label: '用户管理', icon: '👥', path: '/user/list'},
         {label: '订单管理', icon: '📋', path: '/order/list'},
-        {label: '就诊人',       icon: '🧑', path: '/patient/list'},
+        {label: '就诊人', icon: '🧑', path: '/patient/list'},
         {label: '需求发布', icon: '📢', path: '/patient/demand'},
         {label: '医院信息', icon: '🏥', path: '/medical/hospital'},
         {label: '支付记录', icon: '💳', path: '/payment/list'},
@@ -187,7 +187,9 @@ export default {
     }
   },
   computed: {
-    userName() { return localStorage.getItem('username') || 'Admin' },
+    userName() {
+      return localStorage.getItem('username') || 'Admin'
+    },
     greeting() {
       const h = new Date().getHours()
       if (h < 6) return '夜深了，注意休息'
@@ -237,7 +239,9 @@ export default {
     this.updateClock()
     this._timer = setInterval(this.updateClock, 1000)
   },
-  beforeUnmount() { clearInterval(this._timer) },
+  beforeUnmount() {
+    clearInterval(this._timer)
+  },
   methods: {
     updateClock() {
       const n = new Date()
@@ -278,7 +282,14 @@ export default {
       const uT = cnt(uCntR), oT = cnt(oCntR), hT = cnt(hCntR), acT = cnt(acCntR)
       const tok = localStorage.getItem('token') || ''
       const hdr = tok ? {Authorization: 'Bearer ' + tok} : {}
-      const safeGet = async (url) => { try { const r = await fetch('http://localhost:8080' + url, {headers: hdr}); return await r.json() } catch { return {code:0} } }
+      const safeGet = async (url) => {
+        try {
+          const r = await fetch('http://localhost:8080' + url, {headers: hdr});
+          return await r.json()
+        } catch {
+          return {code: 0}
+        }
+      }
       const [patR, demR, msgR, payR] = await Promise.all([
         safeGet('/user/patient/list?page=1&pageSize=1'),
         safeGet('/demand/list?pageNum=1&pageSize=1&status=1'),
@@ -293,7 +304,12 @@ export default {
       this.pendingDemand = demT
       const vals = [uT, oT, hT, acT, patT, demT, payT, msgU]
       const caps = [500, 500, 100, 100, 300, 100, 500, 200]
-      this.stats.forEach((s, i) => { if (i < vals.length) { s.val = vals[i]; s.pct = Math.min(Math.round(vals[i] / caps[i] * 100), 100) } })
+      this.stats.forEach((s, i) => {
+        if (i < vals.length) {
+          s.val = vals[i];
+          s.pct = Math.min(Math.round(vals[i] / caps[i] * 100), 100)
+        }
+      })
       this.stats[0].val = uT;
       this.stats[0].pct = Math.min(uT / 100 * 100, 100)
       this.stats[1].val = oT;
@@ -320,11 +336,11 @@ export default {
       const sample = recs(oListR).length
       if (sample > 0 && oT > sample) {
         const ratio = oT / sample
-        os.pending  = Math.round(os.pending  * ratio)
-        os.serving  = Math.round(os.serving  * ratio)
-        os.done     = Math.round(os.done     * ratio)
-        os.cancel   = Math.round(os.cancel   * ratio)
-        os.other    = Math.max(0, oT - os.pending - os.serving - os.done - os.cancel)
+        os.pending = Math.round(os.pending * ratio)
+        os.serving = Math.round(os.serving * ratio)
+        os.done = Math.round(os.done * ratio)
+        os.cancel = Math.round(os.cancel * ratio)
+        os.other = Math.max(0, oT - os.pending - os.serving - os.done - os.cancel)
       }
       os.total = oT
       this.orderStats = os
@@ -901,27 +917,134 @@ export default {
 }
 
 /* greeting + clock */
-.greeting-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);background:var(--bg-input);border:1px solid var(--border-nav);border-radius:20px;padding:3px 12px;margin-bottom:6px}
-.time-display{font-size:13px;color:var(--text-muted);font-family:monospace;letter-spacing:1px;background:var(--bg-input);border:1px solid var(--border-nav);border-radius:8px;padding:4px 10px}
+.greeting-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  border: 1px solid var(--border-nav);
+  border-radius: 20px;
+  padding: 3px 12px;
+  margin-bottom: 6px
+}
+
+.time-display {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: monospace;
+  letter-spacing: 1px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-nav);
+  border-radius: 8px;
+  padding: 4px 10px
+}
+
 /* stat trend */
-.stat-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
-.stat-trend{font-size:11px}.trend-up{color:#6ee7b7}.trend-flat{color:var(--text-muted)}
+.stat-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px
+}
+
+.stat-trend {
+  font-size: 11px
+}
+
+.trend-up {
+  color: #6ee7b7
+}
+
+.trend-flat {
+  color: var(--text-muted)
+}
+
 /* new stat themes */
-.theme-teal{border-color:rgba(20,184,166,.2)}.theme-teal .stat-bar-fill{background:#5eead4}
-.theme-orange{border-color:rgba(249,115,22,.2)}.theme-orange .stat-bar-fill{background:#fb923c}
-.theme-red{border-color:rgba(239,68,68,.2)}.theme-red .stat-bar-fill{background:#fca5a5}
-.theme-cyan{border-color:rgba(6,182,212,.2)}.theme-cyan .stat-bar-fill{background:#67e8f9}
+.theme-teal {
+  border-color: rgba(20, 184, 166, .2)
+}
+
+.theme-teal .stat-bar-fill {
+  background: #5eead4
+}
+
+.theme-orange {
+  border-color: rgba(249, 115, 22, .2)
+}
+
+.theme-orange .stat-bar-fill {
+  background: #fb923c
+}
+
+.theme-red {
+  border-color: rgba(239, 68, 68, .2)
+}
+
+.theme-red .stat-bar-fill {
+  background: #fca5a5
+}
+
+.theme-cyan {
+  border-color: rgba(6, 182, 212, .2)
+}
+
+.theme-cyan .stat-bar-fill {
+  background: #67e8f9
+}
+
 /* hospital col */
-.hospital-cell{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hospital-cell {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
 /* alert banners */
-.msg-alert{display:flex;align-items:center;gap:8px;margin-top:12px;padding:8px 12px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);border-radius:8px;cursor:pointer;font-size:12px;color:var(--text-primary);transition:background .15s}
-.msg-alert:hover{background:rgba(99,102,241,.2)}
-.demand-alert{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.25)}
-.demand-alert:hover{background:rgba(249,115,22,.2)}
-.alert-arrow{margin-left:auto}
+.msg-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(99, 102, 241, .1);
+  border: 1px solid rgba(99, 102, 241, .25);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-primary);
+  transition: background .15s
+}
+
+.msg-alert:hover {
+  background: rgba(99, 102, 241, .2)
+}
+
+.demand-alert {
+  background: rgba(249, 115, 22, .1);
+  border-color: rgba(249, 115, 22, .25)
+}
+
+.demand-alert:hover {
+  background: rgba(249, 115, 22, .2)
+}
+
+.alert-arrow {
+  margin-left: auto
+}
+
 /* stat card clickable */
-.stat-card{cursor:pointer;transition:transform .15s,box-shadow .15s}
-.stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.stat-card {
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .15)
+}
 </style>
 
 

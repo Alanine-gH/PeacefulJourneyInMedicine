@@ -106,7 +106,7 @@
         </div>
         <div class="modal-body">
           <div class="form-grid">
-            <div class="form-item full form-tip">带 <em>*</em> 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
+            <div class="form-item full form-tip">带 * 为必填（不能为空）；未标注 * 的字段可留空，后端允许为空。</div>
             <div class="form-item"><label>套餐编码</label><input v-model="form.packageCode" class="form-input"
                                                                  :disabled="modal.isEdit"></div>
             <div class="form-item"><label>套餐名称 *</label><input v-model="form.packageName" class="form-input"></div>
@@ -218,8 +218,11 @@ export default {
         })
         const text = await res.text()
         let json
-        try { json = JSON.parse(text) } catch (_) {
-          alert('服务器响应异常：' + text.substring(0, 300)); return
+        try {
+          json = JSON.parse(text)
+        } catch (_) {
+          alert('服务器响应异常：' + text.substring(0, 300));
+          return
         }
         if (json.code === 1 || json.code === 200) {
           this.form[field] = json.data
@@ -327,44 +330,6 @@ export default {
 }
 </script>
 <style scoped>
-.page-wrap {
-  padding: 28px 32px;
-  min-height: 100%;
-}
-
-.page-header {
-  margin-bottom: 20px;
-}
-
-.page-header h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 2px;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 12px;
-  color: var(--text-page-desc);
-}
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
 .filter-input {
   background: var(--bg-input);
   border: 1px solid var(--border-input);
@@ -422,42 +387,6 @@ export default {
   white-space: nowrap;
 }
 
-.table-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-main);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table th {
-  padding: 11px 14px;
-  text-align: left;
-  font-size: 12px;
-  color: var(--text-th);
-  font-weight: 500;
-  border-bottom: 1px solid var(--border-logo);
-  white-space: nowrap;
-}
-
-.data-table td {
-  padding: 10px 14px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-table-r);
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tr:hover td {
-  background: var(--bg-card);
-}
 
 .code-tag {
   font-family: monospace;
@@ -572,55 +501,6 @@ export default {
   color: var(--text-red);
 }
 
-.empty {
-  text-align: center;
-  color: var(--text-empty);
-  padding: 40px !important;
-}
-
-.pagination {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--border-page);
-}
-
-.page-info {
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-.page-btn {
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 5px;
-  padding: 4px 10px;
-  color: var(--text-sub);
-  cursor: pointer;
-}
-
-.page-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.page-cur {
-  font-size: 13px;
-  color: var(--text-sub);
-  min-width: 50px;
-  text-align: center;
-}
-
-.page-size {
-  background: var(--bg-select);
-  border: 1px solid var(--border-input);
-  border-radius: 5px;
-  padding: 4px 8px;
-  color: var(--text-input);
-  font-size: 12px;
-  margin-left: auto;
-}
 
 .modal-mask {
   position: fixed;
