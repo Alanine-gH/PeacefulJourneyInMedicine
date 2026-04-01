@@ -125,7 +125,6 @@ export default {
           title: 'VIP陪诊服务',
           subtitle: 'VIP陪诊体验，专车接送',
           btnText: '立即体验',
-          tag: 'VIP',
           className: 'vip'
         },
         {
@@ -338,7 +337,7 @@ export default {
 
 .swiper-container {
   width: 100%;
-  height: 300rpx;
+  height: 400rpx;
   border-radius: 20rpx;
   overflow: hidden;
 }
@@ -354,7 +353,7 @@ export default {
 }
 
 .carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  background: linear-gradient(135deg, rgba(141, 184, 182, 0.8) 0%, rgba(168, 206, 206, 0.8) 100%);
   border-radius: 20rpx;
   position: relative;
   overflow: hidden;
@@ -366,23 +365,23 @@ export default {
 }
 
 .carousel-item.vip {
-  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.8) 0%, rgba(245, 124, 0, 0.8) 100%);
 }
 
 .carousel-item.full {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.8) 0%, rgba(46, 125, 50, 0.8) 100%);
 }
 
 .carousel-item.consult {
-  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.8) 0%, rgba(25, 118, 210, 0.8) 100%);
 }
 
 .carousel-item.result {
-  background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+  background: linear-gradient(135deg, rgba(233, 30, 99, 0.8) 0%, rgba(194, 24, 91, 0.8) 100%);
 }
 
 .carousel-item.medicine {
-  background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.8) 0%, rgba(123, 31, 162, 0.8) 100%);
 }
 
 .carousel-content {
@@ -392,7 +391,7 @@ export default {
   align-items: flex-start;
   flex: 1;
   position: relative;
-  padding: 40rpx 0;
+  padding: 70rpx 0;
 }
 
 .carousel-price {

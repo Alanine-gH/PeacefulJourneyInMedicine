@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="我的订单" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 订单状态筛选 -->
     <view class="status-filter">
       <view 
@@ -55,9 +61,13 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import { getCompanionOrders } from '@/utils/companion-api.js'
 
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       loading: false,
@@ -188,6 +198,12 @@ export default {
   flex-direction: column;
 }
 
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
+}
+
 /* 订单状态筛选 */
 .status-filter {
   display: flex;
@@ -197,7 +213,7 @@ export default {
   white-space: nowrap;
   border-bottom: 1rpx solid #f0f0f0;
   position: sticky;
-  top: 0;
+  top: 88rpx;
   z-index: 10;
 }
 

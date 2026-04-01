@@ -1,18 +1,10 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">选择订单</text>
-        </view>
-        <view class="header-actions">
-          <view class="refresh-btn" @click="loadOrders">
-            <text class="refresh-icon">🔄</text>
-          </view>
-        </view>
-      </view>
-    </view>
+    <!-- 导航栏 -->
+    <CompanionNavBar title="选择订单" rightText="刷新" @rightClick="loadOrders"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
 
     <!-- 订单列表 -->
     <view class="order-list">
@@ -64,9 +56,13 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import {getAvailableOrders, acceptOrder} from '@/utils/companion-api.js'
 
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       loading: false,
@@ -182,56 +178,10 @@ export default {
   flex-direction: column;
 }
 
-/* 头部 */
-.header {
-  background-color: #8db8b6;
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.refresh-btn {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.refresh-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.refresh-icon {
-  font-size: 32rpx;
-  color: #fff;
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 订单列表 */

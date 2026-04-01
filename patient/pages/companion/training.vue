@@ -1,18 +1,10 @@
 <template>
   <view class="container">
-    <!-- 头部 -->
-    <view class="header">
-      <view class="header-content">
-        <view class="logo">
-          <text class="logo-text">专业培训</text>
-        </view>
-        <view class="header-actions">
-          <view class="back-button" @click="goBack">
-            <text class="back-icon">←</text>
-          </view>
-        </view>
-      </view>
-    </view>
+    <!-- 导航栏 -->
+    <CompanionNavBar title="专业培训" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
 
     <!-- 主要内容 -->
     <view class="main-content">
@@ -132,7 +124,12 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
+
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       loading: false
@@ -167,57 +164,10 @@ export default {
   background-color: #f4f2ee;
 }
 
-/* 头部 */
-.header {
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-  padding: 40rpx 30rpx 20rpx;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fff;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-}
-
-.back-button {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.back-icon {
-  font-size: 32rpx;
-  color: #fff;
-  font-weight: bold;
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 主要内容 */

@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="长期合作" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 主要内容 -->
     <view class="main-content">
       <!-- 主题区域 -->
@@ -95,7 +101,12 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
+
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       loading: false
@@ -134,6 +145,12 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #f4f2ee;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 主要内容 */

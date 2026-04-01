@@ -1,6 +1,11 @@
 <template>
   <view class="container">
-
+    <!-- 导航栏 -->
+    <CompanionNavBar title="个人中心"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 个人信息 -->
     <view class="profile-section">
       <view class="profile-avatar">
@@ -93,13 +98,15 @@
 
 <script>
 import CompanionTabBar from '@/components/CompanionTabBar.vue'
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import { getCompanionProfile, request } from '@/utils/companion-api';
 import { getAvatarUrl } from '@/utils/api';
 import { logout } from '@/utils/auth';
 
 export default {
   components: {
-    CompanionTabBar
+    CompanionTabBar,
+    CompanionNavBar
   },
   computed: {
     certificatePhotoSrc() {
@@ -456,6 +463,12 @@ export default {
 .switch-btn:active {
   transform: translateY(2rpx);
   box-shadow: 0 2rpx 6rpx rgba(77, 208, 225, 0.3);
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

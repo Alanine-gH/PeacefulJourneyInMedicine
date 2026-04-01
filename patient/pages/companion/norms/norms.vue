@@ -1,6 +1,11 @@
 <template>
   <view class="container">
-
+    <!-- 导航栏 -->
+    <CompanionNavBar title="服务规范" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 视频部分 -->
     <view class="video-section">
       <view class="section-header">
@@ -74,10 +79,14 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import CompanionTabBar from '@/components/CompanionTabBar.vue'
 
 export default {
-  components: { CompanionTabBar },
+  components: { 
+    CompanionNavBar,
+    CompanionTabBar 
+  },
   data() {
     return {
     }
@@ -200,6 +209,12 @@ export default {
   font-size: 24rpx;
   color: #666;
   line-height: 1.5;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

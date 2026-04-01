@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="患者详情" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 患者基本信息 -->
     <view class="section">
       <view class="section-title">基本信息</view>
@@ -44,7 +50,12 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
+
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       patientInfo: {
@@ -156,6 +167,12 @@ export default {
 }
 
 
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
+}
 
 /* 底部空白区域 */
 .bottom-space {

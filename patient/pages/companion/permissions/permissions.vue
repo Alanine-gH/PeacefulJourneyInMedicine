@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="权限设置" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 权限列表 -->
     <view class="permissions-section">
       <view class="section-title">应用权限</view>
@@ -145,7 +151,12 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
+
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       permissions: {
@@ -513,6 +524,12 @@ export default {
 .save-btn:active {
   opacity: 0.9;
   transform: scale(0.98);
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

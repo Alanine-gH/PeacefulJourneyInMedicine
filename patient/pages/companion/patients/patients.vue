@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="患者管理" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 搜索框 -->
     <view class="search-section">
       <view class="search-box">
@@ -49,9 +55,13 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import {getCompanionPatients} from '@/utils/companion-api.js'
 
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       searchKeyword: '',
@@ -253,6 +263,12 @@ export default {
 
 .empty-text {
   font-size: 28rpx;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

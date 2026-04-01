@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="工作台"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 信息列表 -->
     <view class="info-section">
       <view class="info-item">
@@ -86,11 +92,13 @@
 
 <script>
 import CompanionTabBar from '@/components/CompanionTabBar.vue'
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import {getCompanionWorkInfo, getCompanionOrders} from '@/utils/companion-api';
 
 export default {
   components: {
-    CompanionTabBar
+    CompanionTabBar,
+    CompanionNavBar
   },
   data() {
     return {
@@ -333,6 +341,12 @@ export default {
   font-size: 28rpx;
   font-weight: 600;
   color: #ff6b6b;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

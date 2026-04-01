@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="编辑个人资料" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 表单 -->
     <view class="form">
       <view class="form-item">
@@ -91,9 +97,13 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import {getCompanionProfile, updateCompanionProfile} from '@/utils/companion-api';
 
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       formData: {
@@ -263,6 +273,12 @@ export default {
 
 .save-submit-btn::after {
   border: none;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

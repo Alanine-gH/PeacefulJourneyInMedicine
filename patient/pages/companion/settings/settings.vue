@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="个人设置" showBack="true"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 个人信息设置 -->
     <view class="section">
       <view class="section-title">个人信息</view>
@@ -69,10 +75,14 @@
 </template>
 
 <script>
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 import { getCompanionProfile, updateCompanionProfile } from '@/utils/companion-api';
 import { getAvatarUrl } from '@/utils/api';
 
 export default {
+  components: {
+    CompanionNavBar
+  },
   data() {
     return {
       companionInfo: {
@@ -324,6 +334,12 @@ export default {
   height: 60rpx;
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

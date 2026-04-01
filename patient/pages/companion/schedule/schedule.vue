@@ -1,5 +1,10 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 日历区域 -->
     <view class="calendar-section">
       <!-- 月份导航 -->
@@ -36,7 +41,8 @@
           class="calendar-day"
           :class="{ 
             'today': isToday(day),
-            'has-note': hasNote(day)
+            'has-note': hasNote(day),
+            'selected': selectedDay === day
           }"
           @click="toggleNote(day)"
         >
@@ -94,16 +100,18 @@
     <view class="bottom-space"></view>
 
     <!-- 底部导航栏 -->
-    <CompanionTabBar activeTab="schedule"></CompanionTabBar>
+    
   </view>
 </template>
 
 <script>
 import CompanionTabBar from '@/components/CompanionTabBar.vue'
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 
 export default {
   components: {
-    CompanionTabBar
+    CompanionTabBar,
+    CompanionNavBar
   },
   data() {
     return {
@@ -365,6 +373,11 @@ export default {
 
 .has-note {
   position: relative;
+  background-color: rgba(141, 184, 182, 0.1);
+}
+
+.selected {
+  background-color: rgba(141, 184, 182, 0.2);
 }
 
 .note-indicator {
@@ -572,6 +585,12 @@ export default {
   .note-content {
     font-size: 26rpx;
   }
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */

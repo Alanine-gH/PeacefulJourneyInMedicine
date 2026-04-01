@@ -546,7 +546,6 @@ page { background-color: #f4f2ee !important; }
 .patient-icon,
 .health-icon,
 .stat-box-icon {
-  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
   border-radius: 16rpx !important;
   box-shadow: none !important;
 }
@@ -655,8 +654,8 @@ page { background-color: #f4f2ee !important; }
 .info-button { background: rgba(255,255,255,0.20) !important; border-radius: 12rpx !important; }
 .info-button-text { color: #fff !important; }
 .order-section { margin: 0 24rpx !important; padding: 24rpx !important; }
-.health-section { margin: 0 24rpx !important; padding: 24rpx !important; }
-.health-item { background: #f0f4f4 !important; border-radius: 14rpx !important; }
-.status-item { background: #f0f4f4 !important; border-radius: 14rpx !important; }
+.health-section { margin: 20rpx 24rpx !important; padding: 24rpx !important; }
+.health-item { border-radius: 14rpx !important; }
+.status-item {  border-radius: 14rpx !important; }
 
 </style>

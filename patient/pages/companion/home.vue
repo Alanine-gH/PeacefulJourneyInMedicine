@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <!-- 导航栏 -->
+    <CompanionNavBar title="陪护端首页"></CompanionNavBar>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
     <!-- 陪护功能区 - 第一部分 -->
     <view class="patient-section">
       <view class="patient-grid">
@@ -119,10 +125,12 @@
 
 <script>
 import CompanionTabBar from '@/components/CompanionTabBar.vue'
+import CompanionNavBar from '@/components/CompanionNavBar.vue'
 
 export default {
   components: {
-    CompanionTabBar
+    CompanionTabBar,
+    CompanionNavBar
   },
   data() {
     return {
@@ -327,7 +335,7 @@ export default {
 
 .swiper-container {
   width: 100%;
-  height: 300rpx;
+  height: 370rpx;
   border-radius: 20rpx;
   overflow: hidden;
 }
@@ -365,7 +373,7 @@ export default {
 }
 
 .carousel-content {
-  padding: 30rpx;
+  padding: 65rpx;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -548,6 +556,12 @@ export default {
 .tab-text {
   font-size: 24rpx;
   font-weight: 500;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 88rpx;
+  width: 100%;
 }
 
 /* 底部空白区域 */
