@@ -64,8 +64,6 @@
 </template>
 
 <script>
-import {getFileUrl, uploadFile} from "@/api/utils.js";
-
 export default {
   name: 'ServerMonitor',
   data() {
@@ -90,7 +88,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       try {
         const {getServerInfo} = await import('@/api/monitor.js')
@@ -145,6 +142,7 @@ export default {
   }
 }
 </script>
+
 <style>
 @import '@/assets/monitor.css';
 </style>

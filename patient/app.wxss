@@ -7,4 +7,5 @@ page {
   padding: 40rpx;
   background-color: #fff;
   min-height: 100vh;
+  
 }

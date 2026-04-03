@@ -29,6 +29,7 @@ public class RecordController {
     @PostMapping("/api/medical-record/save")
     @Operation(summary = "保存病历（小程序上传病历）")
     public R<String> saveMedicalRecord(@RequestBody Map<String, Object> body) {
+        System.err.println("body = " + body);
         log.info("[病历] 保存病历 userId={}", body.get("userId"));
         MedicalRecordUpload record = new MedicalRecordUpload();
         if (body.get("userId") != null) {

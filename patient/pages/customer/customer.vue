@@ -1,9 +1,21 @@
 <template>
   <view class="container">
+    <!-- 顶部标题栏 -->
+    <view class="header-bar">
+      <view class="header-content">
+        <view class="header-icon">🤖</view>
+        <view class="header-info">
+          <text class="header-title">在线客服</text>
+          <text class="header-subtitle">我是医路安心的智能客服小安</text>
+        </view>
+      </view>
+    </view>
+
     <!-- 聊天时间 -->
     <view class="chat-time">
       <text class="time-text">今天 {{ currentDate }}</text>
     </view>
+
     <!-- 聊天内容 -->
     <scroll-view class="chat-content" scroll-y="true" :scroll-into-view="scrollAnchor" scroll-with-animation>
       <view v-for="(msg, idx) in messages" :key="idx" :id="'m' + idx"
@@ -11,7 +23,9 @@
         <view class="message-avatar">
           <image v-if="msg.type === 'mine' && userAvatar" :src="userAvatar" class="avatar-img"
                  mode="aspectFill"/>
-          <text v-else class="avatar-icon">{{ msg.type === 'mine' ? '👤' : '🤖' }}</text>
+          <view v-else class="avatar-bg">
+            <text class="avatar-icon">{{ msg.type === 'mine' ? '👤' : '🤖' }}</text>
+          </view>
         </view>
         <view :class="['message-bubble', msg.type === 'mine' ? 'mine' : '']">
           <text class="message-text">{{ msg.content }}</text>
@@ -19,20 +33,29 @@
           <text class="message-time">{{ msg.time }}</text>
         </view>
       </view>
+      
       <!-- 思考中占位 -->
       <view v-if="thinking" class="message-item" id="m-thinking">
         <view class="message-avatar">
-          <text class="avatar-icon">🤖</text>
+          <view class="avatar-bg bot">
+            <text class="avatar-icon">🤖</text>
+          </view>
         </view>
         <view class="message-bubble thinking-bubble">
-          <text class="thinking-dot">···</text>
+          <view class="thinking-dots">
+            <view class="dot"></view>
+            <view class="dot"></view>
+            <view class="dot"></view>
+          </view>
         </view>
       </view>
+      
       <!-- 滚动锚点 -->
       <view id="scroll-bottom"></view>
     </scroll-view>
+
     <!-- 快捷问题（水平滚动） -->
-    <view class="quick-questions-scroll">
+    <view class="quick-questions-wrapper">
       <scroll-view scroll-x="true" class="quick-questions-container" show-scrollbar="false">
         <view class="quick-questions-list">
           <view class="quick-question-item" v-for="(q, i) in quickQuestions" :key="i" @click="sendQuick(q)">
@@ -41,22 +64,25 @@
         </view>
       </scroll-view>
     </view>
+
     <!-- 输入框 -->
     <view class="input-area">
-      <input class="input-field" placeholder="请输入您的问题..." v-model="message" confirm-type="send"
-             @confirm="sendMessage" :disabled="isLoading"/>
-      <button class="send-btn" @click="sendMessage"
-              :disabled="isLoading || !message.trim()">{{ isLoading ? '···' : '发送' }}
-      </button>
+      <view class="input-wrapper">
+        <input class="input-field" placeholder="请输入您的问题..." v-model="message" confirm-type="send"
+               @confirm="sendMessage" :disabled="isLoading"/>
+      </view>
+      <view class="send-btn-wrapper" @click="sendMessage">
+        <view class="send-btn" :class="{ disabled: isLoading || !message.trim() }">
+          <text class="send-icon">➤</text>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-import {
-  sendChatStream
-} from '@/utils/api';
-import {getAvatarUrl} from '@/utils/api';
+import { sendChatStream } from '@/utils/api';
+import { getAvatarUrl } from '@/utils/api';
 
 const FAQ_MAP = [
   {
@@ -136,7 +162,7 @@ export default {
       scrollAnchor: '',
       userAvatar: '',
       quickQuestions: [
-        '如何预约陪诊服务？', '陪诊费用大概多少？', '如何取消订单？',
+        '如何预约陪诊服务？', '陪诊费用多少？', '如何取消订单？',
         '实名认证怎么做？', '如何成为陪诊师？', '智能分诊怎么用？',
         '如何查看我的订单？', '忘记密码怎么办？'
       ],
@@ -285,63 +311,68 @@ export default {
 </script>
 
 <style scoped>
-/* 整体容器 */
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f5f7fa;
+  background-color: #f5f3ef;
+}
+
+/* 顶部标题栏 */
+.header-bar {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  padding: 40rpx 30rpx 30rpx;
+  border-radius: 0 0 30rpx 30rpx;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.header-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+}
+
+.header-info {
+  flex: 1;
+}
+
+.header-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6rpx;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.85);
 }
 
 /* 聊天时间 */
 .chat-time {
   text-align: center;
-  padding: 20rpx 0 10rpx;
+  padding: 30rpx 0 20rpx;
   flex-shrink: 0;
 }
 
 .time-text {
-  font-size: 22rpx;
-  color: #bbb;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 6rpx 20rpx;
-  border-radius: 20rpx;
-}
-
-/* 快捷问题（水平滚动） */
-.quick-questions-scroll {
-  background-color: #fff;
-  border-top: 1rpx solid #eee;
-  flex-shrink: 0;
-}
-
-.quick-questions-container {
-  padding: 16rpx 24rpx;
-  white-space: nowrap;
-}
-
-.quick-questions-list {
-  display: inline-flex;
-  gap: 16rpx;
-}
-
-.quick-question-item {
-  background-color: #E1F5FE;
-  border-radius: 30rpx;
-  padding: 12rpx 28rpx;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
-}
-
-.quick-question-item:active {
-  background-color: #B3E5FC;
-  transform: scale(0.98);
-}
-
-.quick-question-text {
   font-size: 24rpx;
-  color: #a8cece;
-  white-space: nowrap;
+  color: #9a9aaa;
+  background-color: rgba(0, 0, 0, 0.04);
+  padding: 8rpx 24rpx;
+  border-radius: 24rpx;
 }
 
 /* 聊天内容区 */
@@ -354,7 +385,7 @@ export default {
 .message-item {
   display: flex;
   align-items: flex-end;
-  padding: 14rpx 20rpx;
+  padding: 16rpx 24rpx;
 }
 
 .message-item.mine {
@@ -373,63 +404,142 @@ export default {
   width: 72rpx;
   height: 72rpx;
   border-radius: 50%;
+  border: 3rpx solid #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.avatar-bg {
+  width: 72rpx;
+  height: 72rpx;
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx solid #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
+}
+
+.avatar-bg.bot {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%);
 }
 
 .avatar-icon {
-  font-size: 36rpx;
+  font-size: 32rpx;
 }
 
 .message-bubble {
-  max-width: 68%;
+  max-width: 65%;
   background-color: #fff;
-  padding: 18rpx 22rpx;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  padding: 24rpx 28rpx;
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(100, 120, 140, 0.08);
+  position: relative;
 }
 
 .message-bubble.mine {
-  background-color: #E1F5FE;
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
 }
 
 .message-bubble.thinking-bubble {
-  padding: 18rpx 30rpx;
+  padding: 24rpx 32rpx;
+  min-width: 100rpx;
 }
 
 .message-text {
   font-size: 28rpx;
-  color: #333;
-  line-height: 1.55;
+  color: #3a3a4a;
+  line-height: 1.6;
   display: block;
+}
+
+.message-bubble.mine .message-text {
+  color: #fff;
 }
 
 .cursor-blink {
   font-size: 28rpx;
-  color: #8db8b6;
+  color: #fff;
   animation: blink 0.7s step-end infinite;
 }
 
 @keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.thinking-dot {
-  font-size: 36rpx;
-  color: #999;
-  letter-spacing: 6rpx;
-  animation: pulse 1.2s ease-in-out infinite;
+.thinking-dots {
+  display: flex;
+  gap: 12rpx;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx 0;
+}
+
+.dot {
+  width: 14rpx;
+  height: 14rpx;
+  background: #c0c0cc;
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
 }
 
 .message-time {
   font-size: 20rpx;
-  color: #bbb;
-  margin-top: 8rpx;
+  color: #9a9aaa;
+  margin-top: 10rpx;
   display: block;
-  text-align: right;
+}
+
+.message-bubble.mine .message-time {
+  color: rgba(255,255,255,0.8);
+}
+
+/* 快捷问题 */
+.quick-questions-wrapper {
+  background-color: #fff;
+  border-top: 1rpx solid rgba(0,0,0,0.04);
+  flex-shrink: 0;
+  padding: 20rpx 0;
+}
+
+.quick-questions-container {
+  padding: 0 24rpx;
+  white-space: nowrap;
+}
+
+.quick-questions-list {
+  display: inline-flex;
+  gap: 16rpx;
+}
+
+.quick-question-item {
+  background: linear-gradient(135deg, rgba(141, 184, 182, 0.12) 0%, rgba(168, 206, 206, 0.12) 100%);
+  border-radius: 30rpx;
+  padding: 14rpx 28rpx;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  border: 1rpx solid rgba(141, 184, 182, 0.15);
+}
+
+.quick-question-item:active {
+  transform: scale(0.96);
+  background: linear-gradient(135deg, rgba(141, 184, 182, 0.2) 0%, rgba(168, 206, 206, 0.2) 100%);
+}
+
+.quick-question-text {
+  font-size: 24rpx;
+  color: #6a9a98;
+  white-space: nowrap;
+  font-weight: 500;
 }
 
 /* 输入区 */
@@ -437,232 +547,54 @@ export default {
   display: flex;
   align-items: center;
   background-color: #fff;
-  padding: 20rpx 30rpx;
-  border-top: 1rpx solid #eee;
+  padding: 20rpx 24rpx 40rpx;
+  border-top: 1rpx solid rgba(0,0,0,0.04);
   gap: 20rpx;
   flex-shrink: 0;
 }
 
-.input-field {
+.input-wrapper {
   flex: 1;
+  background: #f5f3ef;
+  border-radius: 40rpx;
+  padding: 6rpx;
+}
+
+.input-field {
   height: 72rpx;
-  background-color: #f4f2ee;
-  border-radius: 36rpx;
-  padding: 0 24rpx;
+  padding: 0 28rpx;
   font-size: 28rpx;
-  color: #333;
+  color: #3a3a4a;
+}
+
+.send-btn-wrapper {
+  flex-shrink: 0;
 }
 
 .send-btn {
-  width: 120rpx;
-  height: 72rpx;
+  width: 80rpx;
+  height: 80rpx;
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  color: #fff;
-  font-size: 28rpx;
-  font-weight: 500;
-  border-radius: 36rpx;
-  border: none;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.3);
+  transition: all 0.2s ease;
 }
 
-.send-btn::after {
-  border: none;
+.send-btn.disabled {
+  opacity: 0.4;
 }
 
-.send-btn[disabled] {
-  opacity: 0.5;
+.send-btn:not(.disabled):active {
+  transform: scale(0.95);
+  box-shadow: 0 2rpx 8rpx rgba(141, 184, 182, 0.2);
 }
 
-.send-btn:active {
-  opacity: 0.9;
-  transform: scale(0.98);
+.send-icon {
+  font-size: 28rpx;
+  color: #fff;
+  margin-left: 4rpx;
 }
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-/* ── Shared theme overrides ── */
-page {
-  background-color: #f4f2ee !important;
-}
-
-.container {
-  background-color: #f4f2ee !important;
-  min-height: 100vh;
-}
-
-/* Cards */
-.patient-section,
-.carousel-section,
-.location-section,
-.training-section,
-.health-section,
-.order-section,
-.menu-section,
-.profile-section,
-.stats-section,
-.orders-section,
-.info-section,
-.order-info,
-.payment-methods,
-.amount-section,
-.step-indicator,
-.filter-bar,
-.package-section {
-  background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
-  margin: 16rpx 0 !important;
-}
-
-/* Icon squares */
-.patient-icon,
-.health-icon,
-.stat-box-icon {
-  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
-  border-radius: 16rpx !important;
-  box-shadow: none !important;
-}
-
-/* Action buttons / primary CTAs */
-.action-btn,
-.login-btn,
-.switch-btn,
-.submit-btn,
-.pay-btn,
-.confirm-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
-  border: none !important;
-}
-
-/* Filter active pill */
-.filter-item.active {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Order left border accent */
-.order-item {
-  border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
-}
-
-/* Status tags */
-.order-status {
-  color: #8db8b6 !important;
-}
-
-/* Section titles */
-.section-title {
-  color: #3a3a4a !important;
-  font-weight: 600 !important;
-}
-
-/* Stat items */
-.stat-item {
-  background: #f4f2ee !important;
-  border-radius: 14rpx !important;
-}
-
-/* Tab bar selected */
-.tab-item.active,
-.tab-item.active .tab-text {
-  color: #8db8b6 !important;
-}
-
-/* Profile avatar ring */
-.profile-avatar {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
-}
-
-/* Level tag */
-.level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Loading spinner */
-.loading-spinner {
-  border-top-color: #8db8b6 !important;
-}
-
-/* Carousel items - remap class colors to softer palette */
-.carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.full {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.consult {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.result {
-  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
-}
-
-.carousel-item.medicine {
-  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
-}
-
-.carousel-item.basic {
-  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
-}
-
-/* Step indicator */
-.step-num {
-  border-color: #8db8b6 !important;
-  color: #8db8b6 !important;
-}
-
-.step-item.active .step-num,
-.step-item.completed .step-num {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-.step-line.active {
-  background-color: #8db8b6 !important;
-}
-
-/* Health exam header */
-.header {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-/* Package type tags */
-.pkg-type-tag {
-  background: #e8f4f4 !important;
-}
-
-.pkg-type-tag .type-text {
-  color: #6a9ea0 !important;
-}
-
-/* Input focus ring */
-.input-item:focus-within {
-  border-color: #8db8b6 !important;
-  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
-}
-
 </style>

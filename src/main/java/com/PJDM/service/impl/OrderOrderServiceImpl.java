@@ -100,6 +100,8 @@ public class OrderOrderServiceImpl extends ServiceImpl<OrderOrderMapper, OrderOr
         OrderOrder order = new OrderOrder();
         order.setOrderNo(generateOrderNo());
         order.setUserId(dto.getUserId());
+        order.setUserName(dto.getUserName());
+        order.setUserPhone(dto.getUserPhone());
         order.setAccompanistId(dto.getAccompanistId());
         order.setOrderStatus((byte) 1);  // 待付款
         order.setServiceStartTime(dto.getServiceStartTime());

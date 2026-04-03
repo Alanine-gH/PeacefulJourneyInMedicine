@@ -35,11 +35,11 @@
             <text class="order-status" :class="getStatusClass(order.orderStatus || order.order_status)">{{ getOrderStatusName(order.orderStatus || order.order_status) }}</text>
           </view>
           <view class="order-content">
-            <image class="service-image" src="/static/logo.png" mode="aspectFill"></image>
+            <image class="service-image" src="/static/hospital.png" mode="aspectFill"></image>
             <view class="service-info">
               <text class="info-item">就诊医院：{{ order.appointmentHospital || order.appointment_hospital || '-' }}</text>
               <text class="info-item">就诊时间：{{ formatDate(order.appointmentDate || order.appointment_date) }} {{ (order.serviceStartTime || order.service_start_time) ? formatTime(order.serviceStartTime || order.service_start_time) : '' }}</text>
-              <text class="info-item">就诊人员：{{ order.patientName || order.patient_name || '-' }} {{ (order.patientGender ?? order.patient_gender) !== null && (order.patientGender ?? order.patient_gender) !== undefined ? ((order.patientGender ?? order.patient_gender) === 1 ? '男' : '女') : '' }} {{ (order.patientAge || order.patient_age) ? (order.patientAge || order.patient_age) + '周岁' : '' }}</text>
+              <text class="info-item">就诊人员：{{ order.userName || order.user_name || order.username || '-' }} </text>
             </view>
           </view>
           <view class="order-footer">
@@ -237,43 +237,47 @@ export default {
 .container {
   width: 100%;
   min-height: 100vh;
-  background-color: #f4f2ee;
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
   display: flex;
   flex-direction: column;
+  
 }
 
 /* 订单状态筛选 */
 .status-filter {
   display: flex;
   background: #fff;
-  padding: 20rpx 0;
+  padding: 24rpx 30rpx;
   overflow-x: auto;
   white-space: nowrap;
-  border-bottom: 1rpx solid #f0f0f0;
   position: sticky;
   top: 0;
   z-index: 10;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.06);
 }
 
 .filter-item {
-  padding: 12rpx 24rpx;
-  margin: 0 10rpx;
-  border-radius: 20rpx;
+  padding: 14rpx 28rpx;
+  margin-right: 16rpx;
+  border-radius: 30rpx;
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
+  background: #f8f7f5;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .filter-item.active {
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.3);
 }
 
 /* 订单列表 */
 .order-list {
   flex: 1;
-  padding: 20rpx 30rpx;
+  padding: 30rpx;
 }
 
 /* 加载状态 */
@@ -282,13 +286,13 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 100rpx 0;
+  padding: 120rpx 0;
 }
 
 .loading-spinner {
-  width: 60rpx;
-  height: 60rpx;
-  border: 4rpx solid #f3f3f3;
+  width: 56rpx;
+  height: 56rpx;
+  border: 4rpx solid #f0f0f0;
   border-top: 4rpx solid #8db8b6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -301,7 +305,7 @@ export default {
 
 .loading-text {
   font-size: 28rpx;
-  color: #999;
+  color: #9a9aaa;
   margin-top: 20rpx;
 }
 
@@ -311,33 +315,32 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 100rpx 0;
+  padding: 120rpx 0;
 }
 
 .empty-icon {
-  font-size: 120rpx;
-  margin-bottom: 20rpx;
-  opacity: 0.5;
+  font-size: 100rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.4;
 }
 
 .empty-text {
   font-size: 28rpx;
-  color: #999;
+  color: #9a9aaa;
 }
 
 .order-item {
   background: #fff;
-  border-radius: 20rpx;
-  padding: 30rpx;
+  border-radius: 24rpx;
+  padding: 32rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4rpx 24rpx rgba(100, 120, 140, 0.06);
   transition: all 0.3s ease;
-  border: 1rpx solid #e8e8e8;
+  border: 1rpx solid rgba(141, 184, 182, 0.08);
 }
 
-.order-item:hover {
-  transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.2);
+.order-item:active {
+  transform: scale(0.98);
 }
 
 .order-header {
@@ -346,92 +349,88 @@ export default {
   align-items: center;
   margin-bottom: 24rpx;
   padding-bottom: 20rpx;
-  border-bottom: 2rpx solid #f0f0f0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.04);
 }
 
 .service-type {
   font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
 }
 
 .order-status {
-  padding: 6rpx 16rpx;
-  border-radius: 15rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 12rpx;
   font-size: 22rpx;
   font-weight: 500;
 }
 
 .status-waiting {
-  background: #FFF3E0;
-  color: #FF9800;
+  background: #fff8e6;
+  color: #e6a23c;
 }
 
 .status-paid {
-  background: #E3F2FD;
-  color: #2196F3;
+  background: #e6f3ff;
+  color: #409eff;
 }
 
 .status-confirmed {
-  background: #E8F5E9;
-  color: #4CAF50;
+  background: #e8f5e9;
+  color: #67c23a;
 }
 
 .status-serving {
-  background: #F3E5F5;
-  color: #9C27B0;
+  background: #f3e5f5;
+  color: #9c27b0;
 }
 
 .status-completed {
-  background: #E0F7FA;
-  color: #00BCD4;
+  background: #e0f7fa;
+  color: #00acc1;
 }
 
 .status-canceled {
-  background: #FFEBEE;
-  color: #F44336;
+  background: #ffebee;
+  color: #ef5350;
 }
 
 .status-refunding {
-  background: #FFF8E1;
-  color: #FFC107;
+  background: #fff8e1;
+  color: #ffca28;
 }
 
 .status-refunded {
-  background: #F5F5F5;
-  color: #9E9E9E;
+  background: #f5f5f5;
+  color: #9e9e9e;
 }
 
 .order-content {
   display: flex;
   margin-bottom: 24rpx;
   padding-bottom: 24rpx;
-  border-bottom: 2rpx solid #f0f0f0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.04);
 }
 
 .service-image {
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 12rpx;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 16rpx;
   margin-right: 24rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.service-image:hover {
-  transform: scale(1.05);
+  background: #f8f7f5;
 }
 
 .service-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
+  gap: 12rpx;
+  justify-content: center;
 }
 
 .info-item {
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
   line-height: 1.5;
 }
 
@@ -444,59 +443,65 @@ export default {
 .order-footer-right {
   display: flex;
   align-items: center;
-  gap: 14rpx;
+  gap: 16rpx;
 }
 
 .evaluate-btn-mini {
-  height: 54rpx;
-  line-height: 54rpx;
-  padding: 0 22rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  padding: 0 24rpx;
   font-size: 24rpx;
   color: #fff;
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   border-radius: 26rpx;
   border: none;
+  box-shadow: 0 4rpx 12rpx rgba(141, 184, 182, 0.3);
 }
 
 .evaluate-btn-mini::after {
   border: none;
 }
 
+.evaluate-btn-mini:active {
+  opacity: 0.9;
+  transform: scale(0.95);
+}
+
 .order-amount {
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
 }
 
 .amount-value {
   font-size: 32rpx;
   font-weight: 600;
-  color: #ff6b6b;
+  color: #d4a8b0;
 }
 
 .order-time {
   font-size: 24rpx;
-  color: #999;
+  color: #9a9aaa;
 }
 
 /* 底部空白区域 */
 .bottom-space {
-  height: 20vh;
+  height: 40rpx;
   width: 100%;
 }
 
 /* 响应式调整 */
 @media (max-width: 375px) {
   .status-filter {
-    padding: 15rpx 0;
+    padding: 20rpx 24rpx;
   }
   
   .filter-item {
-    padding: 10rpx 20rpx;
+    padding: 12rpx 24rpx;
     font-size: 24rpx;
   }
   
   .order-item {
-    padding: 24rpx;
+    padding: 28rpx;
   }
   
   .service-image {

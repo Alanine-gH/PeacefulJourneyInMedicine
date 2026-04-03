@@ -91,7 +91,6 @@
 
 <script>
 import { BASE_URL } from '@/config'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 function authHeader() {
   const t = localStorage.getItem('token');
@@ -115,7 +114,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       const p = new URLSearchParams()
@@ -164,11 +162,8 @@ export default {
 }
 </script>
 
-<style>
-@import "@/assets/patient.css";
-</style>
-
 <style scoped>
+@import "@/assets/patient.css";
 
 .title-cell {
   max-width: 200px;

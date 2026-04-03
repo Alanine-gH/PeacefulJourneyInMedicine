@@ -63,7 +63,6 @@
 
 <script>
 import {getOnlineUsers, forceLogout} from '@/api/monitor.js'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'OnlineUsers',
@@ -101,7 +100,6 @@ export default {
     if (this._timer) clearInterval(this._timer)
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       try {
         const res = await getOnlineUsers()
@@ -132,10 +130,9 @@ export default {
   }
 }
 </script>
-<style>
-@import '@/assets/monitor.css';
-</style>
+
 <style scoped>
+
 .stats-row {
   display: flex;
   gap: 16px;
@@ -154,14 +151,12 @@ export default {
   min-width: 160px;
   flex: 1;
 }
-
 .stat-val {
   font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
 }
-
 .table-card {
   background: var(--bg-sidebar);
   border: 1px solid var(--border-nav);

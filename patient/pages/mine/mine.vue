@@ -1,7 +1,7 @@
 <template>
   <view class="container">
-    <!-- 个人信息 -->
-    <view class="profile-section">
+    <!-- 个人信息卡片 -->
+    <view class="profile-card">
       <view v-if="!userInfo" class="user-unlogin" @click="login">
         <view class="profile-avatar">
           <text class="avatar-icon">👤</text>
@@ -9,91 +9,115 @@
         <view class="login-btn">登录 / 注册</view>
       </view>
       <view v-else class="user-login">
-        <view class="profile-avatar">
-          <image v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" class="avatar-img" mode="aspectFill"/>
-          <text v-else class="avatar-icon">👤</text>
-        </view>
-        <view class="profile-info">
-          <view class="profile-name">{{ userInfo.realName || '患者' }}</view>
-          <view class="profile-id">ID: {{ userInfo.id || '-' }} | 电话: {{ userInfo.phone || '-' }}</view>
-          <view class="profile-level">
-            <text class="level-tag">{{ userInfo.nickname }}</text>
-            <text class="status-tag status-free" @click="navigateTo('info')">信息</text>
+        <view class="profile-main">
+          <view class="profile-avatar">
+            <image v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" class="avatar-img" mode="aspectFill"/>
+            <text v-else class="avatar-icon">👤</text>
+          </view>
+          <view class="profile-info">
+            <view class="profile-name">{{ userInfo.realName || '患者' }}</view>
+            <view class="profile-id">ID: {{ userInfo.id || '-' }}</view>
+            <view class="profile-level">
+              <text class="level-tag">{{ userInfo.nickname }}</text>
+            </view>
           </view>
         </view>
-        <view class="info-button" @click="navigateTo('info')">
-          <text class="info-button-icon">📄</text>
-          <text class="info-button-text">修改信息</text>
+        <view class="profile-actions">
+          <view class="action-item" @click="navigateTo('info')">
+            <text class="action-icon">📄</text>
+            <text class="action-text">修改信息</text>
+          </view>
         </view>
       </view>
     </view>
 
     <!-- 我的订单 -->
-    <view class="order-section">
+    <view class="section-card">
       <view class="section-header" @click="viewAllOrders">
-        <text class="section-title">我的订单</text>
+        <view class="section-title-wrapper">
+          <text class="section-icon">📋</text>
+          <text class="section-title">我的订单</text>
+        </view>
         <text class="section-arrow">全部订单 ›</text>
       </view>
-      <view class="order-status">
-        <view class="status-item" @click="viewOrders('pending_payment')">
-          <view class="status-icon">💳</view>
-          <text class="status-text">待付款</text>
+      <view class="order-grid">
+        <view class="order-item" @click="viewOrders('pending_payment')">
+          <view class="order-icon-wrapper blue">
+            <text class="order-icon">💳</text>
+          </view>
+          <text class="order-text">待付款</text>
         </view>
-        <view class="status-item" @click="viewOrders('pending_service')">
-          <view class="status-icon">📋</view>
-          <text class="status-text">待服务</text>
+        <view class="order-item" @click="viewOrders('pending_service')">
+          <view class="order-icon-wrapper orange">
+            <text class="order-icon">📋</text>
+          </view>
+          <text class="order-text">待服务</text>
         </view>
-        <view class="status-item" @click="viewOrders('pending_review')">
-          <view class="status-icon">⭐</view>
-          <text class="status-text">待评价</text>
+        <view class="order-item" @click="viewOrders('pending_review')">
+          <view class="order-icon-wrapper pink">
+            <text class="order-icon">⭐</text>
+          </view>
+          <text class="order-text">待评价</text>
         </view>
       </view>
     </view>
 
     <!-- 健康管理 -->
-    <view class="health-section">
+    <view class="section-card">
       <view class="section-header">
-        <text class="section-title">健康管理</text>
+        <view class="section-title-wrapper">
+          <text class="section-icon">💚</text>
+          <text class="section-title">健康管理</text>
+        </view>
       </view>
-      <view class="health-grid">
-        <view class="health-item" @click="navigateTo('blood_sugar')">
-          <view class="health-icon">📊</view>
-          <text class="health-text">血糖监测</text>
-          <text class="health-arrow">›</text>
+      <view class="menu-grid">
+        <view class="menu-item" @click="navigateTo('blood_sugar')">
+          <view class="menu-icon-wrapper teal">
+            <text class="menu-icon">📊</text>
+          </view>
+          <text class="menu-text">血糖监测</text>
         </view>
-        <view class="health-item" @click="navigateTo('medication')">
-          <view class="health-icon">💊</view>
-          <text class="health-text">用药提醒</text>
-          <text class="health-arrow">›</text>
+        <view class="menu-item" @click="navigateTo('medication')">
+          <view class="menu-icon-wrapper purple">
+            <text class="menu-icon">💊</text>
+          </view>
+          <text class="menu-text">用药提醒</text>
         </view>
-        <view class="health-item" @click="navigateTo('diet')">
-          <view class="health-icon">🍎</view>
-          <text class="health-text">饮食监测</text>
-          <text class="health-arrow">›</text>
+        <view class="menu-item" @click="navigateTo('diet')">
+          <view class="menu-icon-wrapper orange">
+            <text class="menu-icon">🍎</text>
+          </view>
+          <text class="menu-text">饮食监测</text>
         </view>
       </view>
     </view>
 
     <!-- 服务管理 -->
-    <view class="service-section">
+    <view class="section-card">
       <view class="section-header">
-        <text class="section-title">服务管理</text>
+        <view class="section-title-wrapper">
+          <text class="section-icon">⚙️</text>
+          <text class="section-title">服务管理</text>
+        </view>
       </view>
-      <view class="service-grid">
-        <view class="service-item" @click="navigateTo('appointment')">
-          <view class="service-icon">📅</view>
-          <text class="service-text">病例查询</text>
-          <text class="service-arrow">›</text>
+      <view class="menu-grid">
+        <view class="menu-item" @click="navigateTo('appointment')">
+          <view class="menu-icon-wrapper blue">
+            <text class="menu-icon">📅</text>
+          </view>
+          <text class="menu-text">病例查询</text>
         </view>
-        <view class="service-item" @click="handleLogout">
-          <view class="service-icon">❓</view>
-          <text class="service-text">退出登录</text>
-          <text class="service-arrow">›</text>
+        <view class="menu-item" @click="navigateTo('feedback')">
+          <view class="menu-icon-wrapper green">
+            <text class="menu-icon">💬</text>
+          </view>
+          <text class="menu-text">意见反馈</text>
         </view>
-        <view class="service-item" @click="navigateTo('feedback')">
-          <view class="service-icon">💬</view>
-          <text class="service-text">意见反馈</text>
-          <text class="service-arrow">›</text>
+        <view class="menu-item" @click="handleLogout">
+          <view class="menu-icon-wrapper red">
+            <text class="menu-icon">🚪</text>
+          </view>
+          <text class="menu-text">退出登录</text>
         </view>
       </view>
     </view>
@@ -101,13 +125,8 @@
 </template>
 
 <script>
-import {
-  getUserInfo,
-  logout
-} from '../../utils/auth';
-import {
-  getAvatarUrl
-} from '../../utils/api';
+import { getUserInfo, logout } from '../../utils/auth';
+import { getAvatarUrl } from '../../utils/api';
 
 export default {
   data() {
@@ -125,15 +144,12 @@ export default {
         this.userInfo = null
         return
       }
-      // 优先用本地缓存快速展示
       const cached = uni.getStorageSync('userInfo')
       if (cached) {
         this.userInfo = this.normalizeUser(cached)
       }
-      // 每次进入页面从后端刷新最新数据
       this.fetchUserInfo()
     },
-    // 统一字段映射：兼容 LoginVO 和 UserDetailVO 两种结构
     normalizeUser(raw) {
       if (!raw) return null
       return {
@@ -166,7 +182,7 @@ export default {
         title: '退出登录',
         content: '确定要退出登录吗？',
         confirmText: '退出',
-        confirmColor: '#F44336',
+        confirmColor: '#d4a8b0',
         success: (res) => {
           if (res.confirm) {
             this.logout();
@@ -177,38 +193,29 @@ export default {
     async logout() {
       try {
         await logout();
-      } catch (error) {
-        // 忽略退出接口异常，仍执行本地退出
-      }
+      } catch (error) {}
       uni.removeStorageSync('token');
       uni.removeStorageSync('userId');
       uni.removeStorageSync('userInfo');
       uni.removeStorageSync('userType');
       uni.removeStorageSync('accompanistId');
       this.userInfo = null;
-            uni.showToast({
-              title: '退出登录成功',
-              icon: 'success',
-              duration: 600,
-              complete: () => {
-                uni.reLaunch({
-                  url: '/pages/login/login'
-                })
-              }
-            })
-    },
-    login() {
-      uni.navigateTo({
-        url: '/pages/login/login'
+      uni.showToast({
+        title: '退出登录成功',
+        icon: 'success',
+        duration: 600,
+        complete: () => {
+          uni.reLaunch({ url: '/pages/login/login' })
+        }
       })
     },
+    login() {
+      uni.navigateTo({ url: '/pages/login/login' })
+    },
     viewAllOrders() {
-      uni.navigateTo({
-        url: '/pages/order/order'
-      });
+      uni.navigateTo({ url: '/pages/order/order' });
     },
     viewOrders(status) {
-      // 映射到订单页面的筛选状态（与 order.vue 对齐）
       const statusMap = {
         'pending_payment': 1,
         'pending_service': 3,
@@ -222,8 +229,6 @@ export default {
     navigateTo(page) {
       const pageMap = {
         'appointment': '/pages/medical-record/medical-record',
-        'favorites': '/pages/favorites/favorites',
-        'help': '/pages/customer/customer',
         'feedback': '/pages/feedback/feedback',
         'diet': '/pages/diet/diet',
         'medication': '/pages/medication/medication',
@@ -232,14 +237,9 @@ export default {
       };
 
       if (pageMap[page]) {
-        uni.navigateTo({
-          url: pageMap[page]
-        });
+        uni.navigateTo({ url: pageMap[page] });
       } else {
-        uni.showToast({
-          title: `跳转到${page}页面`,
-          icon: 'none'
-        });
+        uni.showToast({ title: `跳转到${page}页面`, icon: 'none' });
       }
     }
   }
@@ -248,96 +248,69 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f4f2ee;
+  background-color: #f5f3ef;
   min-height: 100vh;
+  padding: 0 24rpx 40rpx;
 }
 
-/* 个人信息 */
-.profile-section {
-  background: #fff;
-  padding: 40rpx 30rpx;
-  margin: 20rpx;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  gap: 30rpx;
+/* 个人信息卡片 */
+.profile-card {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 30rpx;
+  padding: 50rpx 40rpx;
+  margin: 20rpx 0 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.25);
 }
 
 .user-unlogin {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  padding: 30rpx 0;
+  padding: 20rpx 0;
 }
 
 .profile-avatar {
-  width: 120rpx;
-  height: 120rpx;
+  width: 140rpx;
+  height: 140rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  background: rgba(255,255,255,0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4rpx 12rpx rgba(77, 208, 225, 0.3);
+  border: 4rpx solid rgba(255,255,255,0.3);
+  margin-bottom: 24rpx;
 }
 
 .avatar-icon {
-  font-size: 60rpx;
-  color: white;
+  font-size: 64rpx;
 }
 
 .avatar-img {
-  width: 120rpx;
-  height: 120rpx;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  object-fit: cover;
 }
 
 .login-btn {
-  font-size: 28rpx;
-  color: #8db8b6;
+  font-size: 30rpx;
+  color: #fff;
   font-weight: 500;
-  background-color: rgba(77, 208, 225, 0.1);
-  padding: 10rpx 40rpx;
-  border-radius: 20rpx;
-  margin-top: 20rpx;
+  background: rgba(255,255,255,0.2);
+  padding: 16rpx 50rpx;
+  border-radius: 40rpx;
+  border: 2rpx solid rgba(255,255,255,0.3);
 }
 
 .user-login {
   display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.profile-main {
+  display: flex;
   align-items: center;
   gap: 30rpx;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.info-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20rpx;
-  background-color: #f4f2ee;
-  border-radius: 15rpx;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.info-button:hover {
-  background-color: #e9ecef;
-  transform: translateY(-2rpx);
-}
-
-.info-button-icon {
-  font-size: 40rpx;
-  margin-bottom: 10rpx;
-}
-
-.info-button-text {
-  font-size: 24rpx;
-  color: #666;
-  font-weight: 500;
 }
 
 .profile-info {
@@ -345,51 +318,63 @@ export default {
 }
 
 .profile-name {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8rpx;
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10rpx;
 }
 
 .profile-id {
   font-size: 24rpx;
-  color: #666;
-  margin-bottom: 10rpx;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 16rpx;
 }
 
 .profile-level {
-  display: inline-block;
+  display: flex;
+  gap: 12rpx;
 }
 
 .level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  color: white;
-  padding: 5rpx 15rpx;
-  border-radius: 15rpx;
-  font-size: 20rpx;
-  font-weight: 500;
-  margin-right: 10rpx;
-}
-
-.status-tag {
-  padding: 5rpx 15rpx;
-  border-radius: 15rpx;
-  font-size: 20rpx;
-  font-weight: 500;
-}
-
-.status-free {
-  background: #E8F5E9;
-  color: #4CAF50;
-}
-
-/* 我的订单 */
-.order-section {
-  background-color: #fff;
-  margin: 20rpx;
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  padding: 8rpx 20rpx;
   border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  background: rgba(255,255,255,0.15);
+  padding: 14rpx 28rpx;
+  border-radius: 30rpx;
+}
+
+.action-icon {
+  font-size: 28rpx;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* 区块卡片 */
+.section-card {
+  background: #fff;
+  border-radius: 24rpx;
   padding: 30rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.06);
 }
 
 .section-header {
@@ -399,263 +384,142 @@ export default {
   margin-bottom: 30rpx;
 }
 
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.section-icon {
+  font-size: 32rpx;
+}
+
 .section-title {
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
 }
 
 .section-arrow {
-  font-size: 24rpx;
-  color: #999;
+  font-size: 26rpx;
+  color: #9a9aaa;
 }
 
-.order-status {
-  display: flex;
-  justify-content: space-around;
+/* 订单网格 */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
 }
 
-.status-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.status-icon {
-  font-size: 40rpx;
-  margin-bottom: 10rpx;
-}
-
-.status-text {
-  font-size: 24rpx;
-  color: #666;
-}
-
-/* 健康管理 */
-.health-section {
-  background-color: #fff;
-  margin: 20rpx;
-  border-radius: 20rpx;
-  padding: 30rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-}
-
-.health-grid {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20rpx;
-}
-
-.health-item {
-  width: 33.33%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20rpx 0;
-  cursor: pointer;
-}
-
-.health-icon {
-  font-size: 40rpx;
-  margin-bottom: 10rpx;
-}
-
-.health-text {
-  font-size: 24rpx;
-  color: #666;
-  margin-bottom: 5rpx;
-}
-
-.health-arrow {
-  font-size: 20rpx;
-  color: #999;
-}
-
-/* 服务管理 */
-.service-section {
-  background-color: #fff;
-  margin: 20rpx;
-  border-radius: 20rpx;
-  padding: 30rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-}
-
-.service-grid {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20rpx;
-}
-
-.service-item {
-  width: 33.33%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20rpx 0;
-  cursor: pointer;
-}
-
-.service-icon {
-  font-size: 40rpx;
-  margin-bottom: 10rpx;
-}
-
-.service-text {
-  font-size: 24rpx;
-  color: #666;
-  margin-bottom: 5rpx;
-}
-
-.service-arrow {
-  font-size: 20rpx;
-  color: #999;
-}
-
-
-/* ── Shared theme overrides ── */
-page { background-color: #f4f2ee !important; }
-
-.container { background-color: #f4f2ee !important; min-height: 100vh; }
-
-/* Cards */
-.patient-section,
-.carousel-section,
-.location-section,
-.training-section,
-.health-section,
-.order-section,
-.menu-section,
-.profile-section,
-.stats-section,
-.orders-section,
-.info-section,
-.order-info,
-.payment-methods,
-.amount-section,
-.step-indicator,
-.filter-bar,
-.package-section {
-  background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10) !important;
-  margin: 16rpx 0 !important;
-}
-
-/* Icon squares */
-.patient-icon,
-.health-icon,
-.stat-box-icon {
-  border-radius: 16rpx !important;
-  box-shadow: none !important;
-}
-
-/* Action buttons / primary CTAs */
-.action-btn,
-.login-btn,
-.switch-btn,
-.submit-btn,
-.pay-btn,
-.confirm-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
-  border: none !important;
-}
-
-/* Filter active pill */
-.filter-item.active {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Order left border accent */
 .order-item {
-  border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 16rpx;
+  background: #f8f7f5;
+  border-radius: 20rpx;
+  transition: transform 0.2s ease;
 }
 
-/* Status tags */
-.order-status { color: #8db8b6 !important; }
-
-/* Section titles */
-.section-title { color: #3a3a4a !important; font-weight: 600 !important; }
-
-/* Stat items */
-.stat-item {
-  background: #f4f2ee !important;
-  border-radius: 14rpx !important;
+.order-item:active {
+  transform: scale(0.97);
 }
 
-/* Tab bar selected */
-.tab-item.active,
-.tab-item.active .tab-text { color: #8db8b6 !important; }
-
-/* Profile avatar ring */
-.profile-avatar {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100,175,175,0.28) !important;
+.order-icon-wrapper {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
 }
 
-/* Level tag */
-.level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
+.order-icon-wrapper.blue {
+  background: linear-gradient(135deg, #e8f0f8 0%, #d4e0f0 100%);
 }
 
-/* Loading spinner */
-.loading-spinner {
-  border-top-color: #8db8b6 !important;
+.order-icon-wrapper.orange {
+  background: linear-gradient(135deg, #f8f0e8 0%, #f0e4d8 100%);
 }
 
-/* Carousel items - remap class colors to softer palette */
-.carousel-item        { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-.carousel-item.vip    { background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
-.carousel-item.full   { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-.carousel-item.consult{ background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
-.carousel-item.result { background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important; }
-.carousel-item.medicine{ background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important; }
-.carousel-item.basic  { background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important; }
-
-/* Step indicator */
-.step-num { border-color: #8db8b6 !important; color: #8db8b6 !important; }
-.step-item.active .step-num,
-.step-item.completed .step-num {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important; border-color: transparent !important;
+.order-icon-wrapper.pink {
+  background: linear-gradient(135deg, #f8e8f0 0%, #f0d8e4 100%);
 }
-.step-line.active { background-color: #8db8b6 !important; }
 
-/* Health exam header */
-.header { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
+.order-icon {
+  font-size: 44rpx;
+}
 
-/* Package type tags */
-.pkg-type-tag { background: #e8f4f4 !important; }
-.pkg-type-tag .type-text { color: #6a9ea0 !important; }
+.order-text {
+  font-size: 26rpx;
+  color: #3a3a4a;
+  font-weight: 500;
+}
 
-/* Input focus ring */
-.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 3rpx rgba(141,184,182,0.18) !important; }
+/* 菜单网格 */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+}
 
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 16rpx;
+  background: #f8f7f5;
+  border-radius: 20rpx;
+  transition: transform 0.2s ease;
+}
 
-/* ── mine page specifics ── */
-.profile-section { padding: 40rpx 30rpx !important; margin: 16rpx 24rpx !important;
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 8rpx 28rpx rgba(100,175,175,0.22) !important; }
-.profile-name { color: #fff !important; font-size: 34rpx !important; font-weight: 700 !important; }
-.profile-id { color: rgba(255,255,255,0.80) !important; }
-.profile-avatar { background: rgba(255,255,255,0.25) !important; box-shadow: none !important; }
-.avatar-icon { color: #fff !important; }
-.level-tag { background: rgba(255,255,255,0.28) !important; color: #fff !important; }
-.status-tag { backdrop-filter: blur(4px); }
-.login-btn { background: rgba(255,255,255,0.25) !important; color: #fff !important;
-  border: 2rpx solid rgba(255,255,255,0.5) !important; border-radius: 30rpx !important; }
-.info-button { background: rgba(255,255,255,0.20) !important; border-radius: 12rpx !important; }
-.info-button-text { color: #fff !important; }
-.order-section { margin: 0 24rpx !important; padding: 24rpx !important; }
-.health-section { margin: 20rpx 24rpx !important; padding: 24rpx !important; }
-.health-item { border-radius: 14rpx !important; }
-.status-item {  border-radius: 14rpx !important; }
+.menu-item:active {
+  transform: scale(0.97);
+}
 
+.menu-icon-wrapper {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.menu-icon-wrapper.teal {
+  background: linear-gradient(135deg, #e8f4f4 0%, #d4e8e8 100%);
+}
+
+.menu-icon-wrapper.purple {
+  background: linear-gradient(135deg, #f0e8f4 0%, #e4d8ec 100%);
+}
+
+.menu-icon-wrapper.orange {
+  background: linear-gradient(135deg, #f8f0e8 0%, #f0e4d8 100%);
+}
+
+.menu-icon-wrapper.blue {
+  background: linear-gradient(135deg, #e8f0f8 0%, #d4e0f0 100%);
+}
+
+.menu-icon-wrapper.green {
+  background: linear-gradient(135deg, #e8f4f0 0%, #d4e8e0 100%);
+}
+
+.menu-icon-wrapper.red {
+  background: linear-gradient(135deg, #f8e8e8 0%, #f0d8d8 100%);
+}
+
+.menu-icon {
+  font-size: 44rpx;
+}
+
+.menu-text {
+  font-size: 26rpx;
+  color: #3a3a4a;
+  font-weight: 500;
+}
 </style>

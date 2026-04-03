@@ -103,7 +103,6 @@
 <script>
 import * as echarts from 'echarts'
 import {getCacheInfo, getCacheNames, clearCacheByName} from '@/api/monitor.js'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'CacheMonitor',
@@ -142,7 +141,6 @@ export default {
     if (this._memChart) this._memChart.dispose()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       try {
         const [infoRes, namesRes] = await Promise.all([getCacheInfo(), getCacheNames()])
@@ -251,10 +249,10 @@ export default {
   }
 }
 </script>
-<style>
-@import '@/assets/monitor.css';
-</style>
+
 <style scoped>
+
+
 .card-title-row {
   display: flex;
   align-items: center;

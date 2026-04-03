@@ -1,113 +1,110 @@
 <template>
   <view class="container">
-    <!-- 患者功能区 - 第一部分 -->
-    <view class="patient-section">
-      <view class="patient-grid">
-        <view class="patient-item" @click="goToAuthentication">
-          <view class="patient-icon">
-            <text>📝</text>
+    <!-- 顶部欢迎横幅 -->
+    <view class="hero-banner">
+      <view class="hero-content">
+        <text class="hero-title">欢迎使用医路安心</text>
+        <text class="hero-subtitle">专业的陪诊服务，让就医更安心</text>
+      </view>
+      <view class="hero-decoration">
+        <view class="deco-circle deco-1"></view>
+        <view class="deco-circle deco-2"></view>
+        <view class="deco-circle deco-3"></view>
+      </view>
+    </view>
+
+    <!-- 功能图标区 -->
+    <view class="feature-card">
+      <view class="feature-grid">
+        <view class="feature-item" @click="goToAuthentication">
+          <view class="feature-icon icon-auth">
+            <text class="icon-text">🛡️</text>
           </view>
-          <text class="patient-text">实名认证</text>
+          <text class="feature-text">实名认证</text>
         </view>
-        <view class="patient-item" @click="navigateTo('diagnosis')">
-          <view class="patient-icon">
-            <text>🤖</text>
+        <view class="feature-item" @click="navigateTo('diagnosis')">
+          <view class="feature-icon icon-diagnosis">
+            <text class="icon-text">🤖</text>
           </view>
-          <text class="patient-text">智能诊断</text>
+          <text class="feature-text">智能诊断</text>
         </view>
-        <view class="patient-item" @click="navigateTo('appointment')">
-          <view class="patient-icon">
-            <text>📅</text>
+        <view class="feature-item" @click="navigateTo('appointment')">
+          <view class="feature-icon icon-appointment">
+            <text class="icon-text">📅</text>
           </view>
-          <text class="patient-text">导诊预约</text>
+          <text class="feature-text">导诊预约</text>
         </view>
-        <view class="patient-item" @click="navigateTo('business')">
-          <view class="patient-icon">
-            <text>📊</text>
+        <view class="feature-item" @click="navigateTo('business')">
+          <view class="feature-icon icon-business">
+            <text class="icon-text">📋</text>
           </view>
-          <text class="patient-text">我的业务</text>
+          <text class="feature-text">我的业务</text>
         </view>
       </view>
     </view>
 
-    <!-- 轮播图 - 第二部分 -->
-    <view class="carousel-section">
+    <!-- 优惠信息轮播 -->
+    <view class="section-wrapper">
       <view class="section-header">
-        <text class="section-title">
-          <text class="icon">🎉</text> 优惠信息
-        </text>
+        <view class="section-title-wrapper">
+          <text class="section-icon">✨</text>
+          <text class="section-title">优惠信息</text>
+        </view>
       </view>
-      <view class="swiper-container">
-        <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000" circular="true">
+      <view class="carousel-wrapper">
+        <swiper 
+          class="promo-swiper" 
+          indicator-dots="true" 
+          autoplay="true" 
+          interval="4000" 
+          duration="800" 
+          circular="true"
+          indicator-color="rgba(255,255,255,0.4)"
+          indicator-active-color="#fff"
+        >
           <swiper-item v-for="(item, index) in carouselList" :key="index">
-            <view class="carousel-item" :class="item.className" @click="goToPromotion(index)">
-              <view class="carousel-content">
-                <view class="carousel-price">{{ item.price }}</view>
-                <view class="carousel-title">{{ item.title }}</view>
-                <view class="carousel-subtitle">{{ item.subtitle }}</view>
-                <view class="carousel-btn">{{ item.btnText }}</view>
-                <view v-if="item.icon" class="carousel-image">
-                  <text>{{ item.icon }}</text>
-                </view>
-                <view v-if="item.tag" class="carousel-tag">{{ item.tag }}</view>
-                <view v-if="item.heart" class="carousel-heart">{{ item.heart }}</view>
+            <image class="carousel-bg" :src="item.bgImage" mode="aspectFill"></image>
+            <view class="promo-card" :class="item.className" @click="goToPromotion(index)">
+              <view class="promo-tag">
+                <text class="tag-icon">✦</text>
+                <text class="tag-text">限时优惠</text>
               </view>
+              <view class="promo-price">
+                <text class="price-num">{{ item.priceNum }}</text>
+                <text class="price-unit">{{ item.priceUnit }}</text>
+              </view>
+              <view class="promo-title">{{ item.title }}</view>
+              <view class="promo-subtitle">{{ item.subtitle }}</view>
             </view>
           </swiper-item>
         </swiper>
       </view>
     </view>
 
-    <!-- 业务 - 第三部分 -->
-    <view class="location-section">
+    <!-- 服务项目 -->
+    <view class="section-wrapper">
       <view class="section-header">
-        <text class="section-title">
-          <text class="icon">📊</text> 业务
-        </text>
+        <view class="section-title-wrapper">
+          <text class="section-icon">💝</text>
+          <text class="section-title">服务项目</text>
+        </view>
       </view>
-      <view class="location-list">
-        <view class="location-item" @click="navigateTo('health-exam')">
-          <view class="location-info">
-            <view class="location-name">健康体检</view>
-            <view class="location-address">专业体检套餐</view>
-            <view class="location-distance">价格: ¥399起</view>
-            <view class="location-phone">预约: 立即预约</view>
+      <view class="service-list">
+        <view class="service-item" v-for="(service, index) in serviceList" :key="index" @click="navigateTo(service.page)">
+          <view class="service-icon-wrapper" :class="service.iconClass">
+            <text class="service-icon">{{ service.icon }}</text>
           </view>
-          <view class="location-action">
-            <text class="action-btn">查看</text>
+          <view class="service-info">
+            <view class="service-name">{{ service.name }}</view>
+            <view class="service-desc">{{ service.desc }}</view>
+            <view class="service-meta">
+              <text class="service-price">{{ service.price }}</text>
+              <text class="service-dot">·</text>
+              <text class="service-action">{{ service.action }}</text>
+            </view>
           </view>
-        </view>
-        <view class="location-item" @click="navigateTo('expert-consult')">
-          <view class="location-info">
-            <view class="location-name">专家咨询</view>
-            <view class="location-address">一对一专家服务</view>
-            <view class="location-distance">价格: ¥299起</view>
-            <view class="location-phone">预约: 立即预约</view>
-          </view>
-          <view class="location-action">
-            <text class="action-btn">查看</text>
-          </view>
-        </view>
-        <view class="location-item" @click="navigateTo('medicine-delivery')">
-          <view class="location-info">
-            <view class="location-name">药品配送</view>
-            <view class="location-address">送药上门服务</view>
-            <view class="location-distance">价格: ¥19起</view>
-            <view class="location-phone">预约: 立即预约</view>
-          </view>
-          <view class="location-action">
-            <text class="action-btn">查看</text>
-          </view>
-        </view>
-        <view class="location-item" @click="navigateTo('evaluation')">
-          <view class="location-info">
-            <view class="location-name">服务评价</view>
-            <view class="location-address">为服务体验打分</view>
-            <view class="location-distance">评价: 随时评价</view>
-            <view class="location-phone">状态: 可评价</view>
-          </view>
-          <view class="location-action">
-            <text class="action-btn">评价</text>
+          <view class="service-btn" :class="service.btnClass">
+            <text class="btn-text">{{ service.btnText }}</text>
           </view>
         </view>
       </view>
@@ -121,49 +118,100 @@ export default {
     return {
       carouselList: [
         {
-          price: '588元/次',
+          priceNum: '588',
+          priceUnit: '元/次',
           title: 'VIP陪诊服务',
           subtitle: 'VIP陪诊体验，专车接送',
           btnText: '立即体验',
-          className: 'vip'
+          className: 'vip',
+          bgImage: '/static/lun1.png'
         },
         {
-          price: '488元/次',
+          priceNum: '488',
+          priceUnit: '元/次',
           title: '全程陪诊',
           subtitle: '全程陪同，手续代办',
           btnText: '立即体验',
-          className: 'full'
+          className: 'full',
+          bgImage: '/static/lun2.png'
         },
         {
-          price: '388元/次',
+          priceNum: '388',
+          priceUnit: '元/次',
           title: '代办问诊',
           subtitle: '代替客户到机构咨询',
           btnText: '立即体验',
-          className: 'consult'
+          className: 'consult',
+          bgImage: '/static/lun3.png'
         },
         {
-          price: '288元/次',
+          priceNum: '288',
+          priceUnit: '元/次',
           title: '取送结果',
           subtitle: '取送结果到家',
           btnText: '立即体验',
-          className: 'result'
+          className: 'result',
+          bgImage: '/static/lun4.png'
         },
         {
-          price: '188元/次',
+          priceNum: '188',
+          priceUnit: '元/次',
           title: '代办买药',
           subtitle: '人工排队代买药',
           btnText: '立即体验',
-          className: 'medicine'
+          className: 'medicine',
+          bgImage: '/static/lun5.png'
+        }
+      ],
+      serviceList: [
+        {
+          name: '健康体检',
+          desc: '专业体检套餐',
+          price: '¥399起',
+          action: '立即预约',
+          icon: '❤️',
+          iconClass: 'green',
+          btnText: '查看',
+          btnClass: 'primary',
+          page: 'health-exam'
+        },
+        {
+          name: '专家咨询',
+          desc: '一对一专家服务',
+          price: '¥299起',
+          action: '可预约',
+          icon: '👤',
+          iconClass: 'purple',
+          btnText: '查看',
+          btnClass: 'purple',
+          page: 'expert-consult'
+        },
+        {
+          name: '药品配送',
+          desc: '送药上门服务',
+          price: '¥19起',
+          action: '立即预约',
+          icon: '💊',
+          iconClass: 'teal',
+          btnText: '查看',
+          btnClass: 'teal',
+          page: 'medicine-delivery'
+        },
+        {
+          name: '服务评价',
+          desc: '为服务体验打分',
+          price: '随时评价',
+          action: '可评价',
+          icon: '⭐',
+          iconClass: 'orange',
+          btnText: '评价',
+          btnClass: 'orange',
+          page: 'evaluation'
         }
       ]
     }
   },
   methods: {
-    openCustomerService() {
-      uni.navigateTo({
-        url: '/pages/customer/customer'
-      })
-    },
     goToPromotion(index) {
       uni.navigateTo({
         url: `/pages/promotion/promotion?index=${index}`
@@ -175,51 +223,19 @@ export default {
       })
     },
     navigateTo(page) {
-      // 预留：调用相关业务接口
-      // TODO: 集成各业务模块接口
-      // switch(page) {
-      //   case 'appointment':
-      //     // 调用预约挂号接口
-      //     break;
-      //   case 'business':
-      //     // 调用我的业务接口
-      //     break;
-      //   case 'service1':
-      //   case 'service2':
-      //   case 'service3':
-      //     // 调用服务详情接口
-      //     break;
-      // }
+      const routes = {
+        'diagnosis': '/pages/diagnosis/index',
+        'appointment': '/pages/package/package',
+        'business': '/pages/order/order',
+        'evaluation': '/pages/order/order?status=5&pendingEval=1',
+        'expert-consult': '/pages/expert-consult/expert-consult',
+        'health-exam': '/pages/health-exam/health-exam',
+        'medicine-delivery': '/pages/medicine-delivery/medicine-delivery'
+      }
       
-      if (page === 'diagnosis') {
-        uni.navigateTo({
-          url: '/pages/diagnosis/index'
-        })
-      } else if (page === 'appointment') {
-        uni.navigateTo({
-          url: '/pages/package/package'
-        })
-      } else if (page === 'business') {
-        uni.navigateTo({
-          url: '/pages/order/order'
-        })
-      } else if (page === 'evaluation') {
-        uni.navigateTo({
-          url: '/pages/order/order?status=5&pendingEval=1',
-        })
-      } else if (page === 'expert-consult') {
-        uni.navigateTo({
-          url: '/pages/expert-consult/expert-consult',
-        })
-      }else if (page === 'health-exam') {
-        uni.navigateTo({
-          url: '/pages/health-exam/health-exam',
-        })
-      }else if (page === 'medicine-delivery') {
-        uni.navigateTo({
-          url: '/pages/medicine-delivery/medicine-delivery',
-        })
-      }else {
+      if (routes[page]) {
+        uni.navigateTo({ url: routes[page] })
+      } else {
         uni.showToast({
           title: `跳转到${page}页面`,
           icon: 'none'
@@ -232,477 +248,378 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f4f2ee;
+  background-color: #f5f3ef;
   min-height: 100vh;
+  padding: 0 24rpx 40rpx;
 }
 
-.customer-service {
-  width: 60rpx;
-  height: 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* 顶部欢迎横幅 */
+.hero-banner {
+  position: relative;
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 50%, #c2dada 100%);
+  border-radius: 30rpx;
+  padding: 50rpx 40rpx;
+  margin: 20rpx 0 30rpx;
+  overflow: hidden;
 }
 
-.customer-service:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
+.hero-content {
+  position: relative;
+  z-index: 2;
 }
 
-.service-icon {
-  font-size: 32rpx;
+.hero-title {
+  display: block;
+  font-size: 42rpx;
+  font-weight: 700;
   color: #fff;
+  margin-bottom: 12rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0,0,0,0.1);
 }
 
-/* 患者功能区 - 第一部分 */
-.patient-section {
+.hero-subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+  font-weight: 400;
+}
+
+.hero-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200rpx;
+  height: 100%;
+}
+
+.deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+}
+
+.deco-1 {
+  width: 180rpx;
+  height: 180rpx;
+  top: -40rpx;
+  right: -40rpx;
+}
+
+.deco-2 {
+  width: 120rpx;
+  height: 120rpx;
+  bottom: 20rpx;
+  right: 60rpx;
+  background: rgba(255,255,255,0.1);
+}
+
+.deco-3 {
+  width: 80rpx;
+  height: 80rpx;
+  top: 60rpx;
+  right: 100rpx;
+  background: rgba(255,255,255,0.08);
+}
+
+/* 功能图标区 */
+.feature-card {
   background: #fff;
+  border-radius: 24rpx;
   padding: 40rpx 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.06);
 }
 
-.patient-grid {
+.feature-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30rpx;
+  gap: 20rpx;
 }
 
-.patient-item {
+.feature-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30rpx 20rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
-  transition: all 0.3s ease;
+  padding: 20rpx 10rpx;
+  transition: transform 0.2s ease;
 }
 
-.patient-item:hover {
-  transform: translateY(-5rpx);
-  box-shadow: 0 5rpx 15rpx rgba(0, 0, 0, 0.1);
+.feature-item:active {
+  transform: scale(0.95);
 }
 
-.patient-icon {
-  width: 70rpx;
-  height: 70rpx;
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  border-radius: 18rpx;
+.feature-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 24rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 35rpx;
-  margin-bottom: 15rpx;
-  box-shadow: 0 3rpx 10rpx rgba(100, 181, 246, 0.3);
+  margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.08);
 }
 
-.patient-text {
+.icon-auth {
+  background: linear-gradient(135deg, #e8f4f4 0%, #d4e8e8 100%);
+}
+
+.icon-diagnosis {
+  background: linear-gradient(135deg, #f0e8f4 0%, #e4d8ec 100%);
+}
+
+.icon-appointment {
+  background: linear-gradient(135deg, #f4f0e8 0%, #ece4d8 100%);
+}
+
+.icon-business {
+  background: linear-gradient(135deg, #f4e8e8 0%, #ecd8d8 100%);
+}
+
+.icon-text {
+  font-size: 44rpx;
+}
+
+.feature-text {
   font-size: 26rpx;
-  color: #333;
-  text-align: center;
+  color: #3a3a4a;
   font-weight: 500;
 }
 
-/* 轮播图 - 第二部分 */
-.carousel-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+/* 区块标题 */
+.section-wrapper {
+  margin-bottom: 30rpx;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.section-icon {
+  font-size: 32rpx;
 }
 
 .section-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
 }
 
-.section-title .icon {
-  font-size: 36rpx;
-  margin-right: 10rpx;
-}
-
-.swiper-container {
-  width: 100%;
-  height: 400rpx;
-  border-radius: 20rpx;
+/* 轮播图 */
+.carousel-wrapper {
+  border-radius: 24rpx;
   overflow: hidden;
 }
 
-.swiper-container swiper {
+.promo-swiper {
+  height: 360rpx;
+}
+
+.carousel-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
 }
 
-.swiper-container swiper-item {
-  width: 100%;
+.promo-card {
   height: 100%;
-}
-
-.carousel-item {
-  background: linear-gradient(135deg, rgba(141, 184, 182, 0.8) 0%, rgba(168, 206, 206, 0.8) 100%);
-  border-radius: 20rpx;
-  position: relative;
-  overflow: hidden;
-  min-height: 200rpx;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 40rpx;
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.8) 0%, rgba(245, 124, 0, 0.8) 100%);
-}
-
-.carousel-item.full {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.8) 0%, rgba(46, 125, 50, 0.8) 100%);
-}
-
-.carousel-item.consult {
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.8) 0%, rgba(25, 118, 210, 0.8) 100%);
-}
-
-.carousel-item.result {
-  background: linear-gradient(135deg, rgba(233, 30, 99, 0.8) 0%, rgba(194, 24, 91, 0.8) 100%);
-}
-
-.carousel-item.medicine {
-  background: linear-gradient(135deg, rgba(156, 39, 176, 0.8) 0%, rgba(123, 31, 162, 0.8) 100%);
-}
-
-.carousel-content {
-  color: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
+  justify-content: center;
   position: relative;
-  padding: 70rpx 0;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.carousel-price {
-  font-size: 36rpx;
+.promo-tag {
+  position: absolute;
+  top: 30rpx;
+  left: 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: rgba(255,255,255,0.25);
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  z-index: 2;
+}
+
+.promo-price {
+  z-index: 2;
+}
+
+.promo-title {
+  z-index: 2;
+}
+
+.promo-subtitle {
+  z-index: 2;
+}
+
+
+
+.promo-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-bottom: 12rpx;
+}
+
+.price-num {
+  font-size: 56rpx;
   font-weight: 700;
+  color: #fff;
+}
+
+.price-unit {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+}
+
+.promo-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #fff;
   margin-bottom: 8rpx;
 }
 
-.carousel-title {
-  font-size: 40rpx;
-  font-weight: 700;
-  margin-bottom: 4rpx;
+.promo-subtitle {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 30rpx;
 }
 
-.carousel-subtitle {
-  font-size: 28rpx;
-  opacity: 0.9;
-  margin-bottom: 20rpx;
-}
-
-.carousel-btn {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 12rpx 36rpx;
-  border-radius: 25rpx;
-  font-size: 24rpx;
-  font-weight: 600;
-  align-self: flex-start;
-}
-
-.carousel-image {
-  position: absolute;
-  bottom: 20rpx;
-  right: -20rpx;
-  font-size: 80rpx;
-  opacity: 0.8;
-}
-
-.carousel-tag {
-  position: absolute;
-  top: -10rpx;
-  right: -10rpx;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 8rpx 16rpx;
-  border-radius: 8rpx;
-  font-size: 24rpx;
-  font-weight: 600;
-}
-
-.carousel-heart {
-  position: absolute;
-  right: 30rpx;
-  bottom: 40rpx;
-  font-size: 40rpx;
-  opacity: 0.8;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-/* 地点信息 - 第三部分 */
-.location-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
-}
-
-.location-list {
+/* 服务列表 */
+.service-list {
   display: flex;
   flex-direction: column;
   gap: 20rpx;
 }
 
-.location-item {
+.service-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 25rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
-  transition: all 0.3s ease;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.location-item:hover {
-  background: #e9ecef;
+.service-item:active {
+  transform: translateY(-2rpx);
+  box-shadow: 0 8rpx 30rpx rgba(100, 120, 140, 0.1);
 }
 
-.location-info {
+.service-icon-wrapper {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.service-icon-wrapper.green {
+  background: linear-gradient(135deg, #f0f4f0 0%, #e0e8e4 100%);
+}
+
+.service-icon-wrapper.purple {
+  background: linear-gradient(135deg, #f4f0f4 0%, #e8e0ec 100%);
+}
+
+.service-icon-wrapper.teal {
+  background: linear-gradient(135deg, #f0f4f4 0%, #e0e8e8 100%);
+}
+
+.service-icon-wrapper.orange {
+  background: linear-gradient(135deg, #f4f0ec 0%, #ece4dc 100%);
+}
+
+.service-icon {
+  font-size: 44rpx;
+}
+
+.service-info {
   flex: 1;
+  min-width: 0;
 }
 
-.location-name {
+.service-name {
   font-size: 30rpx;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 8rpx;
-}
-
-.location-address {
-  font-size: 24rpx;
-  color: #666;
-  margin-bottom: 8rpx;
-}
-
-.location-distance {
-  font-size: 24rpx;
-  color: #999;
-  margin-bottom: 8rpx;
-}
-
-.location-phone {
-  font-size: 24rpx;
-  color: #999;
-}
-
-.location-action {
-  margin-left: 20rpx;
-}
-
-.action-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  color: #fff;
-  padding: 15rpx 30rpx;
-  border-radius: 20rpx;
-  font-size: 26rpx;
-  font-weight: 500;
-  box-shadow: 0 3rpx 10rpx rgba(77, 208, 225, 0.3);
-}
-
-/* 响应式调整 */
-@media (max-width: 375px) {
-  .patient-grid {
-    gap: 20rpx;
-  }
-  
-  .patient-icon {
-    width: 60rpx;
-    height: 60rpx;
-    font-size: 30rpx;
-  }
-  
-  .carousel-item {
-    min-height: 180rpx;
-  }
-}
-
-/* ── Shared theme overrides ── */
-page { background-color: #f4f2ee !important; }
-
-.container { background-color: #f4f2ee !important; min-height: 100vh; }
-
-/* Cards */
-.patient-section,
-.carousel-section,
-.location-section,
-.training-section,
-.health-section,
-.order-section,
-.menu-section,
-.profile-section,
-.stats-section,
-.orders-section,
-.info-section,
-.order-info,
-.payment-methods,
-.amount-section,
-.step-indicator,
-.filter-bar,
-.package-section {
-  background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10) !important;
-  margin: 16rpx 0 !important;
-}
-
-/* Icon squares */
-.patient-icon,
-.health-icon,
-.stat-box-icon {
-  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
-  border-radius: 16rpx !important;
-  box-shadow: none !important;
-}
-
-/* Action buttons / primary CTAs */
-.action-btn,
-.login-btn,
-.switch-btn,
-.submit-btn,
-.pay-btn,
-.confirm-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
-  border: none !important;
-}
-
-/* Filter active pill */
-.filter-item.active {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Order left border accent */
-.order-item {
-  border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
-}
-
-/* Status tags */
-.order-status { color: #8db8b6 !important; }
-
-/* Section titles */
-.section-title { color: #3a3a4a !important; font-weight: 600 !important; }
-
-/* Stat items */
-.stat-item {
-  background: #f4f2ee !important;
-  border-radius: 14rpx !important;
-}
-
-/* Tab bar selected */
-.tab-item.active,
-.tab-item.active .tab-text { color: #8db8b6 !important; }
-
-/* Profile avatar ring */
-.profile-avatar {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100,175,175,0.28) !important;
-}
-
-/* Level tag */
-.level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Loading spinner */
-.loading-spinner {
-  border-top-color: #8db8b6 !important;
-}
-
-/* Carousel items - remap class colors to softer palette */
-.carousel-item        { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-.carousel-item.vip    { background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
-.carousel-item.full   { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-.carousel-item.consult{ background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important; }
-.carousel-item.result { background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important; }
-.carousel-item.medicine{ background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important; }
-.carousel-item.basic  { background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important; }
-
-/* Step indicator */
-.step-num { border-color: #8db8b6 !important; color: #8db8b6 !important; }
-.step-item.active .step-num,
-.step-item.completed .step-num {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important; border-color: transparent !important;
-}
-.step-line.active { background-color: #8db8b6 !important; }
-
-/* Health exam header */
-.header { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important; }
-
-/* Package type tags */
-.pkg-type-tag { background: #e8f4f4 !important; }
-.pkg-type-tag .type-text { color: #6a9ea0 !important; }
-
-/* Input focus ring */
-.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 3rpx rgba(141,184,182,0.18) !important; }
-
-
-/* ── home page specifics ── */
-.container { padding: 0 !important; }
-.patient-section {
-  margin: 16rpx 24rpx !important;
-  padding: 36rpx 24rpx !important;
-}
-.patient-section::before {
-  content: '欢迎使用医路安心';
-  display: block;
-  font-size: 36rpx;
-  font-weight: 700;
   color: #3a3a4a;
-  margin-bottom: 4rpx;
+  margin-bottom: 8rpx;
 }
-.patient-section::after {
-  content: '专业的陪诊服务，让就医更安心';
-  display: block;
+
+.service-desc {
+  font-size: 24rpx;
+  color: #6a6a7a;
+  margin-bottom: 8rpx;
+}
+
+.service-meta {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.service-price {
   font-size: 24rpx;
   color: #9a9aaa;
-  margin-bottom: 28rpx;
 }
-.patient-item { background: #f0f4f4 !important; border-radius: 16rpx !important; }
-.patient-item:active { transform: scale(0.97); }
-.carousel-section { margin: 0 24rpx 16rpx !important; padding: 24rpx !important; }
-.location-section { margin: 0 24rpx 24rpx !important; padding: 24rpx !important; }
-.swiper-container { border-radius: 16rpx !important; overflow: hidden; }
-.carousel-btn { background: rgba(255,255,255,0.28) !important; border-radius: 30rpx !important; }
-.location-item { background: #f4f2ee !important; border-radius: 14rpx !important; }
-.location-name  { color: #3a3a4a !important; font-weight: 600 !important; }
-.location-address { color: #6a6a7a !important; }
-.location-distance,.location-phone { color: #9a9aaa !important; }
 
+.service-dot {
+  font-size: 24rpx;
+  color: #c0c0cc;
+}
+
+.service-action {
+  font-size: 24rpx;
+  color: #9a9aaa;
+}
+
+.service-btn {
+  padding: 16rpx 32rpx;
+  border-radius: 28rpx;
+  margin-left: 20rpx;
+  flex-shrink: 0;
+}
+
+.service-btn.primary {
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+}
+
+.service-btn.purple {
+  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%);
+}
+
+.service-btn.teal {
+  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%);
+}
+
+.service-btn.orange {
+  background: linear-gradient(135deg, #e8c4a8 0%, #d4a88c 100%);
+}
+
+.service-btn .btn-text {
+  color: #fff;
+  font-size: 26rpx;
+  font-weight: 500;
+}
 </style>

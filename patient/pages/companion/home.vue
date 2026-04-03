@@ -41,18 +41,18 @@
       <view class="swiper-container">
         <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000" circular="true">
           <swiper-item v-for="(item, index) in carouselList" :key="index">
+            <image class="carousel-bg" :src="item.bgImage" mode="aspectFill"></image>
             <view class="carousel-item" :class="item.className" @click="navigateToCarousel(item.page)">
-              <view class="carousel-content">
-                <view class="carousel-price">{{ item.price }}</view>
-                <view class="carousel-title">{{ item.title }}</view>
-                <view class="carousel-subtitle">{{ item.subtitle }}</view>
-                <view class="carousel-btn">{{ item.btnText }}</view>
-                <view v-if="item.icon" class="carousel-image">
-                  <text>{{ item.icon }}</text>
-                </view>
-                <view v-if="item.tag" class="carousel-tag">{{ item.tag }}</view>
-                <view v-if="item.heart" class="carousel-heart">{{ item.heart }}</view>
+              <view class="carousel-tag">
+                <text class="tag-icon">✦</text>
+                <text class="tag-text">限时优惠</text>
               </view>
+              <view class="carousel-price">
+                <text class="price-num">{{ item.priceNum }}</text>
+                <text class="price-unit">{{ item.priceUnit }}</text>
+              </view>
+              <view class="carousel-title">{{ item.title }}</view>
+              <view class="carousel-subtitle">{{ item.subtitle }}</view>
             </view>
           </swiper-item>
         </swiper>
@@ -135,31 +135,31 @@ export default {
   data() {
     return {
       carouselList: [{
-        price: '高薪兼职',
+        priceNum: '200',
+        priceUnit: '元/小时',
         title: '急招陪护',
-        subtitle: '200元/小时',
-        btnText: '立即接单',
-        icon: '👨‍⚕️',
+        subtitle: '高薪兼职',
         className: '',
-        page: 'parttime'
+        page: 'parttime',
+        bgImage: '/static/lun1.png'
       },
         {
-          price: '长期合作',
+          priceNum: '稳定',
+          priceUnit: '收入',
           title: '医院合作',
-          subtitle: '稳定收入',
-          btnText: '了解详情',
-          tag: '推荐',
+          subtitle: '长期合作',
           className: 'vip',
-          page: 'cooperation'
+          page: 'cooperation',
+          bgImage: '/static/lun2.png'
         },
         {
-          price: '专业培训',
+          priceNum: '免费',
+          priceUnit: '培训',
           title: '技能提升',
-          subtitle: '免费培训',
-          btnText: '报名参加',
-          heart: '💖',
+          subtitle: '专业培训',
           className: 'basic',
-          page: 'training'
+          page: 'training',
+          bgImage: '/static/lun3.png'
         }
       ]
     }
@@ -251,57 +251,57 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f4f2ee;
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
   min-height: 100vh;
-  padding-bottom: 120rpx;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
 }
 
 /* 陪护功能区 - 第一部分 */
 .patient-section {
   background: #fff;
-  padding: 40rpx 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  padding: 28rpx 24rpx !important;
+  margin: 16rpx 24rpx !important;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(100, 120, 140, 0.06);
 }
 
 .patient-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30rpx;
+  gap: 24rpx;
 }
 
 .patient-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30rpx 20rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
+  padding: 32rpx 20rpx;
+  background: linear-gradient(135deg, #f8f7f5 0%, #f4f3f1 100%);
+  border-radius: 20rpx;
   transition: all 0.3s ease;
+  border: 1rpx solid rgba(141, 184, 182, 0.08);
 }
 
-.patient-item:hover {
-  transform: translateY(-5rpx);
-  box-shadow: 0 5rpx 15rpx rgba(0, 0, 0, 0.1);
+.patient-item:active {
+  transform: scale(0.96);
 }
 
 .patient-icon {
-  width: 70rpx;
-  height: 70rpx;
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  border-radius: 18rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #e8f0f0 0%, #d8e8e8 100%);
+  border-radius: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 35rpx;
-  margin-bottom: 15rpx;
-  box-shadow: 0 3rpx 10rpx rgba(100, 181, 246, 0.3);
+  font-size: 40rpx;
+  margin-bottom: 16rpx;
 }
 
 .patient-text {
   font-size: 26rpx;
-  color: #333;
+  color: #3a3a4a;
   text-align: center;
   font-weight: 500;
 }
@@ -309,34 +309,44 @@ export default {
 /* 轮播图 - 第二部分 */
 .carousel-section {
   background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  padding: 24rpx !important;
+  margin: 20rpx 24rpx !important;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(100, 120, 140, 0.06);
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20rpx;
+  margin-bottom: 24rpx;
 }
 
 .section-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.section-title::before {
+  content: '';
+  width: 6rpx;
+  height: 28rpx;
+  background: linear-gradient(180deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 3rpx;
 }
 
 .section-title .icon {
-  font-size: 36rpx;
-  margin-right: 10rpx;
+  font-size: 32rpx;
 }
 
 .swiper-container {
   width: 100%;
-  height: 370rpx;
-  border-radius: 20rpx;
+  height: 320rpx;
+  border-radius: 24rpx;
   overflow: hidden;
 }
 
@@ -348,113 +358,103 @@ export default {
 .swiper-container swiper-item {
   width: 100%;
   height: 100%;
+  position: relative;
+}
+
+.carousel-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
 .carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  border-radius: 20rpx;
+  border-radius: 24rpx;
+  padding: 40rpx;
   position: relative;
   overflow: hidden;
-  min-height: 200rpx;
-  cursor: pointer;
+  height: 100%;
   transition: all 0.3s ease;
-}
-
-.carousel-item:hover {
-  transform: scale(1.02);
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, #ffb74d 0%, #f59e0b 100%);
-}
-
-.carousel-item.basic {
-  background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
-}
-
-.carousel-content {
-  padding: 65rpx;
-  color: #fff;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.carousel-price {
-  font-size: 28rpx;
-  font-weight: 600;
-}
-
-.carousel-title {
-  font-size: 36rpx;
-  font-weight: 700;
-}
-
-.carousel-subtitle {
-  font-size: 26rpx;
-  opacity: 0.9;
-}
-
-.carousel-btn {
-  background: rgba(255, 255, 255, 0.2);
-  width: 150rpx;
-  height: 60rpx;
-  border-radius: 30rpx;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 26rpx;
-  font-weight: 500;
-}
-
-.carousel-image {
-  position: absolute;
-  right: 30rpx;
-  bottom: 30rpx;
-  font-size: 80rpx;
-  opacity: 0.8;
 }
 
 .carousel-tag {
   position: absolute;
-  top: 20rpx;
-  right: 20rpx;
-  background: rgba(255, 255, 255, 0.2);
+  top: 30rpx;
+  left: 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: rgba(255,255,255,0.25);
   padding: 8rpx 16rpx;
-  border-radius: 15rpx;
+  border-radius: 20rpx;
+  z-index: 2;
+}
+
+.tag-icon {
   font-size: 24rpx;
+  color: #fff;
+}
+
+.tag-text {
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+.carousel-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-bottom: 12rpx;
+  z-index: 2;
+}
+
+.price-num {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.price-unit {
+  font-size: 28rpx;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.carousel-title {
+  font-size: 36rpx;
   font-weight: 600;
+  color: #fff;
+  margin-bottom: 8rpx;
+  z-index: 2;
 }
 
-.carousel-heart {
-  position: absolute;
-  right: 30rpx;
-  bottom: 40rpx;
-  font-size: 40rpx;
-  opacity: 0.8;
-  animation: pulse 2s infinite;
+.carousel-subtitle {
+  font-size: 26rpx;
+  color: #fff;
+  opacity: 0.9;
+  z-index: 2;
 }
 
-@keyframes pulse {
+.carousel-item.vip {
+}
 
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.1);
-  }
+.carousel-item.basic {
 }
 
 /* 上岗培训 - 第三部分 */
 .training-section {
   background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  padding: 24rpx !important;
+  margin: 20rpx 24rpx 16rpx !important;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(100, 120, 140, 0.06);
 }
 
 .training-list {
@@ -467,14 +467,15 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
+  padding: 28rpx;
+  background: linear-gradient(135deg, #f8f7f5 0%, #f4f3f1 100%);
+  border-radius: 20rpx;
   transition: all 0.3s ease;
+  border: 1rpx solid rgba(141, 184, 182, 0.06);
 }
 
-.training-item:hover {
-  background: #e9ecef;
+.training-item:active {
+  transform: scale(0.98);
 }
 
 .training-info {
@@ -484,25 +485,30 @@ export default {
 .training-name {
   font-size: 30rpx;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 8rpx;
+  color: #3a3a4a;
+  margin-bottom: 10rpx;
 }
 
 .training-desc {
   font-size: 24rpx;
-  color: #666;
-  margin-bottom: 8rpx;
+  color: #6a6a7a;
+  margin-bottom: 12rpx;
 }
 
 .training-duration {
-  font-size: 24rpx;
-  color: #999;
-  margin-bottom: 8rpx;
+  font-size: 22rpx;
+  color: #9a9aaa;
+  display: inline-block;
+  margin-right: 20rpx;
 }
 
 .training-status {
-  font-size: 24rpx;
-  color: #999;
+  font-size: 22rpx;
+  color: #8db8b6;
+  background: rgba(141, 184, 182, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  display: inline-block;
 }
 
 .training-action {
@@ -512,68 +518,23 @@ export default {
 .action-btn {
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
-  padding: 15rpx 30rpx;
-  border-radius: 20rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 24rpx;
   font-size: 26rpx;
   font-weight: 500;
-  box-shadow: 0 3rpx 10rpx rgba(77, 208, 225, 0.3);
-}
-
-/* 底部导航栏 */
-.tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100rpx;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  box-shadow: 0 -2rpx 15rpx rgba(0, 0, 0, 0.08);
-  z-index: 100;
-}
-
-.tab-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  height: 100%;
-  transition: all 0.3s ease;
-}
-
-.tab-item.active {
-  color: #8db8b6;
-}
-
-.tab-icon {
-  font-size: 36rpx;
-  margin-bottom: 5rpx;
-}
-
-.tab-text {
-  font-size: 24rpx;
-  font-weight: 500;
-}
-
-/* 顶部空白区域 */
-.top-space {
-  height: 88rpx;
-  width: 100%;
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.3);
 }
 
 /* 底部空白区域 */
 .bottom-space {
-  height: 20vh;
+  height: 40rpx;
   width: 100%;
 }
 
 /* 响应式调整 */
 @media (max-width: 375px) {
   .patient-grid {
-    gap: 20rpx;
+    gap: 16rpx;
   }
 
   .patient-icon {
@@ -697,34 +658,6 @@ page {
   border-top-color: #8db8b6 !important;
 }
 
-/* Carousel items - remap class colors to softer palette */
-.carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.full {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.consult {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.result {
-  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
-}
-
-.carousel-item.medicine {
-  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
-}
-
-.carousel-item.basic {
-  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
-}
 
 /* Step indicator */
 .step-num {
@@ -781,7 +714,7 @@ page {
 }
 
 .training-section {
-  margin: 0 24rpx 16rpx !important;
+  margin: 20rpx 24rpx 16rpx !important;
   padding: 24rpx !important;
 }
 

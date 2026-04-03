@@ -104,6 +104,7 @@ export default {
       }
       uni.setStorageSync('selectedDoctor', this.selectedObj.expertName || this.selectedObj.name)
       uni.setStorageSync('selectedDoctorId', this.selectedId)
+      uni.setStorageSync('selectedDepartment', this.departmentName)
       uni.navigateBack({delta: 2})
     }
   }

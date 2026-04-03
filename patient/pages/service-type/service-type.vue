@@ -14,7 +14,7 @@
           :class="{ active: selectedService && selectedService.id === item.id }"
           @click="selectService(item)"
       >
-        <image class="service-image" :src="item.coverImage || '/static/service1.png'" mode="aspectFill"></image>
+        <image class="service-image" :src="item.coverImage || '/static/help.png'" mode="aspectFill"></image>
         <view class="service-info">
           <text class="service-name">{{ item.packageName || item.name }}</text>
           <text class="service-desc">{{ item.description || item.desc }}</text>
@@ -76,7 +76,12 @@ export default {
       uni.setStorageSync('_sel_servicePackageId', item.id)
       uni.setStorageSync('_sel_servicePrice', item.price || null)
       setTimeout(() => {
-        uni.navigateBack()
+        const pages = getCurrentPages()
+        if (pages.length > 1) {
+          uni.navigateBack()
+        } else {
+          uni.switchTab({ url: '/pages/home/home' })
+        }
       }, 300)
     }
   }

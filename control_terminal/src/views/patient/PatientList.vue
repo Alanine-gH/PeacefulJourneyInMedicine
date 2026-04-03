@@ -132,7 +132,6 @@
 
 <script>
 import { BASE_URL } from '@/config'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 function authHeader() {
   const t = localStorage.getItem('token')
@@ -172,7 +171,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       const p = new URLSearchParams()

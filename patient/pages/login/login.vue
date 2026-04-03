@@ -393,7 +393,7 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #fff;
+  background: linear-gradient(160deg, #e8f4f4 0%, #f5f3ef 50%, #f4f2ee 100%);
   min-height: 100vh;
   padding: 60rpx 50rpx;
   box-sizing: border-box;
@@ -404,25 +404,25 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80rpx;
-  margin-bottom: 80rpx;
+  margin-top: 60rpx;
+  margin-bottom: 60rpx;
 }
 
 .logo {
-  width: 120rpx;
-  height: 120rpx;
+  width: 140rpx;
+  height: 140rpx;
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  border-radius: 24rpx;
+  border-radius: 36rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 30rpx;
-  box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.3);
+  box-shadow: 0 12rpx 40rpx rgba(141, 184, 182, 0.35);
 }
 
 .logo-icon {
-  width: 60rpx;
-  height: 60rpx;
+  width: 70rpx;
+  height: 70rpx;
   position: relative;
 }
 
@@ -436,88 +436,111 @@ export default {
 .heart::after {
   content: '';
   position: absolute;
-  width: 30rpx;
-  height: 48rpx;
+  width: 36rpx;
+  height: 56rpx;
   background: #fff;
-  border-radius: 30rpx 30rpx 0 0;
-  top: 6rpx;
+  border-radius: 36rpx 36rpx 0 0;
+  top: 8rpx;
 }
 
 .heart::before {
-  left: 6rpx;
+  left: 8rpx;
   transform: rotate(-45deg);
 }
 
 .heart::after {
-  right: 6rpx;
+  right: 8rpx;
   transform: rotate(45deg);
 }
 
 .heart-inner {
   position: absolute;
-  width: 16rpx;
-  height: 16rpx;
+  width: 20rpx;
+  height: 20rpx;
   background: #fff;
   border-radius: 50%;
-  top: 20rpx;
+  top: 24rpx;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .app-name {
-  font-size: 36rpx;
-  font-weight: 600;
-  color: #333;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #3a3a4a;
+  letter-spacing: 4rpx;
 }
 
 /* 表单区域 */
 .form-section {
-  margin-top: 40rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  padding: 50rpx 40rpx;
+  box-shadow: 0 8rpx 40rpx rgba(100, 120, 140, 0.1);
 }
 
 .input-group {
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
 }
 
 .input-item {
   display: flex;
   align-items: center;
   height: 100rpx;
-  border-bottom: 2rpx solid #e8e8e8;
-  margin-bottom: 20rpx;
+  background: #f8f7f5;
+  border-radius: 20rpx;
+  padding: 0 24rpx;
+  margin-bottom: 24rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.input-item:focus-within {
+  border-color: #8db8b6;
+  box-shadow: 0 0 0 4rpx rgba(141, 184, 182, 0.1);
 }
 
 .input-icon {
-  width: 40rpx;
-  height: 40rpx;
+  width: 44rpx;
+  height: 44rpx;
   margin-right: 20rpx;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  opacity: 0.6;
 }
 
 .user-icon {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238db8b6"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
 }
 
 .lock-icon {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238db8b6"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
 }
 
 .input-field {
   flex: 1;
   font-size: 30rpx;
-  color: #333;
+  color: #3a3a4a;
+}
+
+.input-field::placeholder {
+  color: #9a9aaa;
 }
 
 .eye-icon {
-  width: 40rpx;
-  height: 40rpx;
-  padding: 10rpx;
+  width: 50rpx;
+  height: 50rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.eye-icon:active {
+  background: rgba(141, 184, 182, 0.1);
 }
 
 .eye-text {
@@ -526,7 +549,7 @@ export default {
 }
 
 .eye-close {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .eye-open {
@@ -535,65 +558,59 @@ export default {
 
 /* 验证码 */
 .input-item-inner {
-  margin: auto;
   display: flex;
   align-items: center;
   flex: 1;
 }
 
 .input-item.captcha-item {
-  height: 140rpx;
-  align-items: flex-start;
+  height: auto;
+  padding: 16rpx 24rpx;
 }
 
 .captcha-box {
-  margin: auto;
-  width: 200rpx;
-  height: 80rpx;
+  width: 180rpx;
+  height: 72rpx;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(77, 208, 225, 0.1);
-  border: 2rpx solid rgba(77, 208, 225, 0.3);
-  border-radius: 10rpx;
+  background: linear-gradient(135deg, #f0f4f4 0%, #e8f0f0 100%);
+  border-radius: 16rpx;
   overflow: hidden;
+  margin-left: 16rpx;
 }
 
 .captcha-box:active {
-  background: rgba(77, 208, 225, 0.2);
-  border-color: rgba(77, 208, 225, 0.5);
+  opacity: 0.8;
 }
 
 .captcha-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8rpx;
 }
 
 .captcha-placeholder {
   font-size: 22rpx;
-  color: rgba(77, 208, 225, 0.6);
+  color: #8db8b6;
 }
 
 .captcha-loading {
   width: 32rpx;
   height: 32rpx;
-  border: 3rpx solid rgba(77, 208, 225, 0.3);
+  border: 3rpx solid rgba(141, 184, 182, 0.3);
   border-top-color: #8db8b6;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .captcha-icon {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238db8b6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>');
 }
 
 /* 语言选择 */
@@ -604,7 +621,7 @@ export default {
 
 .language-label {
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
   margin-bottom: 15rpx;
 }
 
@@ -617,18 +634,19 @@ export default {
   flex: 1;
   height: 80rpx;
   border: 2rpx solid #e8e8e8;
-  border-radius: 10rpx;
+  border-radius: 16rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 28rpx;
-  color: #333;
+  color: #6a6a7a;
+  background: #f8f7f5;
   transition: all 0.3s ease;
 }
 
 .language-option.active {
   border-color: #8db8b6;
-  background-color: rgba(77, 208, 225, 0.05);
+  background: linear-gradient(135deg, rgba(141, 184, 182, 0.1) 0%, rgba(168, 206, 206, 0.1) 100%);
   color: #8db8b6;
 }
 
@@ -641,13 +659,15 @@ export default {
 .helper-links {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 60rpx;
-  margin-top: 20rpx;
+  margin-bottom: 40rpx;
+  margin-top: 10rpx;
+  padding: 0 10rpx;
 }
 
 .link-text {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #8db8b6;
+  font-weight: 500;
 }
 
 .link-text.register {
@@ -657,17 +677,18 @@ export default {
 /* 登录按钮 */
 .login-btn {
   width: 100%;
-  height: 90rpx;
+  height: 96rpx;
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-size: 32rpx;
-  font-weight: 500;
-  border-radius: 45rpx;
+  font-weight: 600;
+  border-radius: 48rpx;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.4);
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.4);
+  letter-spacing: 4rpx;
 }
 
 .login-btn::after {
@@ -682,7 +703,7 @@ export default {
 /* 底部协议 */
 .agreement-section {
   position: fixed;
-  bottom: 60rpx;
+  bottom: 50rpx;
   left: 0;
   right: 0;
   display: flex;
@@ -699,40 +720,48 @@ export default {
 }
 
 .checkbox {
-  width: 28rpx;
-  height: 28rpx;
-  border: 2rpx solid #ccc;
-  border-radius: 50%;
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid #c8c8d8;
+  border-radius: 8rpx;
   margin-right: 10rpx;
   position: relative;
+  transition: all 0.2s ease;
 }
 
 .checkbox.checked {
-  background-color: #2196F3;
-  border-color: #2196F3;
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  border-color: #8db8b6;
 }
 
 .checkbox.checked::after {
   content: '';
   position: absolute;
-  width: 12rpx;
-  height: 6rpx;
+  width: 14rpx;
+  height: 8rpx;
   border-left: 3rpx solid #fff;
   border-bottom: 3rpx solid #fff;
   transform: rotate(-45deg);
-  top: 6rpx;
-  left: 6rpx;
+  top: 8rpx;
+  left: 7rpx;
 }
 
 .agreement-text {
   font-size: 24rpx;
-  color: #999;
+  color: #9a9aaa;
+}
+
+/* 协议链接 */
+.agreement-link {
+  font-size: 24rpx;
+  color: #8db8b6;
+  font-weight: 500;
 }
 
 /* ── Shared theme overrides ── */
-page { background-color: #f4f2ee !important; }
+page { background-color: #f5f3ef !important; }
 
-.container { background-color: #f4f2ee !important; min-height: 100vh; }
+.container { background: linear-gradient(160deg, #e8f4f4 0%, #f5f3ef 50%, #f4f2ee 100%) !important; min-height: 100vh; }
 
 /* Cards */
 .patient-section,
@@ -753,9 +782,9 @@ page { background-color: #f4f2ee !important; }
 .filter-bar,
 .package-section {
   background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10) !important;
-  margin: 16rpx 0 !important;
+  border-radius: 24rpx !important;
+  box-shadow: 0 4rpx 24rpx rgba(100,120,140,0.08) !important;
+  margin: 20rpx 0 !important;
 }
 
 /* Icon squares */
@@ -769,7 +798,6 @@ page { background-color: #f4f2ee !important; }
 
 /* Action buttons / primary CTAs */
 .action-btn,
-.login-btn,
 .switch-btn,
 .submit-btn,
 .pay-btn,
@@ -777,7 +805,7 @@ page { background-color: #f4f2ee !important; }
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
   color: #fff !important;
   border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
+  box-shadow: 0 4rpx 20rpx rgba(141,184,182,0.35) !important;
   border: none !important;
 }
 
@@ -790,8 +818,9 @@ page { background-color: #f4f2ee !important; }
 /* Order left border accent */
 .order-item {
   border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
+  border-radius: 20rpx !important;
+  background: #ffffff !important;
+  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.06) !important;
 }
 
 /* Status tags */
@@ -853,23 +882,6 @@ page { background-color: #f4f2ee !important; }
 .pkg-type-tag .type-text { color: #6a9ea0 !important; }
 
 /* Input focus ring */
-.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 3rpx rgba(141,184,182,0.18) !important; }
-
-
-/* ── login page specifics ── */
-.container { background: linear-gradient(160deg, #e8f4f4 0%, #f4f2ee 100%) !important; }
-.logo-section { padding-top: 80rpx; }
-.app-name { color: #3a3a4a !important; font-size: 44rpx; font-weight: 700; }
-.heart { background: linear-gradient(135deg, #8db8b6, #a8cece) !important; }
-.heart-inner { background: #fff !important; }
-.form-section { background: #fff; border-radius: 24rpx; padding: 40rpx; margin: 0 30rpx;
-  box-shadow: 0 4rpx 20rpx rgba(100,120,140,0.10); }
-.input-item { background: #f4f2ee !important; border-radius: 12rpx !important;
-  border: none !important; margin-bottom: 16rpx; }
-.login-btn { background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important; border-radius: 40rpx !important; font-size: 32rpx !important;
-  font-weight: 600 !important; box-shadow: 0 4rpx 16rpx rgba(100,175,175,0.28) !important;
-  margin-top: 24rpx !important; }
-.link-text { color: #8db8b6 !important; }
+.input-item:focus-within { border-color: #8db8b6 !important; box-shadow: 0 0 0 4rpx rgba(141,184,182,0.12) !important; }
 
 </style>

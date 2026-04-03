@@ -4,7 +4,7 @@
     <CompanionNavBar title="服务规范" showBack="true"></CompanionNavBar>
     
     <!-- 顶部空白区域 -->
-    <view class="top-space"></view>
+    
     
     <!-- 视频部分 -->
     <view class="video-section">

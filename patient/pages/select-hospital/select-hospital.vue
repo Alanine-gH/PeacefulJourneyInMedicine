@@ -14,7 +14,7 @@
           :class="{ active: selectedHospital === item.name }"
           @click="selectHospital(item)"
       >
-        <image class="hospital-image" :src="item.image" mode="aspectFill"></image>
+        <image class="hospital-image" src="/static/hospital.png" mode="aspectFill"></image>
         <view class="hospital-info">
           <text class="hospital-name">{{ item.name }}</text>
           <view class="hospital-tags">

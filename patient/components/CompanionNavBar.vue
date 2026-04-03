@@ -1,15 +1,5 @@
 <template>
-  <view class="nav-bar">
-    <view class="nav-content">
-      <view class="nav-left">
-        <view v-if="showBack" class="back-btn" @click="goBack">
-          <text class="back-icon">←</text>
-        </view>
-      </view>
-      <view class="nav-title">{{ title }}</view>
-      <view class="nav-right"></view>
-    </view>
-  </view>
+  
 </template>
 
 <script>

@@ -219,7 +219,6 @@
 import {getOrderList, getOrderDetail, updateOrder, deleteOrder, updateOrderStatus} from '@/api/order.js'
 import { getFileUrl } from '@/api/medical.js'
 import { BASE_URL } from '@/config'
-import {uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'OrderList',
@@ -240,7 +239,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       try {
@@ -378,9 +376,6 @@ export default {
   }
 }
 </script>
-<style>
-@import '@/assets/order.css';
-</style>
 <style scoped>
 .btn-cancel {
   background: var(--bg-collapse);
@@ -393,3 +388,6 @@ export default {
 }
 </style>
 
+<style>
+@import '@/assets/order.css';
+</style>

@@ -161,11 +161,11 @@ export default {
 
 /* 主题区域 */
 .hero-section {
-  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  background: linear-gradient(135deg, #8DB8B6 0%, #A8CECE 100%);
   border-radius: 20rpx;
   padding: 50rpx;
   margin-bottom: 30rpx;
-  box-shadow: 0 8rpx 24rpx rgba(255, 152, 0, 0.3);
+  box-shadow: 0 8rpx 24rpx rgba(141, 184, 182, 0.3);
 }
 
 .hero-content {

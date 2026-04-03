@@ -40,10 +40,7 @@
 			<view v-for="pkg in packages" :key="pkg.id" class="package-item" @click="goDetail(pkg.id)">
 				<!-- 封面图 -->
 				<view class="pkg-cover">
-					<image v-if="pkg.coverImageUrl" :src="pkg.coverImageUrl" class="cover-img" mode="aspectFill" />
-					<view v-else class="cover-placeholder">
-						<text class="cover-icon">🏥</text>
-					</view>
+					<image src="/static/help.png" class="cover-img" mode="aspectFill" />
 				</view>
 
 				<!-- 套餐信息 -->
@@ -153,7 +150,12 @@
 		},
 		methods: {
 			goBack() {
-				uni.navigateBack()
+				const pages = getCurrentPages()
+				if (pages.length > 1) {
+					uni.navigateBack()
+				} else {
+					uni.switchTab({ url: '/pages/home/home' })
+				}
 			},
 			async fetchPackages() {
 				if (this.loading) return;

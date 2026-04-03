@@ -23,7 +23,7 @@
             <text v-if="(order.orderStatus || order.order_status) === 2" class="order-tag">急</text>
           </view>
           <view class="order-content">
-            <image class="service-image" src="/static/logo.png" mode="aspectFill"></image>
+            <image class="service-image" src="/static/hospital.png" mode="aspectFill"></image>
             <view class="service-info">
               <text class="info-item">就诊医院：{{
                   order.appointmentHospital || order.appointment_hospital || '-'

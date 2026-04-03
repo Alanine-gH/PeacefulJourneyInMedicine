@@ -1,0 +1,182 @@
+/* ============================================
+   医路安心 - 全局主题样式
+   配色方案：柔和医疗风格
+   ============================================ */
+
+// 主色调
+$primary: #8db8b6;
+$primary-light: #a8cece;
+$primary-lighter: #c2dada;
+
+// 辅助色
+$secondary-purple: #c0b0d8;
+$secondary-pink: #d4a8b0;
+$secondary-orange: #e8c4a8;
+$secondary-green: #a8c0b8;
+
+// 背景色
+$bg-color: #f5f3ef;
+$card-bg: #ffffff;
+
+// 文字色
+$text-primary: #3a3a4a;
+$text-secondary: #6a6a7a;
+$text-tertiary: #9a9aaa;
+
+// 边框和阴影
+$border-color: rgba(141, 184, 182, 0.15);
+$shadow-soft: 0 4rpx 20rpx rgba(100, 120, 140, 0.08);
+$shadow-medium: 0 8rpx 32rpx rgba(100, 120, 140, 0.12);
+
+// 圆角
+$radius-sm: 12rpx;
+$radius-md: 16rpx;
+$radius-lg: 20rpx;
+$radius-xl: 30rpx;
+
+// 渐变背景
+@mixin gradient-primary {
+  background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+}
+
+@mixin gradient-purple {
+  background: linear-gradient(135deg, $secondary-purple 0%, #a898c8 100%);
+}
+
+@mixin gradient-pink {
+  background: linear-gradient(135deg, $secondary-pink 0%, #c09098 100%);
+}
+
+@mixin gradient-orange {
+  background: linear-gradient(135deg, $secondary-orange 0%, #d4a88c 100%);
+}
+
+@mixin gradient-green {
+  background: linear-gradient(135deg, $secondary-green 0%, #8db8a8 100%);
+}
+
+// 卡片样式
+@mixin card {
+  background: $card-bg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-soft;
+  padding: 30rpx;
+}
+
+// 按钮样式
+@mixin btn-primary {
+  @include gradient-primary;
+  color: #fff;
+  border-radius: 40rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.3);
+}
+
+@mixin btn-secondary {
+  background: $card-bg;
+  color: $primary;
+  border-radius: 40rpx;
+  padding: 16rpx 32rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  border: 2rpx solid $border-color;
+}
+
+// 图标容器
+@mixin icon-box($bg-color: rgba(141, 184, 182, 0.12)) {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg-color;
+}
+
+// 状态标签
+@mixin status-tag($bg, $color) {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+  background: $bg;
+  color: $color;
+}
+
+// 区块标题
+@mixin section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: $text-primary;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  
+  &::before {
+    content: '';
+    width: 6rpx;
+    height: 28rpx;
+    background: linear-gradient(180deg, $primary 0%, $primary-light 100%);
+    border-radius: 3rpx;
+  }
+}
+
+// 输入框
+@mixin input-field {
+  background: $bg-color;
+  border-radius: $radius-md;
+  padding: 24rpx 30rpx;
+  font-size: 28rpx;
+  color: $text-primary;
+  border: 2rpx solid transparent;
+  
+  &:focus {
+    border-color: $primary-light;
+    box-shadow: 0 0 0 4rpx rgba(141, 184, 182, 0.1);
+  }
+}
+
+// 列表项
+@mixin list-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.04);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// 动画
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// 工具类
+.text-gradient {
+  background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.divider {
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.06) 50%, transparent 100%);
+  margin: 20rpx 0;
+}

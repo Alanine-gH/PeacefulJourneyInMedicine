@@ -46,6 +46,8 @@
         </view>
       </view>
 
+
+
       <!-- 就诊时间 -->
       <view class="form-item" @click="selectTime">
         <text class="label-text">就诊时间</text>
@@ -129,6 +131,7 @@ export default {
       servicePrice: null,
       hospital: '',
       hospitalId: null,
+      department: '',
       visitTime: '',
       patient: '',
       patientId: null,
@@ -185,8 +188,10 @@ export default {
     if (selectedDoctor) {
       this.doctor = selectedDoctor
       this.doctorId = uni.getStorageSync('selectedDoctorId') || null
+      this.department = uni.getStorageSync('selectedDepartment') || ''
       uni.removeStorageSync('selectedDoctor')
       uni.removeStorageSync('selectedDoctorId')
+      uni.removeStorageSync('selectedDepartment')
     }
   },
   methods: {
@@ -200,6 +205,7 @@ export default {
         url: '/pages/select-hospital/select-hospital'
       })
     },
+
     selectTime() {
       uni.navigateTo({
         url: '/pages/select-time/select-time'
@@ -265,6 +271,7 @@ export default {
       if (!this.visitTime) { uni.showToast({ title: '请选择就诊时间', icon: 'none' }); return }
       if (!this.patient) { uni.showToast({ title: '请选择就诊人', icon: 'none' }); return }
       if (!this.doctor) { uni.showToast({ title: '请选择就诊医生', icon: 'none' }); return }
+      if (!this.department) { uni.showToast({ title: '请选择就诊科室', icon: 'none' }); return }
       if (!this.phone) { uni.showToast({ title: '请输入联系电话', icon: 'none' }); return }
       if (this.phone.length !== 11) { uni.showToast({ title: '请输入11位手机号码', icon: 'none' }); return }
       if (!this.demand) { uni.showToast({ title: '请输入服务需求', icon: 'none' }); return }
@@ -274,20 +281,26 @@ export default {
       uni.showLoading({ title: '提交中...' })
       try {
         const userId = uni.getStorageSync('userId')
+        // 解析时间格式，将 "4月2日 14:00" 转换为后端要求的格式
+        const [dateStr, timeStr] = this.visitTime.split(' ')
+        const [month, day] = dateStr.match(/(\d+)月(\d+)日/).slice(1).map(Number)
+        const year = new Date().getFullYear()
+        // 格式化日期为 yyyy-MM-dd
+        const dateFormatted = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+        // 格式化时间为 yyyy-MM-dd HH:mm:ss
+        const timeFormatted = `${dateFormatted} ${timeStr}:00`
+        
         const orderData = {
-          userId,
-          serviceType: this.serviceType,
-          servicePackageId: this.servicePackageId,
-          hospitalId: this.hospitalId,
-          hospitalName: this.hospital,
-          patientId: this.patientId,
+          userId: parseInt(userId),
           patientName: this.patient,
-          patientPhone: this.phone,
-          expertId: this.doctorId,
-          expertName: this.doctor,
-          appointmentTime: this.visitTime,
-          description: this.demand,
-          totalAmount: this.servicePrice
+          appointmentHospital: this.hospital,
+          appointmentDepartment: this.department,
+          appointmentDate: dateFormatted,
+          serviceStartTime: timeFormatted,
+          serviceEndTime: timeFormatted,
+          totalAmount: this.servicePrice,
+          diseaseDescription: this.demand,
+          remark: this.demand
         }
         const res = await createPatientOrder(orderData)
         uni.hideLoading()

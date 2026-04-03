@@ -14,8 +14,7 @@
         </view>
         <view v-for="(expert, index) in experts" :key="expert.id || index" class="expert-item">
           <view class="expert-image">
-            <image v-if="expert.photoUrl" :src="expert.photoUrl" class="expert-photo" mode="aspectFill"/>
-            <text v-else class="image-icon">{{ expert.gender === 2 ? '👩‍⚕️' : '👨‍⚕️' }}</text>
+            <image src="/static/doctor.png" class="expert-photo" mode="aspectFill"/>
           </view>
           <view class="expert-info">
             <text class="expert-name">{{ expert.expertName || '-' }}</text>

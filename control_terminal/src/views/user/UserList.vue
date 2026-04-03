@@ -239,10 +239,10 @@ import {
   updateUser,
   deleteUser,
   updateUserStatus,
-  resetPassword
+  resetPassword,
+  getFileUrl
 } from '@/api/user.js'
 import { BASE_URL } from '@/config'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
 
 export default {
   name: 'UserList',
@@ -276,7 +276,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async handleUpload(e, field) {
       const file = e.target.files[0];
       if (!file) return;

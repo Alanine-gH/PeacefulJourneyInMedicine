@@ -149,7 +149,7 @@
 
 <script>
 import {getIdentityList, getIdentityDetail, auditIdentity, deleteIdentity} from '@/api/user.js'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
+
 export default {
   name: 'Identity',
   data() {
@@ -168,7 +168,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true
       try {
@@ -245,8 +244,8 @@ export default {
   }
 }
 </script>
-<style>@import "@/assets/user.css";</style>
 <style scoped>
+@import "@/assets/user.css";
 
 .btn-reset {
   background: var(--bg-input);

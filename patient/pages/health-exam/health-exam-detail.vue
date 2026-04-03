@@ -3,14 +3,10 @@
     <!-- 头部封面 -->
     <view class="cover-area">
       <image
-          v-if="pkg.coverImageUrl"
-          :src="pkg.coverImageUrl"
+          src="/static/top.png"
           class="cover-img"
           mode="aspectFill"
       />
-      <view v-else class="cover-placeholder">
-        <text class="cover-ph-icon">🏥</text>
-      </view>
       <!-- 返回按钮 -->
             <view class="back-btn" @click="goBack">
               <text class="back-icon">‹</text>
@@ -222,7 +218,12 @@ export default {
       }
     },
     goBack() {
-      uni.navigateBack({delta: 1});
+      const pages = getCurrentPages()
+      if (pages.length > 1) {
+        uni.navigateBack({delta: 1})
+      } else {
+        uni.switchTab({ url: '/pages/home/home' })
+      }
     }
   }
 };

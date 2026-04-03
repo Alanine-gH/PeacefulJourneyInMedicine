@@ -81,9 +81,52 @@ import { sendChatStream as apiSendChatStream } from '../../utils/api';
 
 function decodeUtf8Chunk(chunk) {
   try {
-    return decodeURIComponent(escape(chunk));
+    // 1. 首先过滤掉 "data:" 前缀（使用更强大的正则表达式）
+    let processedChunk = chunk.replace(/data:\s*/g, '');
+    
+    // 2. 过滤掉多余的引号（保留正常的中文引号，过滤掉英文引号）
+    processedChunk = processedChunk.replace(/^"+|"+$/gm, ''); // 去除每行开头和结尾的英文双引号
+    processedChunk = processedChunk.replace(/^'+|'+$/gm, ''); // 去除每行开头和结尾的英文单引号
+    
+    // 3. 过滤掉多余的 * 号
+    processedChunk = processedChunk.replace(/\*/g, '');
+    
+    // 4. 过滤掉 \n 转义字符
+    processedChunk = processedChunk.replace(/\\n/g, '');
+    
+    // 5. 尝试多种解码方式
+    // 5.1 尝试直接使用 decodeURIComponent
+    return decodeURIComponent(escape(processedChunk));
   } catch (e) {
-    return chunk;
+    try {
+      // 5.2 尝试使用 decodeURI
+      let processedChunk = chunk.replace(/data:\s*/g, '');
+      processedChunk = processedChunk.replace(/^"+|"+$/gm, '');
+      processedChunk = processedChunk.replace(/^'+|'+$/gm, '');
+      processedChunk = processedChunk.replace(/\*/g, '');
+      processedChunk = processedChunk.replace(/\\n/g, '');
+      return decodeURI(processedChunk);
+    } catch (e2) {
+      try {
+        // 5.3 尝试处理可能的 Unicode 转义序列
+        let processedChunk = chunk.replace(/data:\s*/g, '');
+        processedChunk = processedChunk.replace(/^"+|"+$/gm, '');
+        processedChunk = processedChunk.replace(/^'+|'+$/gm, '');
+        processedChunk = processedChunk.replace(/\*/g, '');
+        processedChunk = processedChunk.replace(/\\n/g, '');
+        return processedChunk.replace(/\\u([0-9a-fA-F]{4})/g, (match, hex) => {
+          return String.fromCharCode(parseInt(hex, 16));
+        });
+      } catch (e3) {
+        // 5.4 最后返回原始内容（但仍然过滤掉 "data:" 前缀和多余引号、*号、\n）
+        let processedChunk = chunk.replace(/data:\s*/g, '');
+        processedChunk = processedChunk.replace(/^"+|"+$/gm, '');
+        processedChunk = processedChunk.replace(/^'+|'+$/gm, '');
+        processedChunk = processedChunk.replace(/\*/g, '');
+        processedChunk = processedChunk.replace(/\\n/g, '');
+        return processedChunk;
+      }
+    }
   }
 }
 
@@ -321,9 +364,14 @@ export default {
 
 /* 返回首页 */
 .home-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background-color: #fff;
   padding: 20rpx;
   border-top: 1rpx solid #eee;
+  z-index: 998;
 }
 
 .home-btn {
@@ -342,9 +390,14 @@ export default {
 
 /* 输入区域 */
 .input-section {
+  position: fixed;
+  bottom: 120rpx;
+  left: 0;
+  right: 0;
   background-color: #fff;
   padding: 20rpx;
   border-top: 1rpx solid #e0e0e0;
+  z-index: 1000;
 }
 
 .input-container {
@@ -432,7 +485,7 @@ export default {
 
 /* 底部空白区域 */
 .bottom-space {
-  height: 20vh;
+  height: 250rpx;
   width: 100%;
 }
 

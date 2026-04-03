@@ -18,7 +18,7 @@
       </view>
       <view class="info-item">
         <view class="info-label">本月收入</view>
-        <view class="info-value">¥{{ workInfo.monthlyIncome.toLocaleString() }}</view>
+        <view class="info-value">¥{{ (workInfo.monthlyIncome || 0).toLocaleString() }}</view>
       </view>
       <view class="info-item">
         <view class="info-label">服务评分</view>
@@ -129,17 +129,18 @@ export default {
 
         if (workInfoRes.code === 200) {
           const data = workInfoRes.data || {};
+          console.log('后端返回的数据:', data);
           // 后端字段: activeOrderCount(进行中), pendingOrderCount(待接单), serviceCount, ratingScore
           this.workInfo = {
-            todayOrders: data.activeOrderCount || data.today_orders || 0,
-            pendingOrders: data.pendingOrderCount || data.pending_orders || 0,
-            monthlyIncome: data.monthlyIncome || data.monthly_income || 0,
-            rating: data.ratingScore || data.rating_score || 0
+            todayOrders: Number(data.activeOrderCount || data.today_orders || data.todayOrders || 0),
+            pendingOrders: Number(data.pendingOrderCount || data.pending_orders || data.pendingOrders || 0),
+            monthlyIncome: Number(data.monthlyIncome || data.monthly_income || data.monthly_income_total || 0),
+            rating: Number(data.ratingScore || data.rating_score || data.rating || 0)
           };
           this.workStats = {
-            serviceCount: data.serviceCount || data.service_count || 0,
-            goodRate: data.onTimeRate != null ? (data.onTimeRate + '%') : (data.good_rate || '0%'),
-            serviceHours: data.serviceHours || data.service_hours || 0
+            serviceCount: Number(data.serviceCount || data.service_count || data.service_times || 0),
+            goodRate: data.onTimeRate != null ? (data.onTimeRate + '%') : (data.good_rate || data.goodRate || '0%'),
+            serviceHours: Number(data.serviceHours || data.service_hours || data.service_time || 0)
           };
         }
 
@@ -579,7 +580,7 @@ page {
 }
 
 .orders-section {
-  margin: 0 24rpx 16rpx !important;
+  margin: 20rpx 24rpx 16rpx !important;
   padding: 28rpx !important;
 }
 

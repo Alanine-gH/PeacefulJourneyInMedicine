@@ -248,10 +248,10 @@ import {
   addAccompanist,
   updateAccompanist,
   deleteAccompanist,
-  auditAccompanist
+  auditAccompanist,
+  getFileUrl
 } from '@/api/user.js'
-import {getFileUrl, uploadFile} from '@/api/utils.js'
-import {BASE_URL} from '@/config'
+import { BASE_URL } from '@/config'
 
 export default {
   name: 'Accompanist',
@@ -292,7 +292,7 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
+
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return
@@ -449,8 +449,8 @@ export default {
   }
 }
 </script>
-<style>@import "@/assets/user.css";</style>
 <style scoped>
+@import "@/assets/user.css";
 
 .filter-input {
   background: var(--bg-input);

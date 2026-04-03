@@ -107,7 +107,6 @@
 </template>
 <script>
 import { BASE_URL } from '@/config'
-import {getFileUrl, uploadFile} from "@/api/utils.js";
 const H = () => {
   const t = localStorage.getItem('token');
   return t ? {Authorization: 'Bearer ' + t} : {}
@@ -126,7 +125,6 @@ export default {
     this.loadData()
   },
   methods: {
-    getFileUrl,uploadFile,
     async loadData() {
       this.loading = true;
       const userId = this.query.userId || 1;

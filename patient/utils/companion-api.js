@@ -6,17 +6,34 @@
 import { request } from './config.js';
 
 async function ensureAccompanistId() {
-  let accompanistId = uni.getStorageSync('accompanistId') || '';
-  if (accompanistId) return accompanistId;
-  const userId = uni.getStorageSync('userId') || '';
-  if (!userId) throw new Error('未找到用户ID，请重新登录');
-  const res = await request(`/user/accompanist/by-user/${userId}`);
-  if (res && res.code === 200 && res.data && res.data.id) {
-    accompanistId = res.data.id;
-    uni.setStorageSync('accompanistId', accompanistId);
-    return accompanistId;
+  try {
+    let accompanistId = uni.getStorageSync('accompanistId') || '';
+    console.log('从缓存获取 accompanistId:', accompanistId);
+    if (accompanistId) return accompanistId;
+    
+    const userId = uni.getStorageSync('userId') || '';
+    console.log('从缓存获取 userId:', userId);
+    if (!userId) {
+      console.error('未找到用户ID，请重新登录');
+      throw new Error('未找到用户ID，请重新登录');
+    }
+    
+    const res = await request(`/user/accompanist/by-user/${userId}`);
+    console.log('根据 userId 获取陪护员信息:', res);
+    
+    if (res && res.code === 200 && res.data && res.data.id) {
+      accompanistId = res.data.id;
+      uni.setStorageSync('accompanistId', accompanistId);
+      console.log('缓存 accompanistId:', accompanistId);
+      return accompanistId;
+    }
+    
+    console.error('未找到陪诊师档案，请先完成认证');
+    throw new Error('未找到陪诊师档案，请先完成认证');
+  } catch (error) {
+    console.error('获取 accompanistId 失败:', error);
+    throw error;
   }
-  throw new Error('未找到陪诊师档案，请先完成认证');
 }
 
 /**
@@ -64,14 +81,22 @@ async function updateCompanionProfile(companionId, data) {
  * @description 获取陪护员的工作统计信息，包括完成订单数、收入、评分等
  */
 async function getCompanionWorkInfo() {
-  const accompanistId = await ensureAccompanistId();
-  if (!accompanistId) {
-    return Promise.reject(new Error('accompanistId 未初始化，请先进入「我的」页面'));
+  try {
+    const accompanistId = await ensureAccompanistId();
+    if (!accompanistId) {
+      console.error('accompanistId 未初始化，请先进入「我的」页面');
+      return Promise.reject(new Error('accompanistId 未初始化，请先进入「我的」页面'));
+    }
+    console.log('获取工作信息，accompanistId:', accompanistId);
+    const response = await request(`/companion/work-info?accompanistId=${accompanistId}`, {
+      method: 'GET'
+    });
+    console.log('后端工作信息接口返回:', response);
+    return response;
+  } catch (error) {
+    console.error('获取工作信息失败:', error);
+    return Promise.reject(error);
   }
-  return request('/companion/work-info', {
-    method: 'GET',
-    data: { accompanistId }
-  });
 }
 
 /**
@@ -104,14 +129,35 @@ async function getAvailableOrders(params) {
  * @description 获取陪护员的订单列表，支持按状态筛选和分页
  */
 async function getCompanionOrders(params) {
-  const accompanistId = await ensureAccompanistId();
-  if (!accompanistId) {
-    return Promise.reject(new Error('accompanistId 未初始化'));
+  try {
+    const accompanistId = await ensureAccompanistId();
+    if (!accompanistId) {
+      console.error('accompanistId 未初始化');
+      return Promise.reject(new Error('accompanistId 未初始化'));
+    }
+    
+    // 构建查询字符串
+    const queryParts = [];
+    queryParts.push(`accompanistId=${encodeURIComponent(accompanistId)}`);
+    if (params) {
+      for (const [key, value] of Object.entries(params)) {
+        if (value !== undefined && value !== null) {
+          queryParts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+        }
+      }
+    }
+    const queryString = queryParts.join('&');
+    
+    console.log('获取订单列表，参数:', { accompanistId, ...params });
+    const response = await request(`/companion/orders?${queryString}`, {
+      method: 'GET'
+    });
+    console.log('后端订单列表接口返回:', response);
+    return response;
+  } catch (error) {
+    console.error('获取订单列表失败:', error);
+    return Promise.reject(error);
   }
-  return request('/companion/orders', {
-    method: 'GET',
-    data: { accompanistId, ...params }
-  });
 }
 
 /**

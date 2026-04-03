@@ -277,36 +277,37 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f4f2ee;
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
   min-height: 100vh;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
 }
 
 /* 个人信息 */
 .profile-section {
-  background: #fff;
-  padding: 40rpx 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  padding: 40rpx 32rpx;
+  margin-bottom: 24rpx;
+  border-radius: 28rpx;
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.25);
   display: flex;
   align-items: center;
-  gap: 30rpx;
+  gap: 24rpx;
 }
 
 .profile-avatar {
   width: 120rpx;
   height: 120rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  background: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4rpx 12rpx rgba(77, 208, 225, 0.3);
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
 }
 
 .avatar-icon {
   font-size: 60rpx;
-  color: white;
 }
 
 .avatar-img {
@@ -321,54 +322,54 @@ export default {
 }
 
 .profile-name {
-  font-size: 32rpx;
+  font-size: 36rpx;
   font-weight: 600;
-  color: #333;
+  color: #fff;
   margin-bottom: 8rpx;
 }
 
 .profile-id {
   font-size: 24rpx;
-  color: #666;
-  margin-bottom: 10rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12rpx;
 }
 
 .profile-level {
-  display: inline-block;
+  display: flex;
+  gap: 12rpx;
 }
 
 .level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
-  color: white;
-  padding: 5rpx 15rpx;
-  border-radius: 15rpx;
-  font-size: 20rpx;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
   font-weight: 500;
-  margin-right: 10rpx;
 }
 
 .status-tag {
-  padding: 5rpx 15rpx;
-  border-radius: 15rpx;
-  font-size: 20rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
   font-weight: 500;
 }
 
-.status-free { background: #E8F5E9; color: #4CAF50; }
-.status-busy { background: #F3E5F5; color: #9C27B0; }
-.status-leave { background: #FFF3E0; color: #FF9800; }
-.status-off { background: #FFEBEE; color: #F44336; }
+.status-free { background: rgba(255, 255, 255, 0.25); color: #fff; }
+.status-busy { background: rgba(212, 168, 176, 0.4); color: #fff; }
+.status-leave { background: rgba(232, 196, 168, 0.4); color: #fff; }
+.status-off { background: rgba(239, 83, 80, 0.4); color: #fff; }
 
 /* 服务统计 */
 .stats-section {
   background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(100, 120, 140, 0.06);
   display: flex;
   justify-content: space-around;
-  gap: 20rpx;
+  gap: 16rpx;
 }
 
 .stat-item {
@@ -376,38 +377,38 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
+  padding: 24rpx 16rpx;
+  background: linear-gradient(135deg, #f8f7f5 0%, #f4f3f1 100%);
+  border-radius: 20rpx;
 }
 
 .stat-value {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #3a3a4a;
+  margin-bottom: 8rpx;
 }
 
 .stat-label {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
   text-align: center;
 }
 
 /* 功能列表 */
 .menu-section {
   background: #fff;
-  padding: 20rpx 0;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  padding: 16rpx 0;
+  margin-bottom: 24rpx;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(100, 120, 140, 0.06);
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f0f0f0;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease;
 }
 
@@ -415,44 +416,50 @@ export default {
   border-bottom: none;
 }
 
-.menu-item:hover {
-  background-color: #f4f2ee;
+.menu-item:active {
+  background-color: rgba(141, 184, 182, 0.05);
 }
 
 .menu-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: linear-gradient(135deg, #e8f0f0 0%, #d8e8e8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 36rpx;
-  margin-right: 20rpx;
-  width: 40rpx;
-  text-align: center;
+  margin-right: 24rpx;
 }
 
 .menu-text {
   flex: 1;
-  font-size: 28rpx;
-  color: #333;
+  font-size: 30rpx;
+  color: #3a3a4a;
+  font-weight: 500;
 }
 
 .menu-arrow {
   font-size: 32rpx;
-  color: #999;
+  color: #c8c8d8;
 }
 
 /* 切换按钮 */
 .switch-section {
-  padding: 30rpx;
-  margin: 20rpx 0;
+  padding: 0;
+  margin-bottom: 24rpx;
 }
 
 .switch-btn {
   width: 100%;
-  height: 90rpx;
+  height: 96rpx;
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-size: 32rpx;
   font-weight: 600;
-  border-radius: 45rpx;
+  border-radius: 48rpx;
   border: none;
-  box-shadow: 0 4rpx 12rpx rgba(77, 208, 225, 0.3);
+  box-shadow: 0 8rpx 24rpx rgba(141, 184, 182, 0.35);
   transition: all 0.3s ease;
 }
 
@@ -461,19 +468,13 @@ export default {
 }
 
 .switch-btn:active {
-  transform: translateY(2rpx);
-  box-shadow: 0 2rpx 6rpx rgba(77, 208, 225, 0.3);
-}
-
-/* 顶部空白区域 */
-.top-space {
-  height: 88rpx;
-  width: 100%;
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.3);
 }
 
 /* 底部空白区域 */
 .bottom-space {
-  height: 20vh;
+  height: 40rpx;
   width: 100%;
 }
 
@@ -639,7 +640,7 @@ page { background-color: #f4f2ee !important; }
 .avatar-icon { color: #fff !important; }
 .stats-section { margin: 0 24rpx !important; padding: 28rpx !important;
   background: #fff !important; }
-.menu-section { margin: 0 24rpx 16rpx !important; padding: 8rpx 0 !important; }
+.menu-section { margin: 20rpx 24rpx 16rpx !important; padding: 8rpx 0 !important; }
 .menu-item { padding: 28rpx 30rpx !important; border-bottom-color: #f0ede8 !important; }
 .menu-icon { font-size: 34rpx !important; }
 .menu-text { color: #3a3a4a !important; font-size: 28rpx !important; }
