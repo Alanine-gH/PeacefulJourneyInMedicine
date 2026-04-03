@@ -249,7 +249,7 @@ export default {
   overflow-x: auto;
   white-space: nowrap;
   position: sticky;
-  
+  top: 88rpx;
   z-index: 10;
   box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.06);
 }

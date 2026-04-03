@@ -640,7 +640,7 @@ page { background-color: #f4f2ee !important; }
 .avatar-icon { color: #fff !important; }
 .stats-section { margin: 0 24rpx !important; padding: 28rpx !important;
   background: #fff !important; }
-.menu-section { margin: 20rpx 24rpx 16rpx !important; padding: 8rpx 0 !important; }
+.menu-section { margin: 0 24rpx 16rpx !important; padding: 8rpx 0 !important; }
 .menu-item { padding: 28rpx 30rpx !important; border-bottom-color: #f0ede8 !important; }
 .menu-icon { font-size: 34rpx !important; }
 .menu-text { color: #3a3a4a !important; font-size: 28rpx !important; }

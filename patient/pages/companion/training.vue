@@ -157,11 +157,9 @@ export default {
 
 <style scoped>
 .container {
-  width: 100%;
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #f4f2ee;
+  padding: 24rpx;
 }
 
 /* 顶部空白区域 */
@@ -173,16 +171,42 @@ export default {
 /* 主要内容 */
 .main-content {
   flex: 1;
-  padding: 30rpx;
+  padding: 0;
 }
 
 /* 主题区域 */
 .hero-section {
-  background: linear-gradient(135deg, #C0B0D8 0%, #A898C8 100%);
-  border-radius: 20rpx;
-  padding: 50rpx;
-  margin-bottom: 30rpx;
-  box-shadow: 0 8rpx 24rpx rgba(168, 152, 200, 0.3);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 28rpx;
+  padding: 48rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(40rpx);
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -20%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(40rpx);
 }
 
 .hero-content {
@@ -190,6 +214,8 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
@@ -213,9 +239,9 @@ export default {
 
 .primary-button {
   background: rgba(255, 255, 255, 0.9);
-  color: #2E7D32;
-  padding: 20rpx 60rpx;
-  border-radius: 50rpx;
+  color: #8db8b6;
+  padding: 20rpx 64rpx;
+  border-radius: 30rpx;
   font-size: 28rpx;
   font-weight: 600;
   cursor: pointer;
@@ -226,7 +252,7 @@ export default {
   gap: 12rpx;
 }
 
-.primary-button:hover {
+.primary-button:active {
   background: #fff;
   transform: translateY(-4rpx);
   box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.15);
@@ -244,26 +270,26 @@ export default {
 }
 
 .card {
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 30rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
-  border: 1rpx solid #e8e8e8;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.1);
   transition: all 0.3s ease;
 }
 
-.card:hover {
+.card:active {
   transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.2);
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.2);
 }
 
 .card-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
   margin-bottom: 24rpx;
   padding-bottom: 16rpx;
-  border-bottom: 2rpx solid #f0f0f0;
+  border-bottom: 2rpx solid rgba(141, 184, 182, 0.1);
 }
 
 .card-content {
@@ -275,32 +301,35 @@ export default {
 .course-item {
   display: flex;
   flex-direction: column;
-  padding: 20rpx;
-  background: #f4f2ee;
-  border-radius: 12rpx;
+  padding: 24rpx;
+  background: rgba(141, 184, 182, 0.05);
+  border-radius: 16rpx;
   transition: all 0.3s ease;
 }
 
-.course-item:hover {
-  background: #e8f5e9;
+.course-item:active {
+  background: rgba(141, 184, 182, 0.1);
   transform: translateX(8rpx);
 }
 
 .course-icon {
   font-size: 48rpx;
-  margin-bottom: 12rpx;
+  margin-bottom: 16rpx;
 }
 
 .course-title {
   font-size: 28rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
+  margin-bottom: 8rpx;
+  border-bottom: none;
+  padding-bottom: 0;
   margin-bottom: 8rpx;
 }
 
 .course-desc {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
   line-height: 1.4;
 }
 
@@ -308,128 +337,128 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 16rpx;
-  padding: 16rpx;
-  background: #f4f2ee;
-  border-radius: 12rpx;
+  padding: 20rpx;
+  background: rgba(141, 184, 182, 0.05);
+  border-radius: 16rpx;
   transition: all 0.3s ease;
 }
 
-.advantage-item:hover {
-  background: #e8f5e9;
+.advantage-item:active {
+  background: rgba(141, 184, 182, 0.1);
   transform: translateX(8rpx);
 }
 
 .advantage-icon {
-  font-size: 36rpx;
+  font-size: 40rpx;
   margin-top: 4rpx;
 }
 
 .advantage-text {
   flex: 1;
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
   line-height: 1.5;
 }
 
 .schedule-item {
-  padding: 20rpx;
-  border-left: 4rpx solid #4CAF50;
-  background: #f4f2ee;
-  border-radius: 0 12rpx 12rpx 0;
+  padding: 24rpx;
+  border-left: 8rpx solid #8db8b6;
+  background: rgba(141, 184, 182, 0.05);
+  border-radius: 0 16rpx 16rpx 0;
   margin-bottom: 16rpx;
   transition: all 0.3s ease;
 }
 
-.schedule-item:hover {
-  background: #e8f5e9;
+.schedule-item:active {
+  background: rgba(141, 184, 182, 0.1);
   transform: translateX(8rpx);
 }
 
 .schedule-time {
   font-size: 28rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
   margin-bottom: 8rpx;
 }
 
 .schedule-content {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
   line-height: 1.4;
 }
 
 .case-item {
-  padding: 20rpx;
-  background: #f4f2ee;
-  border-radius: 12rpx;
+  padding: 24rpx;
+  background: rgba(141, 184, 182, 0.05);
+  border-radius: 16rpx;
   margin-bottom: 16rpx;
   transition: all 0.3s ease;
 }
 
-.case-item:hover {
-  background: #e8f5e9;
+.case-item:active {
+  background: rgba(141, 184, 182, 0.1);
   transform: translateY(-4rpx);
 }
 
 .case-name {
   font-size: 28rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
   margin-bottom: 8rpx;
 }
 
 .case-desc {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
   line-height: 1.4;
 }
 
 /* 底部操作区 */
 .bottom-section {
-  background: #fff;
-  padding: 30rpx;
-  border-top: 1rpx solid #f0f0f0;
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  padding: 32rpx;
+  border-radius: 22rpx;
+  margin-top: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.1);
 }
 
 .contact-info {
   margin-bottom: 24rpx;
   padding-bottom: 24rpx;
-  border-bottom: 2rpx solid #f0f0f0;
+  border-bottom: 2rpx solid rgba(141, 184, 182, 0.1);
 }
 
 .contact-title {
   font-size: 28rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
   margin-bottom: 12rpx;
 }
 
 .contact-text {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
   margin-bottom: 8rpx;
   line-height: 1.4;
 }
 
 .action-button {
-  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
-  padding: 24rpx;
-  border-radius: 12rpx;
+  padding: 28rpx;
+  border-radius: 22rpx;
   text-align: center;
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4rpx 12rpx rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.28);
 }
 
-.action-button:hover {
+.action-button:active {
   transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 16rpx rgba(76, 175, 80, 0.4);
+  box-shadow: 0 8rpx 24rpx rgba(141, 184, 182, 0.4);
 }
 
 .action-text {
@@ -462,184 +491,7 @@ export default {
   }
 
   .advantage-icon {
-    font-size: 32rpx;
+    font-size: 36rpx;
   }
 }
-
-/* ── Shared theme overrides ── */
-page {
-  background-color: #f4f2ee !important;
-}
-
-.container {
-  background-color: #f4f2ee !important;
-  min-height: 100vh;
-}
-
-/* Cards */
-.patient-section,
-.carousel-section,
-.location-section,
-.training-section,
-.health-section,
-.order-section,
-.menu-section,
-.profile-section,
-.stats-section,
-.orders-section,
-.info-section,
-.order-info,
-.payment-methods,
-.amount-section,
-.step-indicator,
-.filter-bar,
-.package-section {
-  background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
-  margin: 16rpx 0 !important;
-}
-
-/* Icon squares */
-.patient-icon,
-.health-icon,
-.stat-box-icon {
-  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
-  border-radius: 16rpx !important;
-  box-shadow: none !important;
-}
-
-/* Action buttons / primary CTAs */
-.action-btn,
-.login-btn,
-.switch-btn,
-.submit-btn,
-.pay-btn,
-.confirm-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
-  border: none !important;
-}
-
-/* Filter active pill */
-.filter-item.active {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Order left border accent */
-.order-item {
-  border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
-}
-
-/* Status tags */
-.order-status {
-  color: #8db8b6 !important;
-}
-
-/* Section titles */
-.section-title {
-  color: #3a3a4a !important;
-  font-weight: 600 !important;
-}
-
-/* Stat items */
-.stat-item {
-  background: #f4f2ee !important;
-  border-radius: 14rpx !important;
-}
-
-/* Tab bar selected */
-.tab-item.active,
-.tab-item.active .tab-text {
-  color: #8db8b6 !important;
-}
-
-/* Profile avatar ring */
-.profile-avatar {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
-}
-
-/* Level tag */
-.level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Loading spinner */
-.loading-spinner {
-  border-top-color: #8db8b6 !important;
-}
-
-/* Carousel items - remap class colors to softer palette */
-.carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.full {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.consult {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.result {
-  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
-}
-
-.carousel-item.medicine {
-  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
-}
-
-.carousel-item.basic {
-  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
-}
-
-/* Step indicator */
-.step-num {
-  border-color: #8db8b6 !important;
-  color: #8db8b6 !important;
-}
-
-.step-item.active .step-num,
-.step-item.completed .step-num {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-.step-line.active {
-  background-color: #8db8b6 !important;
-}
-
-/* Health exam header */
-.header {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-/* Package type tags */
-.pkg-type-tag {
-  background: #e8f4f4 !important;
-}
-
-.pkg-type-tag .type-text {
-  color: #6a9ea0 !important;
-}
-
-/* Input focus ring */
-.input-item:focus-within {
-  border-color: #8db8b6 !important;
-  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
-}
-
 </style>

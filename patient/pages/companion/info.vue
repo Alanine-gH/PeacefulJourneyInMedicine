@@ -184,17 +184,44 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #f4f2ee;
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
   min-height: 100vh;
+  padding: 24rpx;
 }
 
 /* 信息列表 */
 .info-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
+  padding: 32rpx;
+  margin: 0 0 24rpx 0;
+  border-radius: 22rpx;
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(40rpx);
+}
+
+.info-section::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -20%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(40rpx);
 }
 
 .info-item {
@@ -202,7 +229,9 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
 }
 
 .info-item:last-child {
@@ -210,36 +239,45 @@ export default {
 }
 
 .info-label {
-  font-size: 28rpx;
-  color: #666;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .info-value {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #fff;
 }
 
 /* 工作统计 */
 .stats-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  padding: 32rpx;
+  margin: 0 0 24rpx 0;
+  border-radius: 22rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.1);
 }
 
 .section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-header::before {
+  content: '';
+  width: 8rpx;
+  height: 32rpx;
+  background: linear-gradient(180deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 4rpx;
+  margin-right: 16rpx;
 }
 
 .section-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
 }
 
 .section-title .icon {
@@ -258,36 +296,43 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
+  padding: 24rpx;
+  background: rgba(141, 184, 182, 0.05);
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+}
+
+.stat-item:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 4rpx 12rpx rgba(141, 184, 182, 0.2);
 }
 
 .stat-icon {
   font-size: 48rpx;
-  margin-bottom: 15rpx;
+  margin-bottom: 16rpx;
 }
 
 .stat-value {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #3a3a4a;
+  margin-bottom: 8rpx;
 }
 
 .stat-label {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
   text-align: center;
 }
 
 /* 最近订单 */
 .orders-section {
-  background: #fff;
-  padding: 30rpx;
-  margin: 20rpx 0;
-  border-radius: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  padding: 32rpx;
+  margin: 0 0 24rpx 0;
+  border-radius: 22rpx;
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.1);
 }
 
 .order-list {
@@ -297,51 +342,60 @@ export default {
 }
 
 .order-item {
-  padding: 20rpx;
-  background: #f4f2ee;
-  border-radius: 15rpx;
-  border-left: 5rpx solid #8db8b6;
+  padding: 24rpx;
+  background: rgba(141, 184, 182, 0.05);
+  border-radius: 16rpx;
+  border-left: 8rpx solid #8db8b6;
+  transition: all 0.3s ease;
+}
+
+.order-item:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 4rpx 12rpx rgba(141, 184, 182, 0.2);
 }
 
 .order-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15rpx;
+  margin-bottom: 16rpx;
 }
 
 .order-id {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
 }
 
 .order-status {
   font-size: 24rpx;
   font-weight: 600;
   color: #8db8b6;
+  padding: 4rpx 16rpx;
+  border-radius: 16rpx;
+  background: rgba(141, 184, 182, 0.1);
 }
 
 .order-info {
   display: flex;
   flex-direction: column;
-  gap: 10rpx;
+  gap: 12rpx;
 }
 
 .order-service {
   font-size: 28rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
 }
 
 .order-time {
   font-size: 24rpx;
-  color: #666;
+  color: #6a6a7a;
 }
 
 .order-price {
   font-size: 28rpx;
   font-weight: 600;
-  color: #ff6b6b;
+  color: #8db8b6;
 }
 
 /* 顶部空白区域 */
@@ -352,7 +406,7 @@ export default {
 
 /* 底部空白区域 */
 .bottom-space {
-  height: 20vh;
+  height: 40rpx;
   width: 100%;
 }
 
@@ -360,11 +414,13 @@ export default {
 @media (max-width: 375px) {
   .stats-content {
     flex-direction: column;
+    gap: 16rpx;
   }
 
   .stat-item {
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
 
   .stat-icon {
@@ -372,248 +428,4 @@ export default {
     margin-right: 20rpx;
   }
 }
-
-/* ── Shared theme overrides ── */
-page {
-  background-color: #f4f2ee !important;
-}
-
-.container {
-  background-color: #f4f2ee !important;
-  min-height: 100vh;
-}
-
-/* Cards */
-.patient-section,
-.carousel-section,
-.location-section,
-.training-section,
-.health-section,
-.order-section,
-.menu-section,
-.profile-section,
-.stats-section,
-.orders-section,
-.info-section,
-.order-info,
-.payment-methods,
-.amount-section,
-.step-indicator,
-.filter-bar,
-.package-section {
-  background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
-  margin: 16rpx 0 !important;
-}
-
-/* Icon squares */
-.patient-icon,
-.health-icon,
-.stat-box-icon {
-  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
-  border-radius: 16rpx !important;
-  box-shadow: none !important;
-}
-
-/* Action buttons / primary CTAs */
-.action-btn,
-.login-btn,
-.switch-btn,
-.submit-btn,
-.pay-btn,
-.confirm-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
-  border: none !important;
-}
-
-/* Filter active pill */
-.filter-item.active {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Order left border accent */
-.order-item {
-  border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
-}
-
-/* Status tags */
-.order-status {
-  color: #8db8b6 !important;
-}
-
-/* Section titles */
-.section-title {
-  color: #3a3a4a !important;
-  font-weight: 600 !important;
-}
-
-/* Stat items */
-.stat-item {
-  background: #f4f2ee !important;
-  border-radius: 14rpx !important;
-}
-
-/* Tab bar selected */
-.tab-item.active,
-.tab-item.active .tab-text {
-  color: #8db8b6 !important;
-}
-
-/* Profile avatar ring */
-.profile-avatar {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
-}
-
-/* Level tag */
-.level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Loading spinner */
-.loading-spinner {
-  border-top-color: #8db8b6 !important;
-}
-
-/* Carousel items - remap class colors to softer palette */
-.carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.full {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.consult {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.result {
-  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
-}
-
-.carousel-item.medicine {
-  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
-}
-
-.carousel-item.basic {
-  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
-}
-
-/* Step indicator */
-.step-num {
-  border-color: #8db8b6 !important;
-  color: #8db8b6 !important;
-}
-
-.step-item.active .step-num,
-.step-item.completed .step-num {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-.step-line.active {
-  background-color: #8db8b6 !important;
-}
-
-/* Health exam header */
-.header {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-/* Package type tags */
-.pkg-type-tag {
-  background: #e8f4f4 !important;
-}
-
-.pkg-type-tag .type-text {
-  color: #6a9ea0 !important;
-}
-
-/* Input focus ring */
-.input-item:focus-within {
-  border-color: #8db8b6 !important;
-  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
-}
-
-
-/* ── companion info page specifics ── */
-.info-section {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  padding: 32rpx !important;
-  margin: 16rpx 24rpx !important;
-  box-shadow: 0 8rpx 28rpx rgba(100, 175, 175, 0.22) !important;
-}
-
-.info-item {
-  border-bottom-color: rgba(255, 255, 255, 0.20) !important;
-  padding: 18rpx 0 !important;
-}
-
-.info-label {
-  color: rgba(255, 255, 255, 0.80) !important;
-  font-size: 26rpx !important;
-}
-
-.info-value {
-  color: #fff !important;
-  font-size: 34rpx !important;
-  font-weight: 700 !important;
-}
-
-.stats-section {
-  margin: 0 24rpx !important;
-  padding: 28rpx !important;
-}
-
-.orders-section {
-  margin: 20rpx 24rpx 16rpx !important;
-  padding: 28rpx !important;
-}
-
-.stat-item {
-  background: #f4f2ee !important;
-}
-
-.stat-icon {
-  font-size: 40rpx;
-}
-
-.stat-value {
-  color: #3a3a4a !important;
-  font-size: 36rpx !important;
-  font-weight: 700 !important;
-}
-
-.stat-label {
-  color: #6a6a7a !important;
-}
-
-.order-item {
-  border-left-color: #8db8b6 !important;
-  background: #f4f2ee !important;
-}
-
-.order-status {
-  color: #8db8b6 !important;
-  font-weight: 600 !important;
-}
-
-.order-price {
-  color: #d4a8b0 !important;
-}
-
 </style>

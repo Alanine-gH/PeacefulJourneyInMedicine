@@ -193,11 +193,11 @@ export default {
 
 /* 主题区域 */
 .hero-section {
-  background: linear-gradient(135deg, #E8C4A8 0%, #D4A88C 100%);
+  background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%);
   border-radius: 20rpx;
   padding: 50rpx;
   margin-bottom: 30rpx;
-  box-shadow: 0 8rpx 24rpx rgba(212, 168, 140, 0.3);
+  box-shadow: 0 8rpx 24rpx rgba(33, 150, 243, 0.3);
   position: relative;
   overflow: hidden;
 }

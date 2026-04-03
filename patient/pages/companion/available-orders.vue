@@ -171,11 +171,9 @@ export default {
 
 <style scoped>
 .container {
-  width: 100%;
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
   min-height: 100vh;
-  background-color: #f4f2ee;
-  display: flex;
-  flex-direction: column;
+  padding: 24rpx;
 }
 
 /* 顶部空白区域 */
@@ -187,7 +185,7 @@ export default {
 /* 订单列表 */
 .order-list {
   flex: 1;
-  padding: 20rpx 30rpx;
+  padding: 0;
 }
 
 /* 加载状态 */
@@ -244,18 +242,19 @@ export default {
 }
 
 .order-item {
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 30rpx;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 32rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.1);
   transition: all 0.3s ease;
-  border: 1rpx solid #e8e8e8;
+  border-left: 8rpx solid #8db8b6;
 }
 
-.order-item:hover {
+.order-item:active {
   transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 24rpx rgba(77, 208, 225, 0.2);
+  box-shadow: 0 8rpx 32rpx rgba(141, 184, 182, 0.2);
 }
 
 .order-header {
@@ -264,44 +263,46 @@ export default {
   align-items: center;
   margin-bottom: 24rpx;
   padding-bottom: 20rpx;
-  border-bottom: 2rpx solid #f0f0f0;
+  border-bottom: 2rpx solid rgba(141, 184, 182, 0.1);
 }
 
 .service-type {
   font-size: 32rpx;
   font-weight: 600;
-  color: #333;
+  color: #3a3a4a;
 }
 
 .order-status {
-  padding: 6rpx 16rpx;
-  border-radius: 15rpx;
-  font-size: 22rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
   font-weight: 500;
+  background: linear-gradient(135deg, #e8f4f4 0%, #d8e8e8 100%);
+  color: #8db8b6;
 }
 
 .status-waiting {
-  background: #FFF3E0;
-  color: #FF9800;
+  background: linear-gradient(135deg, #e8f4f4 0%, #d8e8e8 100%);
+  color: #8db8b6;
 }
 
 .order-content {
   display: flex;
   margin-bottom: 24rpx;
   padding-bottom: 24rpx;
-  border-bottom: 2rpx solid #f0f0f0;
+  border-bottom: 2rpx solid rgba(141, 184, 182, 0.1);
 }
 
 .service-image {
   width: 160rpx;
   height: 160rpx;
-  border-radius: 12rpx;
+  border-radius: 16rpx;
   margin-right: 24rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
-.service-image:hover {
+.service-image:active {
   transform: scale(1.05);
 }
 
@@ -314,7 +315,7 @@ export default {
 
 .info-item {
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
   line-height: 1.5;
 }
 
@@ -326,39 +327,36 @@ export default {
 
 .order-amount {
   font-size: 26rpx;
-  color: #666;
+  color: #6a6a7a;
 }
 
 .amount-value {
   font-size: 32rpx;
   font-weight: 600;
-  color: #ff6b6b;
+  color: #8db8b6;
 }
 
 .accept-btn {
-  padding: 12rpx 36rpx;
+  padding: 16rpx 48rpx;
   background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%);
   color: #fff;
   font-size: 26rpx;
   font-weight: 500;
-  border-radius: 25rpx;
+  border-radius: 30rpx;
   border: none;
   transition: all 0.3s ease;
-}
-
-.accept-btn:hover {
-  opacity: 0.9;
-  transform: scale(1.05);
+  box-shadow: 0 4rpx 16rpx rgba(141, 184, 182, 0.28);
 }
 
 .accept-btn:active {
-  opacity: 0.8;
-  transform: scale(0.95);
+  opacity: 0.9;
+  transform: scale(0.98);
+  box-shadow: 0 2rpx 8rpx rgba(141, 184, 182, 0.28);
 }
 
 /* 底部空白区域 */
 .bottom-space {
-  height: 20vh;
+  height: 40rpx;
   width: 100%;
 }
 
@@ -374,185 +372,8 @@ export default {
   }
 
   .accept-btn {
-    padding: 10rpx 30rpx;
+    padding: 12rpx 36rpx;
     font-size: 24rpx;
   }
 }
-
-/* ── Shared theme overrides ── */
-page {
-  background-color: #f4f2ee !important;
-}
-
-.container {
-  background-color: #f4f2ee !important;
-  min-height: 100vh;
-}
-
-/* Cards */
-.patient-section,
-.carousel-section,
-.location-section,
-.training-section,
-.health-section,
-.order-section,
-.menu-section,
-.profile-section,
-.stats-section,
-.orders-section,
-.info-section,
-.order-info,
-.payment-methods,
-.amount-section,
-.step-indicator,
-.filter-bar,
-.package-section {
-  background: #ffffff;
-  border-radius: 20rpx !important;
-  box-shadow: 0 4rpx 20rpx rgba(100, 120, 140, 0.10) !important;
-  margin: 16rpx 0 !important;
-}
-
-/* Icon squares */
-.patient-icon,
-.health-icon,
-.stat-box-icon {
-  background: linear-gradient(135deg, #c2dada 0%, #a8cece 100%) !important;
-  border-radius: 16rpx !important;
-  box-shadow: none !important;
-}
-
-/* Action buttons / primary CTAs */
-.action-btn,
-.login-btn,
-.switch-btn,
-.submit-btn,
-.pay-btn,
-.confirm-btn {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-radius: 40rpx !important;
-  box-shadow: 0 4rpx 16rpx rgba(100, 175, 175, 0.28) !important;
-  border: none !important;
-}
-
-/* Filter active pill */
-.filter-item.active {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Order left border accent */
-.order-item {
-  border-left: 5rpx solid #8db8b6 !important;
-  border-radius: 16rpx !important;
-  background: #f8f7f4 !important;
-}
-
-/* Status tags */
-.order-status {
-  color: #8db8b6 !important;
-}
-
-/* Section titles */
-.section-title {
-  color: #3a3a4a !important;
-  font-weight: 600 !important;
-}
-
-/* Stat items */
-.stat-item {
-  background: #f4f2ee !important;
-  border-radius: 14rpx !important;
-}
-
-/* Tab bar selected */
-.tab-item.active,
-.tab-item.active .tab-text {
-  color: #8db8b6 !important;
-}
-
-/* Profile avatar ring */
-.profile-avatar {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  box-shadow: 0 4rpx 12rpx rgba(100, 175, 175, 0.28) !important;
-}
-
-/* Level tag */
-.level-tag {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-}
-
-/* Loading spinner */
-.loading-spinner {
-  border-top-color: #8db8b6 !important;
-}
-
-/* Carousel items - remap class colors to softer palette */
-.carousel-item {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.vip {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.full {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-.carousel-item.consult {
-  background: linear-gradient(135deg, #c0b0d8 0%, #a898c8 100%) !important;
-}
-
-.carousel-item.result {
-  background: linear-gradient(135deg, #d4a8b0 0%, #c09098 100%) !important;
-}
-
-.carousel-item.medicine {
-  background: linear-gradient(135deg, #a8c0b8 0%, #8db8a8 100%) !important;
-}
-
-.carousel-item.basic {
-  background: linear-gradient(135deg, #a8cec8 0%, #8db8b0 100%) !important;
-}
-
-/* Step indicator */
-.step-num {
-  border-color: #8db8b6 !important;
-  color: #8db8b6 !important;
-}
-
-.step-item.active .step-num,
-.step-item.completed .step-num {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-.step-line.active {
-  background-color: #8db8b6 !important;
-}
-
-/* Health exam header */
-.header {
-  background: linear-gradient(135deg, #8db8b6 0%, #a8cece 100%) !important;
-}
-
-/* Package type tags */
-.pkg-type-tag {
-  background: #e8f4f4 !important;
-}
-
-.pkg-type-tag .type-text {
-  color: #6a9ea0 !important;
-}
-
-/* Input focus ring */
-.input-item:focus-within {
-  border-color: #8db8b6 !important;
-  box-shadow: 0 0 0 3rpx rgba(141, 184, 182, 0.18) !important;
-}
-
 </style>
