@@ -1,0 +1,702 @@
+<template>
+  <view class="container">
+    <!-- 导航栏 -->
+    <view class="navbar">
+      <view class="nav-content">
+        <view class="nav-back" @click="goBack">
+          <text>‹</text>
+        </view>
+        <text class="nav-title">长期合作</text>
+        <view class="nav-placeholder"></view>
+      </view>
+    </view>
+    
+    <!-- 顶部空白区域 -->
+    <view class="top-space"></view>
+    
+    <!-- 顶部卡片 -->
+    <view class="top-card">
+      <view class="card-content">
+        <text class="card-title">长期合作</text>
+        <text class="card-subtitle">医院合作 · 稳定收入</text>
+        <view class="card-buttons">
+          <view class="card-btn primary" @click="learnMore">了解详情</view>
+          <view class="card-btn secondary" @click="recommend">推荐</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 合作优势 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">合作优势</text>
+      </view>
+      <view class="advantages-list">
+        <view class="advantage-item" v-for="item in advantages" :key="item.id">
+          <view class="advantage-icon" :class="item.bgClass">
+            <text>{{ item.icon }}</text>
+          </view>
+          <text class="advantage-text">{{ item.text }}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 合作模式 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">合作模式</text>
+      </view>
+      <view class="modes-list">
+        <view class="mode-item" v-for="item in cooperationModes" :key="item.id" :class="[item.borderClass, item.bgClass]">
+          <view class="mode-info">
+            <text class="mode-title">
+              <text class="mode-icon">{{ item.icon }}</text>
+              {{ item.title }}
+            </text>
+            <text class="mode-description">{{ item.description }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 成功案例 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">
+          <text class="title-icon">🏆</text>
+          成功案例
+        </text>
+      </view>
+      <view class="cases-section">
+        <view class="case-item" v-for="item in successCases" :key="item.id">
+          <view class="case-avatar" :class="item.bgClass">
+            <text>👤</text>
+          </view>
+          <view class="case-info">
+            <text class="case-name">{{ item.name }}</text>
+            <text class="case-description">{{ item.description }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 额外优势信息 -->
+    <view class="extra-section">
+      <view class="extra-item">
+        <text class="extra-icon">✨</text>
+        <text class="extra-text">长期合作享受优先派单和晋升机会</text>
+      </view>
+      <view class="extra-item">
+        <text class="extra-icon">⭐</text>
+        <text class="extra-text">建立长期信任关系，客户满意度高</text>
+      </view>
+    </view>
+
+    <!-- 底部联系信息 -->
+    <view class="contact-section">
+      <text class="contact-text">
+        联系我们电话：<text class="contact-highlight">400-123-4567</text> 微信：<text class="contact-highlight">yiluanxin</text>
+      </text>
+    </view>
+
+    <!-- 底部按钮 -->
+    <view class="bottom-btn" @click="applyCooperation">
+      立即申请合作
+    </view>
+
+    <!-- 底部空白区域 -->
+    <view class="bottom-space"></view>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      advantages: [
+        {
+          id: 1,
+          icon: '🏥',
+          text: '与多家知名医院建立长期合作关系',
+          bgClass: 'bg-purple'
+        },
+        {
+          id: 2,
+          icon: '💼',
+          text: '提供稳定的工作机会和收入来源',
+          bgClass: 'bg-orange'
+        },
+        {
+          id: 3,
+          icon: '📈',
+          text: '长期合作享受优先派单和晋升机会',
+          bgClass: 'bg-pink'
+        },
+        {
+          id: 4,
+          icon: '🤝',
+          text: '建立长期信任关系，客户满意度高',
+          bgClass: 'bg-yellow'
+        }
+      ],
+      cooperationModes: [
+        {
+          id: 1,
+          title: '全职合作',
+          description: '每周工作40小时以上，享受更多福利',
+          borderClass: 'border-orange',
+          bgClass: 'bg-orange-light',
+          icon: '💼'
+        },
+        {
+          id: 2,
+          title: '兼职合作',
+          description: '灵活安排工作时间，按单计费',
+          borderClass: 'border-blue',
+          bgClass: 'bg-blue-light',
+          icon: '⏰'
+        },
+        {
+          id: 3,
+          title: '长期签约',
+          description: '签订长期服务协议，享受稳定收入',
+          borderClass: 'border-purple',
+          bgClass: 'bg-purple-light',
+          icon: '📝'
+        }
+      ],
+      successCases: [
+        {
+          id: 1,
+          name: '张阿姨',
+          description: '通过长期合作，月收入稳定在15000元以上',
+          bgClass: 'bg-green'
+        },
+        {
+          id: 2,
+          name: '李师傅',
+          description: '与医院建立长期合作，获得优先派单机会',
+          bgClass: 'bg-blue'
+        },
+        {
+          id: 3,
+          name: '王护士',
+          description: '通过长期服务，客户满意度高，收入稳步增长',
+          bgClass: 'bg-pink'
+        }
+      ]
+    }
+  },
+  methods: {
+    goBack() {
+      uni.navigateBack()
+    },
+    learnMore() {
+      uni.showToast({
+        title: '了解详情功能开发中',
+        icon: 'none'
+      })
+    },
+    recommend() {
+      uni.showToast({
+        title: '推荐功能开发中',
+        icon: 'none'
+      })
+    },
+    applyCooperation() {
+      uni.showToast({
+        title: '申请合作功能开发中',
+        icon: 'none'
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+.container {
+  background: linear-gradient(180deg, #f5f3ef 0%, #f0eeea 100%);
+  min-height: 100vh;
+  padding: 24rpx;
+}
+
+/* 导航栏 */
+.navbar {
+  background: linear-gradient(135deg, rgba(230, 188, 165, 0.5), rgba(214, 166, 143, 0.4));
+  backdrop-filter: blur(20rpx);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 24rpx;
+}
+
+.nav-back {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.nav-back:active {
+  transform: scale(1.1);
+}
+
+.nav-title {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  margin-left: -48rpx;
+}
+
+.nav-placeholder {
+  width: 48rpx;
+}
+
+/* 顶部空白区域 */
+.top-space {
+  height: 120rpx;
+}
+
+/* 顶部卡片 */
+.top-card {
+  background: linear-gradient(135deg, #E8B88C, #D0986C);
+  border-radius: 28rpx;
+  padding: 48rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 32rpx rgba(208, 152, 108, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.top-card::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(40rpx);
+}
+
+.top-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -20%;
+  width: 40%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(40rpx);
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.card-subtitle {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32rpx;
+  display: block;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24rpx;
+}
+
+.card-btn {
+  padding: 16rpx 56rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.card-btn.primary {
+  background: #fff;
+  color: #5B6B78;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.card-btn.secondary {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10rpx);
+  color: #fff;
+  border: 2rpx solid #fff;
+}
+
+.card-btn:active {
+  transform: scale(1.05);
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+/* 通用 section 样式 */
+.section {
+  margin-bottom: 24rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.section-header::before {
+  content: '';
+  width: 8rpx;
+  height: 32rpx;
+  background: linear-gradient(180deg, #8db8b6 0%, #a8cece 100%);
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #5B6B78;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.title-icon {
+  font-size: 32rpx;
+}
+
+/* 合作优势 */
+.advantages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.advantage-item {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.advantage-item:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.advantage-icon {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+}
+
+.advantage-icon.bg-purple {
+  background: linear-gradient(135deg, rgba(200, 184, 214, 0.3), rgba(184, 168, 201, 0.25));
+}
+
+.advantage-icon.bg-orange {
+  background: linear-gradient(135deg, rgba(230, 188, 165, 0.3), rgba(214, 166, 143, 0.25));
+}
+
+.advantage-icon.bg-pink {
+  background: linear-gradient(135deg, rgba(232, 187, 209, 0.3), rgba(223, 174, 196, 0.25));
+}
+
+.advantage-icon.bg-yellow {
+  background: linear-gradient(135deg, rgba(232, 207, 187, 0.3), rgba(223, 196, 174, 0.25));
+}
+
+.advantage-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #6B7C8A;
+  line-height: 36rpx;
+}
+
+/* 合作模式 */
+.modes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.mode-item {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 16rpx solid;
+}
+
+.mode-item.border-orange {
+  border-left-color: #E6BCA5;
+}
+
+.mode-item.border-blue {
+  border-left-color: #BBD1E8;
+}
+
+.mode-item.border-purple {
+  border-left-color: #C8B8D6;
+}
+
+.mode-item.bg-orange-light {
+  background: rgba(230, 188, 165, 0.1);
+}
+
+.mode-item.bg-blue-light {
+  background: rgba(187, 209, 232, 0.1);
+}
+
+.mode-item.bg-purple-light {
+  background: rgba(200, 184, 214, 0.1);
+}
+
+.mode-item:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.mode-info {
+  flex: 1;
+}
+
+.mode-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #4A5A68;
+  margin-bottom: 8rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.mode-icon {
+  font-size: 24rpx;
+}
+
+.mode-description {
+  font-size: 24rpx;
+  color: #8A9BA8;
+  line-height: 32rpx;
+}
+
+/* 成功案例 */
+.cases-section {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.case-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1rpx solid rgba(229, 227, 223, 0.5);
+}
+
+.case-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.case-avatar {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.case-avatar.bg-green {
+  background: linear-gradient(135deg, rgba(168, 212, 196, 0.3), rgba(150, 196, 180, 0.25));
+}
+
+.case-avatar.bg-blue {
+  background: linear-gradient(135deg, rgba(187, 209, 232, 0.3), rgba(174, 196, 223, 0.25));
+}
+
+.case-avatar.bg-pink {
+  background: linear-gradient(135deg, rgba(232, 187, 209, 0.3), rgba(223, 174, 196, 0.25));
+}
+
+.case-info {
+  flex: 1;
+}
+
+.case-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4A5A68;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.case-description {
+  font-size: 24rpx;
+  color: #8A9BA8;
+  line-height: 32rpx;
+}
+
+/* 额外优势信息 */
+.extra-section {
+  background: linear-gradient(135deg, rgba(230, 188, 165, 0.2), rgba(214, 166, 143, 0.1));
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  border: 1rpx solid rgba(230, 188, 165, 0.3);
+  margin-bottom: 24rpx;
+}
+
+.extra-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.extra-item:last-child {
+  margin-bottom: 0;
+}
+
+.extra-icon {
+  font-size: 24rpx;
+  color: #C9967F;
+  margin-top: 4rpx;
+}
+
+.extra-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: #6B7C8A;
+  line-height: 32rpx;
+}
+
+/* 联系信息 */
+.contact-section {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20rpx);
+  border-radius: 22rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 24rpx;
+}
+
+.contact-text {
+  font-size: 24rpx;
+  color: #8A9BA8;
+  text-align: center;
+  line-height: 36rpx;
+}
+
+.contact-highlight {
+  color: #C9967F;
+  font-weight: 500;
+}
+
+/* 底部按钮 */
+.bottom-btn {
+  background: linear-gradient(135deg, #E8B88C, #D0986C);
+  color: #fff;
+  padding: 32rpx;
+  border-radius: 22rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 8rpx 32rpx rgba(208, 152, 108, 0.25);
+  transition: all 0.3s ease;
+}
+
+.bottom-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(208, 152, 108, 0.25);
+}
+
+/* 底部空白区域 */
+.bottom-space {
+  height: 40rpx;
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+  .top-card {
+    padding: 32rpx;
+  }
+  
+  .card-title {
+    font-size: 36rpx;
+  }
+  
+  .card-subtitle {
+    font-size: 24rpx;
+  }
+  
+  .card-buttons {
+    gap: 16rpx;
+  }
+  
+  .card-btn {
+    padding: 14rpx 48rpx;
+    font-size: 24rpx;
+  }
+  
+  .advantage-item,
+  .mode-item {
+    padding: 24rpx;
+  }
+  
+  .cases-section {
+    padding: 24rpx;
+  }
+  
+  .extra-section {
+    padding: 24rpx;
+  }
+}
+</style>
