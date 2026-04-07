@@ -292,7 +292,7 @@ export default {
     this.loadData()
   },
   methods: {
-
+    getFileUrl,
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return

@@ -121,7 +121,7 @@
 </template>
 <script>
 import {getDispatchList, addDispatch, updateDispatchStatus, deleteDispatch} from '@/api/service.js'
-import { getFileUrl } from '@/api/medical.js'
+import { getFileUrl } from '@/api/utils.js'
 import { BASE_URL } from '@/config'
 
 export default {
@@ -143,7 +143,7 @@ export default {
     this.loadData()
   },
   methods: {
-
+    getFileUrl,
     async loadData() {
       this.loading = true
       try {

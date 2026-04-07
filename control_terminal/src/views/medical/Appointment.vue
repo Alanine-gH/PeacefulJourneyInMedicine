@@ -152,9 +152,9 @@ import {
   updateAppointment,
   deleteAppointment,
   updateAppointmentStatus,
-  getFileUrl
+  getFileUrl, uploadFile
 } from '@/api/medical.js'
-import { BASE_URL } from '@/config'
+import {BASE_URL} from '@/config'
 
 export default {
   name: 'Appointment',
@@ -175,6 +175,8 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,
+    uploadFile,
     async loadData() {
       this.loading = true
       try {

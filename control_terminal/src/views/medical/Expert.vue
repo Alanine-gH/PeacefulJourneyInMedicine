@@ -189,7 +189,15 @@
   </div>
 </template>
 <script>
-import {getExpertList, addExpert, updateExpert, deleteExpert, updateExpertStatus, getFileUrl} from '@/api/medical.js'
+import {
+  getExpertList,
+  addExpert,
+  updateExpert,
+  deleteExpert,
+  updateExpertStatus,
+  getFileUrl,
+  uploadFile
+} from '@/api/medical.js'
 import { BASE_URL } from '@/config'
 
 export default {
@@ -211,6 +219,7 @@ export default {
     this.loadData()
   },
   methods: {
+    getFileUrl,uploadFile,
     async handleUpload(e, field) {
       const file = e.target.files[0]
       if (!file) return

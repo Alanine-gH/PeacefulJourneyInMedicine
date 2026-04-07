@@ -216,6 +216,7 @@ export default {
     document.removeEventListener('click', this.closeExport)
   },
   methods: {
+    getFileUrl,
     checkMobile() {
       this.isMobile = window.innerWidth < 768;
       if (this.isMobile) this.isCollapsed = true
