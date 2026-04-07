@@ -1,9 +1,12 @@
 package com.PJDM.service.impl;
 
+import com.PJDM.common.BaseContext;
 import com.PJDM.config.DeepSeekConfig;
 import com.PJDM.dto.AiChatDTO;
 import com.PJDM.dto.AiMessageDTO;
+import com.PJDM.pojo.UserUser;
 import com.PJDM.service.IAiChatService;
+import com.PJDM.service.IUserUserService;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -23,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,6 +44,8 @@ public class AiChatServiceImpl implements IAiChatService {
 
     @Autowired
     private DeepSeekConfig config;
+    @Autowired
+    private IUserUserService userUserService;
 
     /** 默认医疗助手系统提示词 */
     private static final String DEFAULT_SYSTEM_PROMPT =
@@ -131,6 +137,9 @@ public class AiChatServiceImpl implements IAiChatService {
         // 1. 敏感词过滤
         String sensitive = checkSensitive(dto.getUserInput());
         if (sensitive != null) return sensitive;
+        // 1.1 “我是谁”优先按上下文/登录态返回身份信息
+        String whoAmIReply = resolveWhoAmIReply(dto);
+        if (whoAmIReply != null) return whoAmIReply;
         // 2. 简单问题固定回复
         String quick = checkQuickReply(dto.getUserInput());
         if (quick != null) return quick;
@@ -149,6 +158,16 @@ public class AiChatServiceImpl implements IAiChatService {
             try {
                 emitter.send(SseEmitter.event().name("message").data(sensitive));
                 emitter.send(SseEmitter.event().name("done").data(sensitive));
+                emitter.complete();
+            } catch (Exception e) { emitter.completeWithError(e); }
+            return;
+        }
+        // 1.1 “我是谁”优先按上下文/登录态返回身份信息
+        String whoAmIReply = resolveWhoAmIReply(dto);
+        if (whoAmIReply != null) {
+            try {
+                emitter.send(SseEmitter.event().name("message").data(whoAmIReply));
+                emitter.send(SseEmitter.event().name("done").data(whoAmIReply));
                 emitter.complete();
             } catch (Exception e) { emitter.completeWithError(e); }
             return;
@@ -418,6 +437,87 @@ public class AiChatServiceImpl implements IAiChatService {
             emitter.complete();
         } catch (Exception ex) {
             emitter.completeWithError(ex);
+        }
+    }
+
+    /**
+     * “我是谁”优先策略：
+     * 1) 先从历史上下文中检索用户自述（如“我是XX/我叫XX”）
+     * 2) 若已登录，则读取数据库当前用户信息
+     */
+    private String resolveWhoAmIReply(AiChatDTO dto) {
+        if (dto == null || !isWhoAmIQuestion(dto.getUserInput())) return null;
+
+        String fromHistory = resolveWhoAmIFromHistory(dto.getHistory());
+        if (StringUtils.hasText(fromHistory)) return fromHistory;
+
+        Long userId = BaseContext.getUserId();
+        if (userId == null) {
+            return "我还无法确认你的身份信息。你可以先登录，或告诉我你的姓名/昵称。";
+        }
+        try {
+            UserUser user = userUserService.getById(userId);
+            if (user == null) {
+                return "你已登录，但我暂时没查到你的用户资料，请稍后重试。";
+            }
+            return String.format("你当前已登录，用户ID是%s，身份是%s，我可以称呼你为%s。",
+                    userId, toRoleName(user.getUserType()), pickDisplayName(user));
+        } catch (Exception ex) {
+            log.warn("[AI身份识别] 查询当前登录用户失败 userId={} err={}", userId, ex.getMessage());
+            return "你已登录，但我暂时无法读取你的详细资料，请稍后再试。";
+        }
+    }
+
+    private boolean isWhoAmIQuestion(String input) {
+        if (!StringUtils.hasText(input)) return false;
+        String normalized = input.trim()
+                .replace("？", "")
+                .replace("?", "")
+                .replace("。", "")
+                .replace(".", "")
+                .replace("！", "")
+                .replace("!", "")
+                .replace(" ", "")
+                .toLowerCase(Locale.ROOT);
+        return normalized.equals("我是谁")
+                || normalized.equals("我是谁啊")
+                || normalized.equals("我到底是谁")
+                || normalized.equals("whoami");
+    }
+
+    private String resolveWhoAmIFromHistory(List<AiMessageDTO> history) {
+        if (history == null || history.isEmpty()) return null;
+        for (int i = history.size() - 1; i >= 0; i--) {
+            AiMessageDTO msg = history.get(i);
+            if (msg == null || !"user".equalsIgnoreCase(msg.getRole()) || !StringUtils.hasText(msg.getContent())) {
+                continue;
+            }
+            String content = msg.getContent().trim();
+            if (content.startsWith("我叫") && content.length() > 2) {
+                return "根据你前面的描述，你说你叫" + content.substring(2) + "。";
+            }
+            if (content.startsWith("我是") && content.length() > 2) {
+                return "根据你前面的描述，你说你是" + content.substring(2) + "。";
+            }
+        }
+        return null;
+    }
+
+    private String pickDisplayName(UserUser user) {
+        if (StringUtils.hasText(user.getNickName())) return user.getNickName();
+        if (StringUtils.hasText(user.getRealName())) return user.getRealName();
+        if (StringUtils.hasText(user.getUsername())) return user.getUsername();
+        return "你";
+    }
+
+    private String toRoleName(Byte userType) {
+        if (userType == null) return "未知角色";
+        switch (userType) {
+            case 1: return "患者";
+            case 2: return "陪诊师";
+            case 3: return "客服";
+            case 4: return "管理员";
+            default: return "未知角色";
         }
     }
 }
